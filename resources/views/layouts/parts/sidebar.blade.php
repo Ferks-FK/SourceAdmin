@@ -5,54 +5,54 @@
         </a>
     </div>
   <hr>
-  <div class="d-flex flex-column justify-content-between h-100">
-    <ul class="nav nav-pills flex-column">
-        <li>
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <i class="bi bi-speedometer"></i>
-                {{__('Dashboard')}}
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('servers') ? 'active' : '' }}">
-                <i class="bi bi-server"></i>
-                {{__('Servers')}}
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('bans') ? 'active' : '' }}">
-                <i class="bi bi-slash-circle"></i>
-                {{__('Bans')}}
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('comms') ? 'active' : '' }}">
-                <i class="bi bi-mic-mute"></i>
-                {{__('Comms')}}
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('report') ? 'active' : '' }}">
-                <i class="bi bi-exclamation-triangle"></i>
-                {{__('Report Player')}}
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('appeal') ? 'active' : '' }}">
-                <i class="bi bi-lock-fill"></i>
-                {{__('Appeal Ban')}}
-            </a>
-        </li>
-        @auth
-            <li class="sidebar-item">
-                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('admin') ? 'active' : '' }}">
-                    <i class="bi bi-person-gear"></i>
-                    {{__('Admin Panel')}}
+    <div class="d-flex flex-column justify-content-between h-100">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-link-hover">
+                <a href="{{ route('home') }}" class="fs-6 nav-link text-white {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer"></i>
+                    {{__('Dashboard')}}
                 </a>
             </li>
-        @endauth
-    </ul>
-    @auth
+            <li class="nav-link-hover">
+                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('servers') ? 'active' : '' }}">
+                    <i class="bi bi-server"></i>
+                    {{__('Servers')}}
+                </a>
+            </li>
+            <li class="nav-link-hover">
+                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('bans') ? 'active' : '' }}">
+                    <i class="bi bi-slash-circle"></i>
+                    {{__('Bans')}}
+                </a>
+            </li>
+            <li class="nav-link-hover">
+                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('comms') ? 'active' : '' }}">
+                    <i class="bi bi-mic-mute"></i>
+                    {{__('Comms')}}
+                </a>
+            </li>
+            <li class="nav-link-hover">
+                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('report') ? 'active' : '' }}">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    {{__('Report Player')}}
+                </a>
+            </li>
+            <li class="nav-link-hover">
+                <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('appeal') ? 'active' : '' }}">
+                    <i class="bi bi-lock-fill"></i>
+                    {{__('Appeal Ban')}}
+                </a>
+            </li>
+            @auth
+                <li class="nav-link-hover">
+                    <a href="#" class="fs-6 nav-link text-white {{ request()->routeIs('admin') ? 'active' : '' }}">
+                        <i class="bi bi-person-gear"></i>
+                        {{__('Admin Panel')}}
+                    </a>
+                </li>
+            @endauth
+        </ul>
+        @auth
         <div>
             <hr>
             <div class="dropdown">
@@ -61,7 +61,7 @@
                     <strong>{{ucfirst(Auth::user()->name)}}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item" href="{{route('profile.show')}}">{{__('Profile')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('profile.edit')}}">{{__('Profile')}}</a></li>
                     <li><a class="dropdown-item" href="#">{{__('Settings')}}</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
@@ -75,6 +75,6 @@
                 </ul>
             </div>
         </div>
+        @endauth
     </div>
-  @endauth
 </div>
