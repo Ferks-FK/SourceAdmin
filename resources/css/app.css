@@ -1,0 +1,9 @@
+* {
+    font-family: 'Roboto';
+}
+
+.sidebar-item a:hover {
+    color: red;
+    background-color: #343a40;
+    transition: all .3s ease;
+}
