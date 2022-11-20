@@ -12,7 +12,7 @@
     }
 
     .nav-item-active {
-      @apply bg-[#0d55e8] rounded
+      @apply border-l-4 border-blue-600 font-semibold
     }
 }
 
