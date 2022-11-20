@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js']) --}}
+
 
     <!-- CSS Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
@@ -23,13 +24,16 @@
     <!-- JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js'])
 </head>
-<body class="d-flex" style="height: 100vh;">
-    @include('layouts.parts.sidebar')
-    <div class="d-flex flex-column w-100">
+<body>
+    <div class="flex h-screen">
+      @include('layouts.parts.sidebar')
+      <div class="flex flex-col w-100">
         <div class="w-100">
-            @include('layouts.parts.header')
+          @include('layouts.parts.header')
         </div>
         @yield('content')
+      </div>
     </div>
 </body>
