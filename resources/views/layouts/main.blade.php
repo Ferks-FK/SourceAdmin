@@ -11,23 +11,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
 
-    <!-- Scripts -->
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js']) --}}
-
-
-    <!-- CSS Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-
     <!-- Icons Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
-    <!-- JS Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js'])
-</head>
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/custom.js'])
+
+  </head>
 <body>
-    <div class="flex h-screen">
+    {{-- <div class="flex h-screen">
       @include('layouts.parts.sidebar')
       <div class="flex flex-col w-100">
         <div class="w-100">
@@ -35,5 +30,11 @@
         </div>
         @yield('content')
       </div>
+    </div> --}}
+
+    {{-- @include('layouts.parts.sidebar') --}}
+    <div class="md:flex md:flex-row-reverse h-screen">
+        @include('layouts.parts.header_test')
+      @yield('content')
     </div>
 </body>
