@@ -18,6 +18,9 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+    <!-- FlowBite -->
+    <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/custom.js'])
 
   </head>

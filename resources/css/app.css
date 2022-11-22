@@ -16,6 +16,18 @@
   }
 }
 
+.menu-mobile-hidden {
+  right: -100%;
+}
+
+.menu-mobile-show {
+  right: 0px;
+}
+
+strong {
+  height: fit-content;
+}
+
 hr {
   margin: 1rem 0;
   color: white;
