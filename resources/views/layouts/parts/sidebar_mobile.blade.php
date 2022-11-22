@@ -1,20 +1,18 @@
 <div class="flex flex-col p-3 h-full">
-  <div class="text-center">
-    <a href="/" class="text-xl text-white text-center no-underline">
-      {{__('Company Name')}}
-    </a>
-  </div>
-  <hr/>
   <div class="flex flex-col md:justify-between h-full max-w-sm">
     @if (Auth::check())
-      <div class="flex w-fit md:order-1 mb-5 md:mb-0 text-white items-center">
-        <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatar" class="flex items-center text-sm font-medium rounded-full hover:text-gray-300 dark:hover:text-gray-300 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
-          <span class="sr-only">User Menu</span>
-          <img class="mr-2 w-8 h-8 rounded-full" src="{{ Auth::user()->getAvatar() }}" alt="user photo">
-          <strong>{{ucfirst(Auth::user()->name)}}</strong>
-          <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
-        </button>
+      <div class="flex flex-col md:order-1  text-white">
+        <hr class="hidden md:block">
+        <div>
+          <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatar" class="flex items-center text-sm font-medium rounded-full hover:text-gray-300 dark:hover:text-gray-300 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
+            <span class="sr-only">User Menu</span>
+            <img class="mr-2 w-8 h-8 rounded-full" src="{{ Auth::user()->getAvatar() }}" alt="User Avatar">
+            <strong>{{ucfirst(Auth::user()->name)}}</strong>
+            <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
+          </button>
+        </div>
       </div>
+      <hr class="w-[150px] md:hidden">
       <div id="dropdownAvatar" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
           <a href="{{ route('profile.edit') }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">

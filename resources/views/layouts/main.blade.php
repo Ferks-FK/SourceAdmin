@@ -25,19 +25,13 @@
 
   </head>
 <body>
-    {{-- <div class="flex h-screen">
-      @include('layouts.parts.sidebar')
-      <div class="flex flex-col w-100">
-        <div class="w-100">
-          @include('layouts.parts.header')
-        </div>
-        @yield('content')
+    @include('layouts.parts.header_test')
+    <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">
+      <div id="mobile-menu-items" class="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">
+        @include('layouts.parts.sidebar_mobile')
       </div>
-    </div> --}}
-
-    {{-- @include('layouts.parts.sidebar') --}}
-    <div class="md:flex md:flex-row-reverse h-screen">
-        @include('layouts.parts.header_test')
-      @yield('content')
+      <main class="w-full h-full">
+        @yield('content')
+      </main>
     </div>
 </body>
