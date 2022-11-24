@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Server;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +15,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.home');
+      $servers = Server::paginate(10);
+
+      return view('dashboard.home', compact('servers'));
     }
 
     /**
