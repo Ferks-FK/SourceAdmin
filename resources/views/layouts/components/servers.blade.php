@@ -26,23 +26,35 @@
       @foreach($servers as $server)
         <tr class="cursor-pointer bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-[#2e3338]">
           <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <img src="{{ asset("images/games/{$server->mod->icon}") }}" alt="Mod Image" class="w-5">
+            <img src="{{ asset("images/games/csgo.png") }}" alt="Mod Image" class="w-5">
           </th>
           <td class="py-4 px-6">
-            <img src="{{ asset("images/{$server->os}.png") }}" alt="Os Image" class="w-5">
+            @if ($server->os == "N/A")
+              {{ $server->os }}
+            @else
+              <img src="{{ asset("images/{$server->os}.png") }}" alt="Os Image" class="w-5">
+            @endif
           </td>
           <td class="py-4 px-6">
-            @if($server->vac)
-              <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
+            @if ($server->vac == "N/A")
+              {{ $server->vac }}
             @else
-              <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
+              @if($server->vac)
+                <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
+              @else
+                <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
+              @endif
             @endif
           </td>
           <td class="py-4 px-6">
             {{ $server->host_name }}
           </td>
           <td class="py-4 px-6">
-            {{ $server->total_players_online }}/{{ $server->max_players }}
+            @if ($server->total_players_online == "N/A" || $server->max_players == "N/A")
+              N/A
+            @else
+              {{ $server->total_players_online }}/{{ $server->max_players }}
+            @endif
           </td>
           <td class="py-4 px-6">
             {{ $server->map }}

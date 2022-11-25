@@ -35,36 +35,52 @@ class Server extends Model
     /**
      * Connect to the servers and cache it.
      *
-     * @return array
+     * @return array|string|null
      */
-    protected function serverData(): array
+    protected function serverData(): array|string|null
     {
         // Cache::forget("servers.{$this->id}");
         return Cache::remember("servers.{$this->id}", 1, function () {
             $rconService = new RconService();
 
-            return $rconService->setConnection($this->ip, $this->port, $this->rcon)->GetInfo();
+            return $rconService->setConnection($this->ip, $this->port, $this->rcon);
         });
+    }
+
+    /**
+     * Determines if the server is online.
+     *
+     * @return boolean
+     */
+    public function isOnline(): bool
+    {
+        $server_data = $this->serverData();
+
+        return ((is_array($server_data)) ?: false);
     }
 
     /**
      * Get the HostName.
      *
-     * @return string
+     * @return string|null
      */
-    public function getHostNameAttribute(): string
+    public function getHostNameAttribute(): string|null
     {
-        return $this->serverData()['HostName'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['HostName'] : $server_data;
     }
 
     /**
      * Get the Max Players.
      *
-     * @return integer
+     * @return integer|string
      */
-    public function getMaxPlayersAttribute(): int
+    public function getMaxPlayersAttribute(): int|string
     {
-        return $this->serverData()['MaxPlayers'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['MaxPlayers'] : "N/A";
     }
 
     /**
@@ -74,17 +90,21 @@ class Server extends Model
      */
     public function getMapAttribute(): string
     {
-        return $this->serverData()['Map'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['Map'] : "N/A";
     }
 
     /**
      * Get the current online players.
      *
-     * @return integer
+     * @return integer|string
      */
-    public function getTotalPlayersOnlineAttribute(): int
+    public function getTotalPlayersOnlineAttribute(): int|string
     {
-        return $this->serverData()['Players'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['Players'] : "N/A";
     }
 
     /**
@@ -94,17 +114,21 @@ class Server extends Model
      */
     public function getOsAttribute(): string
     {
-        return $this->serverData()['Os'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['Os'] : "N/A";
     }
 
     /**
      * Get the Vac.
      *
-     * @return boolean
+     * @return boolean|string
      */
-    public function getVacAttribute(): bool
+    public function getVacAttribute(): bool|string
     {
-        return $this->serverData()['Secure'];
+        $server_data = $this->serverData();
+
+        return $this->isOnline() ? $server_data['Secure'] : "N/A";
     }
 
     /**
