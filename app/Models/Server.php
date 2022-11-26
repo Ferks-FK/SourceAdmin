@@ -12,6 +12,9 @@ class Server extends Model
 {
     use HasFactory;
 
+    private $server_data = null;
+    private $server_player = null;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,6 +35,16 @@ class Server extends Model
         'rcon'
     ];
 
+    protected static function booted()
+    {
+        static::retrieved(function (Server $server) {
+            $server_data = $server->serverData();
+
+            $server->server_data = $server_data['server_info'];
+            $server->server_player= $server_data['player_info'];
+        });
+    }
+
     /**
      * Connect to the servers and cache it.
      *
@@ -39,11 +52,10 @@ class Server extends Model
      */
     protected function serverData(): array|string|null
     {
-        // Cache::forget("servers.{$this->id}");
         return Cache::remember("servers.{$this->id}", 1, function () {
             $rconService = new RconService();
 
-            return $rconService->setConnection($this->ip, $this->port, $this->rcon);
+            return $rconService->setConnection($this->ip, $this->port);
         });
     }
 
@@ -54,9 +66,7 @@ class Server extends Model
      */
     public function isOnline(): bool
     {
-        $server_data = $this->serverData();
-
-        return ((is_array($server_data)) ?: false);
+        return ((is_array($this->server_data)) ?: false);
     }
 
     /**
@@ -66,9 +76,7 @@ class Server extends Model
      */
     public function getHostNameAttribute(): string|null
     {
-        $server_data = $this->serverData();
-
-        return $this->isOnline() ? $server_data['HostName'] : $server_data;
+        return $this->isOnline() ? $this->server_data['HostName'] : $this->server_data;
     }
 
     /**
@@ -78,9 +86,7 @@ class Server extends Model
      */
     public function getMaxPlayersAttribute(): int|string
     {
-        $server_data = $this->serverData();
-
-        return $this->isOnline() ? $server_data['MaxPlayers'] : "N/A";
+        return $this->isOnline() ? $this->server_data['MaxPlayers'] : "N/A";
     }
 
     /**
@@ -90,9 +96,7 @@ class Server extends Model
      */
     public function getMapAttribute(): string
     {
-        $server_data = $this->serverData();
-
-        return $this->isOnline() ? $server_data['Map'] : "N/A";
+        return $this->isOnline() ? $this->server_data['Map'] : "N/A";
     }
 
     /**
@@ -102,9 +106,7 @@ class Server extends Model
      */
     public function getTotalPlayersOnlineAttribute(): int|string
     {
-        $server_data = $this->serverData();
-
-        return $this->isOnline() ? $server_data['Players'] : "N/A";
+        return $this->isOnline() ? $this->server_data['Players'] : "N/A";
     }
 
     /**
@@ -114,9 +116,7 @@ class Server extends Model
      */
     public function getOsAttribute(): string
     {
-        $server_data = $this->serverData();
-
-        return $this->isOnline() ? $server_data['Os'] : "N/A";
+        return $this->isOnline() ? $this->server_data['Os'] : "N/A";
     }
 
     /**
@@ -126,9 +126,17 @@ class Server extends Model
      */
     public function getVacAttribute(): bool|string
     {
-        $server_data = $this->serverData();
+        return $this->isOnline() ? $this->server_data['Secure'] : "N/A";
+    }
 
-        return $this->isOnline() ? $server_data['Secure'] : "N/A";
+    /**
+     * Get players online in server.
+     *
+     * @return array
+     */
+    public function getPlayersAttribute(): array
+    {
+        return $this->isOnline() ? $this->server_player : "N/A";
     }
 
     /**
@@ -136,6 +144,6 @@ class Server extends Model
      */
     public function mod()
     {
-        return $this->hasOne(Mod::class, 'id');
+        return $this->belongsTo(Mod::class);
     }
 }

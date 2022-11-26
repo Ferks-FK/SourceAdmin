@@ -13,23 +13,16 @@ class RconService
         $this->query = new SourceQuery();
     }
 
-    public function setConnection($ip, $port, $rcon) //Todo: Enhance this code?
+    public function setConnection($ip, $port)
     {
-        $this->query->Connect($ip, $port, 1, SourceQuery::SOURCE);
-        //$this->query->SetRconPassword($rcon);
-
         try {
-            global $info;
-            $info = $this->query->GetInfo();
+            $this->query->Connect($ip, $port, 1, SourceQuery::SOURCE);
+            return ["server_info" => $this->query->GetInfo(), "player_info" => $this->query->GetPlayers()];
         }
         catch (Exception) {
+            return "Error connecting ($ip:$port)";
         }
         finally {
-            if (is_null($info) || empty($info)){
-                return "Error connecting ($ip:$port)";
-            } else {
-                return $info;
-            }
             $this->query->Disconnect();
         }
     }
