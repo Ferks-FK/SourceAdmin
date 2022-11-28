@@ -13,7 +13,7 @@ class Server extends Model
     use HasFactory;
 
     private $server_data = null;
-    private $server_player = null;
+    private $player_data = null;
 
     /**
      * The attributes that are mass assignable.
@@ -40,8 +40,13 @@ class Server extends Model
         static::retrieved(function (Server $server) {
             $server_data = $server->serverData();
 
-            $server->server_data = $server_data['server_info'];
-            $server->server_player= $server_data['player_info'];
+            if (is_array($server_data)) {
+                $server->server_data = $server_data['server_data'];
+                $server->player_data =  $server_data['player_data'];
+            } else {
+                $server->server_data = $server_data;
+                $server->player_data =  $server_data;
+            }
         });
     }
 
@@ -136,7 +141,7 @@ class Server extends Model
      */
     public function getPlayersAttribute(): array
     {
-        return $this->isOnline() ? $this->server_player : "N/A";
+        return $this->isOnline() ? $this->player_data : ['N/A'];
     }
 
     /**

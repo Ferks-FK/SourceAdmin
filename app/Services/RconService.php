@@ -17,7 +17,7 @@ class RconService
     {
         try {
             $this->query->Connect($ip, $port, 1, SourceQuery::SOURCE);
-            return ["server_info" => $this->query->GetInfo(), "player_info" => $this->query->GetPlayers()];
+            return ["server_data" => $this->query->GetInfo(), "player_data" => $this->query->GetPlayers()];
         }
         catch (Exception) {
             return "Error connecting ($ip:$port)";

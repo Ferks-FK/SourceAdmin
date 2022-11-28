@@ -23,6 +23,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/servers', [ServerController::class, 'index'])->name('servers.index');
 Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('servers.show');
 
 Route::middleware('auth')->group(function () {

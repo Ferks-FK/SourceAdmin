@@ -2,8 +2,7 @@
 
 @section('content')
   <div>
-    {{-- @include('layouts.components.statistics') --}}
-    @include('layouts.components.servers')
+    <x-servers :servers="$servers"/>
   </div>
 @endsection
 

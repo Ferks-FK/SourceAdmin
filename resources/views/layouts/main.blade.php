@@ -22,15 +22,17 @@
     <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/custom.js'])
-
   </head>
 <body>
-    @include('layouts.parts.header_test')
+    @include('layouts.parts.header')
     <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">
       <div id="mobile-menu-items" class="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">
-        @include('layouts.parts.sidebar_mobile')
+        @include('layouts.parts.sidebar')
       </div>
-      <div class="w-full h-full bg-[#1a1e22] p-5">
+      <div class="flex flex-col w-full h-full bg-[#1a1e22] p-5">
+        @hasSection('breadcrumb')
+          <x-breadcrumb/>
+        @endif
         @yield('content')
       </div>
     </div>

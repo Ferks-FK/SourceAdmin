@@ -1,5 +1,10 @@
 @extends('layouts.main')
 
+@section('breadcrumb')
+  <x-breadcrumb-link route="servers.index" text="Servers"/>
+  <x-breadcrumb-text :text="$server->id"/>
+@endsection
+
 @section('content')
 <div class="flex flex-col h-full whitespace-nowrap md:whitespace-normal">
   <div class="overflow-x-auto">
@@ -66,7 +71,7 @@
       </tbody>
     </table>
   </div>
-  <div id="players_table_items" class="overflow-x-auto">
+  <div id="players_table_items" class="overflow-x-auto max-h-[75%]">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
         <tr>
@@ -82,16 +87,16 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($server->players as $players)
+        @foreach ($server->players as $player)
           <tr class="cursor-pointer hover:bg-[#2e3338]">
             <td class="p-2">
-              {{ $players['Name'] }}
+              {{ is_array($player) ? $player['Name'] : "N/A" }}
             </td>
             <td class="p-2">
-              {{ $players['Frags'] }}
+              {{ is_array($player) ? $player['Frags'] : "N/A" }}
             </td>
             <td class="p-2">
-              {{ $players['TimeF'] }}
+              {{ is_array($player) ? $player['TimeF'] : "N/A" }}
             </td>
           </tr>
         @endforeach
