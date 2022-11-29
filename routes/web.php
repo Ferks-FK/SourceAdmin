@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Ban\BanController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +26,9 @@ Route::get('/dashboard', function () {
 
 Route::get('/servers', [ServerController::class, 'index'])->name('servers.index');
 Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('servers.show');
+
+Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
+Route::get('/bans/{ban:id}', [BanController::class, 'show'])->name('bans.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

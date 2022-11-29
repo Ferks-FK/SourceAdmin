@@ -1,9 +1,11 @@
 // Mobile Style Code
 
 const btnMobile = document.getElementById('btn-mobile');
-const btnMobileItems = document.getElementById('mobile-menu-items')
+const btnMobileHamburguer = document.getElementById('hamburguer-icon');
+const btnMobileItems = document.getElementById('mobile-menu-items');
 
 btnMobile.addEventListener('click', () => {
+  btnMobileHamburguer.getAttribute('name') === "menu" ? btnMobileHamburguer.setAttribute('name', 'close') : btnMobileHamburguer.setAttribute('name', 'menu')
   btnMobileItems.classList.toggle('menu-mobile-show')
   btnMobileItems.classList.toggle('menu-mobile-hidden')
 });

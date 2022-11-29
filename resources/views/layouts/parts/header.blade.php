@@ -26,7 +26,7 @@
         </ul>
       </div>
       <div id="btn-mobile" class="text-4xl">
-        <ion-icon class="text-white md:hidden" name="menu"></ion-icon>
+        <ion-icon id="hamburguer-icon" class="text-white md:hidden" name="menu"></ion-icon>
       </div>
     </div>
   </div>

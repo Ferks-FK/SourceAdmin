@@ -24,6 +24,12 @@
   right: 0px;
 }
 
+@media (min-width: 500px) {
+  .menu-mobile-show {
+    right: -50%;
+  }
+}
+
 .players_table_hidden {
   display: none;
 }

@@ -52,8 +52,8 @@
           {{__('Servers')}}
         </a>
       </li>
-      <li class="nav-link-hover {{ request()->routeIs('bans') ? 'nav-item-active' : '' }}">
-        <a href="#" class="nav-item text-white text-base">
+      <li class="nav-link-hover {{ request()->routeIs('bans.index', 'bans.show') ? 'nav-item-active' : '' }}">
+        <a href="{{ route('bans.index') }}" class="nav-item text-white text-base">
           <i class="bi bi-slash-circle"></i>
           {{__('Bans')}}
         </a>
