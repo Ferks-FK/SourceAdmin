@@ -29,6 +29,7 @@ Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('ser
 
 Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
 Route::get('/bans/{ban:id}', [BanController::class, 'show'])->name('bans.show');
+Route::get('/bans/{ban:id}/{server:id}', [BanController::class, 'addPlayerBan'])->name('ban.add');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

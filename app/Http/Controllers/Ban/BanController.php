@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ban;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ban;
+use App\Models\Server;
+use App\Services\RconService;
 
 class BanController extends Controller
 {
@@ -85,4 +87,13 @@ class BanController extends Controller
     {
         //
     }
+
+    // public function addPlayerBan($player_name, $server)
+    // {
+    //     $server = Server::findOrFail($server);
+
+    //     $rconService = new RconService();
+
+    //     return $rconService->addPlayerBan($player_name, $server->ip, $server->port, $server->rcon);
+    // }
 }

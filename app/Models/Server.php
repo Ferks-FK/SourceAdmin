@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Mod;
 use App\Services\RconService;
 use Illuminate\Support\Facades\Cache;
+use SebastianBergmann\Type\VoidType;
 
 class Server extends Model
 {
@@ -53,14 +54,14 @@ class Server extends Model
     /**
      * Connect to the servers and cache it.
      *
-     * @return array|string|null
+     * @return array|string
      */
-    protected function serverData(): array|string|null
+    protected function serverData(): array|string
     {
         return Cache::remember("servers.{$this->id}", 1, function () {
-            $rconService = new RconService();
+            $rconService = new RconService($this->ip, $this->port);
 
-            return $rconService->setConnection($this->ip, $this->port);
+            return $rconService->getServerAndPlayerData();
         });
     }
 

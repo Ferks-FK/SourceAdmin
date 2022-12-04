@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('end_at')->nullable();
             $table->foreignId('reason_id')->constrained('reasons');
             $table->foreignId('time_ban_id')->constrained('time_bans');
+            $table->foreignId('server_id')->default(0)->constrained('servers');
             $table->foreignId('removed_by')->nullable()->constrained('users');
             $table->timestamp('removed_on')->nullable();
             $table->string('unban_reason')->nullable();

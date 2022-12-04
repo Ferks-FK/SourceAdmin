@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       @foreach($servers as $server)
-        <tr data-href="{{ route('servers.show', $server->id) }}" class="cursor-pointer bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-[#2e3338]">
+        <tr data-href="{{ route('servers.show', $server->id) }}" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
           <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
           </th>

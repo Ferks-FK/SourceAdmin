@@ -4,7 +4,7 @@
       <div class="flex flex-col md:order-1  text-white">
         <hr class="hidden md:block">
         <div>
-          <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatar" class="flex items-center text-sm font-medium rounded-full hover:text-gray-300 dark:hover:text-gray-300 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
+          <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatar" class="flex items-center text-sm font-medium rounded-full hover:text-gray-300 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
             <span class="sr-only">User Menu</span>
             <img class="mr-2 w-8 h-8 rounded-full" src="{{ Auth::user()->getAvatar() }}" alt="User Avatar">
             <strong>{{ucfirst(Auth::user()->name)}}</strong>

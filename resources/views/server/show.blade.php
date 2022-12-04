@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="flex flex-col h-full whitespace-nowrap md:whitespace-normal">
+<div class="flex flex-col max-h-[500px] whitespace-nowrap md:whitespace-normal">
   <div class="overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="players_table" class="cursor-pointer bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-[#2e3338] ">
+        <tr id="players_table" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
           <th class="py-4 px-6 font-medium text-gray-900 dark:text-white">
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
           </th>
@@ -71,7 +71,7 @@
       </tbody>
     </table>
   </div>
-  <div id="players_table_items" class="overflow-x-auto max-h-[75%]">
+  <div id="players_table_items" class="flex overflow-x-auto max-h-[75%]">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
         <tr>
@@ -84,21 +84,29 @@
           <td scope="col" class="py-3 px-6">
             {{__('Time')}}
           </td>
+          <td scope="col" class="py-3 px-6">
+            {{__('Actions')}}
+          </td>
         </tr>
       </thead>
       <tbody>
         @foreach ($server->players as $player)
-          <tr class="cursor-pointer hover:bg-[#2e3338]">
-            <td class="p-2">
+          <tr class="hover:bg-lightDark">
+            <td class="py-4 px-6">
               {{ is_array($player) ? $player['Name'] : "N/A" }}
             </td>
-            <td class="p-2">
+            <td class="py-4 px-6">
               {{ is_array($player) ? $player['Frags'] : "N/A" }}
             </td>
-            <td class="p-2">
+            <td class="py-4 px-6">
               {{ is_array($player) ? $player['TimeF'] : "N/A" }}
             </td>
+            <td data-dropdown-toggle="dropdownPlayerActions" class="w-fit py-4 px-6 flex items-center cursor-pointer">
+              <p>{{ __('Actions') }}</p>
+              <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
+            </td>
           </tr>
+          <x-dropdown-actions/>
         @endforeach
       </tbody>
     </table>
