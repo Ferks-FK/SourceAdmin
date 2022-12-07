@@ -88,12 +88,12 @@ class BanController extends Controller
         //
     }
 
-    // public function addPlayerBan($player_name, $server)
-    // {
-    //     $server = Server::findOrFail($server);
+    public function addPlayerBan($player_id, $server_id)
+    {
+        $server = Server::findOrFail($server_id);
 
-    //     $rconService = new RconService();
+        $rconService = new RconService($server->ip, $server->port, $server->rcon);
 
-    //     return $rconService->addPlayerBan($player_name, $server->ip, $server->port, $server->rcon);
-    // }
+        dd($rconService->addPlayerBan($player_id));
+    }
 }

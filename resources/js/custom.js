@@ -30,18 +30,18 @@ players_table.addEventListener('click', () => {
   players_table_items.classList.toggle('players_table_hidden')
 })
 
-const action_kick_player = document.getElementById('action_kick_player');
+// const action_kick_player = document.get;
 
-action_kick_player.addEventListener('click', function(e) {
-  const player_name = e.target.closest('tr')
+// action_kick_player.addEventListener('click', function(e) {
+//   const player_name = e.target.closest('#dropdownPlayerActions')
 
-  console.log(player_name)
-  // const modal = document.getElementById('action-' + e.path[0].innerText.toLowerCase())
-  // const player_name = e.path[4].childNodes[1].childNodes[3].childNodes[1].childNodes[1].innerText
+//   console.log(player_name)
+//   // const modal = document.getElementById('action-' + e.path[0].innerText.toLowerCase())
+//   // const player_name = e.path[4].childNodes[1].childNodes[3].childNodes[1].childNodes[1].innerText
 
-  // console.log(player_name)
+//   // console.log(player_name)
 
-  // console.log(e)
+//   // console.log(e)
 
-  // modal.classList.toggle('hidden')
-})
+//   // modal.classList.toggle('hidden')
+// })

@@ -19,7 +19,10 @@ class RconService
         $this->query->Connect($this->ip, $this->port, 1, SourceQuery::SOURCE);
 
         if (!is_null($this->rcon)) {
-            $this->query->SetRconPassword($this->rcon);
+            try {
+                $this->query->SetRconPassword($this->rcon);
+            }
+            catch (Exception) {}
         }
     }
 
@@ -60,18 +63,18 @@ class RconService
         return $players;
     }
 
-    public function addPlayerBan()
+    public function addPlayerBan($player_id)
     {
         try {
-            $this->query->SetRconPassword('nandonunes');
             $status = $this->query->Rcon('status');
 
-            $players = $this->parseRconStatus($status);
-            $player_id = 1;
+            if (empty($status)) {
+                return "Failed to connect to Rcon, invalid password?";
+            }
 
-            //dd($status);
+            $players = $this->parseRconStatus($status);
+
             foreach ($players as $player) {
-                $player_id++;
                 dump($player['id'] == $player_id);
 
                 if ($player['id'] == $player_id) {

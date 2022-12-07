@@ -6,14 +6,20 @@ use Illuminate\View\Component;
 
 class DropdownActions extends Component
 {
+    public $id;
+    public $server;
+    public $player;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id, $server, $player)
     {
-        //
+        $this->id = $id;
+        $this->server = $server;
+        $this->player = $player;
     }
 
     /**

@@ -90,7 +90,13 @@
         </tr>
       </thead>
       <tbody>
+        @php
+          $player_id = 0
+        @endphp
         @foreach ($server->players as $player)
+          @php
+            $player['Id'] = $player_id
+          @endphp
           <tr class="hover:bg-lightDark">
             <td class="py-4 px-6">
               {{ is_array($player) ? $player['Name'] : "N/A" }}
@@ -101,12 +107,15 @@
             <td class="py-4 px-6">
               {{ is_array($player) ? $player['TimeF'] : "N/A" }}
             </td>
-            <td data-dropdown-toggle="dropdownPlayerActions" class="w-fit py-4 px-6 flex items-center cursor-pointer">
+            <td data-dropdown-toggle="dropdownPlayerActions-{{ $player['Name'] }}" class="w-fit py-4 px-6 flex items-center cursor-pointer">
               <p>{{ __('Actions') }}</p>
               <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
             </td>
           </tr>
-          <x-dropdown-actions/>
+          @php
+            $player_id++
+          @endphp
+          <x-dropdown-actions :id="$player_id" :server="$server" :player="$player['Name']"/>
         @endforeach
       </tbody>
     </table>

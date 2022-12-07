@@ -21,7 +21,7 @@
     <!-- FlowBite -->
     <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/custom.js'])
+    @vite(['resources/css/app.css'])
   </head>
 <body>
     @include('layouts.parts.header')
@@ -36,4 +36,5 @@
         @yield('content')
       </div>
     </div>
+    @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/js/modal.js'])
 </body>
