@@ -22,11 +22,12 @@ function open_modal(action, player_name) {
 
   modal_player.innerText = player_name;
   modal_item.classList.remove('opacity-0', 'z-[-1]')
-  modal_item.classList.add('z-10')
+  modal_item.classList.add('z-50')
 }
 
 function close_modal() {
   modal_item.classList.add('opacity-0', 'z-[-1]')
+  modal_item.classList.remove('z-50')
 }
 
 function modal_action(action, player_name) {

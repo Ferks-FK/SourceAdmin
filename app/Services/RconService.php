@@ -69,7 +69,7 @@ class RconService
             $status = $this->query->Rcon('status');
 
             if (empty($status)) {
-                return "Failed to connect to Rcon, invalid password?";
+                return new Exception("Failed to connect to Rcon, invalid password?");
             }
 
             $players = $this->parseRconStatus($status);
@@ -78,14 +78,14 @@ class RconService
                 dump($player['id'] == $player_id);
 
                 if ($player['id'] == $player_id) {
-                    return $this->query->Rcon("kickid $player_id");
+                    // return $this->query->Rcon("kickid $player_id");
+                    return "Jogador expulso";
                 } else {
                     return "Não achei o player";
                 }
             }
         }
         catch (Exception $error) {
-            dd($error);
         }
         finally {
             $this->query->Disconnect();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Services\RconService;
+use Exception;
 
 class BanController extends Controller
 {
@@ -93,7 +94,13 @@ class BanController extends Controller
         $server = Server::findOrFail($server_id);
 
         $rconService = new RconService($server->ip, $server->port, $server->rcon);
+        try {
+            $rconService->addPlayerBan($player_id);
 
-        dd($rconService->addPlayerBan($player_id));
+            return redirect()->route('servers.show', $server_id)->with('success', "Deu certo");
+        }
+        catch (Exception $error) {
+            return redirect()->route('servers.show', $server_id)->with('error', $error->getMessage());
+        }
     }
 }
