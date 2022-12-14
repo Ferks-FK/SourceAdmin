@@ -19,9 +19,13 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     <!-- FlowBite -->
-    <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
+    <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
 
-    @vite(['resources/css/app.css'])
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/custom.js', 'resources/js/modal.js'])
   </head>
 <body>
     @include('layouts.parts.header')
@@ -36,5 +40,6 @@
         @yield('content')
       </div>
     </div>
-    @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/js/modal.js'])
+    @yield('scripts')
+    {{-- @vite(['resources/js/custom.js', 'resources/js/modal.js']) --}}
 </body>

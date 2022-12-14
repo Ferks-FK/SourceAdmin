@@ -29,35 +29,35 @@
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
           </th>
           <td class="py-4 px-6">
-            @if ($server->os === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Os'] !== "N/A")
+              <img src="{{ asset("images/{$server->server_data['Os']}.png") }}" alt="Os Image" class="w-5">
             @else
-              <img src="{{ asset("images/{$server->os}.png") }}" alt="Os Image" class="w-5">
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            @if ($server->vac === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Secure'] !== "N/A")
+              @if ($server->server_data['Secure'])
+                <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
+              @else
+                <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
+              @endif
             @else
-                @if($server->vac)
-                  <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
-                @else
-                  <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
-                @endif
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            {{ $server->host_name }}
+            {{ $server->server_data['HostName'] }}
           </td>
           <td class="py-4 px-6">
-            @if ($server->total_players_online === "N/A" || $server->max_players === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Players'] !== "N/A")
+              {{ $server->server_data['Players'] }}/{{ $server->server_data['MaxPlayers'] }}
             @else
-              {{ $server->total_players_online }}/{{ $server->max_players }}
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            {{ $server->map }}
+            {{ $server->server_data['Map'] }}
           </td>
         </tr>
       @endforeach

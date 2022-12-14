@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Mod;
 use App\Services\RconService;
 use Illuminate\Support\Facades\Cache;
-use SebastianBergmann\Type\VoidType;
 
 class Server extends Model
 {
     use HasFactory;
 
+    private $rcon_service = null;
     private $server_data = null;
     private $player_data = null;
+    private $player_id = null;
+    private $is_online = false;
 
     /**
      * The attributes that are mass assignable.
@@ -39,14 +41,13 @@ class Server extends Model
     protected static function booted()
     {
         static::retrieved(function (Server $server) {
-            $server_data = $server->serverData();
+            $server->rcon_service = new RconService($server->ip, $server->port, $server->rcon);
+            $data = $server->getServerData();
 
-            if (is_array($server_data)) {
-                $server->server_data = $server_data['server_data'];
-                $server->player_data =  $server_data['player_data'];
-            } else {
-                $server->server_data = $server_data;
-                $server->player_data =  $server_data;
+            if (is_array($data)) {
+                $server->server_data = $data['server_data'];
+                $server->player_data = $data['player_data'];
+                $server->is_online = true;
             }
         });
     }
@@ -56,93 +57,40 @@ class Server extends Model
      *
      * @return array|string
      */
-    protected function serverData(): array|string
+    protected function getServerData(): array|string
     {
         return Cache::remember("servers.{$this->id}", 1, function () {
-            $rconService = new RconService($this->ip, $this->port);
-
-            return $rconService->getServerAndPlayerData();
+            return $this->rcon_service->getServerData();
         });
     }
 
-    /**
-     * Determines if the server is online.
-     *
-     * @return boolean
-     */
-    public function isOnline(): bool
+    public function getserverDataAttribute(): array
     {
-        return ((is_array($this->server_data)) ?: false);
+        if ($this->is_online && !empty($this->server_data)) {
+            return $this->server_data;
+        }
+
+        return $this->server_data = [
+            'HostName' => "Error Connection ($this->ip:$this->port)",
+            'Secure' => "N/A",
+            'Players' => "N/A",
+            'MaxPlayers' => "N/A",
+            'Map' => "N/A",
+            'Os' => "N/A"
+        ];
     }
 
-    /**
-     * Get the HostName.
-     *
-     * @return string|null
-     */
-    public function getHostNameAttribute(): string|null
+    public function getplayerDataAttribute(): array
     {
-        return $this->isOnline() ? $this->server_data['HostName'] : $this->server_data;
-    }
+        if ($this->is_online && !empty($this->player_data)) {
+            return $this->player_data;
+        }
 
-    /**
-     * Get the Max Players.
-     *
-     * @return integer|string
-     */
-    public function getMaxPlayersAttribute(): int|string
-    {
-        return $this->isOnline() ? $this->server_data['MaxPlayers'] : "N/A";
-    }
-
-    /**
-     * Get the Map.
-     *
-     * @return string
-     */
-    public function getMapAttribute(): string
-    {
-        return $this->isOnline() ? $this->server_data['Map'] : "N/A";
-    }
-
-    /**
-     * Get the current online players.
-     *
-     * @return integer|string
-     */
-    public function getTotalPlayersOnlineAttribute(): int|string
-    {
-        return $this->isOnline() ? $this->server_data['Players'] : "N/A";
-    }
-
-    /**
-     * Get the OS.
-     *
-     * @return string
-     */
-    public function getOsAttribute(): string
-    {
-        return $this->isOnline() ? $this->server_data['Os'] : "N/A";
-    }
-
-    /**
-     * Get the Vac.
-     *
-     * @return boolean|string
-     */
-    public function getVacAttribute(): bool|string
-    {
-        return $this->isOnline() ? $this->server_data['Secure'] : "N/A";
-    }
-
-    /**
-     * Get players online in server.
-     *
-     * @return array
-     */
-    public function getPlayersAttribute(): array
-    {
-        return $this->isOnline() ? $this->player_data : ['N/A'];
+        return $this->player_data = [
+            'Name' => "N/A",
+            'Frags' => "N/A",
+            'TimeF' => "N/A"
+        ];
     }
 
     /**
