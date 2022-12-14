@@ -37,35 +37,35 @@
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
           </th>
           <td class="py-4 px-6">
-            @if ($server->os === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Os'] !== "N/A")
+              <img src="{{ asset("images/{$server->server_data['Os']}.png") }}" alt="Os Image" class="w-5">
             @else
-              <img src="{{ asset("images/{$server->os}.png") }}" alt="Os Image" class="w-5">
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            @if ($server->vac === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Secure'] !== "N/A")
+              @if ($server->server_data['Secure'])
+                <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
+              @else
+                <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
+              @endif
             @else
-                @if($server->vac)
-                  <img src="{{ asset("images/shield.png") }}" alt="Shield" class="w-5">
-                @else
-                  <img src="{{ asset("images/smac.png") }}" alt="Shield" class="w-5">
-                @endif
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            {{ $server->host_name }}
+            {{ $server->server_data['HostName'] }}
           </td>
           <td class="py-4 px-6">
-            @if ($server->total_players_online === "N/A" || $server->max_players === "N/A")
-              {{ __('N/A') }}
+            @if ($server->server_data['Players'] !== "N/A")
+              {{ $server->server_data['Players'] }}/{{ $server->server_data['MaxPlayers'] }}
             @else
-              {{ $server->total_players_online }}/{{ $server->max_players }}
+              {{ __('N/A') }}
             @endif
           </td>
           <td class="py-4 px-6">
-            {{ $server->map }}
+            {{ $server->server_data['Map'] }}
           </td>
         </tr>
       </tbody>
@@ -90,35 +90,56 @@
         </tr>
       </thead>
       <tbody>
-        @php
-          $player_id = 0
-        @endphp
-        @foreach ($server->players as $player)
-          @php
-            $player['Id'] = $player_id
-          @endphp
+        @foreach ($server->player_data as $player)
           <tr class="hover:bg-lightDark">
             <td class="py-4 px-6">
-              {{ is_array($player) ? $player['Name'] : "N/A" }}
+              {{ is_array($player) ? $player['Name'] : $player }}
             </td>
             <td class="py-4 px-6">
-              {{ is_array($player) ? $player['Frags'] : "N/A" }}
+              {{ is_array($player) ? $player['Frags'] : $player }}
             </td>
             <td class="py-4 px-6">
-              {{ is_array($player) ? $player['TimeF'] : "N/A" }}
+              {{ is_array($player) ? $player['TimeF'] : $player }}
             </td>
-            <td data-dropdown-toggle="dropdownPlayerActions-{{ $player['Name'] }}" class="w-fit py-4 px-6 flex items-center cursor-pointer">
-              <p>{{ __('Actions') }}</p>
-              <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
-            </td>
+            @if (is_array($player) && $player['Name'] !== "N/A")
+              <td data-dropdown-toggle="dropdownPlayerActions-{{ $player['Name'] }}" class="w-fit py-4 px-6 flex items-center cursor-pointer">
+                <p>{{ __('Actions') }}</p>
+                <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
+              </td>
+              <x-dropdown-actions :id="$player['Id']" :server="$server" :player="$player['Name']"/>
+            @else
+              <td class="w-fit py-4 px-6 flex items-center cursor-not-allowed">
+                <p>{{ __('Actions') }}</p>
+                <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
+              </td>
+            @endif
+            @break
           </tr>
-          @php
-            $player_id++
-          @endphp
-          <x-dropdown-actions :id="$player_id" :server="$server" :player="$player['Name']"/>
         @endforeach
       </tbody>
     </table>
   </div>
 </div>
+@endsection
+
+@section('scripts')
+  @if(session('success'))
+  @dump(session('success'))
+    <script defer>
+      Swal.fire({
+        icon: 'success',
+        title: "{{session('success')}}"
+      }).then(function(){
+        location.reload();
+      })
+    </script>
+  @elseif (session('error'))
+  @dump(session('error'))
+    <script defer>
+      Swal.fire({
+        icon: 'error',
+        title: "{{session('error')}}"
+      })
+    </script>
+  @endif
 @endsection

@@ -2,41 +2,64 @@
 
 namespace App\Services;
 use xPaw\SourceQuery\SourceQuery;
-use Exception;
+use \Exception;
 
 class RconService
 {
     private $query;
     private $rcon;
 
-    public function __construct($ip, $port, $rcon = null)
+    public function __construct($ip, $port, $rcon)
     {
         $this->query = new SourceQuery();
         $this->ip = $ip;
         $this->port = $port;
         $this->rcon = $rcon;
 
-        $this->query->Connect($this->ip, $this->port, 1, SourceQuery::SOURCE);
-
-        if (!is_null($this->rcon)) {
-            try {
-                $this->query->SetRconPassword($this->rcon);
-            }
-            catch (Exception) {}
-        }
+        $this->query->Connect($this->ip, $this->port, 1, $this->query::SOURCE);
     }
 
-    public function getServerAndPlayerData(): array|string
+    public function getPlayers()
     {
-        //dd($this->addPlayerBan("tete"));
+        $public_player_data = null;
+        $private_player_data = null;
+
+        try {
+            $public_player_data = $this->query->GetPlayers();
+
+            if (!empty($public_player_data)) {
+                $this->query->SetRconPassword($this->rcon);
+                $status = $this->query->Rcon('status');
+                $private_player_data = $this->parseRconStatus($status);
+
+                foreach ($public_player_data as $public_player) {
+                    foreach ($private_player_data as $private_player) {
+                        $public_player['Id'] = intval($private_player['id']);
+                        $public_player_data = [];
+                        array_push($public_player_data, $public_player);
+                    }
+                }
+            }
+            return $public_player_data;
+        }
+        catch (Exception) {
+            if (is_null($public_player_data || is_null($private_player_data))) {
+                return "Error Connection ($this->ip:$this->port)";
+            }
+        }
+
+    }
+
+    public function getServerData(): array|string
+    {
         try {
             return [
                 "server_data" => $this->query->GetInfo(),
-                "player_data" => $this->query->GetPlayers()
+                "player_data" => $this->getPlayers()
             ];
         }
         catch (Exception) {
-            return "Error connecting ($this->ip:$this->port)";
+            return "Error Connection ($this->ip:$this->port)";
         }
         finally {
             $this->query->Disconnect();
@@ -60,32 +83,39 @@ class RconService
             ];
         }
 
+        if (empty($result)) {
+            return null;
+        }
+
         return $players;
     }
 
     public function addPlayerBan($player_id)
     {
         try {
+            $this->query->SetRconPassword($this->rcon);
             $status = $this->query->Rcon('status');
 
             if (empty($status)) {
-                return new Exception("Failed to connect to Rcon, invalid password?");
+                throw new Exception(__("Failed to connect to Rcon, incorrect password?"));
             }
 
             $players = $this->parseRconStatus($status);
 
-            foreach ($players as $player) {
-                dump($player['id'] == $player_id);
+            if (empty($players)) {
+                throw new Exception(__("Failed to find the player, server is empty?"));
+            }
 
+            foreach ($players as $player) {
                 if ($player['id'] == $player_id) {
-                    // return $this->query->Rcon("kickid $player_id");
-                    return "Jogador expulso";
-                } else {
-                    return "Não achei o player";
+                    $this->query->Rcon("kickid $player_id");
+                    return $player['name'];
                 }
             }
+            throw new Exception(__("Player not found."));
         }
         catch (Exception $error) {
+            throw $error;
         }
         finally {
             $this->query->Disconnect();

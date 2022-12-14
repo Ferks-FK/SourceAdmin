@@ -92,12 +92,12 @@ class BanController extends Controller
     public function addPlayerBan($player_id, $server_id)
     {
         $server = Server::findOrFail($server_id);
-
         $rconService = new RconService($server->ip, $server->port, $server->rcon);
-        try {
-            $rconService->addPlayerBan($player_id);
 
-            return redirect()->route('servers.show', $server_id)->with('success', "Deu certo");
+        try {
+            $player = $rconService->addPlayerBan($player_id);
+
+            return redirect()->route('servers.show', $server_id)->with('success', rtrim("The player '$player' was successfully kicked."));
         }
         catch (Exception $error) {
             return redirect()->route('servers.show', $server_id)->with('error', $error->getMessage());
