@@ -124,7 +124,6 @@
 
 @section('scripts')
   @if(session('success'))
-  @dump(session('success'))
     <script defer>
       Swal.fire({
         icon: 'success',
@@ -134,7 +133,6 @@
       })
     </script>
   @elseif (session('error'))
-  @dump(session('error'))
     <script defer>
       Swal.fire({
         icon: 'error',
