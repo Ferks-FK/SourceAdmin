@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="background-color: #212529"> <!-- hack for "quick white flash" xD -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{config('app.name', 'Laravel')}}</title>
+
+    @vite(['resources/css/app.css'])
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,9 +25,6 @@
 
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @vite(['resources/js/custom.js', 'resources/js/modal.js'])
   </head>
 <body>
     @include('layouts.parts.header')
@@ -40,5 +39,6 @@
         @yield('content')
       </div>
     </div>
+    @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/js/modal.js'])
     @yield('scripts')
 </body>

@@ -34,6 +34,7 @@ class RconService
         $private_player_data = null;
 
         // All the code below is needed to get a player ID. In the public method every player has ID 0.
+        // TODO: Get the player ID only when necessary, when the user is allowed to kick the player out for example.
         try {
             $public_player_data = $this->query->GetPlayers();
 
@@ -128,7 +129,7 @@ class RconService
     }
 
     /**
-     * Search for specific information in a string.
+     * Search for specific informations in a string.
      *
      * @param string $status The return from the 'status' server command.
      * @return null|array
