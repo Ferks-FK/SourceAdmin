@@ -55,14 +55,20 @@ class Server extends Model
     /**
      * Connect to the servers and cache it.
      *
-     * @return array|string
+     * @return array|null
      */
-    protected function getServerData(): array|string
+    protected function getServerData(): array|null
     {
         return Cache::remember("servers.{$this->id}", 1, function () {
             return $this->rcon_service->getServerData();
         });
     }
+
+    /**
+     * Get the data from server.
+     *
+     * @return array
+     */
 
     public function getserverDataAttribute(): array
     {
@@ -80,6 +86,11 @@ class Server extends Model
         ];
     }
 
+    /**
+     * Get the player data from server.
+     *
+     * @return array
+     */
     public function getplayerDataAttribute(): array
     {
         if ($this->is_online && !empty($this->player_data)) {

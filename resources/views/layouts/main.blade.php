@@ -41,5 +41,4 @@
       </div>
     </div>
     @yield('scripts')
-    {{-- @vite(['resources/js/custom.js', 'resources/js/modal.js']) --}}
 </body>

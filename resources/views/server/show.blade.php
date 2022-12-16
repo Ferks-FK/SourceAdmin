@@ -112,8 +112,8 @@
                 <p>{{ __('Actions') }}</p>
                 <ion-icon name="chevron-down-sharp" class="mx-1.5"></ion-icon>
               </td>
+              @break
             @endif
-            @break
           </tr>
         @endforeach
       </tbody>
@@ -127,7 +127,7 @@
     <script defer>
       Swal.fire({
         icon: 'success',
-        title: "{{session('success')}}"
+        text: "{{session('success')}}"
       }).then(function(){
         location.reload();
       })
@@ -136,7 +136,11 @@
     <script defer>
       Swal.fire({
         icon: 'error',
-        title: "{{session('error')}}"
+        title: "Whoops!",
+        text: "{{session('error')}}",
+        color: '#fff'
+      }).then(function(){
+        location.reload();
       })
     </script>
   @endif
