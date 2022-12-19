@@ -97,7 +97,7 @@ class BanController extends Controller
         try {
             $player = $rconService->addActionToPlayer($player_id);
 
-            return redirect()->route('servers.show', $server_id)->with('success', "The player '$player' was successfully kicked.");
+            return redirect()->route('servers.show', $server_id)->with('success', __("The player '$player' was successfully kicked."));
         }
         catch (Exception $error) {
             return redirect()->route('servers.show', $server_id)->with('error', $error->getMessage());

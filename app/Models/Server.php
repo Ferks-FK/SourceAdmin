@@ -45,6 +45,9 @@ class Server extends Model
             $data = $server->getServerData();
 
             if (is_array($data)) {
+                array_push($data, $server->rcon_service->getPlayerData());
+                $data["player_data"] = $data[0]; // Just change the key name.
+                unset($data[0]);
                 $server->server_data = $data['server_data'];
                 $server->player_data = $data['player_data'];
                 $server->is_online = true;
@@ -59,8 +62,9 @@ class Server extends Model
      */
     protected function getServerData(): array|null
     {
-        return Cache::remember("servers.{$this->id}", 1, function () {
-            return $this->rcon_service->getServerData();
+        return Cache::remember("server.{$this->id}", 60, function() {
+            $data = ["server_data" => $this->rcon_service->getServerData()];
+            return $data;
         });
     }
 

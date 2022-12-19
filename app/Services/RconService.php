@@ -69,10 +69,23 @@ class RconService
     public function getServerData(): array|null
     {
         try {
-            return [
-                "server_data" => $this->query->GetInfo(),
-                "player_data" => $this->getPlayers()
-            ];
+            return $this->query->GetInfo();
+        }
+        catch (Exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Get the player data.
+     *
+     * @return array|null
+     * @throws Exception Generic Exception.
+     */
+    public function getPlayerData(): array|null
+    {
+        try {
+            return $this->getPlayers();
         }
         catch (Exception) {
             return null;
@@ -115,10 +128,10 @@ class RconService
             throw new Exception(__("Player not found."));
         }
         catch (AuthenticationException $error) {
-            throw new AuthenticationException('The player ID is not valid, please check the RCON password of the server.');
+            throw new AuthenticationException(__('The player ID is not valid, please check the RCON password of the server.'));
         }
         catch (InvalidPacketException $error) {
-            throw new InvalidPacketException('Unable to communicate with the server, check that the server is not banning the Web Panel.');
+            throw new InvalidPacketException(__('Unable to communicate with the server, check that the server is not banning the Web Panel.'));
         }
         catch (Exception $error) {
             throw $error;
