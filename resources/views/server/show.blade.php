@@ -122,12 +122,13 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
   @if(session('success'))
     <script defer>
       Swal.fire({
         icon: 'success',
-        text: "{{session('success')}}"
+        text: "{{session('success')}}",
+        color: '#fff'
       }).then(function(){
         location.reload();
       })
@@ -144,4 +145,4 @@
       })
     </script>
   @endif
-@endsection
+@endpush
