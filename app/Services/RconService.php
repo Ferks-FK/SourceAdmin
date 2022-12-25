@@ -9,6 +9,8 @@ use \Exception;
 class RconService
 {
     private SourceQuery $query;
+    private string $ip;
+    private string $port;
     private string $rcon;
     private array $available_actions = ['kickid', 'banid'];
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mod extends Model
+class TimeBans extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,6 @@ class Mod extends Model
      */
     protected $fillable = [
         'name',
-        'icon',
-        'enabled'
+        'value'
     ];
 }

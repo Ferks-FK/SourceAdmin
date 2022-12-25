@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('player_name');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('end_at')->nullable();
+            $table->foreignId('admin_id')->constrained('users');
             $table->foreignId('reason_id')->constrained('reasons');
             $table->foreignId('time_ban_id')->constrained('time_bans');
             $table->foreignId('server_id')->default(0)->constrained('servers');

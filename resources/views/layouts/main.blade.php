@@ -24,7 +24,7 @@
   <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/js/modal.js', 'resources/css/app.css'])
+  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css'])
 
   @livewireStyles
   </head>

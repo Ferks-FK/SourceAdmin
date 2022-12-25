@@ -10,6 +10,8 @@ class Ban extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -38,5 +40,29 @@ class Ban extends Model
         $countryCode = Location::get($ip);
 
         return $countryCode != false ? strtolower($countryCode->countryCode) : false;
+    }
+
+    /**
+     * Get the server associated with the ban.
+     */
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
+    }
+
+    /**
+     * Get the time_ban associated with the ban.
+     */
+    public function time_ban()
+    {
+        return $this->belongsTo(TimeBans::class);
+    }
+
+    /**
+     * Get the admin associated with the ban.
+     */
+    public function admin()
+    {
+        return $this->belongsTo(User::class);
     }
 }

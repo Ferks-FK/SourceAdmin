@@ -16,7 +16,7 @@ class TimeBansSeeder extends Seeder
     {
         foreach($this->time_bans() as $name => $value) {
             DB::table('time_bans')->insert([
-                'name' => $name,
+                "name" => $name,
                 "value" => $value
             ]);
         }
