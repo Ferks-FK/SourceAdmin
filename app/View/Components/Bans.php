@@ -6,16 +6,14 @@ use Illuminate\View\Component;
 
 class Bans extends Component
 {
-    public $bans;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($bans)
+    public function __construct()
     {
-        $this->bans = $bans;
+        //
     }
 
     /**

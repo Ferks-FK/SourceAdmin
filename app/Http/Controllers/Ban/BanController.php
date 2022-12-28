@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ban;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
@@ -16,11 +17,27 @@ class BanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bans = Ban::paginate(10);
+        if ($request->ajax()) {
+            return $this->dataTableQueryData();
+        }
 
-        return view('ban.index', compact('bans'));
+        return view('ban.index');
+    }
+
+    public function dataTableQueryData()
+    {
+        $bans = DB::table('bans')
+            ->join('users', 'users.id', '=', 'bans.admin_id')
+            ->join('time_bans', 'time_bans.id', '=', 'bans.time_ban_id')
+            ->join('servers', 'servers.id', '=', 'bans.server_id')
+            ->join('mods', 'mods.id', '=', 'mod_id')
+            ->select('bans.id', 'mods.icon as mod_icon', 'users.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at')
+            ->limit(10)
+            ->get();
+
+        return $bans->toJson();
     }
 
     /**

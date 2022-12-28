@@ -21,10 +21,18 @@
   <!-- FlowBite -->
   <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
 
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+  <!-- SweetAlert -->
   <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css'])
+  <!-- DataTables -->
+  {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> --}}
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+
+  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css', 'resources/css/datatable.css', 'resources/js/ajax/table_bans.js'])
 
   @livewireStyles
   </head>

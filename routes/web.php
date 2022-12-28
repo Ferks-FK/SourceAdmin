@@ -28,6 +28,7 @@ Route::get('/servers', [ServerController::class, 'index'])->name('servers.index'
 Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('servers.show');
 
 Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
+Route::get('/bans/listTable', [BanController::class, 'dataTableQueryData'])->name('bans.listTable');
 Route::get('/bans/{ban:id}', [BanController::class, 'show'])->name('bans.show');
 Route::get('/bans/{player:id}/{server:id}', [BanController::class, 'KickPlayer'])->name('ban.add');
 

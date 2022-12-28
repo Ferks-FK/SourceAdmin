@@ -11,21 +11,13 @@ btnMobile.addEventListener('click', () => {
 });
 
 
-// HTML Table Link Code
-
-const rows = document.querySelectorAll('tr[data-href]');
-
-rows.forEach(row => {
-  row.addEventListener('click', () => {
-    window.location.href = row.dataset.href;
-  });
-});
-
 // Handler Players Table
 
 const players_table = document.getElementById('players_table')
 const players_table_items = document.getElementById('players_table_items')
 
-players_table.addEventListener('click', () => {
-  players_table_items.classList.toggle('players_table_hidden')
-})
+if (players_table) {
+  players_table.addEventListener('click', () => {
+    players_table_items.classList.toggle('players_table_hidden')
+  })
+}
