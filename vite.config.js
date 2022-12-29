@@ -9,7 +9,8 @@ export default defineConfig({
                 'resources/css/datatable.css',
                 'resources/js/app.js',
                 'resources/js/custom.js',
-                'resources/js/ajax/table_bans.js'
+                'resources/js/ajax/table_bans.js',
+                'resources/js/ajax/table_servers.js'
             ],
             refresh: true,
         }),

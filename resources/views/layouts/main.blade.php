@@ -32,7 +32,7 @@
   {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> --}}
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
-  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css', 'resources/css/datatable.css', 'resources/js/ajax/table_bans.js'])
+  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css', 'resources/js/ajax/table_servers.js', 'resources/js/ajax/table_bans.js'])
 
   @livewireStyles
   </head>

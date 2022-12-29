@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use xPaw\SourceQuery\SourceQuery;
 use xPaw\SourceQuery\Exception\AuthenticationException;
 use xPaw\SourceQuery\Exception\InvalidPacketException;

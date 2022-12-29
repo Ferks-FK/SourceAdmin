@@ -6,17 +6,14 @@ use Illuminate\View\Component;
 
 class Servers extends Component
 {
-
-    public $servers;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($servers)
+    public function __construct()
     {
-        $this->servers = $servers;
+        //
     }
 
     /**

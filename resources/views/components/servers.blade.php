@@ -1,5 +1,5 @@
 <div class="flex flex-wrap overflow-x-auto whitespace-nowrap md:whitespace-normal">
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table_servers">
     <thead class="text-xs text-gray-300 uppercase bg-dark">
       <tr>
         <td scope="col" class="py-3 px-6">
@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($servers as $server)
+      {{-- @foreach($servers as $server)
         <tr data-href="{{ route('servers.show', $server->id) }}" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
           <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
@@ -60,10 +60,10 @@
             {{ $server->server_data['Map'] }}
           </td>
         </tr>
-      @endforeach
+      @endforeach --}}
     </tbody>
   </table>
 </div>
-<div class="w-full flex justify-end my-2">
+{{-- <div class="w-full flex justify-end my-2">
   {{ $servers->links() }}
-</div>
+</div> --}}

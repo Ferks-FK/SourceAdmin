@@ -28,7 +28,7 @@ class BanController extends Controller
 
     public function dataTableQueryData()
     {
-        $bans = DB::table('bans')
+        $bans = Ban::query()
             ->join('users', 'users.id', '=', 'bans.admin_id')
             ->join('time_bans', 'time_bans.id', '=', 'bans.time_ban_id')
             ->join('servers', 'servers.id', '=', 'bans.server_id')

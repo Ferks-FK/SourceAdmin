@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
+use App\Helpers\QueryServers;
 
 class ServerController extends Controller
 {
@@ -13,11 +14,29 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $servers = Server::paginate(10);
+        if ($request->ajax()) {
+            return $this->dataTableQueryData();
+        }
 
-        return view('server.index', compact('servers'));
+        return view('server.index');
+    }
+
+    public function dataTableQueryData()
+    {
+        $servers = Server::query()
+            ->limit(10)
+            ->get();
+
+        $connectedServers = [];
+
+        foreach($servers as $server) {
+            $query = new QueryServers($server->id, $server->ip, $server->port, $server->rcon);
+            $connectedServers[] = $query->getServerData();
+        }
+
+        return $connectedServers;
     }
 
     /**

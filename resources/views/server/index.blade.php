@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-  <x-servers :servers="$servers"/>
+  <x-servers/>
 @endsection

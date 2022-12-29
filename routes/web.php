@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/servers', [ServerController::class, 'index'])->name('servers.index');
+Route::get('/servers/ajax', [ServerController::class, 'dataTableQueryData']);
 Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('servers.show');
 
 Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
