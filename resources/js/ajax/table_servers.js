@@ -1,13 +1,15 @@
 $(async function() {
-  await $.getJSON('/servers').then(data => createTable({data}))
+  if (location.pathname === "/servers") {
+    await $.getJSON('/servers').then(data => createTable({data}))
 
-  let table = $('#table_servers')
-  let tbody = table.find('tbody tr')
+    let table = $('#table_servers')
+    let tbody = table.find('tbody tr')
 
-  if (tbody.attr('data-href') !== undefined) {
-    tbody.on('click', function() {
-      window.location.href = $(this).data('href')
-    })
+    if (tbody.attr('data-href') !== undefined) {
+      tbody.on('click', function() {
+        window.location.href = $(this).data('href')
+      })
+    }
   }
 })
 

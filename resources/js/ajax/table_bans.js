@@ -1,14 +1,16 @@
 import { now } from "lodash"
 
 $(async function() {
-  await $.getJSON('/bans').then(data => createTable({data}))
+  if (location.pathname === "/bans") {
+    await $.getJSON('/bans').then(data => createTable({data}))
 
-  let table = $('#table_bans')
-  let tbody = table.find('tbody tr')
+    let table = $('#table_bans')
+    let tbody = table.find('tbody tr')
 
-  tbody.on('click', function() {
-    window.location.href = $(this).data('href')
-  })
+    tbody.on('click', function() {
+      window.location.href = $(this).data('href')
+    })
+  }
 })
 
 function createTable({data}) {

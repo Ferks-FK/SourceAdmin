@@ -40,11 +40,14 @@ class QueryServers
      */
     protected function getServerDataRcon()
     {
-        return Cache::remember("server.{$this->id}", 60, function() {
-            $data = ["server_data" => $this->rcon_service->getServerData()];
+        // return Cache::remember("server.{$this->id}", 60, function() {
+        //     $data = ["server_data" => $this->rcon_service->getServerData()];
 
-            return $data;
-        });
+        //     return $data;
+        // });
+        $data = ["server_data" => $this->rcon_service->getServerData()];
+
+        return $data;
     }
 
     /**

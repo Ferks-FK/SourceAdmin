@@ -33,7 +33,7 @@ class ServerController extends Controller
 
         foreach($servers as $server) {
             $query = new QueryServers($server->id, $server->ip, $server->port, $server->rcon);
-            $connectedServers[] = $query->getServerData();
+            array_push($connectedServers, $query->getServerData());
         }
 
         return $connectedServers;
