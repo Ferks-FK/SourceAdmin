@@ -15,9 +15,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $servers = Server::paginate(10);
+      $serverCount = Server::query()
+        ->limit(10)
+        ->count();
 
-      return view('dashboard.home', compact('servers'));
+      return view('dashboard.home', compact('serverCount'));
     }
 
     /**

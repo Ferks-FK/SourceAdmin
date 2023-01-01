@@ -20,7 +20,19 @@ class ServerController extends Controller
             return $this->dataTableQueryData();
         }
 
-        return view('server.index');
+        $serverCount = Server::query()
+            ->limit(10)
+            ->count();
+
+        return view('server.index', compact('serverCount'));
+    }
+
+    public function connectToServer($id)
+    {
+        $server = Server::findOrFail($id);
+        $query = new QueryServers($id, $server->ip, $server->port, $server->rcon);
+
+        return $query->getServerData();
     }
 
     public function dataTableQueryData()
@@ -29,14 +41,13 @@ class ServerController extends Controller
             ->limit(10)
             ->get();
 
-        $connectedServers = [];
+        $server_ids = [];
 
         foreach($servers as $server) {
-            $query = new QueryServers($server->id, $server->ip, $server->port, $server->rcon);
-            array_push($connectedServers, $query->getServerData());
+            array_push($server_ids, $server->id);
         }
 
-        return $connectedServers;
+        return $server_ids;
     }
 
     /**

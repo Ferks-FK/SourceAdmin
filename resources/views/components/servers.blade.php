@@ -23,6 +23,16 @@
       </tr>
     </thead>
     <tbody>
+      @for ($i = 0; $i < $serverCount; $i++)
+        <tr class="cursor-pointer bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-lightDark">
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td id="loading" class="py-3 px-6">{{ __('Quering server data...') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+        </tr>
+      @endfor
       {{-- @foreach($servers as $server)
         <tr data-href="{{ route('servers.show', $server->id) }}" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
           <th class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">

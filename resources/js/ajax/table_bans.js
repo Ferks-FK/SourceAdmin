@@ -1,7 +1,8 @@
 import { now } from "lodash"
 
 $(async function() {
-  if (location.pathname === "/bans") {
+  // Make the ajax request only when needed.
+  if (location.pathname === "/" || location.pathname === "/bans") {
     await $.getJSON('/bans').then(data => createTable({data}))
 
     let table = $('#table_bans')

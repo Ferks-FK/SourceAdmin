@@ -2,7 +2,7 @@
 
 @section('content')
   <div>
-    <x-servers :servers="$servers"/>
+    <x-servers :serverCount="$serverCount"/>
   </div>
 @endsection
 
