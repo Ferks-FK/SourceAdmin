@@ -8,7 +8,7 @@
 @section('content')
 <div class="flex flex-col max-h-[500px] whitespace-nowrap md:whitespace-normal">
   <div class="overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table_server">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
         <tr>
           <td scope="col" class="py-3 px-6">
@@ -32,7 +32,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="players_table" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
+        <tr class="cursor-not-allowed bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-lightDark">
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td id="loading" class="py-3 px-6">{{ __('Quering server data...') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+          <td class="py-3 px-6">{{ __('N/A') }}</td>
+        </tr>
+        {{-- <tr id="players_table" class="cursor-pointer bg-[#191c1e] border-b dark:border-gray-700 hover:bg-lightDark">
           <th class="py-4 px-6 font-medium text-gray-900 dark:text-white">
             <img src="{{ asset("images/games/{$server->mod->icon}.png") }}" alt="Mod Image" class="w-5">
           </th>
@@ -67,11 +75,11 @@
           <td class="py-4 px-6">
             {{ $server->server_data['Map'] }}
           </td>
-        </tr>
+        </tr> --}}
       </tbody>
     </table>
   </div>
-  <div id="players_table_items" class="flex overflow-x-auto max-h-[75%]">
+  {{-- <div id="players_table_items" class="flex overflow-x-auto max-h-[75%]">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
         <tr>
@@ -118,7 +126,7 @@
         @endforeach
       </tbody>
     </table>
-  </div>
+  </div> --}}
 </div>
 @endsection
 

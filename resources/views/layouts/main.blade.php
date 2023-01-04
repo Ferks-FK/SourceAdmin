@@ -25,7 +25,7 @@
   <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css', 'resources/js/ajax/table_servers.js', 'resources/js/ajax/table_bans.js'])
+  @vite(['resources/js/app.js', 'resources/js/custom.js', 'resources/css/app.css', 'resources/js/ajax/table_servers.js', 'resources/js/ajax/table_bans.js', 'resources/js/ajax/show_server.js'])
 
   @livewireStyles
   </head>

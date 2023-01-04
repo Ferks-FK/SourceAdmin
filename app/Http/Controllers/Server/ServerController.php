@@ -27,11 +27,14 @@ class ServerController extends Controller
         return view('server.index', compact('serverCount'));
     }
 
-    public function connectToServer($id)
+    public function connectToServer(int $id, bool $returnPlayers = false)
     {
         $server = Server::findOrFail($id);
         $query = new QueryServers($id, $server->ip, $server->port, $server->rcon);
 
+        if ($returnPlayers) {
+            return [$query->getServerData(), $query->getplayerData()];
+        }
         return $query->getServerData();
     }
 
@@ -77,8 +80,12 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Server $server)
+    public function show(Request $request, Server $server)
     {
+        if ($request->ajax()) {
+            return $this->connectToServer($server->id, returnPlayers: true);
+        }
+
         return view('server.show', compact('server'));
     }
 

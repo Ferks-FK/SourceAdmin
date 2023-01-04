@@ -1,9 +1,9 @@
 import { now } from "lodash"
 
-$(async function() {
-  // Make the ajax request only when needed.
-  if (location.pathname === "/" || location.pathname === "/bans") {
-    await $.getJSON('/bans').then(data => createTable({data}))
+// Make the ajax request only when needed.
+if (location.pathname === "/" || location.pathname === "/bans") {
+  $(async function() {
+    await $.getJSON('/bans').then(data => createTable(data))
 
     let table = $('#table_bans')
     let tbody = table.find('tbody tr')
@@ -11,10 +11,10 @@ $(async function() {
     tbody.on('click', function() {
       window.location.href = $(this).data('href')
     })
-  }
-})
+  })
+}
 
-function createTable({data}) {
+function createTable(data) {
   let table = $('#table_bans')
   let tbody = table.find('tbody')
   let url = location.protocol + '//' + location.host

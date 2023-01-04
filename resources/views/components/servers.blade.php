@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       @for ($i = 0; $i < $serverCount; $i++)
-        <tr class="cursor-pointer bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-lightDark">
+        <tr class="cursor-not-allowed bg-[#1a1e22] border-b dark:border-gray-700 hover:bg-lightDark">
           <td class="py-3 px-6">{{ __('N/A') }}</td>
           <td class="py-3 px-6">{{ __('N/A') }}</td>
           <td class="py-3 px-6">{{ __('N/A') }}</td>
