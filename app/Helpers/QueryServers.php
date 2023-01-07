@@ -40,14 +40,14 @@ class QueryServers
      */
     protected function getServerDataRcon()
     {
-        return Cache::remember("server.{$this->id}", 60, function() {
-            $data = ["server_data" => $this->rcon_service->getServerData()];
+        // return Cache::remember("server.{$this->id}", 60, function() {
+        //     $data = ["server_data" => $this->rcon_service->getServerData()];
 
-            return $data;
-        });
-        // $data = ["server_data" => $this->rcon_service->getServerData()];
+        //     return $data;
+        // });
+        $data = ["server_data" => $this->rcon_service->getServerData()];
 
-        // return $data;
+        return $data;
     }
 
     /**
@@ -59,6 +59,7 @@ class QueryServers
     {
         $this->server_data['Id'] = $this->id;
         $this->server_data['Is_online'] = $this->is_online;
+        $this->server_data['Ip'] = $this->ip;
 
         if ($this->is_online && !empty($this->server_data)) {
             return $this->server_data;
@@ -72,16 +73,12 @@ class QueryServers
      *
      * @return array
      */
-    public function getplayerData(): array
+    public function getPlayerData(): array
     {
         if ($this->is_online && !empty($this->player_data)) {
             return $this->player_data;
         }
 
-        return $this->player_data = [
-            'Name' => "N/A",
-            'Frags' => "N/A",
-            'TimeF' => "N/A"
-        ];
+        return [];
     }
 }

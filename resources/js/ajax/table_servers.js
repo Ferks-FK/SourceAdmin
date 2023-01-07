@@ -55,7 +55,7 @@ function redirectToServer(index, data) {
   let href_attribute = table.find(`tbody tr:nth-child(${index + 1})`).attr('data-href')
 
   // Do not allow access to a specific server if it is offline, or if it is currently being queried.
-  if (href_attribute !== undefined && index + 1 < data.length) {
+  if (href_attribute !== undefined && index + 1 <= data.length) {
     table.find("tbody tr").on('click', function() {
       if ($("#loading").length === 0) {
         window.location.href = $(this).data('href')

@@ -33,7 +33,7 @@ class ServerController extends Controller
         $query = new QueryServers($id, $server->ip, $server->port, $server->rcon);
 
         if ($returnPlayers) {
-            return [$query->getServerData(), $query->getplayerData()];
+            return [$query->getServerData(), $query->getPlayerData()];
         }
         return $query->getServerData();
     }

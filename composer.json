@@ -12,7 +12,7 @@
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
         "wire-elements/modal": "^1.0",
-        "xpaw/php-source-query-class": "^2.1"
+        "xpaw/php-source-query-class": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

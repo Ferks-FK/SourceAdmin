@@ -14,7 +14,20 @@
   .nav-item-active {
     @apply border-l-4 border-blue-600 font-semibold
   }
+
+  .button-success {
+    @apply flex items-center p-3 bg-green-600 text-sm text-white hover:bg-green-700 rounded-md hover:transition-all hover:ease-in hover:duration-100
+  }
 }
+
+/* .button-success {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: green;
+  color: white;
+
+} */
 
 .menu-mobile-hidden {
   right: -100%;

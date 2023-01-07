@@ -79,8 +79,8 @@
       </tbody>
     </table>
   </div>
-  {{-- <div id="players_table_items" class="flex overflow-x-auto max-h-[75%]">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+  <div id="players_table_items" class="flex overflow-x-auto max-h-[75%]">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="table_players">
       <thead class="text-xs text-gray-300 uppercase bg-dark">
         <tr>
           <td scope="col" class="py-3 px-6">
@@ -98,7 +98,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($server->player_data as $player)
+        {{-- @foreach ($server->player_data as $player)
           <tr class="hover:bg-lightDark">
             <td class="py-4 px-6">
               {{ is_array($player) ? $player['Name'] : $player }}
@@ -123,10 +123,10 @@
               @break
             @endif
           </tr>
-        @endforeach
+        @endforeach --}}
       </tbody>
     </table>
-  </div> --}}
+  </div>
 </div>
 @endsection
 
