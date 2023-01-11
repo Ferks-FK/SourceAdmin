@@ -6,7 +6,7 @@
       </a>
     </div>
     <div class="flex items-center">
-      <div class="dropdown hidden">
+      {{-- <div class="dropdown hidden">
         <a href="#" class="btn btn-dark dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-search"></i>
         </a>
@@ -24,7 +24,7 @@
             </li>
           </div>
         </ul>
-      </div>
+      </div> --}}
       <div id="btn-mobile" class="text-4xl">
         <ion-icon id="hamburguer-icon" class="text-white md:hidden" name="menu"></ion-icon>
       </div>

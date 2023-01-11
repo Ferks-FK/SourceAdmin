@@ -1,7 +1,7 @@
 <div class="flex flex-col p-3 h-full">
   <div class="flex flex-col md:justify-between h-full max-w-sm">
     @if (Auth::check())
-      <div class="flex flex-col md:order-1  text-white">
+      <div class="flex flex-col md:order-1 text-white">
         <hr class="hidden md:block">
         <div>
           <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatar" class="flex items-center text-sm font-medium rounded-full hover:text-gray-300 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">

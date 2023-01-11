@@ -25,12 +25,23 @@
   <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-  @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/ajax/ajax.js'])
+  @section('user-data')
+    @if(!is_null(Auth::user()))
+      <script>
+        window.SourceAdminUser = {!! json_encode(Auth::user()) !!};
+      </script>
+    @endif
+  @show
 
-  @livewireStyles
+  @viteReactRefresh
+  {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+  @vite(['resources/scripts/index.tsx'])
+
+  {{-- @livewireStyles --}}
   </head>
 <body>
-  @include('layouts.parts.header')
+  <div id="app"></div>
+  {{-- @include('layouts.parts.header')
   <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">
     <div id="mobile-menu-items" class="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">
       @include('layouts.parts.sidebar')
@@ -44,5 +55,5 @@
   </div>
   @livewire('livewire-ui-modal')
   @livewireScripts
-  @stack('scripts')
+  @stack('scripts') --}}
 </body>
