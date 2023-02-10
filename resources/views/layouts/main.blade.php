@@ -35,11 +35,11 @@
 
   @viteReactRefresh
   {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-  @vite(['resources/scripts/index.tsx'])
+  @vite(['resources/scripts/index.jsx'])
 
   {{-- @livewireStyles --}}
   </head>
-<body>
+<body style="margin-bottom: 0px">
   <div id="app"></div>
   {{-- @include('layouts.parts.header')
   <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">

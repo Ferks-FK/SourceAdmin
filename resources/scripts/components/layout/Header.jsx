@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
 import CompanyName from "@/api/settings/getCompanyName";
 
 function Header() {
-  const [companyName, setCompanyName] = useState()
-
-  useEffect(() => {
-    CompanyName().then((value: any) => {
-      setCompanyName(value)
-    })
-  }, [])
-
   return (
     <>
       <header className="flex h-[3.6rem] bg-dark border-b border-gray-100 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full mx-7">
           <div className="text-center">
             <a href="/" className="text-xl text-white text-center no-underline">
-              { companyName }
+              Company Name
             </a>
           </div>
           <div className="flex items-center">
@@ -49,4 +40,4 @@ function Header() {
   );
 };
 
-export default Header
+export { Header }

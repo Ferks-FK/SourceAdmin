@@ -1,6 +1,6 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
-const http: AxiosInstance = axios.create({
+const http = axios.create({
   withCredentials: true,
   timeout: 20000,
   headers: {

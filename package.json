@@ -27,7 +27,6 @@
         "alpinejs": "^3.10.5",
         "jquery": "^3.6.3",
         "pathe": "^1.0.0",
-        "ts-loader": "^9.4.2",
-        "typescript": "^4.9.4"
+        "zustand": "^4.3.3"
     }
 }
