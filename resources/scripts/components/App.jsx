@@ -1,18 +1,18 @@
-import { Header } from "@/components/layout/Header";
-import { SideBar } from "@/components/layout/SideBar";
+import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
+import { BrowserRouter } from 'react-router-dom'
 import "@/assets/app.css";
 
 function App() {
-  const { SourceAdminUser } = window
   const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
+  const { SourceAdminUser } = window
 
   if (SourceAdminUser && !userData) {
     setUserData({
       id: SourceAdminUser.id,
       name: SourceAdminUser.name,
       email: SourceAdminUser.email,
-      emailVerifiedAt: new Date(SourceAdminUser.email_verified_at),
+      emailVerifiedAt: SourceAdminUser.email_verified_at ? new Date(SourceAdminUser.email_verified_at) : null,
       createdAt: new Date(SourceAdminUser.created_at),
       updatedAt: new Date(SourceAdminUser.updated_at)
     })
@@ -20,10 +20,9 @@ function App() {
 
   return (
     <>
-      <Header/>
-      <div className="flex w-screen h-screen" style={{height: "calc(100vh - 3.6rem)"}}>
-        <SideBar/>
-      </div>
+      <BrowserRouter>
+        <Layout/>
+      </BrowserRouter>
     </>
   );
 };

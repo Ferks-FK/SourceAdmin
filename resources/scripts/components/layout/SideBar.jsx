@@ -1,15 +1,42 @@
 import { useUserStore } from "@/stores/user";
+import { Avatar } from "@/components/Avatar";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { routes } from "@/routers/routes"
 
-function SideBar() {
-  const [ userData ] = useUserStore((state) => [state.data]);
-  const isLogged = userData !== undefined;
+function SideBar({ active }) {
+  const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
 
   return (
     <>
-      <div className="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">
-        <div className="flex flex-col p-3 h-full">
-          { isLogged ? <h1>Seja bem bindo</h1> : <button onClick={() => {console.log("logou")}}>Logar</button> }
-        </div>
+      <div className={`flex flex-col h-full w-full mobile:w-5/6 mobile:max-w-[250px] z-10 bg-dark fixed md:static transition-all duration-200 ease-linear ${active ? 'left-0' : '-left-full'}`}>
+        <nav className={`flex flex-col p-3 h-full`}>
+          { isLogged ?
+            routes.sidebarRoutes.map(({ title, key, icon, route, end = false }) => (
+              <NavLink
+                key={key}
+                to={route}
+                end={end}
+                className="block w-full p-2 rounded nav-link-hover"
+              >
+                <div className="flex items-center">
+                  <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>
+                  <p>{title}</p>
+                </div>
+              </NavLink>
+            ))
+            // <div className="">
+            //   <div className="flex">
+            //   <strong className="capitalize">{userName}</strong>
+            //   <Avatar email={userEmail}/>
+            // </div>
+            // </div>
+            :
+            <div className="">
+              Não logado
+            </div>
+          }
+        </nav>
       </div>
     </>
   );

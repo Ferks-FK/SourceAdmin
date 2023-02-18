@@ -1,11 +1,17 @@
 import CompanyName from "@/api/settings/getCompanyName";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useSidebarStore } from "@/stores/components/sidebar";
 
 function Header() {
+  const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible]);
+  const handleSidebar = () => setSidebarIsVisible(!sidebarIsVisible)
+
   return (
     <>
-      <header className="flex h-[3.6rem] bg-dark border-b border-gray-100 dark:border-gray-700">
+      <header className="flex w-full h-[3.6rem] bg-dark border-b border-gray-100 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full mx-7">
-          <div className="text-center">
+          <div className="text-center py-3">
             <a href="/" className="text-xl text-white text-center no-underline">
               Company Name
             </a>
@@ -30,8 +36,8 @@ function Header() {
                 </div>
               </ul>
             </div>
-            <div id="btn-mobile" className="text-4xl">
-              {/* <ion-icon id="hamburguer-icon" className="text-white md:hidden" name="menu"></ion-icon> */}
+            <div className="text-4xl md:hidden">
+              <FontAwesomeIcon icon={sidebarIsVisible ? faXmark : faBars} size="sm" className="text-white cursor-pointer transition-all duration-300 ease-in-out" onClick={handleSidebar}/>
             </div>
           </div>
         </div>
