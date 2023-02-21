@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
 import "@/assets/app.css";
 
 function App() {
@@ -21,7 +22,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Layout/>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<DashboardContainer/>}/>
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </>
   );

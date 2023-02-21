@@ -49,7 +49,8 @@ export const routes = {
       title: 'Admin',
       key: 'admin',
       icon: faUserGear,
-      route: '/admin'
+      route: '/admin',
+      isProtected: true
     }
   ]
 };
