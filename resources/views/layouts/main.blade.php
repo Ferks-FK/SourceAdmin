@@ -40,7 +40,11 @@
   {{-- @livewireStyles --}}
   </head>
 <body style="margin-bottom: 0px">
-  <div id="app"></div>
+  @section('content')
+    @yield('above-container')
+    @yield('container')
+    @yield('below-container')
+  @show
   {{-- @include('layouts.parts.header')
   <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">
     <div id="mobile-menu-items" class="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">

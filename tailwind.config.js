@@ -2,7 +2,8 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ['./resources/scripts/**/*.{js,ts,tsx,jsx}'],
+    content: ['./resources/scripts/**/*.{jsx,js}'],
+
     theme: {
         extend: {
             fontFamily: {
@@ -10,8 +11,8 @@ module.exports = {
                 header: ['"IBM Plex Sans"', '"Roboto"', 'system-ui', 'sans-serif'],
             },
             colors: {
-              dark: '#212529',
-              lightDark: '#2e3338'
+                dark: '#212529',
+                lightDark: '#2e3338'
             }
         },
         screens: {
@@ -24,7 +25,5 @@ module.exports = {
         }
     },
 
-    plugins: [
-      require('@tailwindcss/forms')
-    ],
+    plugins: [require('@tailwindcss/forms')],
 };

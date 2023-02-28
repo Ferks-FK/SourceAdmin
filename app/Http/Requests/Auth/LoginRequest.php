@@ -2,12 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 class LoginRequest extends FormRequest
 {
@@ -29,65 +25,49 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'name' => 'required',
+            'password' => 'required'
         ];
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Get the needed authorization credentials from the request.
      *
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function authenticate()
+    public function getCredentials()
     {
-        $this->ensureIsNotRateLimited();
+        // The form field for providing username or password
+        // have name of "username", however, in order to support
+        // logging users in with both (username and email)
+        // we have to check if user has entered one or another
+        $username = $this->get('name');
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        if ($this->isEmail($username)) {
+            return [
+                'email' => $username,
+                'password' => $this->get('password')
+            ];
         }
 
-        RateLimiter::clear($this->throttleKey());
+        return $this->only('name', 'password');
     }
 
     /**
-     * Ensure the login request is not rate limited.
+     * Validate if provided parameter is valid email.
      *
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param $param
+     * @return bool
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function ensureIsNotRateLimited()
+    private function isEmail($param)
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
-        }
+        $factory = $this->container->make(ValidationFactory::class);
 
-        event(new Lockout($this));
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     *
-     * @return string
-     */
-    public function throttleKey()
-    {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return !$factory->make(
+            ['name' => $param],
+            ['name' => 'email']
+        )->fails();
     }
 }

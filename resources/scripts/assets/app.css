@@ -32,9 +32,8 @@ textarea, select, input, button, button:focus, button:focus-visible {
   @apply outline-none
 }
 
-
-.button-success {
-  @apply flex items-center p-3 bg-green-600 text-sm text-white hover:bg-green-700 rounded-md hover:transition-all hover:ease-in hover:duration-100
+.input-help {
+  @apply mt-1 text-xs text-[#fc8484]
 }
 
 /* .button-success {

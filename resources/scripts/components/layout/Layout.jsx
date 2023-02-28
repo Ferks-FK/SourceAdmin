@@ -11,7 +11,7 @@ export const Layout = ({ children }) => {
         <Header/>
         <div className="flex w-screen h-screen" style={{height: 'calc(100vh - 3.6rem)'}}>
           <SideBar active={sidebarIsVisible}/>
-          <div className={`flex flex-col justify-between w-full h-full bg-[#1a1e22] p-5 transition-all duration-200 ease-linear`}>
+          <div className={`flex flex-col w-full h-full bg-[#1a1e22] p-5 transition-all duration-200 ease-linear`}>
             { children }
           </div>
         </div>

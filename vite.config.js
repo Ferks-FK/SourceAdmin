@@ -1,6 +1,6 @@
+import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
 import { dirname, resolve } from 'pathe';
 import { fileURLToPath } from 'node:url';
 
@@ -13,8 +13,8 @@ export default defineConfig({
         react(),
     ],
     resolve: {
-      alias: {
-        '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/scripts')
-      }
+        alias: {
+            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/scripts')
+        }
     }
 });

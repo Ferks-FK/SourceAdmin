@@ -19,7 +19,7 @@ class HomeController extends Controller
         ->limit(10)
         ->count();
 
-      return view('dashboard.home', compact('serverCount'));
+      return view('base.core');
     }
 
     /**
