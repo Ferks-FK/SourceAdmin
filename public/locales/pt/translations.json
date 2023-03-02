@@ -1,0 +1,8 @@
+{
+    "login": {
+        "name_required": "Deve ser fornecido um nome de usuário ou endereço de e-mail.",
+        "password_required": "A senha da conta é necessária.",
+        "username_or_email_label": "Usuário ou Email",
+        "password_label": "Senha"
+    }
+}

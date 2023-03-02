@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { routes } from "@/routers/routes"
 import { useEffect, useState } from "react";
+import { Translate } from "@/components/Translate";
+import { lowerCase } from "lodash";
 
 function SideBar({ active }) {
   const [userName, userEmail, isLogged] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
@@ -40,8 +42,12 @@ function SideBar({ active }) {
               className="block w-full p-2 rounded nav-link-hover"
             >
               <div className="flex items-center">
-                <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8" />
-                <p>{title}</p>
+                <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>
+                <p>
+                  <Translate ns={"sidebar"}>
+                    {lowerCase(title).replace(' ', '_')}
+                  </Translate>
+                </p>
               </div>
             </NavLink>
           ))}

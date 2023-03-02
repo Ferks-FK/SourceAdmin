@@ -1,0 +1,8 @@
+{
+    "login": {
+        "name_required": "Debe facilitarse un nombre de usuario o una dirección de correo electrónico.",
+        "password_required": "La contraseña de la cuenta es obligatoria.",
+        "username_or_email_label": "Nombre de usuario o Email",
+        "password_label": "Contraseña"
+    }
+}

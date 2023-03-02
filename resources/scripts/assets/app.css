@@ -36,33 +36,6 @@ textarea, select, input, button, button:focus, button:focus-visible {
   @apply mt-1 text-xs text-[#fc8484]
 }
 
-/* .button-success {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem;
-  background-color: green;
-  color: white;
-
-} */
-
-.menu-mobile-hidden {
-  right: -100%;
-}
-
-.menu-mobile-show {
-  right: 0px;
-}
-
-@media (min-width: 500px) {
-  .menu-mobile-show {
-    right: -50%;
-  }
-}
-
-.players_table_hidden {
-  display: none;
-}
-
 strong {
   height: fit-content;
 }

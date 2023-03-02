@@ -6,9 +6,12 @@ import Field from "@/components/elements/Field"
 import login from '@/api/auth/login';
 import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
+import { Translate } from "@/components/Translate";
+import { useTranslation } from "react-i18next";
 
 function LoginContainer() {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
+  const { t } = useTranslation()
 
   useEffect(() => {
     clearFlashes()
@@ -33,19 +36,21 @@ function LoginContainer() {
         onSubmit={handleSubmit}
         initialValues={{ name: '', password: '' }}
         validationSchema={object().shape({
-          name: string().required('A username or email address must be provided.'),
-          password: string().required('Account password is required.')
+          name: string().required(t('login.name_required')),
+          password: string().required(t('login.password_required'))
         })}
       >
         {({ isSubmitting, setSubmitting }) => (
-          <LoginFormContainer title={'Login'}>
-            <Field type="text" name="name" label="Username or Email" size="small"/>
+          <LoginFormContainer title={t('login', {ns: 'buttons'})}>
+            <Field type="text" name="name" label={t('login.username_or_email_label')} size="small"/>
             <div className="mt-6">
-              <Field type="password" name="password" label="Password" size="small"/>
+              <Field type="password" name="password" label={t('login.password_label')} size="small"/>
             </div>
             <div className="flex justify-center w-full mt-6">
               <Button type="submit" variant="contained" disabled={isSubmitting}>
-                Login
+                <Translate ns={"buttons"}>
+                  login
+                </Translate>
               </Button>
             </div>
           </LoginFormContainer>
