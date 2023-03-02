@@ -1,4 +1,5 @@
 import { useUserStore } from "@/stores/user";
+import { useSidebarStore } from "@/stores/components/sidebar";
 import { Avatar } from "@/components/Avatar";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,8 +9,10 @@ import { Translate } from "@/components/Translate";
 import { lowerCase } from "lodash";
 
 function SideBar({ active }) {
-  const [userName, userEmail, isLogged] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
-  const [visibleRoutes, setVisibleRoutes] = useState([]);
+  const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
+  const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
+  const [ visibleRoutes, setVisibleRoutes ] = useState([]);
+  const ocultSidebar = () => sidebarIsVisible && setSidebarIsVisible(false)
 
   useEffect(() => {
     setVisibleRoutes(routes.sidebarRoutes.filter(route => {
@@ -40,6 +43,7 @@ function SideBar({ active }) {
               to={route}
               end={end}
               className="block w-full p-2 rounded nav-link-hover"
+              onClick={ocultSidebar}
             >
               <div className="flex items-center">
                 <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>
