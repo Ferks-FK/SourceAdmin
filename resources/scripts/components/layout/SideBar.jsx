@@ -1,18 +1,21 @@
 import { useUserStore } from "@/stores/user";
 import { useSidebarStore } from "@/stores/components/sidebar";
 import { Avatar } from "@/components/Avatar";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { routes } from "@/routers/routes"
 import { useEffect, useState } from "react";
 import { Translate } from "@/components/Translate";
 import { lowerCase } from "lodash";
+import { Button } from "@/components/elements/Button"
+import { useTranslation } from "react-i18next";
 
 function SideBar({ active }) {
   const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [ visibleRoutes, setVisibleRoutes ] = useState([]);
-  const ocultSidebar = () => sidebarIsVisible && setSidebarIsVisible(false)
+  const ocultSidebar = () => sidebarIsVisible && window.screen.width <= 600 && setSidebarIsVisible(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     setVisibleRoutes(routes.sidebarRoutes.filter(route => {
@@ -25,18 +28,8 @@ function SideBar({ active }) {
 
   return (
     <>
-      <div className={`flex flex-col h-full w-full mobile:w-5/6 mobile:max-w-[250px] z-10 bg-dark fixed md:static transition-all duration-200 ease-linear ${active ? 'left-0' : '-left-full'}`}>
-        <nav className={`flex flex-col p-3 h-full`}>
-          {isLogged ?
-            <div className="flex justify-center items-center mb-3">
-              <strong className="capitalize">{userName}</strong>
-              <Avatar email={userEmail} />
-            </div>
-            :
-            <div>
-
-            </div>
-          }
+      <div className={`flex flex-col h-full w-full mobile:max-w-[250px] p-3 z-10 bg-dark absolute mb:relative transition-all duration-200 ease-in-out ${active ? 'translate-x-0' : 'translate-x-[-100%]'}`}>
+        <nav className={`flex flex-col h-full gap-1`}>
           {visibleRoutes.map(({title, key, icon, route, end = false}) => (
             <NavLink
               key={key}
@@ -56,6 +49,18 @@ function SideBar({ active }) {
             </NavLink>
           ))}
         </nav>
+        {isLogged ?
+          <div className="flex justify-center items-center mb-3">
+            <strong className="capitalize">{userName}</strong>
+            <Avatar email={userEmail} />
+          </div>
+        :
+          <div className="flex justify-center">
+          <Button type={'button'} to={'/auth/login'} className="w-full">
+            {t('login', {ns: 'buttons'})}
+          </Button>
+        </div>
+        }
       </div>
     </>
   );

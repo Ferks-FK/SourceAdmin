@@ -1,13 +1,12 @@
 import { Formik } from "formik";
 import { object, string } from 'yup';
 import LoginFormContainer from "@/components/auth/LoginFormContainer";
-import { Button } from '@mui/material';
 import Field from "@/components/elements/Field"
 import login from '@/api/auth/login';
 import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
-import { Translate } from "@/components/Translate";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/elements/Button"
 
 function LoginContainer() {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
@@ -47,10 +46,8 @@ function LoginContainer() {
               <Field type="password" name="password" label={t('login.password_label')} size="small"/>
             </div>
             <div className="flex justify-center w-full mt-6">
-              <Button type="submit" variant="contained" disabled={isSubmitting}>
-                <Translate ns={"buttons"}>
-                  login
-                </Translate>
+              <Button type="submit" disabled={isSubmitting}>
+                {t('login', {ns: 'buttons'})}
               </Button>
             </div>
           </LoginFormContainer>

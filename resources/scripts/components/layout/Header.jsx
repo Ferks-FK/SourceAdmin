@@ -1,6 +1,5 @@
-import CompanyName from "@/api/settings/getCompanyName";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark, faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSidebarStore } from "@/stores/components/sidebar";
 
 function Header() {
@@ -17,7 +16,7 @@ function Header() {
             </a>
           </div>
           <div className="flex items-center">
-            <div className="text-4xl md:hidden">
+            <div className="text-4xl">
               <FontAwesomeIcon icon={sidebarIsVisible ? faXmark : faBars} size="sm" className="text-white cursor-pointer transition-all duration-300 ease-in-out" onClick={handleSidebar}/>
             </div>
           </div>

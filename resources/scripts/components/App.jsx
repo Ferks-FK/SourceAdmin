@@ -1,11 +1,9 @@
 import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { lazy } from 'react';
 import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
+import AuthenticationRoutes from "@/routers/AuthenticationRoutes";
 import "@/assets/app.css";
-
-const AuthenticationRoutes = lazy(() => import('@/routers/AuthenticationRoutes'))
 
 function App() {
   const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
