@@ -3,9 +3,10 @@
 namespace App\Helpers;
 
 use App\Services\RconService;
+use App\Models\Server;
 use Illuminate\Support\Facades\Cache;
 
-class QueryServers
+class QueryServer
 {
     private $rcon_service = null;
     private $server_data = null;
@@ -57,15 +58,27 @@ class QueryServers
      */
     public function getServerData(): array|string
     {
+        $mod = $this->getMod();
         $this->server_data['Id'] = $this->id;
         $this->server_data['Is_online'] = $this->is_online;
         $this->server_data['Ip'] = $this->ip;
+        $this->server_data['Mod'] = $mod;
 
         if ($this->is_online && !empty($this->server_data)) {
             return $this->server_data;
         }
 
-        return "Error Connection ($this->ip:$this->port)";
+        return [
+            "Id" => $this->id,
+            "Mod" => $mod,
+            "Os" => "N/A",
+            "Map" => "N/A",
+            "Secure" => "N/A",
+            "HostName" => "Error Connection ($this->ip:$this->port)",
+            "Players" => "N/A",
+            "MaxPlayers" => "N/A",
+            "Is_online" => $this->is_online
+        ];
     }
 
     /**
@@ -80,5 +93,10 @@ class QueryServers
         }
 
         return [];
+    }
+
+    protected function getMod()
+    {
+        return Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mods.name')->first()->name;
     }
 }

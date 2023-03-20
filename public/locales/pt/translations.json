@@ -4,5 +4,8 @@
         "password_required": "A senha da conta é necessária.",
         "username_or_email_label": "Usuário ou Email",
         "password_label": "Senha"
+    },
+    "servers": {
+        "quering_server_data": "Conectando ao servidor..."
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Server\ServerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,6 @@ Route::group(['prefix' => 'auth'], function() {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 });
+
+Route::get('/servers', [ServerController::class, 'index']);
+Route::get('/servers/{server:id}', [ServerController::class, 'connectToServer']);

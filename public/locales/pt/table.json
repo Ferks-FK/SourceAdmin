@@ -1,0 +1,11 @@
+{
+    "mod": "MOD",
+    "os": "OS",
+    "vac": "VAC",
+    "hostname": "Servidor",
+    "players": "Jogadores",
+    "map": "Mapa",
+    "name" : "Nome",
+    "score": "Pontos",
+    "time": "Tempo"
+}

@@ -4,5 +4,8 @@
         "password_required": "Account password is required.",
         "username_or_email_label": "Username or Email",
         "password_label": "Password"
+    },
+    "servers": {
+        "quering_server_data": "Quering server data..."
     }
 }

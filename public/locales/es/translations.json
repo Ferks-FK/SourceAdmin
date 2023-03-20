@@ -4,5 +4,8 @@
         "password_required": "La contraseña de la cuenta es obligatoria.",
         "username_or_email_label": "Nombre de usuario o Email",
         "password_label": "Contraseña"
+    },
+    "servers": {
+        "quering_server_data": "Consulta de datos de servidor..."
     }
 }

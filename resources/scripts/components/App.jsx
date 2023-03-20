@@ -2,6 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
+import { ServersContainer } from "@/components/servers/ServersContainer";
 import AuthenticationRoutes from "@/routers/AuthenticationRoutes";
 import "@/assets/app.css";
 
@@ -26,6 +27,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<DashboardContainer/>}/>
+            <Route path="/servers" element={<ServersContainer/>}/>
             <Route path="/auth/*" element={<AuthenticationRoutes/>}/>
           </Routes>
         </Layout>

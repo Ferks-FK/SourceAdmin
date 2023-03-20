@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Server;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Server;
-use App\Helpers\QueryServers;
+use App\Helpers\QueryServer;
 
-class ServerController extends Controller
+class ServerController extends MainController
 {
+    protected array $ALLOWED_INCLUDES = ['players'];
+
     /**
      * Display a listing of the resource.
      *
@@ -16,32 +18,35 @@ class ServerController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            return $this->dataTableQueryData();
-        }
+        $limit = $request->get('limit', 10);
 
-        $serverCount = Server::query()
-            ->limit(10)
-            ->count();
-
-        return view('server.index', compact('serverCount'));
+        return response()->json(
+            $this->getServersIds($limit)
+        );
     }
 
-    public function connectToServer(int $id, bool $returnPlayers = false)
+    public function connectToServer(int $id)
     {
         $server = Server::findOrFail($id);
-        $query = new QueryServers($id, $server->ip, $server->port, $server->rcon);
+        $query = new QueryServer($id, $server->ip, $server->port, $server->rcon);
+        $includes = $this->validateIncludes($this->ALLOWED_INCLUDES);
 
-        if ($returnPlayers) {
-            return [$query->getServerData(), $query->getPlayerData()];
+        if (in_array($this->ALLOWED_INCLUDES[0], $includes)) {
+            return response()->json([
+                $query->getServerData(),
+                $query->getPlayerData()
+            ]);
         }
-        return $query->getServerData();
+
+        return response()->json([
+            $query->getServerData()
+        ]);
     }
 
-    public function dataTableQueryData()
+    public function getServersIds(int $limit)
     {
         $servers = Server::query()
-            ->limit(10)
+            ->limit($limit)
             ->get();
 
         $server_ids = [];
@@ -83,7 +88,7 @@ class ServerController extends Controller
     public function show(Request $request, Server $server)
     {
         if ($request->ajax()) {
-            return $this->connectToServer($server->id, returnPlayers: true);
+            return $this->connectToServer($server->id);
         }
 
         return view('server.show', compact('server'));

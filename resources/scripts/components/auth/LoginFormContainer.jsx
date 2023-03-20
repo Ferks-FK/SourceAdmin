@@ -13,6 +13,8 @@ export default ({ title, ...props }) => {
     i18n.changeLanguage(lng)
   }
 
+  console.log(currentLanguage)
+
   return (
     <div className="flex flex-col w-full h-full items-center">
       <div className="flex flex-col w-full max-w-sm">
