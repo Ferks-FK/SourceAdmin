@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('auth.core');
+        return view('base.core');
     }
 
     public function login(LoginRequest $request): JsonResponse

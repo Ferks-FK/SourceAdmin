@@ -5,6 +5,7 @@
     "hostname": "Servidor",
     "players": "Jogadores",
     "map": "Mapa",
+    "ping": "Latência",
     "name" : "Nome",
     "score": "Pontos",
     "time": "Tempo"

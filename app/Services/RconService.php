@@ -72,7 +72,12 @@ class RconService
     public function getServerData(): array|null
     {
         try {
-            return $this->query->GetInfo();
+            $start_ping = microtime(true);
+            $data = $this->query->GetInfo();
+            $end_ping = microtime(true);
+            $data['Ping'] = ($end_ping - $start_ping) * 1000;
+
+            return $data;
         }
         catch (Exception) {
             return null;

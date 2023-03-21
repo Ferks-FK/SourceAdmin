@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
-use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Base\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use App\Http\Controllers\Server\ServerController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index')->fallback();
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Route::get('/servers', [ServerController::class, 'index'])->name('servers.index');
+Route::get('/{react}', [IndexController::class, 'index'])
+    ->where('react', '^(?!(\/)?(api|auth|admin)).+');
 
 require __DIR__.'/auth.php';

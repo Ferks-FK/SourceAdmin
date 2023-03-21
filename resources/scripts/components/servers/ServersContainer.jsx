@@ -57,7 +57,8 @@ function ServersContainer() {
     "VAC",
     "HostName",
     "Players",
-    "Map"
+    "Map",
+    "Ping"
   ]
 
   const PlayerColumns = [
@@ -73,6 +74,7 @@ function ServersContainer() {
           const serverInfo = server[0]
           const playerInfo = server[1]
           const serverId = `server_${serverInfo?.Id || server.id}`
+
           return (
             <>
               <Table.Row id={serverId} key={serverId} className={`${!serverInfo?.Is_online && '!cursor-not-allowed'}`} onClick={() => serverInfo?.Is_online ? handleActiveTable(serverId) : null}>
@@ -104,12 +106,13 @@ function ServersContainer() {
                     <Table.Td>{serverInfo.HostName}</Table.Td>
                     <Table.Td>{serverInfo?.Is_online ? serverInfo.Players + "/" + serverInfo.MaxPlayers : serverInfo.Players}</Table.Td>
                     <Table.Td>{serverInfo.Map}</Table.Td>
+                    <Table.Td>{serverInfo?.Is_online ? Math.round(serverInfo.Ping) : "N/A"}</Table.Td>
                   </>
                 }
               </Table.Row>
                 {serverInfo?.Is_online &&
                   <tr id={`server_players_${serverId}`}>
-                    <Table.Td colSpan="6" className={'!p-0'}>
+                    <Table.Td colSpan="7" className={'!p-0'}>
                       <Collapse visible={activeTable === serverId}>
                         <Table.Component height={'h-60'} columns={PlayerColumns}>
                           {playerInfo instanceof Array && playerInfo.map((player) => (

@@ -2,7 +2,6 @@ import { useRef } from "react"
 
 function Collapse({ children, visible }) {
   const contentRef = useRef();
-  if (contentRef.current) console.log(contentRef.current.scrollHeight);
 
   return (
     <div
