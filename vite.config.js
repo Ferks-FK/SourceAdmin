@@ -16,5 +16,8 @@ export default defineConfig({
         alias: {
             '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/scripts')
         }
+    },
+    build: {
+        chunkSizeWarningLimit: 768
     }
 });

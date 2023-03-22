@@ -4,6 +4,7 @@ import { Form } from "formik";
 import { Select } from "@/components/elements/Select"
 import { SupportedLanguages } from "@/i18n"
 import { useTranslation } from "react-i18next";
+import { AnimationFade } from "@/components/elements/AnimationFade";
 
 export default ({ title, ...props }) => {
   const { i18n } = useTranslation();
@@ -16,26 +17,28 @@ export default ({ title, ...props }) => {
   console.log(currentLanguage)
 
   return (
-    <div className="flex flex-col w-full h-full items-center">
-      <div className="flex flex-col w-full max-w-sm">
-        { title && <h2 className="text-3xl text-center text-neutral-100 font-medium py-4">{title}</h2> }
-        <FlashMessageRender className="mb-2 px-1"/>
-        <Form { ...props }>
-          <div className="flex flex-col p-5 rounded-md bg-lightDark max-w-6xl">
-            {props.children}
-          </div>
-        </Form>
-      </div>
-      <div className="flex flex-col justify-between h-full w-full max-w-sm ">
-        <div className="flex flex-col p-5 rounded-md bg-lightDark mt-5 items-center">
-          <Select value={currentLanguage} onChange={(e) => changeLanguage(e.currentTarget.value)}>
-            {SupportedLanguages.map(({ name, code }) => (
-              <option key={code} value={code}>{name}</option>
-            ))}
-          </Select>
+    <AnimationFade>
+      <div className="flex flex-col w-full h-full items-center">
+        <div className="flex flex-col w-full max-w-sm">
+          { title && <h2 className="text-3xl text-center text-neutral-100 font-medium py-4">{title}</h2> }
+          <FlashMessageRender className="mb-2 px-1"/>
+          <Form { ...props }>
+            <div className="flex flex-col p-5 rounded-md bg-lightDark max-w-6xl">
+              {props.children}
+            </div>
+          </Form>
         </div>
-        <SourceAdminReg/>
+        <div className="flex flex-col justify-between h-full w-full max-w-sm ">
+          <div className="flex flex-col p-5 rounded-md bg-lightDark mt-5 items-center">
+            <Select value={currentLanguage} onChange={(e) => changeLanguage(e.currentTarget.value)}>
+              {SupportedLanguages.map(({ name, code }) => (
+                <option key={code} value={code}>{name}</option>
+              ))}
+            </Select>
+          </div>
+          <SourceAdminReg/>
+        </div>
       </div>
-    </div>
+    </AnimationFade>
   )
 }
