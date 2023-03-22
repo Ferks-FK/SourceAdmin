@@ -16,3 +16,7 @@ Contributions are also welcome.
 - [x] Build a basic front-end.
 - [ ] Build all the main logics of the project (kick, ban, statistics).
 - [ ] Build a SourcePawn plugin for the game servers (SourceBans plugins are not compatible with this project).
+
+<h1 align="center">Preview</h1>
+
+![as](http://i.imgur.com/eSBtb6y.gif)
