@@ -43,7 +43,7 @@ class ServerController extends MainController
         ]);
     }
 
-    public function getServersIds(int $limit)
+    public function getServersIds(string $limit)
     {
         $servers = Server::query()
             ->limit($limit)

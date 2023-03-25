@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Ban;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Services\RconService;
+
 use Exception;
 
 class BanController extends Controller
@@ -19,25 +21,40 @@ class BanController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            return $this->dataTableQueryData();
-        }
+        $limit = $request->get('limit', 10);
 
-        return view('ban.index');
+        return response()->json(
+            $this->getBansData($limit)
+        );
     }
 
-    public function dataTableQueryData()
+    public function getBansData(string $limit)
     {
-        $bans = Ban::query()
-            ->join('users', 'users.id', '=', 'bans.admin_id')
+        return Ban::query()
+            // ->join('users', 'users.id', '=', 'bans.admin_id')
+            ->leftJoin('users AS A', 'A.id', 'bans.admin_id')
+            ->leftJoin('users AS B', 'B.id', 'bans.removed_by')
             ->join('time_bans', 'time_bans.id', '=', 'bans.time_ban_id')
             ->join('servers', 'servers.id', '=', 'bans.server_id')
             ->join('mods', 'mods.id', '=', 'mod_id')
-            ->select('bans.id', 'mods.icon as mod_icon', 'users.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at')
-            ->limit(10)
+            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by')
+            ->limit($limit)
             ->get();
+    }
 
-        return $bans->toJson();
+    public function getLocation(Request $request)
+    {
+        $ip = $request->get('ip');
+
+        if (is_null($ip)) {
+            return response()->json([
+                'message' => __('An IP address must be provided.')
+            ], 403);
+        }
+
+        return response()->json(
+            Ban::getLocation($request->get('ip'))
+        );
     }
 
     /**

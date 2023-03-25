@@ -8,5 +8,14 @@
     "ping": "Latência",
     "name" : "Nome",
     "score": "Pontos",
-    "time": "Tempo"
+    "time": "Tempo",
+    "modcountry": "MOD/País",
+    "datetime": "Data/Tempo",
+    "player": "Jogador",
+    "admin": "Administrador",
+    "length": "Comprimento",
+    "progress": "Progresso",
+    "expired": "Expirado",
+    "unbanned": "Desbanido",
+    "no_data_found": "Nenhum dado foi encontrado."
 }

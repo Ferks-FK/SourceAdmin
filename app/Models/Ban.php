@@ -32,14 +32,14 @@ class Ban extends Model
     /**
      * Get the ISO code of the ban country.
      *
-     * @param string $ip
-     * @return string|boolean
+     * @param mixed $ip
+     * @return string|null
      */
-    public function getLocation(string $ip): string|bool
+    public static function getLocation(mixed $ip): string|null
     {
         $countryCode = Location::get($ip);
 
-        return $countryCode != false ? strtolower($countryCode->countryCode) : false;
+        return $countryCode != false ? strtolower($countryCode->countryCode) : null;
     }
 
     /**

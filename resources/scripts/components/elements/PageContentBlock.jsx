@@ -11,7 +11,7 @@ function PageContentBlock({ title, className, children }) {
   return (
     <>
       <div className="flex flex-col justify-between h-full">
-        <div className={`${className ?? ''}`}>
+        <div className={`h-full ${className ?? ''}`}>
           {children}
         </div>
         <SourceAdminReg/>

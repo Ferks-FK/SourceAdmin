@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('removed_by')->nullable()->constrained('users');
             $table->timestamp('removed_on')->nullable();
             $table->string('unban_reason')->nullable();
+            $table->string('flag_url')->nullable();
         });
     }
 

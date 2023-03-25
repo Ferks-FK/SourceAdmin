@@ -24,7 +24,7 @@ function ServersContainer() {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      const serverList = await getServersList(4)
+      const serverList = await getServersList(5)
 
       setServerData(serverList.map((server_id) => {
         return { id: server_id, loading: true }
@@ -68,7 +68,7 @@ function ServersContainer() {
   ]
 
   return (
-    <PageContentBlock title={'Servers'} className={'flex flex-col h-full'}>
+    <PageContentBlock title={'Servers'}>
       <AnimationFade>
         <Table.Component columns={ServerColumns}>
           {serverData.map((server) => {
@@ -115,7 +115,7 @@ function ServersContainer() {
                   <tr id={`server_players_${serverId}`}>
                     <Table.Td colSpan="7" className={'!p-0'}>
                       <Collapse visible={activeTable === serverId}>
-                        <Table.Component height={'h-60'} columns={PlayerColumns}>
+                        <Table.Component height={'max-h-60'} columns={PlayerColumns}>
                           {playerInfo instanceof Array && playerInfo.map((player) => (
                             <Table.Row>
                               <Table.Td className={'!py-2 !px-6'}>{player.Name}</Table.Td>

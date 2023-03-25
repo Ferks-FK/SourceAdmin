@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Ban\BanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::get('/servers', [ServerController::class, 'index']);
 Route::get('/servers/{server:id}', [ServerController::class, 'connectToServer']);
+
+Route::get('/bans', [BanController::class, 'index']);
+Route::get('/bans/getLocation', [BanController::class, 'getLocation']);

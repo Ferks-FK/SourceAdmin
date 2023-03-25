@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   @apply font-medium tracking-normal font-header
 }
 
-p, strong {
+p, strong, span {
   @apply text-white text-base
 }
 
@@ -76,4 +76,15 @@ hr {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

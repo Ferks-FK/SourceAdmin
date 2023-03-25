@@ -8,5 +8,14 @@
     "ping": "Latency",
     "name" : "Name",
     "score": "Score",
-    "time": "Time"
+    "time": "Time",
+    "modcountry": "MOD/Country",
+    "datetime": "Date/Time",
+    "player": "Player",
+    "admin": "Admin",
+    "length": "Length",
+    "progress": "Progress",
+    "expired": "Expired",
+    "unbanned": "Unbanned",
+    "no_data_found": "No data was found."
 }
