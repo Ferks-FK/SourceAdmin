@@ -10,13 +10,13 @@ const Component = ({ columns, children, height, ...props }) => {
   return (
     <div className={`overflow-x-auto whitespace-nowrap md:whitespace-normal w-full ${height ? `${height}` : ''}`}>
       <div className={`flex gap-2 justify-between mb-5 ${!limitQuery && !setQuery && 'hidden'}`}>
-        {limitQuery && (
+        {setLimitQuery && (
           <div className="w-14">
             <Input.Text
               type="number"
               placeholder={limitQuery}
               value={limitQuery}
-              pattern="^\d*[0-9](\.\d+)?$"
+              min={0}
               onChange={(e) => setLimitQuery(e.target.value)}
             />
           </div>
