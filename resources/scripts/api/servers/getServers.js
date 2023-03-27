@@ -1,4 +1,4 @@
-import http from "@/api/http"
+import http from "@/api/http";
 
 function getServersList(limit = 10) {
     return new Promise((resolve, reject) => {

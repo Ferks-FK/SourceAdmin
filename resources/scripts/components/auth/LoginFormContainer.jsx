@@ -14,8 +14,6 @@ export default ({ title, ...props }) => {
     i18n.changeLanguage(lng)
   }
 
-  console.log(currentLanguage)
-
   return (
     <AnimationFade>
       <div className="flex flex-col w-full h-full items-center">

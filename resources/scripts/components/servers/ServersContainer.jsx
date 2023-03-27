@@ -3,13 +3,14 @@ import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
 import { getServerData, getServersList } from '@/api/servers/getServers';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimationFade } from '@/components/elements/AnimationFade';
 
 function ServersContainer() {
   const [serverData, setServerData] = useState([]);
   const [activeTable, setActiveTable] = useState('');
+  const [limitQuery, setLimitQuery] = useState(10);
   const { t } = useTranslation()
 
   const handleActiveTable = (server_id) => {
@@ -24,7 +25,7 @@ function ServersContainer() {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      const serverList = await getServersList(5)
+      const serverList = await getServersList(limitQuery)
 
       setServerData(serverList.map((server_id) => {
         return { id: server_id, loading: true }
@@ -33,7 +34,7 @@ function ServersContainer() {
       serverList.forEach(server => {
         getServerData(server, true).then(response => {
           const serverInfo = response[0]
-          const playersInfo = response[1] != undefined ? response[1] : []
+          const playersInfo = response[1] ? response[1] : []
           const servers = []
 
           setServerData((state) => state.map((server) => {
@@ -49,7 +50,7 @@ function ServersContainer() {
     }
 
     fetchServerData()
-  }, [])
+  }, [limitQuery])
 
   const ServerColumns = [
     "MOD",
@@ -70,18 +71,18 @@ function ServersContainer() {
   return (
     <PageContentBlock title={'Servers'}>
       <AnimationFade>
-        <Table.Component columns={ServerColumns}>
+        <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery}>
           {serverData.map((server) => {
             const serverInfo = server[0]
             const playerInfo = server[1]
             const serverId = `server_${serverInfo?.Id || server.id}`
 
             return (
-              <>
-                <Table.Row id={serverId} key={serverId} className={`${!serverInfo?.Is_online && '!cursor-not-allowed'}`} onClick={() => serverInfo?.Is_online ? handleActiveTable(serverId) : null}>
+              <React.Fragment key={serverId}>
+                <Table.Row className={`${!serverInfo?.Is_online && '!cursor-not-allowed'}`} onClick={() => serverInfo?.Is_online ? handleActiveTable(serverId) : null}>
                   {server.loading ?
-                    ServerColumns.map((column) => (
-                      <Table.Td>
+                    ServerColumns.map((column, index) => (
+                      <Table.Td key={`connecting_${index}`}>
                         {column === "HostName" && t('servers.quering_server_data')}
                       </Table.Td>
                     ))
@@ -112,12 +113,12 @@ function ServersContainer() {
                   }
                 </Table.Row>
                 {serverInfo?.Is_online &&
-                  <tr id={`server_players_${serverId}`}>
+                  <tr>
                     <Table.Td colSpan="7" className={'!p-0'}>
                       <Collapse visible={activeTable === serverId}>
                         <Table.Component height={'max-h-60'} columns={PlayerColumns}>
                           {playerInfo instanceof Array && playerInfo.map((player) => (
-                            <Table.Row>
+                            <Table.Row id={player.Id} key={player.Name}>
                               <Table.Td className={'!py-2 !px-6'}>{player.Name}</Table.Td>
                               <Table.Td className={'!py-2 !px-6'}>{player.Frags}</Table.Td>
                               <Table.Td className={'!py-2 !px-6'}>{player.TimeF}</Table.Td>
@@ -128,7 +129,7 @@ function ServersContainer() {
                     </Table.Td>
                   </tr>
                 }
-              </>
+              </React.Fragment>
             )
           })}
         </Table.Component>

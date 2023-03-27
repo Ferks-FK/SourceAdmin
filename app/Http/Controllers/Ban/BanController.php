@@ -23,6 +23,8 @@ class BanController extends Controller
     {
         $limit = $request->get('limit', 10);
 
+        if (is_null($limit)) $limit = 10;
+
         return response()->json(
             $this->getBansData($limit)
         );

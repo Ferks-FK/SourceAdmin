@@ -20,6 +20,8 @@ class ServerController extends MainController
     {
         $limit = $request->get('limit', 10);
 
+        if (is_null($limit)) $limit = 10;
+
         return response()->json(
             $this->getServersIds($limit)
         );

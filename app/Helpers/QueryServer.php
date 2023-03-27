@@ -41,14 +41,17 @@ class QueryServer
      */
     protected function getServerDataRcon()
     {
-        // return Cache::remember("server.{$this->id}", 60, function() {
-        //     $data = ["server_data" => $this->rcon_service->getServerData()];
+        if (!Cache::has("server." . $this->id)) {
+            $data = ["server_data" => $this->rcon_service->getServerData()];
 
-        //     return $data;
-        // });
-        $data = ["server_data" => $this->rcon_service->getServerData()];
+            if (is_array($data['server_data'])) {
+                if (Cache::put("server." . $this->id, $data, 60)) {
+                    return $data;
+                }
+            }
+        }
 
-        return $data;
+        return Cache::get("server." . $this->id, ["server_data" => $this->rcon_service->getServerData()]);
     }
 
     /**

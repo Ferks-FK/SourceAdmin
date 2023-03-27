@@ -32,4 +32,3 @@ Route::get('/servers', [ServerController::class, 'index']);
 Route::get('/servers/{server:id}', [ServerController::class, 'connectToServer']);
 
 Route::get('/bans', [BanController::class, 'index']);
-Route::get('/bans/getLocation', [BanController::class, 'getLocation']);

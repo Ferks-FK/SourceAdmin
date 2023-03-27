@@ -11,10 +11,12 @@ function PageContentBlock({ title, className, children }) {
   return (
     <>
       <div className="flex flex-col justify-between h-full">
-        <div className={`h-full ${className ?? ''}`}>
+        <div className={`h-[95%] ${className ?? ''}`}>
           {children}
         </div>
-        <SourceAdminReg/>
+        <div className="my-3">
+          <SourceAdminReg/>
+        </div>
       </div>
     </>
   );

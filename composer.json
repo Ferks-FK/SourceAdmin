@@ -16,6 +16,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
+        "predis/predis": "^2.1",
         "tightenco/ziggy": "^1.0",
         "xpaw/php-source-query-class": "dev-master"
     },

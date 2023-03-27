@@ -28,9 +28,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (config("app.env") === "development" || config("app.env") === "local") {
-            User::factory(3)->create();
-            Server::factory(3)->create();
-            Ban::factory(3)->create();
+            User::factory(150)->create();
+            Server::factory(150)->create();
+            Ban::factory(150)->create();
         }
     }
 }

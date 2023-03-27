@@ -2,10 +2,16 @@ import { lowerCase } from "lodash";
 import { useTranslation } from "react-i18next";
 import { Search } from "@/components/elements/Search";
 import { Input } from "@/components/elements/inputs";
+import { useEffect } from "react";
 
 const Component = ({ columns, children, height, ...props }) => {
   const { setQuery, limitQuery, setLimitQuery } = props
   const { t } = useTranslation();
+
+  // It will always fetch at least 1 line.
+  useEffect(() => {
+    limitQuery == 0 && setLimitQuery(1)
+  }, [limitQuery])
 
   return (
     <div className={`overflow-x-auto whitespace-nowrap md:whitespace-normal w-full ${height ? `${height}` : ''}`}>
@@ -16,8 +22,8 @@ const Component = ({ columns, children, height, ...props }) => {
               type="number"
               placeholder={limitQuery}
               value={limitQuery}
-              min={0}
-              onChange={(e) => setLimitQuery(e.target.value)}
+              min={1}
+              onChange={setLimitQuery}
             />
           </div>
         )}
