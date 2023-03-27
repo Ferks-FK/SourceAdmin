@@ -51,7 +51,13 @@ class QueryServer
             }
         }
 
-        return Cache::get("server." . $this->id, ["server_data" => $this->rcon_service->getServerData()]);
+        $server = Cache::get("server." . $this->id);
+
+        if (is_null($server)) {
+            return ["server_data" => $this->rcon_service->getServerData()];
+        }
+
+        return $server;
     }
 
     /**
