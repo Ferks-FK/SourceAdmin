@@ -6,6 +6,7 @@ import { getServerData, getServersList } from '@/api/servers/getServers';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimationFade } from '@/components/elements/AnimationFade';
+import { Button } from "@/components/elements/Button";
 
 function ServersContainer() {
   const [serverData, setServerData] = useState([]);
@@ -31,16 +32,11 @@ function ServersContainer() {
         return { id: server_id, loading: true }
       }))
 
-      serverList.forEach(server => {
-        getServerData(server, true).then(response => {
-          const serverInfo = response[0]
-          const playersInfo = response[1] ? response[1] : []
-          const servers = []
-
+      serverList.forEach(async server => {
+        await getServerData(server, true).then(response => {
           setServerData((state) => state.map((server) => {
-            if (server.id == serverInfo.Id) {
-              servers.push(serverInfo, playersInfo)
-              return servers
+            if (server.id == response[0].Id) {
+              return response
             }
 
             return server
@@ -74,7 +70,7 @@ function ServersContainer() {
         <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery}>
           {serverData.map((server) => {
             const serverInfo = server[0]
-            const playerInfo = server[1]
+            const playerInfo = server[1] ? server[1] : []
             const serverId = `server_${serverInfo?.Id || server.id}`
 
             return (
@@ -117,7 +113,20 @@ function ServersContainer() {
                     <Table.Td colSpan="7" className={'!p-0'}>
                       <Collapse visible={activeTable === serverId}>
                         <Table.Component height={'max-h-60'} columns={PlayerColumns}>
-                          {playerInfo instanceof Array && playerInfo.map((player) => (
+                          {playerInfo.length == 0 ? (
+                            <Table.Row className={'!cursor-default'}>
+                              <Table.Td colSpan="4">
+                                <div className="flex flex-col items-center gap-2">
+                                  <p className='text-neutral-300'>{t('no_players_found', {ns: 'table'})}</p>
+                                  <Button to={`steam://connect/${serverInfo.Ip}:${serverInfo.GamePort}`}>
+                                    {t('connect', {ns: 'table'})}
+                                  </Button>
+                                </div>
+                              </Table.Td>
+                            </Table.Row>
+                          )
+                          :
+                          playerInfo.map((player) => (
                             <Table.Row id={player.Id} key={player.Name}>
                               <Table.Td className={'!py-2 !px-6'}>{player.Name}</Table.Td>
                               <Table.Td className={'!py-2 !px-6'}>{player.Frags}</Table.Td>

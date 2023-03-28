@@ -16,7 +16,7 @@ class QueryServer
     private $port = null;
     private $id = null;
 
-    public function __construct(string $id, string $ip, string $port, string $rcon)
+    public function __construct(int $id, string $ip, string $port, string $rcon)
     {
         $this->rcon_service = new RconService($ip, $port, $rcon);
         $this->ip = $ip;
@@ -49,15 +49,17 @@ class QueryServer
                     return $data;
                 }
             }
+
+            return $data;
         }
 
-        $server = Cache::get("server." . $this->id);
+        $data = Cache::get("server." . $this->id);
 
-        if (is_null($server)) {
+        if (is_null($data)) {
             return ["server_data" => $this->rcon_service->getServerData()];
         }
 
-        return $server;
+        return $data;
     }
 
     /**

@@ -7,7 +7,9 @@ function getBansData(limit = 10, query) {
             const searchKeys = ['player_name', 'admin_name']
             return resolve(search(response.data, query, searchKeys))
         })
-        .catch(reject)
+        .catch(error => {
+            return reject(error)
+        })
     })
 }
 

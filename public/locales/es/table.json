@@ -17,5 +17,7 @@
     "progress": "Progreso",
     "expired": "Caducado",
     "unbanned": "No bloqueado",
-    "no_data_found": "No se encontraron datos."
+    "no_data_found": "No se encontraron datos.",
+    "no_players_found": "Sin jugadores en el servidor.",
+    "connect": "Conectar"
 }

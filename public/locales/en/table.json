@@ -17,5 +17,7 @@
     "progress": "Progress",
     "expired": "Expired",
     "unbanned": "Unbanned",
-    "no_data_found": "No data was found."
+    "no_data_found": "No data was found.",
+    "no_players_found": "No players in the server.",
+    "connect": "Connect"
 }
