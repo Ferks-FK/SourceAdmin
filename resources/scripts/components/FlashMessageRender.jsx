@@ -34,6 +34,8 @@ const styleBackground = (type) => {
 function FlashMessageRender({ byKey, className }) {
   const flashes = useFlashesStore((state) => state.items.filter(flash => (byKey ? flash.key === byKey : true)));
 
+  console.log(flashes)
+
   return flashes.length ? (
     <div className={`${className ?? ''}`}>
       {flashes.map((flash, index) => (

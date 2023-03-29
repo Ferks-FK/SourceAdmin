@@ -6,11 +6,11 @@ import login from '@/api/auth/login';
 import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/elements/Button"
+import { Button } from "@/components/elements/Button";
 
 function LoginContainer() {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     clearFlashes()

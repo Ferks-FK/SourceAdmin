@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e2a7b685fdd6215a94a53a97c78c9db",
+    "content-hash": "16c8ff53ea299acc36e66b9b8ee6dd5e",
     "packages": [
         {
             "name": "brick/math",
@@ -979,6 +979,54 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "ilzrv/laravel-steam-auth",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ilzrv/laravel-steam-auth.git",
+                "reference": "23ace0a51aade836df74aab087d526c6eef7ed93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ilzrv/laravel-steam-auth/zipball/23ace0a51aade836df74aab087d526c6eef7ed93",
+                "reference": "23ace0a51aade836df74aab087d526c6eef7ed93",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^7.0|^8.0|^9.0",
+                "php": "^7.2|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ilzrv\\LaravelSteamAuth\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ilzrv\\LaravelSteamAuth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ilia Lazarev",
+                    "email": "me@ilzrv.com"
+                }
+            ],
+            "description": "Steam Auth for Laravel",
+            "support": {
+                "issues": "https://github.com/ilzrv/laravel-steam-auth/issues",
+                "source": "https://github.com/ilzrv/laravel-steam-auth/tree/v2.2.2"
+            },
+            "time": "2023-02-05T15:40:13+00:00"
         },
         {
             "name": "laravel/framework",

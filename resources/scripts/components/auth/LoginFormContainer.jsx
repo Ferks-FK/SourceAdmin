@@ -5,6 +5,7 @@ import { Select } from "@/components/elements/Select"
 import { SupportedLanguages } from "@/i18n"
 import { useTranslation } from "react-i18next";
 import { AnimationFade } from "@/components/elements/AnimationFade";
+import { SteamContainer } from "@/components/auth/steam/SteamContainer";
 
 export default ({ title, ...props }) => {
   const { i18n } = useTranslation();
@@ -27,6 +28,11 @@ export default ({ title, ...props }) => {
           </Form>
         </div>
         <div className="flex flex-col justify-between h-full w-full max-w-sm ">
+          <SteamContainer>
+
+          </SteamContainer>
+        </div>
+        {/* <div className="flex flex-col justify-between h-full w-full max-w-sm ">
           <div className="flex flex-col p-5 rounded-md bg-lightDark mt-5 items-center">
             <Select value={currentLanguage} onChange={(e) => changeLanguage(e.currentTarget.value)}>
               {SupportedLanguages.map(({ name, code }) => (
@@ -35,7 +41,7 @@ export default ({ title, ...props }) => {
             </Select>
           </div>
           <SourceAdminReg/>
-        </div>
+        </div> */}
       </div>
     </AnimationFade>
   )
