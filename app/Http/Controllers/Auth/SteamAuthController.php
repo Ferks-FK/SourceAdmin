@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Ilzrv\LaravelSteamAuth\SteamAuth;
 use Ilzrv\LaravelSteamAuth\SteamData;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SteamAuthController extends Controller
 {
@@ -37,44 +37,45 @@ class SteamAuthController extends Controller
         $this->steamAuth = $steamAuth;
     }
 
-    public function login()
+    /**
+     * Steam callback, used to check the user's steam account.
+     */
+    public function steamCallback(): RedirectResponse
     {
         if (!$this->steamAuth->validate()) {
-            return $this->getSteamAuthUrlJson();
+            return redirect('/auth/login?error=steam_validate_failed');
         }
 
-        $user = $this->getUserBySteamId($this->steamAuth->getUserData());
+        $data = $this->getUserBySteamId($this->steamAuth->getUserData());
 
-        if (is_null($user)) {
-            $response = response()->json([
-                'complete' => false,
-                'message' => __("We could not find a user related to your steam account.")
-            ]);
-
-            return redirect('/auth/login')->with('flash_error', $response->getContent());
+        if (is_null($data)) {
+            return redirect('/auth/login?error=steam_user_not_found');
         }
 
-        $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $user->steam_id]);
+        $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $data->steam_id]);
 
-        if (is_null($user)) {
-            return response()->json([
-                'complete' => false,
-                'message' => __("We could not find a user related to your steam account.")
-            ]);
-        }
+        Auth::login($user, true);
 
-        Auth::login($user);
-
-        // return redirect("/auth/login");
+        return redirect($this->redirectTo);
     }
 
-    protected function getSteamAuthUrlJson(): JsonResponse
+    /**
+     * Get the steam URL used for verification.
+     *
+     * @return JsonResponse
+     */
+    public function getSteamAuthUrlJson(): JsonResponse
     {
         return response()->json([
             'url' => $this->steamAuth->getAuthUrl()
         ]);
     }
 
+    /**
+     * Get the user from DB by steam_id.
+     *
+     * @param SteamData $data
+     */
     protected function getUserBySteamId(SteamData $data)
     {
         return User::where('steam_id', $data->getSteamId())->get()->first();

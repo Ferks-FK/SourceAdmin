@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         return response()->json([
             'complete' => true,

@@ -12,7 +12,7 @@ return [
     | Can be a relative url, an absolute url, or "null".
     |
     */
-    'redirect_url' => null,
+    'redirect_url' => env('APP_URL', 'http://localhost') . '/steam/callback',
 
     /*
     |--------------------------------------------------------------------------

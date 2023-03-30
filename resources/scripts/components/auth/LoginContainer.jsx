@@ -12,10 +12,6 @@ function LoginContainer() {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
   const { t } = useTranslation();
 
-  useEffect(() => {
-    clearFlashes()
-  }, [])
-
   const handleSubmit = (values, { setSubmitting }) => {
     clearFlashes()
 

@@ -2,17 +2,17 @@ import { create } from "zustand";
 
 const useFlashesStore = create((set) => ({
     items: [],
-    addFlash: () => set((state) => ({
-        items: state.items.push(state.items)
+    addFlash: (payload) => set((state) => ({
+        items: state.items.push(payload)
     })),
-    addError: () => set((state) => ({
-        items: state.items.push({ type: 'error', title: 'Error', ...state })
+    addError: (payload) => set((state) => ({
+        items: state.items.push({ type: 'error', title: 'Error', ...payload })
     })),
     clearAndAddHttpError: (payload) => {
         if (!payload) {
             set({ items: [] })
         } else {
-            console.error(payload);
+            console.log(payload);
 
             set({ items: [
                 {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Base\IndexController;
 use App\Http\Controllers\FlashMessagesController;
+use App\Http\Controllers\Auth\SteamAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/flash-messages', [FlashMessagesController::class, 'index']);
+Route::group(['prefix' => 'steam'], function() {
+    Route::get('/auth', [SteamAuthController::class, 'getSteamAuthUrlJson'])->name('steam.login');
+    Route::get('/callback', [SteamAuthController::class, 'steamCallback'])->name('steam.callback');
+});
 
 Route::get('/{react}', [IndexController::class, 'index'])
     ->where('react', '^(?!(\/)?(api|auth|admin)).+');

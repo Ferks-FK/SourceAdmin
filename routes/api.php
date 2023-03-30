@@ -20,12 +20,9 @@ use App\Http\Controllers\Ban\BanController;
 
 Route::get("/settings/company", [SettingsController::class, 'show']);
 
-Route::group(['prefix' => 'auth'], function() {
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function() {
     Route::post('/login', [AuthController::class, 'login']);
-
-    Route::group(['middleware' => 'auth:sanctum'], function() {
-        Route::post('/logout', [AuthController::class, 'logout']);
-    });
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/servers', [ServerController::class, 'index']);
