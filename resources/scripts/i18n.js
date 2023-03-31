@@ -4,18 +4,18 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 export const SupportedLanguages = [
-    {
-        name: "English",
-        code: "en"
-    },
-    {
-        name: "Portuguese",
-        code: "pt"
-    },
-    {
-        name: "Spanish",
-        code: "es"
-    }
+  {
+    name: "English",
+    code: "en"
+  },
+  {
+    name: "Portuguese",
+    code: "pt"
+  },
+  {
+    name: "Spanish",
+    code: "es"
+  }
 ]
 
 const supportedLngs = SupportedLanguages.map(({ code }) => (code)) // Only support one language region.

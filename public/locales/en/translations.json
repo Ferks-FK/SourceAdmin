@@ -3,9 +3,14 @@
         "name_required": "A username or email address must be provided.",
         "password_required": "Account password is required.",
         "username_or_email_label": "Username or Email",
-        "password_label": "Password"
+        "password_label": "Password",
+        "steam_user_not_found": "We could not find a user related to your steam account.",
+        "steam_validate_failed": "Failed to validate your steam account."
     },
     "servers": {
         "quering_server_data": "Quering server data..."
+    },
+    "generic": {
+        "message_not_found": "Message not found."
     }
 }
