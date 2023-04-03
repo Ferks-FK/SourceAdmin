@@ -11,6 +11,8 @@
         "quering_server_data": "Conectando ao servidor..."
     },
     "generic": {
-        "message_not_found": "Mensagem não encontrada."
+        "message_not_found": "Mensagem não encontrada.",
+        "search": "Buscar...",
+        "min_characters": "Insira pelo menos {{minChars}} caracteres."
     }
 }

@@ -85,16 +85,7 @@ function BansContainer() {
   return (
     <PageContentBlock title={"Bans"}>
       <AnimationFade>
-        <Table.Component columns={BansColumns} height={`max-h-screen`} setQuery={setQuery} limitQuery={limitQuery} setLimitQuery={setLimitQuery}>
-          {bansData.length === 0 && (
-            <Table.Row className={'cursor-not-allowed'}>
-              <Table.Td colSpan="7">
-                <div className="text-center">
-                  {t('no_data_found', {ns: 'table'})}
-                </div>
-              </Table.Td>
-            </Table.Row>
-          )}
+        <Table.Component columns={BansColumns} height={`max-h-screen`} setQuery={setQuery} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={bansData.length}>
           {bansData.map((ban) => {
             const { banStyle, banName } = getBanStyleAndName(ban)
 

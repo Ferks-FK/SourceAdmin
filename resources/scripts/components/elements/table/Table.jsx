@@ -2,6 +2,7 @@ import { lowerCase } from "lodash";
 import { useTranslation } from "react-i18next";
 import { Search } from "@/components/elements/Search";
 import { Input } from "@/components/elements/inputs";
+import { Table } from "@/components/elements/table";
 import { useEffect } from "react";
 
 const Component = ({ columns, children, height, ...props }) => {
@@ -18,8 +19,7 @@ const Component = ({ columns, children, height, ...props }) => {
       <div className={`flex gap-2 justify-between mb-5 ${!limitQuery && !setQuery && 'hidden'}`}>
         {setLimitQuery && (
           <div className="w-14">
-            <Input.Text
-              type="number"
+            <Input.Number
               placeholder={limitQuery}
               value={limitQuery}
               min={1}
@@ -44,7 +44,17 @@ const Component = ({ columns, children, height, ...props }) => {
           </tr>
         </thead>
         <tbody>
-          {children}
+          {props.dataLength === 0 ?
+            <Table.Row className={'!cursor-not-allowed'}>
+              <Table.Td colSpan="7">
+                <div className="text-center">
+                  {t('no_data_found', {ns: 'table'})}
+                </div>
+              </Table.Td>
+            </Table.Row>
+          :
+            children
+          }
         </tbody>
       </table>
     </div>

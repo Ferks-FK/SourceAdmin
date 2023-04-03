@@ -1,9 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
 import { getServerData, getServersList } from '@/api/servers/getServers';
-import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimationFade } from '@/components/elements/AnimationFade';
 import { Button } from "@/components/elements/Button";
@@ -33,7 +33,8 @@ function ServersContainer() {
       }))
 
       serverList.forEach(async server => {
-        await getServerData(server, true).then(response => {
+        try {
+          const response = await getServerData(server, true)
           setServerData((state) => state.map((server) => {
             if (server.id == response[0].Id) {
               return response
@@ -41,7 +42,9 @@ function ServersContainer() {
 
             return server
           }))
-        })
+        } catch (error) {
+          console.error(error)
+        }
       })
     }
 
@@ -67,7 +70,7 @@ function ServersContainer() {
   return (
     <PageContentBlock title={'Servers'}>
       <AnimationFade>
-        <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery}>
+        <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={serverData.length}>
           {serverData.map((server) => {
             const serverInfo = server[0]
             const playerInfo = server[1] ? server[1] : []
