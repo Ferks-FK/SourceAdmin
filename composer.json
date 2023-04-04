@@ -1,23 +1,29 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "sourceadmin/panel",
+    "description": "ControlPanel for Source Engine game servers inspired in SourceBans.",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Ferks-FK",
+            "email": "fernandokaiquecnp2014@gmail.com",
+            "homepage": "https://github.com/Ferks-FK",
+            "role": "Lead Developer"
+        }
+    ],
     "require": {
-        "php": "^8.2.0",
+        "php": "^8.1 || ^8.2",
         "guzzlehttp/guzzle": "^7.2",
+        "ilzrv/laravel-steam-auth": "^2.2",
         "laravel/framework": "^9.19",
-        "laravel/sanctum": "^3.0",
+        "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
-        "livewire/livewire": "^2.10",
-        "wire-elements/modal": "^1.0",
-        "xpaw/php-source-query-class": "^2.1"
+        "predis/predis": "^2.1",
+        "tightenco/ziggy": "^1.0",
+        "xpaw/php-source-query-class": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "^1.15",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
@@ -38,6 +44,9 @@
             "Tests\\": "tests/"
         }
     },
+    "files": [
+      "app/Helpers/QueryServers.php"
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

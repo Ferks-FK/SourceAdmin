@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\Dashboard\HomeController;
-use App\Http\Controllers\Server\ServerController;
-use App\Http\Controllers\Ban\BanController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Dashboard\HomeController;
+use App\Http\Controllers\Base\IndexController;
+use App\Http\Controllers\FlashMessagesController;
+use App\Http\Controllers\Auth\SteamAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/servers', [ServerController::class, 'index'])->name('servers.index');
-Route::get('/servers/{server:id}', [ServerController::class, 'show'])->name('servers.show');
-
-Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
-Route::get('/bans/{ban:id}', [BanController::class, 'show'])->name('bans.show');
-Route::get('/bans/{player:id}/{server:id}', [BanController::class, 'KickPlayer'])->name('ban.add');
+Route::get('/', [HomeController::class, 'index'])->name('home.index')->fallback();
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::group(['prefix' => 'steam'], function() {
+    Route::get('/auth', [SteamAuthController::class, 'getSteamAuthUrlJson'])->name('steam.login');
+    Route::get('/callback', [SteamAuthController::class, 'steamCallback'])->name('steam.callback');
+});
+
+Route::get('/{react}', [IndexController::class, 'index'])
+    ->where('react', '^(?!(\/)?(api|auth|admin)).+');
 
 require __DIR__.'/auth.php';

@@ -26,9 +26,9 @@ class TimeBansSeeder extends Seeder
     {
         return [
             'Permanent' => 0,
-            '5 minutes' => 5,
-            '10 minutes' => 10,
-            '30 minutes' => 30,
+            '5 Minutes' => 5,
+            '10 Minutes' => 10,
+            '30 Minutes' => 30,
             '1 Hour' => 60,
             '2 Hours' => 120,
             '3 Hours' => 180,

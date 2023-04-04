@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Ban;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Services\RconService;
+
 use Exception;
 
 class BanController extends Controller
@@ -16,11 +19,44 @@ class BanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bans = Ban::paginate(10);
+        $limit = $request->get('limit', 10);
 
-        return view('ban.index', compact('bans'));
+        if (is_null($limit)) $limit = 10;
+
+        return response()->json(
+            $this->getBansData($limit)
+        );
+    }
+
+    public function getBansData(string $limit)
+    {
+        return Ban::query()
+            // ->join('users', 'users.id', '=', 'bans.admin_id')
+            ->leftJoin('users AS A', 'A.id', 'bans.admin_id')
+            ->leftJoin('users AS B', 'B.id', 'bans.removed_by')
+            ->join('time_bans', 'time_bans.id', '=', 'bans.time_ban_id')
+            ->join('servers', 'servers.id', '=', 'bans.server_id')
+            ->join('mods', 'mods.id', '=', 'mod_id')
+            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getLocation(Request $request)
+    {
+        $ip = $request->get('ip');
+
+        if (is_null($ip)) {
+            return response()->json([
+                'message' => __('An IP address must be provided.')
+            ], 403);
+        }
+
+        return response()->json(
+            Ban::getLocation($request->get('ip'))
+        );
     }
 
     /**

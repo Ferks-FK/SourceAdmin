@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/scripts/*"],
+            "@/hooks" : ["resources/scripts/hooks/*"]
+        }
+    },
+    "exclude": ["node_modules", "public"]
+}

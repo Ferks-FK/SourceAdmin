@@ -3,21 +3,61 @@
 namespace App\Http\Controllers\Server;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MainController;
 use App\Models\Server;
+use App\Helpers\QueryServer;
 
-class ServerController extends Controller
+class ServerController extends MainController
 {
+    protected array $ALLOWED_INCLUDES = ['players'];
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $servers = Server::paginate(10);
+        $limit = $request->get('limit', 10);
 
-        return view('server.index', compact('servers'));
+        if (is_null($limit)) $limit = 10;
+
+        return response()->json(
+            $this->getServersIds($limit)
+        );
+    }
+
+    public function connectToServer(int $id)
+    {
+        $server = Server::findOrFail($id);
+        $query = new QueryServer($id, $server->ip, $server->port, $server->rcon);
+        $includes = $this->validateIncludes($this->ALLOWED_INCLUDES);
+
+        if (in_array($this->ALLOWED_INCLUDES[0], $includes)) {
+            return response()->json([
+                $query->getServerData(),
+                $query->getPlayerData()
+            ]);
+        }
+
+        return response()->json([
+            $query->getServerData()
+        ]);
+    }
+
+    public function getServersIds(string $limit)
+    {
+        $servers = Server::query()
+            ->limit($limit)
+            ->get();
+
+        $server_ids = [];
+
+        foreach($servers as $server) {
+            array_push($server_ids, $server->id);
+        }
+
+        return $server_ids;
     }
 
     /**
@@ -47,8 +87,12 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Server $server)
+    public function show(Request $request, Server $server)
     {
+        if ($request->ajax()) {
+            return $this->connectToServer($server->id);
+        }
+
         return view('server.show', compact('server'));
     }
 

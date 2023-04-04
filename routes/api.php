@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\SettingsController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Ban\BanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get("/settings/company", [SettingsController::class, 'show']);
+
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function() {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::get('/servers', [ServerController::class, 'index']);
+Route::get('/servers/{server:id}', [ServerController::class, 'connectToServer']);
+
+Route::get('/bans', [BanController::class, 'index']);
