@@ -42,6 +42,10 @@ class SteamAuthController extends Controller
      */
     public function steamCallback(): RedirectResponse
     {
+        if (empty(env('STEAM_AUTH_API_KEYS'))) {
+            return redirect('/auth/login?error=steam_api_not_found');
+        }
+
         if (!$this->steamAuth->validate()) {
             return redirect('/auth/login?error=steam_validate_failed');
         }

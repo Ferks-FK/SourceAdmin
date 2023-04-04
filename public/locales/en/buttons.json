@@ -1,4 +1,5 @@
 {
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "login_steam": "Login with steam"
 }

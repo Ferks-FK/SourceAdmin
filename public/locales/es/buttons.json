@@ -1,4 +1,5 @@
 {
     "login": "Entrar",
-    "logout": "Salir"
+    "logout": "Salir",
+    "login_steam": "Inicie sesión con steam"
 }

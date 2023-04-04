@@ -1,14 +1,31 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function Button({ to, children, className, isLoading, ...props }) {
+function Button({ to, children, className, isLoading, icon, ...props }) {
   return (
-    <button {...props} className={`bg-green-500 hover:bg-green-600 transition-all duration-150 text-white rounded disabled:cursor-not-allowed disabled:opacity-75 ${className ?? ''} ${!to && 'p-2'}`}>
+    <button {...props} className={`bg-green-500 hover:bg-green-600 transition-all duration-150 text-white rounded disabled:cursor-not-allowed disabled:opacity-75 ${className ?? ''}`}>
       {to ?
-        <Link to={to} className="block text-xs tracking-wide p-2 no-underline uppercase">
+        icon ? (
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={icon} className="w-5"/>
+            <Link to={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
+              {children}
+            </Link>
+          </div>
+        )
+        :
+        <Link to={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
           {children}
         </Link>
       :
-        children
+        icon ? (
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={icon} className="w-5"/>
+            {children}
+          </div>
+        )
+        :
+          children
       }
     </button>
   )

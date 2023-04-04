@@ -3,7 +3,6 @@ import { object, string } from 'yup';
 import LoginFormContainer from "@/components/auth/LoginFormContainer";
 import Field from "@/components/elements/Field"
 import login from '@/api/auth/login';
-import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/Button";
@@ -42,7 +41,7 @@ function LoginContainer() {
               <Field type="password" name="password" label={t('login.password_label')} size="small"/>
             </div>
             <div className="flex justify-center w-full mt-6">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting} className={'p-2'}>
                 {t('login', {ns: 'buttons'})}
               </Button>
             </div>

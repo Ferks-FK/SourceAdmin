@@ -1,4 +1,5 @@
 {
     "login": "Logar",
-    "logout": "Sair"
+    "logout": "Sair",
+    "login_steam": "Logar com steam"
 }

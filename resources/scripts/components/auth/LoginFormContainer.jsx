@@ -27,11 +27,12 @@ export default ({ title, ...props }) => {
             </div>
           </Form>
         </div>
-        <div className="flex flex-col justify-between h-full w-full max-w-sm ">
-          <SteamContainer>
-
-          </SteamContainer>
+        <div className="flex flex-col justify-between h-full w-full max-w-sm">
+          <div className="flex flex-wrap p-5 rounded-md bg-lightDark mt-5 justify-center gap-1">
+            <SteamContainer/>
+          </div>
         </div>
+        <SourceAdminReg/>
         {/* <div className="flex flex-col justify-between h-full w-full max-w-sm ">
           <div className="flex flex-col p-5 rounded-md bg-lightDark mt-5 items-center">
             <Select value={currentLanguage} onChange={(e) => changeLanguage(e.currentTarget.value)}>

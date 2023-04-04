@@ -3,25 +3,26 @@ import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useFlashesStore } from "@/stores/flashes";
 
-export function useParseErrors() {
+export function useParseParams(parameter = 'error') {
   const [clearAndAddHttpError] = useFlashesStore((state) => [state.clearAndAddHttpError])
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const errorsMessages = {
+  const messages = {
     steam_user_not_found: t('login.steam_user_not_found'),
-    steam_validate_failed: t('login.steam_validate_failed')
+    steam_validate_failed: t('login.steam_validate_failed'),
+    steam_api_not_found: t('login.steam_api_not_found')
   };
 
   useEffect(() => {
-    searchParams.getAll('error').map((error) => {
-      const hasKey = errorsMessages.hasOwnProperty(error)
+    searchParams.getAll(parameter).map((param) => {
+      const hasKey = messages.hasOwnProperty(param)
 
       clearAndAddHttpError({
-        key: error,
+        key: param,
         error: {
-          message: hasKey ? errorsMessages[error] : t('generic.message_not_found')
+          message: hasKey ? messages[param] : t('generic.message_not_found')
         }
       })
     })
