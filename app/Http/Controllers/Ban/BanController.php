@@ -33,12 +33,11 @@ class BanController extends Controller
     public function getBansData(string $limit)
     {
         return Ban::query()
-            // ->join('users', 'users.id', '=', 'bans.admin_id')
             ->leftJoin('users AS A', 'A.id', 'bans.admin_id')
             ->leftJoin('users AS B', 'B.id', 'bans.removed_by')
-            ->join('time_bans', 'time_bans.id', '=', 'bans.time_ban_id')
-            ->join('servers', 'servers.id', '=', 'bans.server_id')
-            ->join('mods', 'mods.id', '=', 'mod_id')
+            ->join('time_bans', 'time_bans.id', 'bans.time_ban_id')
+            ->join('servers', 'servers.id', 'bans.server_id')
+            ->join('mods', 'mods.id', 'mod_id')
             ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by')
             ->limit($limit)
             ->get();

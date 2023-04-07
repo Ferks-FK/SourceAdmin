@@ -17,9 +17,9 @@ class ServerFactory extends Factory
     public function definition()
     {
         return [
-            "ip" => "192.168.10.100",
-            "port" => "27015",
-            "rcon" => "nandonunes",
+            "ip" => "103.88.233.84",
+            "port" => "27315",
+            "rcon" => "password",
             "mod_id" => 2
         ];
     }

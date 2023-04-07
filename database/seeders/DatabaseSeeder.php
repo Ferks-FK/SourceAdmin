@@ -10,6 +10,7 @@ use Database\Seeders\UserWeb;
 use App\Models\User;
 use App\Models\Server;
 use App\Models\Ban;
+use App\Models\Mute;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,8 +30,9 @@ class DatabaseSeeder extends Seeder
 
         if (config("app.env") === "development" || config("app.env") === "local") {
             User::factory(150)->create();
-            Server::factory(150)->create();
+            Server::factory(1)->create();
             Ban::factory(150)->create();
+            Mute::factory(150)->create();
         }
     }
 }

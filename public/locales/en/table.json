@@ -10,6 +10,7 @@
     "score": "Score",
     "time": "Time",
     "modcountry": "MOD/Country",
+    "modtype": "MOD/Type",
     "datetime": "Date/Time",
     "player": "Player",
     "admin": "Admin",
@@ -17,6 +18,7 @@
     "progress": "Progress",
     "expired": "Expired",
     "unbanned": "Unbanned",
+    "permanent": "Permanent",
     "no_data_found": "No data was found.",
     "no_players_found": "No players in the server.",
     "connect": "Connect"
