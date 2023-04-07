@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user";
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
 import { ServersContainer } from "@/components/servers/ServersContainer";
+import { MutesContainer } from "@/components/mutes/MutesContainer";
 import { BansContainer } from "@/components/bans/BansContainer";
 import { AnimatePresence } from "framer-motion";
 import AuthenticationRoutes from "@/routers/AuthenticationRoutes";
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<DashboardContainer/>}/>
           <Route path="/servers" element={<ServersContainer/>}/>
           <Route path="/bans" element={<BansContainer/>}/>
+          <Route path="/mutes" element={<MutesContainer/>}/>
           <Route path="/auth/*" element={<AuthenticationRoutes/>}/>
         </Routes>
       </AnimatePresence>
