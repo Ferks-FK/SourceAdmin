@@ -27,9 +27,7 @@ class QueryServer
         } else {
             $this->rcon_service = new RconService($ip, $port, $rcon);
             $data = $this->getServerDataRcon();
-            array_push($data, $this->rcon_service->getPlayerData());
-            $data["player_data"] = $data[0]; // Just change the key name.
-            unset($data[0]);
+            $data["player_data"] = $this->rcon_service->getPlayerData();
         }
 
         $this->server_data = $data['server_data'];
