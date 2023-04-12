@@ -1,9 +1,11 @@
 export function search(data, query, keys) {
-    const search = () => {
-        return data.filter((item) =>
-            keys.some((key) => item[key].toLowerCase().includes(query))
-        )
-    }
+    return data.filter((item) =>
+        keys.some((key) => {
+            if (item[key] == null) {
+                return null
+            }
 
-    return search(data)
+            return item[key].toLowerCase().includes(query)
+        })
+    )
 }

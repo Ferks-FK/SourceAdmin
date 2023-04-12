@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ban>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Mute>
  */
-class BanFactory extends Factory
+class MuteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,6 +17,8 @@ class BanFactory extends Factory
      */
     public function definition()
     {
+        $column_types = ['chat', 'voice', 'all'];
+
         return [
             "ip" => $this->faker->ipv4(),
             "player_name" => $this->faker->name(),
@@ -25,7 +28,7 @@ class BanFactory extends Factory
             "reason_id" => mt_rand(1, 10),
             "time_ban_id" => mt_rand(1, 10),
             "server_id" => 1,
-            "flag_url" => "https://flagcdn.com/br.svg"
+            "type" => $column_types[array_rand($column_types)]
         ];
     }
 }

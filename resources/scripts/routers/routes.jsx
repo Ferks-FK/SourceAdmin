@@ -28,10 +28,10 @@ export const routes = {
       route: '/bans'
     },
     {
-      title: 'Comms',
-      key: 'comms',
+      title: 'Mutes',
+      key: 'mutes',
       icon: faMicrophoneSlash,
-      route: '/comms'
+      route: '/mutes'
     },
     {
       title: 'Report Player',

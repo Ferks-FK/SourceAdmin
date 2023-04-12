@@ -21,12 +21,12 @@ class Ban extends Model
         'ip',
         'steam_id',
         'player_name',
-        'country_id',
         'reason_id',
         'time_ban_id',
         'removed_by',
         'removed_on',
-        'unban_reason'
+        'unban_reason',
+        'flag_url'
     ];
 
     /**
