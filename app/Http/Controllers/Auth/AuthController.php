@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $credentials = $request->getCredentials();
 
-        if (!Auth::validate($credentials)) {
+        if (!Auth::guard('api')->validate($credentials)) {
             return response()->json([
                 'complete' => false,
                 'message' => __('Could not find a user with these credentials')
@@ -29,11 +29,11 @@ class AuthController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        Auth::login($user, true);
+        Auth::guard('api')->login($user, true);
 
         return response()->json([
             'complete' => true,
-            'user' => Auth::user()
+            'user' => Auth::guard('api')->user()
         ]);
     }
 

@@ -18,11 +18,21 @@ use App\Http\Controllers\Ban\BanController;
 |
 */
 
-Route::get("/settings/company", [SettingsController::class, 'show']);
-
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /api/auth
+|
+*/
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function() {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::group(['middleware' => 'auth:sanctum'], function() {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/register', [AuthController::class, 'register']);
+    });
 });
 
 Route::get('/servers', [ServerController::class, 'index']);

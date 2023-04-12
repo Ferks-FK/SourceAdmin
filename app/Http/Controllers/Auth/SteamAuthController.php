@@ -58,7 +58,7 @@ class SteamAuthController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $data->steam_id]);
 
-        Auth::login($user, true);
+        Auth::guard('web')->login($user, true);
 
         return redirect($this->redirectTo);
     }
