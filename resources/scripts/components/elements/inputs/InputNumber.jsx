@@ -17,7 +17,7 @@ const Component = ({ className, value, onChange, ...props }) => {
 
   return (
     <input
-      className={`w-full p-3 rounded-md outline-none bg-[#1e2327] text-white border-2 hover:border-neutral-400 transition-all duration-100 ease-in-out ${className ?? ''}`}
+      className={`w-full h-fit min-w-[3.5rem] max-w-[3.5rem] p-3 rounded-md outline-none bg-[#1e2327] text-white border-2 hover:border-neutral-400 transition-all duration-100 ease-in-out ${className ?? ''}`}
       value={displayValue || ''}
       onChange={handleChange}
       type="number"

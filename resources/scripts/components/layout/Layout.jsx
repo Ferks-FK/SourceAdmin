@@ -11,7 +11,7 @@ export const Layout = ({ children }) => {
         <Header/>
         <div className="flex w-screen h-screen relative" style={{height: 'calc(100vh - 3.6rem)'}}>
           <SideBar active={sidebarIsVisible}/>
-          <div className={`flex flex-col w-full h-full bg-[#1a1e22] p-5 transition-all duration-200 ease-in-out ${!sidebarIsVisible ? 'absolute' : ''}`}>
+          <div className={`flex flex-col w-full h-full bg-[#1a1e22] p-5 ${!sidebarIsVisible ? 'absolute md:static' : ''}`}>
             { children }
           </div>
         </div>

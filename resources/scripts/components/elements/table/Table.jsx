@@ -18,14 +18,12 @@ const Component = ({ columns, children, height, ...props }) => {
     <div className={`overflow-x-auto whitespace-nowrap md:whitespace-normal w-full ${height ? `${height}` : ''}`}>
       <div className={`flex gap-2 justify-between mb-5 ${!limitQuery && !setQuery && 'hidden'}`}>
         {setLimitQuery && (
-          <div className="w-14">
-            <Input.Number
-              placeholder={limitQuery}
-              value={limitQuery}
-              min={1}
-              onChange={setLimitQuery}
-            />
-          </div>
+          <Input.Number
+            placeholder={limitQuery}
+            value={limitQuery}
+            min={1}
+            onChange={setLimitQuery}
+          />
         )}
         {setQuery && (
           <div className="w-full md:w-2/5 max-w-xs">

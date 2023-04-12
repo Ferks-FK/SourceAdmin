@@ -3,7 +3,7 @@ import { lowerCase } from "lodash";
 import { useRef } from "react";
 
 export function md5(string) {
-  return MD5(lowerCase(string))
+  return MD5(lowerCase(string).trim())
 }
 
 export function useDebounce(fn, delay) {

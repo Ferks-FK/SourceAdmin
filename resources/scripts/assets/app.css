@@ -12,7 +12,7 @@
   }
 
   .active {
-    @apply border-l-4 border-blue-600 font-semibold
+    @apply !border-blue-600 font-semibold bg-[#2e3338]
   }
 }
 
