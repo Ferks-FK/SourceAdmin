@@ -19,4 +19,4 @@ Contributions are also welcome.
 
 <h1 align="center">Preview</h1>
 
-![as](http://i.imgur.com/eSBtb6y.gif)
+![](https://i.imgur.com/yjUrozo.gif)
