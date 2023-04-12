@@ -25,7 +25,7 @@ use App\Http\Controllers\Mute\MuteController;
 | Endpoint: /api/auth
 |
 */
-Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function() {
+Route::group(['prefix' => 'auth'], function() {
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::group(['middleware' => 'auth:sanctum'], function() {
