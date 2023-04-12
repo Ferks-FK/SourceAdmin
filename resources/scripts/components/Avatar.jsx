@@ -2,7 +2,6 @@ import { md5 } from "@/helpers";
 import { Image } from "@/components/elements/Image";
 
 function Avatar({email, size}) {
-  console.log(`${md5("fernandokaiquecnp2014@gmail.com")}`)
   return (
     <div className="flex flex-col items-center">
       <Image
