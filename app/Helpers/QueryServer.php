@@ -18,48 +18,66 @@ class QueryServer
 
     public function __construct(int $id, string $ip, string $port, string $rcon)
     {
-        $this->rcon_service = new RconService($ip, $port, $rcon);
+        $this->id = $id;
         $this->ip = $ip;
         $this->port = $port;
-        $this->id = $id;
-        $data = $this->getServerDataRcon();
 
-        if (is_array($data['server_data'])) {
+        if ($this->serverIsCached()) {
+            $data = $this->getServerFromCache();
+        } else {
+            $this->rcon_service = new RconService($ip, $port, $rcon);
+            $data = $this->getServerDataRcon();
             array_push($data, $this->rcon_service->getPlayerData());
             $data["player_data"] = $data[0]; // Just change the key name.
             unset($data[0]);
-            $this->server_data = $data['server_data'];
-            $this->player_data = $data['player_data'];
-            $this->is_online = true;
+        }
+
+        $this->server_data = $data['server_data'];
+        $this->player_data = $data['player_data'];
+        $this->is_online = is_array($this->server_data);
+        if ($this->is_online) {
+            $this->putServerInCache($data);
         }
     }
 
     /**
-     * Connect to the servers and cache it.
+     * Checks if the server exists in the cache.
+     *
+     * @return bool
+     */
+    protected function serverIsCached(): bool
+    {
+        return Cache::has("server." . $this->id);
+    }
+
+    /**
+     * Try to get the cache server if it exists.
+     *
+     * @return mixed
+     */
+    protected function getServerFromCache(): mixed
+    {
+        return Cache::get("server." . $this->id);
+    }
+
+    /**
+     * Try putting server in the cache.
+     *
+     * @return bool
+     */
+    protected function putServerInCache($data): bool
+    {
+        return Cache::put("server." . $this->id, $data, 60);
+    }
+
+    /**
+     * Connect to the server.
      *
      * @return array|null
      */
-    protected function getServerDataRcon()
+    protected function getServerDataRcon(): array|null
     {
-        if (!Cache::has("server." . $this->id)) {
-            $data = ["server_data" => $this->rcon_service->getServerData()];
-
-            if (is_array($data['server_data'])) {
-                if (Cache::put("server." . $this->id, $data, 60)) {
-                    return $data;
-                }
-            }
-
-            return $data;
-        }
-
-        $data = Cache::get("server." . $this->id);
-
-        if (is_null($data)) {
-            return ["server_data" => $this->rcon_service->getServerData()];
-        }
-
-        return $data;
+        return ["server_data" => $this->rcon_service->getServerData()];
     }
 
     /**
@@ -106,7 +124,12 @@ class QueryServer
         return [];
     }
 
-    protected function getMod()
+    /**
+     * Get the server MOD.
+     *
+     * @return mixed
+     */
+    protected function getMod(): mixed
     {
         return Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mods.name')->first()->name;
     }
