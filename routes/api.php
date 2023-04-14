@@ -70,3 +70,5 @@ Route::group(['prefix' => 'bans'], function() {
 Route::group(['prefix' => 'mutes'], function() {
     Route::get('/', [MuteController::class, 'index']);
 });
+
+require __DIR__.'/locale.php';

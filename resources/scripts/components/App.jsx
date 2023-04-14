@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
 import { Routes, Route, useLocation } from 'react-router-dom';
@@ -6,13 +7,35 @@ import { ServersContainer } from "@/components/servers/ServersContainer";
 import { MutesContainer } from "@/components/mutes/MutesContainer";
 import { BansContainer } from "@/components/bans/BansContainer";
 import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import AuthenticationRoutes from "@/routers/AuthenticationRoutes";
+import http from "@/api/http";
 import "@/assets/app.css";
 
 function App() {
   const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
   const { SourceAdminUser } = window
   const location = useLocation();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const locale = localStorage.getItem('i18nextLng');
+
+    if (locale == null) {
+      http.get(`/api/locale/${i18n.language}`).then(response => {
+        console.log(`Language set to ${response.data.locale}.`)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+      localStorage.setItem('i18nextLng', i18n.language)
+    }
+
+    if (i18n.language != locale && locale != null) {
+      localStorage.setItem('i18nextLng', i18n.language)
+    }
+  }, [])
 
   if (SourceAdminUser && !userData) {
     setUserData({

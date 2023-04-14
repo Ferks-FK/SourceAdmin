@@ -24,12 +24,13 @@ export const SupportedLanguages = [
 const supportedLngs = SupportedLanguages.map(({ code }) => (code)) // Only support one language region.
 
 i18next
-  .use(LanguageDetector)
+  //.use(LanguageDetector)
   .use(I18NextHttpBackend)
   .use(ChainedBackend)
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
+    lng: 'en',
     ns: ["translations", "buttons", "sidebar", "table"],
     defaultNS: 'translations',
     supportedLngs: supportedLngs,
@@ -47,7 +48,7 @@ i18next
       backendOptions: [{
         expirationTime: 3 * 24 * 60 * 60 * 1000 // 3 days
       }, {
-        loadPath: '/locales/{{lng}}/{{ns}}.json'
+        loadPath: '/locales/front_end/{{lng}}/{{ns}}.json'
       }]
     }
   })
