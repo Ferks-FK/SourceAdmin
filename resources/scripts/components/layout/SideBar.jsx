@@ -66,11 +66,11 @@ function SideBar({ active }) {
             <Avatar email={userEmail} size={100} />
           </div>
         :
-          <div className="flex justify-center">
-          <Button type={'button'} to={'/auth/login'} className="w-full">
-            {t('login', {ns: 'buttons'})}
-          </Button>
-        </div>
+          <div className="flex justify-center m-3">
+            <Button type={'button'} to={'/auth/login'} className="w-full">
+              {t('login', {ns: 'buttons'})}
+            </Button>
+          </div>
         }
       </div>
     </>
