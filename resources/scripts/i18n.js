@@ -30,7 +30,7 @@ i18next
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
-    ns: ["translations", "buttons", "sidebar", "table"],
+    ns: ["translations", "buttons", "sidebar", "table", "errors"],
     defaultNS: 'translations',
     supportedLngs: supportedLngs,
     debug: false,

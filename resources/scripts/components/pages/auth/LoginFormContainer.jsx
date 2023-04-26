@@ -5,7 +5,7 @@ import { Select } from "@/components/elements/Select"
 import { SupportedLanguages } from "@/i18n"
 import { useTranslation } from "react-i18next";
 import { AnimationFade } from "@/components/elements/AnimationFade";
-import { SteamContainer } from "@/components/auth/steam/SteamContainer";
+import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 
 export default ({ title, ...props }) => {
   const { i18n } = useTranslation();

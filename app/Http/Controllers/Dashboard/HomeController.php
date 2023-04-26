@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -15,11 +16,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $serverCount = Server::query()
-        ->limit(10)
-        ->count();
+        $serverCount = Server::query()
+            ->limit(10)
+            ->count();
 
-      return view('base.core');
+        return Inertia::render('dashboard/DashboardContainer', [$serverCount]);
     }
 
     /**

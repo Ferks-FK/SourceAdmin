@@ -1,7 +1,7 @@
 import { useUserStore } from "@/stores/user";
 import { useSidebarStore } from "@/stores/components/sidebar";
 import { Avatar } from "@/components/Avatar";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "@/components/elements/NavLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { routes } from "@/routers/routes"
 import { useEffect, useState } from "react";
@@ -14,7 +14,8 @@ function SideBar({ active }) {
   const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [ visibleRoutes, setVisibleRoutes ] = useState([]);
-  const { t } = useTranslation()
+  const [ activeRoute, setActiveRoute ] = useState('/'); // home route is active by default.
+  const { t } = useTranslation();
 
   const ocultSidebar = () => {
     if (sidebarIsVisible && window.screen.width < 768) {
@@ -27,6 +28,10 @@ function SideBar({ active }) {
       setSidebarIsVisible(!sidebarIsVisible)
     }
   }
+
+  const handleActiveRoute = (route) => {
+    setActiveRoute(route);
+  };
 
   useEffect(() => {
     setVisibleRoutes(routes.sidebarRoutes.filter(route => {
@@ -41,13 +46,15 @@ function SideBar({ active }) {
     <>
       <div onMouseEnter={handleMouseEnter} className={`flex flex-col h-full w-full mobile:max-w-[250px] z-10 bg-dark absolute mb:relative md:!transition-[width] transition-all duration-200 ease-in ${active ? 'md:w-20 translate-x-0' : 'md:w-full translate-x-[-100%] md:translate-x-0'}`}>
         <nav className={`flex flex-col h-full gap-1 p-3 ${sidebarIsVisible ? 'md:items-center' : ''}`}>
-          {visibleRoutes.map(({title, key, icon, route, end = false}) => (
+          {visibleRoutes.map(({title, key, icon, route}) => (
             <NavLink
               key={key}
-              to={route}
-              end={end}
-              className={`block border-l-4 border-transparent w-full p-2 rounded nav-link-hover ${sidebarIsVisible ? 'md:!w-auto' : ''}`}
-              onClick={ocultSidebar}
+              href={route}
+              className={`${sidebarIsVisible ? 'md:!w-auto' : ''} ${activeRoute === route ? 'active' : ''}`}
+              onClick={() => {
+                handleActiveRoute(route)
+                ocultSidebar()
+              }}
             >
               <div className="flex items-center">
                 <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>

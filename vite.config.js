@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: 'resources/scripts/index.jsx',
-            refresh: true,
+            refresh: false,
         }),
         react(),
     ],

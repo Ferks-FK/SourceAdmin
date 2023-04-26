@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{config('app.name', 'Laravel')}}</title>
-
+  @routes
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,19 +31,15 @@
       </script>
     @endif
   @show
-
   @viteReactRefresh
-  {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
   @vite(['resources/scripts/index.jsx'])
+  @inertiaHead
 
   {{-- @livewireStyles --}}
   </head>
 <body style="margin-bottom: 0px">
-  @section('content')
-    @yield('above-container')
-    @yield('container')
-    @yield('below-container')
-  @show
+  @inertia
+  @yield('container')
   {{-- @include('layouts.parts.header')
   <div class="flex w-screen h-screen" style="height: calc(100vh - 3.6rem);">
     <div id="mobile-menu-items" class="w-full h-full z-10 md:w-1/4 md:left-0 md:static md:max-w-sm bg-dark fixed menu-mobile-hidden transition-all ease-in-out duration-300">

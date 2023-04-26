@@ -1,10 +1,22 @@
 import { createRoot } from 'react-dom/client';
-import { App } from '@/components/App';
-import { BrowserRouter } from 'react-router-dom';
+import { createInertiaApp } from '@inertiajs/react';
+import { Layout } from "@/components/layout/Layout";
 import './i18n';
+import './assets/app.css'
 
-createRoot(document.getElementById('app')).render(
-  <BrowserRouter>
-    <App/>
-  </BrowserRouter>
-);
+createInertiaApp({
+  resolve: name => {
+    const pages = import.meta.glob('./components/pages/**/*.jsx')
+    return pages[`./components/pages/${name}.jsx`]()
+  },
+  setup({ App, props }) {
+    createRoot(document.getElementById('app')).render(
+      <Layout>
+        <App {...props} />
+      </Layout>
+    )
+  },
+  progress: {
+    delay: 25
+  }
+})

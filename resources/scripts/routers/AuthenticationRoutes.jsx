@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import LoginContainer from '@/components/auth/LoginContainer';
+import LoginContainer from '@/components/pages/auth/LoginContainer';
 
 export default () => (
   <Routes>

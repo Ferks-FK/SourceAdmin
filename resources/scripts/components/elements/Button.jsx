@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Button({ to, children, className, isLoading, icon, ...props }) {
@@ -8,13 +8,13 @@ function Button({ to, children, className, isLoading, icon, ...props }) {
         icon ? (
           <div className="flex items-center">
             <FontAwesomeIcon icon={icon} className="w-5"/>
-            <Link to={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
+            <Link href={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
               {children}
             </Link>
           </div>
         )
         :
-        <Link to={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
+        <Link href={to} className={`block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`}>
           {children}
         </Link>
       :

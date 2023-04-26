@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { object, string } from 'yup';
-import LoginFormContainer from "@/components/auth/LoginFormContainer";
+import LoginFormContainer from "@/components/pages/auth/LoginFormContainer";
 import Field from "@/components/elements/Field"
 import login from '@/api/auth/login';
 import { useFlashesStore } from "@/stores/flashes";

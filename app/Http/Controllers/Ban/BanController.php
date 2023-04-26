@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Ban;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Services\RconService;
-
+use Inertia\Inertia;
 use Exception;
 
 class BanController extends Controller
@@ -25,9 +23,9 @@ class BanController extends Controller
 
         if (is_null($limit)) $limit = 10;
 
-        return response()->json(
-            $this->getBansData($limit)
-        );
+        return Inertia::render('bans/BansContainer', [
+            'data' => $this->getBansData($limit)
+        ]);
     }
 
     public function getBansData(string $limit)

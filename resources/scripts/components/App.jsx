@@ -1,10 +1,10 @@
 import { Layout } from "@/components/layout/Layout";
 import { useUserStore } from "@/stores/user";
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
-import { ServersContainer } from "@/components/servers/ServersContainer";
-import { MutesContainer } from "@/components/mutes/MutesContainer";
-import { BansContainer } from "@/components/bans/BansContainer";
+import { DashboardContainer } from "@/components/pages/dashboard/DashboardContainer";
+import { ServersContainer } from "@/components/pages/servers/ServersContainer";
+import { MutesContainer } from "@/components/pages/mutes/MutesContainer";
+import { BansContainer } from "@/components/pages/bans/BansContainer";
 import { AnimatePresence } from "framer-motion";
 import AuthenticationRoutes from "@/routers/AuthenticationRoutes";
 import "@/assets/app.css";

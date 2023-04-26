@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Base\IndexController;
 use App\Http\Controllers\FlashMessagesController;
 use App\Http\Controllers\Auth\SteamAuthController;
+use App\Http\Controllers\Ban\BanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,8 @@ use App\Http\Controllers\Auth\SteamAuthController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index')->fallback();
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/bans', [BanController::class, 'index'])->name('bans.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,7 +33,7 @@ Route::group(['prefix' => 'steam'], function() {
     Route::get('/callback', [SteamAuthController::class, 'steamCallback'])->name('steam.callback');
 });
 
-Route::get('/{react}', [IndexController::class, 'index'])
-    ->where('react', '^(?!(\/)?(api|auth|admin)).+');
+// Route::get('/{react}', [IndexController::class, 'index'])
+//     ->where('react', '^(?!(\/)?(api|auth|admin)).+');
 
 require __DIR__.'/auth.php';
