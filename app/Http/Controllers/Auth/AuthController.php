@@ -8,32 +8,32 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     public function index()
     {
-        return view('base.core');
+        return Inertia::render('auth/LoginContainer');
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
 
-        if (!Auth::guard('api')->validate($credentials)) {
-            return response()->json([
-                'complete' => false,
-                'message' => __('Could not find a user with these credentials')
-            ], 404);
+        if (!Auth::validate($credentials)) {
+            return redirect()->route('auth')->withErrors(['error' => 'Could not find a user with these credentials.']);
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        Auth::guard('api')->login($user, true);
+        Auth::login($user, true);
 
         return response()->json([
             'complete' => true,
-            'user' => Auth::guard('api')->user()
+            'user' => Auth::user()
         ]);
     }
 

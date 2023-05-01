@@ -65,3 +65,13 @@ export function getPercentage(props) {
 
   return percentage > 100 ? 100 : percentage;
 };
+
+export function filterData(data, keys, query) {
+  return data.filter((item) => keys.some((key) => {
+    if (item[key] == null) {
+      return null
+    }
+
+    return item[key].toLowerCase().includes(query)
+  }))
+}

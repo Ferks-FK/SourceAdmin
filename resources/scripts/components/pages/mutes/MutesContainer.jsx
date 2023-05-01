@@ -6,27 +6,24 @@ import { Progress } from '@/components/elements/Progress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { getPercentage, getStyleAndName } from '@/helpers';
-import { getMutesData } from "@/api/mutes/getMutes";
+import { getPercentage, getStyleAndName, filterData } from '@/helpers';
 
-function MutesContainer() {
+function MutesContainer({ data }) {
   const [query, setQuery] = useState('');
   const [limitQuery, setLimitQuery] = useState(10)
-  const [mutesData, setMutesData] = useState([]);
+  const [mutesData, setMutesData] = useState(data);
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchMutesData = async () => {
-      try {
-        const response = await getMutesData(limitQuery, query);
-        setMutesData(response)
-      } catch (error) {
-        console.error(error)
-      }
+    const filterMutesData = async () => {
+      const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name', 'type']
+      const filteredData = filterData(data, keys, query)
+
+      setMutesData(filteredData.slice(0, limitQuery))
     }
 
     if (query.length === 0 || query.length > 2) {
-      fetchMutesData();
+      filterMutesData();
     }
   }, [query, limitQuery])
 
@@ -75,4 +72,4 @@ function MutesContainer() {
   )
 }
 
-export { MutesContainer }
+export default MutesContainer

@@ -13,7 +13,7 @@ function getServersList(limit = 10) {
 
 function getServerData(server_id, returnPlayers = false) {
     return new Promise((resolve, reject) => {
-        http.get(`/api/servers/${server_id}${returnPlayers ? '?include=players' : ''}`).then(response => {
+        http.get(`/servers/${server_id}${returnPlayers ? '?include=players' : ''}`).then(response => {
             return resolve(response.data)
         })
         .catch(error => {

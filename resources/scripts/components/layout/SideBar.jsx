@@ -14,7 +14,7 @@ function SideBar({ active }) {
   const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [ visibleRoutes, setVisibleRoutes ] = useState([]);
-  const [ activeRoute, setActiveRoute ] = useState('/'); // home route is active by default.
+  const [ activeRoute, setActiveRoute ] = useState(window.location.pathname); // Set the currently loaded route as 'active'.
   const { t } = useTranslation();
 
   const ocultSidebar = () => {

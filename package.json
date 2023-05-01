@@ -8,9 +8,6 @@
     },
     "devDependencies": {
         "@headlessui/react": "^1.7.12",
-        "@inertiajs/inertia": "^0.11.1",
-        "@inertiajs/inertia-react": "^0.8.1",
-        "@inertiajs/progress": "^0.2.7",
         "@popperjs/core": "^2.11.6",
         "@tailwindcss/forms": "^0.5.3",
         "@types/jquery": "^3.5.16",

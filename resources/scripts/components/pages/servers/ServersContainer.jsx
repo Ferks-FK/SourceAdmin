@@ -7,7 +7,7 @@ import { getServerData, getServersList } from '@/api/servers/getServers';
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/Button";
 
-function ServersContainer() {
+function ServersContainer({ data }) {
   const [serverData, setServerData] = useState([]);
   const [activeTable, setActiveTable] = useState('');
   const [limitQuery, setLimitQuery] = useState(10);
@@ -25,13 +25,11 @@ function ServersContainer() {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      const serverList = await getServersList(limitQuery)
-
-      setServerData(serverList.map((server_id) => {
+      setServerData(data.slice(0, limitQuery).map((server_id) => {
         return { id: server_id, loading: true }
       }))
 
-      serverList.forEach(async server => {
+      data.forEach(async server => {
         try {
           const response = await getServerData(server, true)
           setServerData((state) => state.map((server) => {
@@ -147,4 +145,4 @@ function ServersContainer() {
   )
 }
 
-export { ServersContainer };
+export default ServersContainer;

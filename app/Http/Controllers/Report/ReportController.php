@@ -1,41 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Mute;
+namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Mute;
 use Inertia\Inertia;
 
-class MuteController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $limit = $request->get('limit', 10);
-
-        if (is_null($limit)) $limit = 10;
-
-        return Inertia::render('mutes/MutesContainer', [
-            'data' => $this->getCommsData($limit)
-        ]);
-    }
-
-    protected function getCommsData(string $limit)
-    {
-        return Mute::query()
-            ->leftJoin('users AS A', 'A.id', 'mutes.admin_id')
-            ->leftJoin('users AS B', 'B.id', 'mutes.removed_by')
-            ->join('time_bans', 'time_bans.id', 'mutes.time_ban_id')
-            ->join('servers', 'servers.id', 'mutes.server_id')
-            ->join('mods', 'mods.id', 'mod_id')
-            ->select('mutes.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'mutes.ip', 'mutes.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'mutes.end_at', 'mutes.type', 'B.name as removed_by')
-            ->limit($limit)
-            ->get();
+        return Inertia::render('report/ReportContainer');
     }
 
     /**

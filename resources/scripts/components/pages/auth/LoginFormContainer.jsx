@@ -29,7 +29,7 @@ export default ({ title, ...props }) => {
         </div>
         <div className="flex flex-col justify-between h-full w-full max-w-sm">
           <div className="flex flex-wrap p-5 rounded-md bg-lightDark mt-5 justify-center gap-1">
-            <SteamContainer/>
+            {/* <SteamContainer/> */}
           </div>
         </div>
         <SourceAdminReg/>

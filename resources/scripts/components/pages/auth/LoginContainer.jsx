@@ -1,28 +1,31 @@
 import { Formik } from "formik";
 import { object, string } from 'yup';
 import LoginFormContainer from "@/components/pages/auth/LoginFormContainer";
-import Field from "@/components/elements/Field"
-import login from '@/api/auth/login';
+import Field from "@/components/elements/Field";
 import { useFlashesStore } from "@/stores/flashes";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/Button";
+import { usePage } from '@inertiajs/react';
+import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { router } from '@inertiajs/react'
 
 function LoginContainer() {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
+  const { errors, flash } = usePage().props
   const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
-    clearFlashes()
+    router.post('/auth/login',
+    { ...values },
+    {
+      onFinish: () => {
+        setSubmitting(false)
 
-    login({ ...values }).then(response => {
-      if (response.complete) {
-        return window.location = '/'
-      }
-    }).catch(error => {
-      setSubmitting(false);
-      clearAndAddHttpError({error});
+      },
     })
   }
+
+  //useFlashMessages(flash)
 
   return (
     <>

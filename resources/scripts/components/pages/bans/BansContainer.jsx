@@ -3,9 +3,8 @@ import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Progress } from '@/components/elements/Progress';
 import { useEffect, useState } from 'react';
-import { getPercentage, getStyleAndName } from '@/helpers';
+import { getPercentage, getStyleAndName, filterData } from '@/helpers';
 import { useTranslation } from "react-i18next";
-import { getBansData } from '@/api/bans/getBans';
 
 function BansContainer({ data }) {
   const [query, setQuery] = useState('');
@@ -16,13 +15,7 @@ function BansContainer({ data }) {
   useEffect(() => {
     const filterBansData = async () => {
       const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
-      const filteredData = data.filter((item) => keys.some((key) => {
-        if (item[key] == null) {
-          return null
-        }
-
-        return item[key].toLowerCase().includes(query)
-      }))
+      const filteredData = filterData(data, keys, query)
 
       setQueryResults(filteredData.slice(0, limitQuery))
     };

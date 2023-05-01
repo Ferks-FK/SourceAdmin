@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MainController;
 use App\Models\Server;
 use App\Helpers\QueryServer;
+use Inertia\Inertia;
 
 class ServerController extends MainController
 {
@@ -22,9 +23,9 @@ class ServerController extends MainController
 
         if (is_null($limit)) $limit = 10;
 
-        return response()->json(
-            $this->getServersIds($limit)
-        );
+        return Inertia::render('servers/ServersContainer', [
+            'data' => $this->getServersIds($limit)
+        ]);
     }
 
     public function connectToServer(int $id)

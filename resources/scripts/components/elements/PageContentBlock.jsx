@@ -1,6 +1,6 @@
 import { SourceAdminReg } from "@/components/elements/SourceAdminReg";
 import { AnimationFade } from '@/components/elements/AnimationFade';
-import { Head } from '@inertiajs/react'
+import { Head } from '@inertiajs/react';
 
 function PageContentBlock({ title, className, children }) {
   return (

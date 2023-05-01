@@ -8,8 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Ilzrv\LaravelSteamAuth\SteamAuth;
 use Ilzrv\LaravelSteamAuth\SteamData;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class SteamAuthController extends Controller
 {
@@ -42,25 +42,25 @@ class SteamAuthController extends Controller
      */
     public function steamCallback(): RedirectResponse
     {
-        if (empty(env('STEAM_AUTH_API_KEYS'))) {
-            return redirect('/auth/login?error=steam_api_not_found');
+        if (empty(config('steam-auth.api_keys'))) {
+            return redirect()->route('auth')->with(['error' => __('Steam API key has not been configured.')]);
         }
 
         if (!$this->steamAuth->validate()) {
-            return redirect('/auth/login?error=steam_validate_failed');
+            return redirect()->route('auth')->with('error', __('Failed to validate your steam account.'));
         }
 
         $data = $this->getUserBySteamId($this->steamAuth->getUserData());
 
         if (is_null($data)) {
-            return redirect('/auth/login?error=steam_user_not_found');
+            return redirect()->route('auth')->with('error', __('We could not find a user related to your steam account.'));
         }
 
         $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $data->steam_id]);
 
         Auth::guard('web')->login($user, true);
 
-        return redirect($this->redirectTo);
+        return redirect($this->redirectTo)->with('success', __('You have been successfully authenticated.'));
     }
 
     /**
