@@ -8,6 +8,7 @@ use App\Http\Controllers\Ban\BanController;
 use App\Http\Controllers\Mute\MuteController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Server\ServerController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,7 @@ Route::group(['prefix' => 'mutes'], function() {
 */
 Route::group(['prefix' => 'report'], function() {
     Route::get('/', [ReportController::class, 'index'])->name('report.index');
+    Route::post('/create', [ReportController::class, 'create'])->name('report.create');
 });
 
 /*
@@ -100,4 +102,11 @@ Route::group(['prefix' => 'report'], function() {
 Route::group(['prefix' => 'steam'], function() {
     Route::get('/auth', [SteamAuthController::class, 'getSteamAuthUrlJson'])->name('steam.login');
     Route::get('/callback', [SteamAuthController::class, 'steamCallback'])->name('steam.callback');
+});
+
+
+Route::get('/email', function() {
+    $user = User::query()->first();
+
+    return new App\Mail\PlayerReported($user);
 });

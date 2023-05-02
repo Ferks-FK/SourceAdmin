@@ -11,6 +11,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -19,12 +20,14 @@ class AuthController extends Controller
         return Inertia::render('auth/LoginContainer');
     }
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
+        return redirect()->back()->with('error', 'deu erro');
+
         $credentials = $request->getCredentials();
 
         if (!Auth::validate($credentials)) {
-            return redirect()->route('auth')->withErrors(['error' => 'Could not find a user with these credentials.']);
+            return redirect()->route('auth')->with('error', 'Could not find a user with these credentials.');
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);

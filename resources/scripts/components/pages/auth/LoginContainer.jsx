@@ -9,9 +9,8 @@ import { usePage } from '@inertiajs/react';
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react'
 
-function LoginContainer() {
+function LoginContainer(props) {
   const [ clearAndAddHttpError, clearFlashes ] = useFlashesStore((state) => [ state.clearAndAddHttpError, state.clearFlashes ])
-  const { errors, flash } = usePage().props
   const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -20,11 +19,11 @@ function LoginContainer() {
     {
       onFinish: () => {
         setSubmitting(false)
-
       },
     })
   }
 
+  console.log(props)
   //useFlashMessages(flash)
 
   return (
@@ -33,8 +32,10 @@ function LoginContainer() {
         onSubmit={handleSubmit}
         initialValues={{ name: '', password: '' }}
         validationSchema={object().shape({
-          name: string().required(t('login.name_required')),
-          password: string().required(t('login.password_required'))
+          // name: string().required(t('login.name_required')),
+          // password: string().required(t('login.password_required'))
+          name: string(),
+          password: string()
         })}
       >
         {({ isSubmitting, setSubmitting }) => (

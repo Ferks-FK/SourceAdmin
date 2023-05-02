@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ReportController extends Controller
@@ -23,9 +24,28 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'steam_id' => function($attribute, $value, $fail) {
+                if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
+                    $fail("O campo $attribute deve ser um SteamID ou SteamID64 válido.");
+                }
+            },
+            'ip_address' => 'string|nullable|ipv4',
+            'player_name' => 'required|string',
+            'reporter_email' => 'required|string|email',
+            'comments' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/report')->with('error', 'deu erro dnv');
+        }
+
+        $validated = $validator->validated();
+
+        dd($request);
+        return redirect('/report')->with(['success' => 'os dados foram validados']);
     }
 
     /**

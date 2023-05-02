@@ -5,13 +5,20 @@ import { Label } from "@/components/elements/Label";
 import { TextArea } from "@/components/elements/TextArea";
 import { Formik } from "formik";
 import { object, string } from 'yup';
+import { router } from '@inertiajs/react';
 
 
-function ReportContainer() {
-
+function ReportContainer(props) {
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values)
+    router.post('/report/create', { ...values }, {
+      onFinish: () => {
+        setSubmitting(false)
+
+      }
+    })
   }
+
+  console.log(props)
 
   return (
     <>
