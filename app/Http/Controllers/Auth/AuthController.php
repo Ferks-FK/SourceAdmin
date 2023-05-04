@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -17,7 +16,7 @@ class AuthController extends Controller
         return Inertia::render('auth/LoginContainer');
     }
 
-    public function login(LoginRequest $request): RedirectResponse
+    public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
 

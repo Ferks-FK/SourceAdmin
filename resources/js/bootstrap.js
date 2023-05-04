@@ -1,6 +1,11 @@
 import _ from 'lodash';
 window._ = _;
 
+<<<<<<< HEAD
+=======
+import 'bootstrap';
+
+>>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -26,8 +31,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: import.meta.env.VITE_PUSHER_APP_KEY,
+<<<<<<< HEAD
 //     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
 //     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+=======
+//     wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+>>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
 //     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
 //     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',

@@ -1,7 +1,15 @@
 <?php
 
+<<<<<<< HEAD
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+=======
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Ban\BanController;
+use App\Http\Controllers\Mute\MuteController;
+>>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
 
 /*
 |--------------------------------------------------------------------------

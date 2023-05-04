@@ -1,0 +1,6 @@
+{
+    "503": "{{status}}: Servicio no disponible.",
+    "500": "{{status}}: Error en el servidor.",
+    "404": "{{status}}: Página no encontrada.",
+    "403": "{{status}}: Prohibido."
+}

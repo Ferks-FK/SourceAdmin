@@ -1,0 +1,9 @@
+{
+    "dashboard": "Dashboard",
+    "servers": "Servers",
+    "bans": "Bans",
+    "mutes": "Mutes",
+    "report_player": "Report Player",
+    "appeal_ban": "Appeal Ban",
+    "admin": "Admin"
+}
