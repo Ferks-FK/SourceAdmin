@@ -3,7 +3,7 @@ import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
-import { getServerData, getServersList } from 'resources/js/api/servers/getServers';
+import { getServerData, getServersList } from '@/api/servers/getServers';
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/Button";
 

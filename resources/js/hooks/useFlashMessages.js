@@ -15,6 +15,22 @@ export function useFlashMessages(flash) {
             })
         }
 
+        if (flash.info) {
+            addFlash({
+                type: 'info',
+                title: 'Info',
+                message: flash.info
+            })
+        }
+
+        if (flash.warning) {
+            addFlash({
+                type: 'warning',
+                title: 'Warning',
+                message: flash.warning
+            })
+        }
+
         if (flash.error) {
             addError({
                 message: flash.error

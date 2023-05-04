@@ -2,6 +2,7 @@ import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Button } from "@/components/elements/Button";
 import { TextArea } from "@/components/elements/TextArea";
+import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { Formik } from "formik";
 import { object, string } from 'yup';
@@ -47,7 +48,7 @@ function ReportContainer(props) {
   useFlashMessages(props.flash)
 
   return (
-    <>
+    <PageContentBlock title={'Report'}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -110,7 +111,7 @@ function ReportContainer(props) {
           </Form>
         )}
       </Formik>
-    </>
+    </PageContentBlock>
   )
 }
 
