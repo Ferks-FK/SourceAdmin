@@ -2,17 +2,8 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-<<<<<<< HEAD
             "@/*": ["resources/js/*"]
         }
     },
     "exclude": ["node_modules", "public"]
 }
-=======
-            "@/*": ["resources/scripts/*"],
-            "@/hooks" : ["resources/scripts/hooks/*"]
-        }
-    },
-    "exclude": ["node_modules", "public"]
-}
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d

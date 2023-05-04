@@ -29,11 +29,7 @@ class ReportController extends Controller
         $validator = Validator::make($request->all(), [
             'steam_id' => function($attribute, $value, $fail) {
                 if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
-<<<<<<< HEAD
                     $fail(__('The :attribute field must be a valid SteamID or SteamID64.', ['attribute' => $attribute]));
-=======
-                    $fail("O campo $attribute deve ser um SteamID ou SteamID64 válido.");
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
                 }
             },
             'ip_address' => 'string|nullable|ipv4',
@@ -43,20 +39,10 @@ class ReportController extends Controller
         ]);
 
         if ($validator->fails()) {
-<<<<<<< HEAD
             return redirect()->route('report.index')->with('error', __('The validation failed, check if the data is correct.'));
         }
 
         return redirect()->route('report.index')->with(['success' => __('Your report has been sent to the administrators.')]);
-=======
-            return redirect('/report')->with('error', 'deu erro dnv');
-        }
-
-        $validated = $validator->validated();
-
-        dd($request);
-        return redirect('/report')->with(['success' => 'os dados foram validados']);
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
     }
 
     /**

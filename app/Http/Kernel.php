@@ -21,11 +21,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-<<<<<<< HEAD
-=======
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
     ];
 
     /**
@@ -41,19 +36,12 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
-<<<<<<< HEAD
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-=======
-        ],
-
-        'api' => [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

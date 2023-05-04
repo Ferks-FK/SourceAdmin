@@ -17,7 +17,6 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-<<<<<<< HEAD
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
@@ -26,12 +25,6 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);
             }
-=======
-    public function handle(Request $request, Closure $next, $guard = null)
-    {
-        if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
->>>>>>> 52a43c622b4a800ee064b80239a566894f271f3d
         }
 
         return $next($request);
