@@ -3,11 +3,11 @@ import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
-import { getServerData, getServersList } from '@/api/servers/getServers';
+import { getServerData } from '@/api/servers/getServers';
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/Button";
 
-function ServersContainer({ data }) {
+function ServersContainer({ serversIds }) {
   const [serverData, setServerData] = useState([]);
   const [activeTable, setActiveTable] = useState('');
   const [limitQuery, setLimitQuery] = useState(10);
@@ -25,13 +25,13 @@ function ServersContainer({ data }) {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      setServerData(data.slice(0, limitQuery).map((server_id) => {
+      setServerData(serversIds.slice(0, limitQuery).map((server_id) => {
         return { id: server_id, loading: true }
       }))
 
-      data.forEach(async server => {
+      serversIds.forEach(async server => {
         try {
-          const response = await getServerData(server, true)
+          const response = await getServerData(server)
           setServerData((state) => state.map((server) => {
             if (server.id == response[0].Id) {
               return response

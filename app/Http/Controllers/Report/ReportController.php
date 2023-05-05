@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Report;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Server\AbstractServerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 
-class ReportController extends Controller
+class ReportController extends AbstractServerController
 {
     /**
      * Display a listing of the resource.
@@ -42,7 +43,19 @@ class ReportController extends Controller
             return redirect()->route('report.index')->with('error', __('The validation failed, check if the data is correct.'));
         }
 
-        return redirect()->route('report.index')->with(['success' => __('Your report has been sent to the administrators.')]);
+        return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));
+    }
+
+    /**
+     * Get a connection to a server.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getServer(Request $request, int $id): JsonResponse
+    {
+        return $this->connectToServer($request, $id);
     }
 
     /**

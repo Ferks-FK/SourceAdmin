@@ -56,6 +56,7 @@ function ReportContainer(props) {
           ip_address: '',
           player_name: '',
           comments: '',
+          reporter_name: '',
           reporter_email: ''
         }}
         validationSchema={schema}
