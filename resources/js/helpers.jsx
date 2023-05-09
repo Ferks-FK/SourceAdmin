@@ -75,3 +75,7 @@ export function filterData(data, keys, query) {
     return item[key].toLowerCase().includes(query)
   }))
 }
+
+export function separateInternalObjects(array) {
+  return array.flatMap(object => Object.entries(object).map(([key, value]) => ({ [key]: value })));
+}

@@ -1,14 +1,47 @@
+import { useEffect, useState } from "react";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Button } from "@/components/elements/Button";
-import { TextArea } from "@/components/elements/TextArea";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { getServerData } from '@/api/servers/getServers';
 import { Formik } from "formik";
 import { object, string } from 'yup';
 import { router } from '@inertiajs/react';
 
-function ReportContainer(props) {
+function ReportContainer({ serversIds, flash, errors }) {
+  const [ serverData, setServerData ] = useState([]);
+  const [ currentServer, setCurrentServer ] = useState('');
+  const [ file, setFile ] = useState('');
+
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    router.post(route('report.create'), { ...values }, {
+      onFinish: () => {
+        setSubmitting(false)
+      },
+      onSuccess: () => {
+        resetForm()
+      }
+    })
+  }
+
+  useEffect(() => {
+    const fetchServerData = async () => {
+      try {
+        for (const server of serversIds) {
+          const response = await getServerData(server, false);
+          setServerData((prevState) => [...prevState, response]);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchServerData();
+  }, []);
+
+  useFlashMessages(flash, errors)
+
   const schema = object().shape({
     steam_id: string().matches(
       /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/,
@@ -20,6 +53,7 @@ function ReportContainer(props) {
     ),
     player_name: string().required('The player name is required.'),
     comments: string().required('The comments is required.'),
+    reporter_name: string(),
     reporter_email: string().required('Your email address is required.')
   }).test(function (value) {
     const { steam_id, ip_address } = value;
@@ -34,19 +68,6 @@ function ReportContainer(props) {
     return true;
   })
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    router.post(route('report.create'), { ...values }, {
-      onFinish: () => {
-        setSubmitting(false)
-      },
-      onSuccess: () => {
-        resetForm()
-      }
-    })
-  }
-
-  useFlashMessages(props.flash)
-
   return (
     <PageContentBlock title={'Report'}>
       <Formik
@@ -57,7 +78,9 @@ function ReportContainer(props) {
           player_name: '',
           comments: '',
           reporter_name: '',
-          reporter_email: ''
+          reporter_email: '',
+          server: '',
+          upload_demo: ''
         }}
         validationSchema={schema}
       >
@@ -68,23 +91,24 @@ function ReportContainer(props) {
                 <Field
                   type={'text'}
                   name={'steam_id'}
+                  id={'steam_id'}
                   label={'Steam ID'}
-                  size={'small'}
                   maxLength={20}
                 />
                 <Field
                   type={'text'}
                   name={'ip_address'}
+                  id={'ip_address'}
                   label={'Player IP'}
-                  size={'small'}
                 />
                 <Field
                   type={'text'}
                   name={'player_name'}
+                  id={'player_name'}
                   label={'Player Name'}
-                  size={'small'}
                 />
-                <TextArea
+                <Field
+                  type={'text-area'}
                   name={'comments'}
                   id={'comment'}
                   label={'Comments'}
@@ -93,14 +117,47 @@ function ReportContainer(props) {
                 <Field
                   type={'text'}
                   name={'reporter_name'}
+                  id={'reporter_name'}
                   label={'Your Name'}
-                  size={'small'}
                 />
                 <Field
                   type={'email'}
                   name={'reporter_email'}
+                  id={'reporter_email'}
                   label={'Your Email'}
-                  size={'small'}
+                />
+                <Field
+                  type={'select'}
+                  name={'server'}
+                  id={'server'}
+                  label={'Server'}
+                  value={currentServer || 'default_value'}
+                  className={'border-2 hover:border-neutral-400'}
+                  onChange={(e) => setCurrentServer(e.currentTarget.value)}
+                >
+                  <option key={'disabled'} value={'default_value'} disabled>
+                    Select Server
+                  </option>
+                  {serverData.map((server) => {
+                    const serverInfo = server[0]
+
+                    return (
+                      <option key={serverInfo.Id} value={serverInfo.Id}>
+                        {serverInfo.HostName}
+                      </option>
+                    )
+                  })}
+                  <option key={'other_server'} value="other_server">
+                    Other server not listed here
+                  </option>
+                </Field>
+                <Field
+                  type={'file'}
+                  name={'upload_demo'}
+                  id={'upload_demo'}
+                  label={'Upload Demo'}
+                  onChange={(e) => setFile(e.target.files[0])}
+                  value={file}
                 />
               </div>
               <div className="flex flex-col items-center">

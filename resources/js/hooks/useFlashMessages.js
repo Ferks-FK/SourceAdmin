@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
+import { separateInternalObjects } from "@/helpers";
 
-export function useFlashMessages(flash) {
+export function useFlashMessages(flash, errors = {}) {
     const [ addFlash, addError, clearFlashes ] = useFlashesStore((state) => [ state.addFlash, state.addError, state.clearFlashes ])
 
     useEffect(() => {
@@ -34,6 +35,18 @@ export function useFlashMessages(flash) {
         if (flash.error) {
             addError({
                 message: flash.error
+            })
+        }
+
+        if (errors) {
+            const array = separateInternalObjects(Object.values(errors))
+
+            array.forEach((error, index) => {
+                const key = Object.keys(error)[0]
+                const value = error[key]
+                addError({
+                    message: { [index]: value }[index]
+                })
             })
         }
     }, [flash])

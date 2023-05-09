@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Server\AbstractServerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 
@@ -17,7 +18,9 @@ class ReportController extends AbstractServerController
      */
     public function index()
     {
-        return Inertia::render('report/ReportContainer');
+        return Inertia::render('report/ReportContainer', [
+            'serversIds' => $this->getServersIds('10')
+        ]);
     }
 
     /**
@@ -35,12 +38,15 @@ class ReportController extends AbstractServerController
             },
             'ip_address' => 'string|nullable|ipv4',
             'player_name' => 'required|string',
+            'comments' => 'required|string',
+            'reporter_name' => 'required|string',
             'reporter_email' => 'required|string|email',
-            'comments' => 'required|string'
+            'server' => 'required|' . Rule::in([1, 2, 'other_server']) . '|' . Rule::notIn(['default_value']), // TODO: Support the IDS of the servers dynamically.
+            'upload_demo' => 'required|mimes:zip,rar,dem|size:25000'
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('report.index')->with('error', __('The validation failed, check if the data is correct.'));
+            return redirect()->route('report.index')->withErrors($validator->errors(), 'errors');
         }
 
         return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));
