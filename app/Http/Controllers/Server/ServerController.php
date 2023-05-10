@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Server\AbstractServerController;
+use App\Http\Controllers\Controller;
+use App\Traits\Server;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 
-class ServerController extends AbstractServerController
+class ServerController extends Controller
 {
+    use Server;
+
     /**
      * Display a listing of the resource.
      *

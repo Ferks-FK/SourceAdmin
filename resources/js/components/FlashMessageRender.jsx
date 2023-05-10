@@ -34,9 +34,32 @@ const styleBackground = (type) => {
 function FlashMessageRender({ byKey, className }) {
   const flashes = useFlashesStore((state) => state.items.filter(flash => (byKey ? flash.key === byKey : true)));
 
-  return flashes.length ? (
-    <div className={`${className ?? ''}`}>
-      {flashes.length > 1 && (
+  if (flashes.length == 0) return null
+
+  if (flashes.length == 1) {
+    const flash = flashes[0]
+
+    return (
+      <div className={`${className ?? ''}`}>
+        <div className={`p-2 border items-center leading-normal rounded flex w-full text-sm text-white ${style(flash.type)}`}>
+          {flash.title && (
+            <span
+              className={`flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3 leading-none ${styleBackground(flash.type)}`}
+            >
+              {flash.title}
+            </span>
+          )}
+          <span className="mr-2 text-left flex-auto">
+            {flash.message}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  if (flashes.length > 1) {
+    return (
+      <div className={`${className ?? ''}`}>
         <div className={`p-2 border text-base leading-normal rounded flex flex-col w-full text-white ${style(flashes[0].type)}`}>
           <h1>There was an error validating the data provided.</h1>
           <div className="flex flex-col">
@@ -52,34 +75,9 @@ function FlashMessageRender({ byKey, className }) {
             ))}
           </div>
         </div>
-      )}
-      {/* {flashes.map((flash, index) => (
-        <Fragment key={flash.id || flash.type + flash.message}>
-          {flashes.length > 1 ? (
-            <div className={`p-2 border items-center leading-normal rounded flex w-full text-sm text-white ${style(flash.type)}`}>
-              There was an error validating the data provided.
-              <div className="flex flex-col gap-2">
-                {flash.message}
-              </div>
-            </div>
-          ) : (
-            <div className={`p-2 border items-center leading-normal rounded flex w-full text-sm text-white ${style(flash.type)}`}>
-              {flash.title && (
-                <span
-                  className={`flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3 leading-none ${styleBackground(flash.type)}`}
-                >
-                  {flash.title}
-                </span>
-              )}
-              <span className="mr-2 text-left flex-auto">
-                {flash.message}
-              </span>
-            </div>
-          )}
-        </Fragment>
-      ))} */}
-    </div>
-  ) : null
+      </div>
+    )
+  }
 }
 
 export { FlashMessageRender }

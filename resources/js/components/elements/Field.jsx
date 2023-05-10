@@ -31,7 +31,8 @@ function Field({ id, name, label, type, description, validate, ...props }) {
         return (
           <Input.File
             id={id}
-            {...field}
+            name={name}
+            onChange={props.onChange}
           />
         )
       case 'select':

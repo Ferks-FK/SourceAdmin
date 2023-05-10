@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Server;
+namespace App\Traits;
 
-use App\Http\Controllers\Controller;
-use App\Models\Server;
+use App\Models\Server as ServerModel;
 use App\Helpers\QueryServer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
-abstract class AbstractServerController extends Controller
+trait Server
 {
     public function connectToServer(Request $request, int $id): JsonResponse
     {
-        $server = Server::findOrFail($id);
+        $server = ServerModel::findOrFail($id);
         $query = new QueryServer($id, $server->ip, $server->port, $server->rcon);
 
         if ($request->boolean('getPlayers')) {
@@ -27,9 +26,13 @@ abstract class AbstractServerController extends Controller
         ]);
     }
 
-    public function getServersIds(string $limit): array
+    public function getServersIds(int $limit = 10, bool $getAll = false): array
     {
-        $servers = Server::pluck('id')->toArray();
+        $servers = ServerModel::pluck('id')->toArray();
+
+        if ($getAll) {
+            return $servers;
+        }
 
         return array_slice($servers, 0, $limit);
     }

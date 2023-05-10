@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Report;
 
-use App\Http\Controllers\Server\AbstractServerController;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ReportRequest;
+use App\Traits\Server;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 
-class ReportController extends AbstractServerController
+class ReportController extends Controller
 {
+    use Server;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class ReportController extends AbstractServerController
     public function index()
     {
         return Inertia::render('report/ReportContainer', [
-            'serversIds' => $this->getServersIds('10')
+            'serversIds' => $this->getServersIds(getAll: true)
         ]);
     }
 
@@ -28,25 +30,12 @@ class ReportController extends AbstractServerController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(ReportRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'steam_id' => function($attribute, $value, $fail) {
-                if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
-                    $fail(__('The :attribute field must be a valid SteamID or SteamID64.', ['attribute' => $attribute]));
-                }
-            },
-            'ip_address' => 'string|nullable|ipv4',
-            'player_name' => 'required|string',
-            'comments' => 'required|string',
-            'reporter_name' => 'required|string',
-            'reporter_email' => 'required|string|email',
-            'server' => 'required|' . Rule::in([1, 2, 'other_server']) . '|' . Rule::notIn(['default_value']), // TODO: Support the IDS of the servers dynamically.
-            'upload_demo' => 'required|mimes:zip,rar,dem|size:25000'
-        ]);
+        if ($request->hasFile('upload_demo')) {
+            $file = $request->file('upload_demo');
 
-        if ($validator->fails()) {
-            return redirect()->route('report.index')->withErrors($validator->errors(), 'errors');
+            $file->store('public/uploads');
         }
 
         return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));

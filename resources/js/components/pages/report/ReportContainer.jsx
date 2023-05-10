@@ -11,8 +11,6 @@ import { router } from '@inertiajs/react';
 
 function ReportContainer({ serversIds, flash, errors }) {
   const [ serverData, setServerData ] = useState([]);
-  const [ currentServer, setCurrentServer ] = useState('');
-  const [ file, setFile ] = useState('');
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     router.post(route('report.create'), { ...values }, {
@@ -84,8 +82,8 @@ function ReportContainer({ serversIds, flash, errors }) {
         }}
         validationSchema={schema}
       >
-        {({ isSubmitting }) => (
-          <Form title={'Report'} formSize={'xl'}>
+        {({ isSubmitting, values, setFieldValue }) => (
+          <Form title={'Report'} formSize={'xl'} encType={'multipart/form-data'}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
                 <Field
@@ -131,9 +129,9 @@ function ReportContainer({ serversIds, flash, errors }) {
                   name={'server'}
                   id={'server'}
                   label={'Server'}
-                  value={currentServer || 'default_value'}
+                  value={values.server || 'default_value'}
                   className={'border-2 hover:border-neutral-400'}
-                  onChange={(e) => setCurrentServer(e.currentTarget.value)}
+                  onChange={(e) => setFieldValue('server', e.target.value)}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
                     Select Server
@@ -156,8 +154,7 @@ function ReportContainer({ serversIds, flash, errors }) {
                   name={'upload_demo'}
                   id={'upload_demo'}
                   label={'Upload Demo'}
-                  onChange={(e) => setFile(e.target.files[0])}
-                  value={file}
+                  onChange={(e) => setFieldValue('upload_demo', e.target.files[0])}
                 />
               </div>
               <div className="flex flex-col items-center">
