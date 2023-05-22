@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 function AnimationFade({ children }) {
   return (
     <motion.div
-      className="flex flex-col w-full h-full"
+      className="flex flex-col gap-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
