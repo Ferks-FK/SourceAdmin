@@ -13,7 +13,7 @@ function ReportContainer({ serversIds, flash, errors }) {
   const [ serverData, setServerData ] = useState([]);
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    router.post(route('report.create'), { ...values }, {
+    router.post(route('report.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       },
@@ -41,11 +41,11 @@ function ReportContainer({ serversIds, flash, errors }) {
   useFlashMessages(flash, errors)
 
   const schema = object().shape({
-    steam_id: string().matches(
+    player_steam_id: string().matches(
       /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/,
       'SteamID invalid.'
     ),
-    ip_address: string().matches(
+    player_ip: string().matches(
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
       'IP Address invalid.'
     ),
@@ -54,9 +54,9 @@ function ReportContainer({ serversIds, flash, errors }) {
     reporter_name: string(),
     reporter_email: string().required('Your email address is required.')
   }).test(function (value) {
-    const { steam_id, ip_address } = value;
+    const { player_steam_id, player_ip } = value;
 
-    if (!steam_id && !ip_address) {
+    if (!player_steam_id && !player_ip) {
       return this.createError({
         message: 'At least one of the following fields must be provided: Steam ID, Player IP.',
         path: 'steam_id'
@@ -71,13 +71,13 @@ function ReportContainer({ serversIds, flash, errors }) {
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          steam_id: '',
-          ip_address: '',
+          player_steam_id: '',
+          player_ip: '',
           player_name: '',
           comments: '',
           reporter_name: '',
           reporter_email: '',
-          server: '',
+          server_id: '',
           upload_demo: ''
         }}
         validationSchema={schema}
@@ -88,15 +88,15 @@ function ReportContainer({ serversIds, flash, errors }) {
               <div className="flex flex-col gap-2">
                 <Field
                   type={'text'}
-                  name={'steam_id'}
-                  id={'steam_id'}
+                  name={'player_steam_id'}
+                  id={'player_steam_id'}
                   label={'Steam ID'}
                   maxLength={20}
                 />
                 <Field
                   type={'text'}
-                  name={'ip_address'}
-                  id={'ip_address'}
+                  name={'player_ip'}
+                  id={'player_ip'}
                   label={'Player IP'}
                 />
                 <Field
@@ -108,7 +108,7 @@ function ReportContainer({ serversIds, flash, errors }) {
                 <Field
                   type={'text-area'}
                   name={'comments'}
-                  id={'comment'}
+                  id={'comments'}
                   label={'Comments'}
                   className={'border-2 rounded'}
                 />
@@ -126,12 +126,12 @@ function ReportContainer({ serversIds, flash, errors }) {
                 />
                 <Field
                   type={'select'}
-                  name={'server'}
-                  id={'server'}
+                  name={'server_id'}
+                  id={'server_id'}
                   label={'Server'}
-                  value={values.server || 'default_value'}
+                  value={values.server_id || 'default_value'}
                   className={'border-2 hover:border-neutral-400'}
-                  onChange={(e) => setFieldValue('server', e.target.value)}
+                  onChange={(e) => setFieldValue('server_id', e.target.value)}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
                     Select Server
@@ -145,9 +145,6 @@ function ReportContainer({ serversIds, flash, errors }) {
                       </option>
                     )
                   })}
-                  <option key={'other_server'} value="other_server">
-                    Other server not listed here
-                  </option>
                 </Field>
                 <Field
                   type={'file'}

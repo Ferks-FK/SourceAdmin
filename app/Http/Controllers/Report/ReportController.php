@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportRequest;
 use App\Traits\Server;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ReportPlayer;
+use App\Models\Report as ReportModel;
+use App\Models\User;
 use Inertia\Inertia;
 
 class ReportController extends Controller
@@ -20,9 +23,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return Inertia::render('report/ReportContainer', [
-            'serversIds' => $this->getServersIds(getAll: true)
-        ]);
+        //
     }
 
     /**
@@ -30,27 +31,11 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(ReportRequest $request)
+    public function create()
     {
-        if ($request->hasFile('upload_demo')) {
-            $file = $request->file('upload_demo');
-
-            $file->store('public/uploads');
-        }
-
-        return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));
-    }
-
-    /**
-     * Get a connection to a server.
-     *
-     * @param \Illuminate\Http\Request  $request
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getServer(Request $request, int $id): JsonResponse
-    {
-        return $this->connectToServer($request, $id);
+        return Inertia::render('report/ReportContainer', [
+            'serversIds' => $this->getServersIds(getAll: true)
+        ]);
     }
 
     /**
@@ -59,9 +44,33 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReportRequest $request)
     {
-        //
+        if ($request->hasFile('upload_demo')) {
+            $file = $request->file('upload_demo');
+            $file_name = 'demo_' . $file->getClientOriginalName();
+            $file->storePubliclyAs('public/upload_demos', $file_name);
+
+            $report = ReportModel::create([
+                'player_steam_id' => $request->input('player_steam_id'),
+                'player_ip' => $request->input('player_ip'),
+                'player_name' => $request->input('player_name'),
+                'comments' => $request->input('comments'),
+                'reporter_name' => $request->input('reporter_name'),
+                'reporter_email' => $request->input('reporter_email'),
+                'server_id' => $request->input('server_id'),
+                'upload_demo' => $file_name,
+            ]);
+        } else {
+            $report = ReportModel::create($request->except('upload_demo'));
+        }
+
+        $users = User::all();
+        foreach ($users as $user) {
+            Notification::send($user, new ReportPlayer($user, $report));
+        }
+
+        return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));
     }
 
     /**

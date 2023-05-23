@@ -8,6 +8,7 @@ use App\Http\Controllers\Ban\BanController;
 use App\Http\Controllers\Mute\MuteController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Appeal\AppealController;
 use App\Models\User;
 
 /*
@@ -87,9 +88,23 @@ Route::group(['prefix' => 'mutes'], function() {
 |
 */
 Route::group(['prefix' => 'report'], function() {
-    Route::get('/', [ReportController::class, 'index'])->name('report.index');
-    Route::post('/create', [ReportController::class, 'create'])->name('report.create');
+    Route::get('/', [ReportController::class, 'create'])->name('report.index');
+    Route::post('/store', [ReportController::class, 'store'])->name('report.store');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Appeal Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /appeal
+|
+*/
+Route::group(['prefix' => 'appeal'], function() {
+    Route::get('/', [AppealController::class, 'create'])->name('appeal.create');
+    Route::post('/create', [AppealController::class, 'store'])->name('appeal.store');
+});
+
 
 /*
 |--------------------------------------------------------------------------

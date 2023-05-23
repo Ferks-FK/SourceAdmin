@@ -10,7 +10,7 @@ function PageContentBlock({ title, children }) {
         <AnimationFade>
           {children}
         </AnimationFade>
-        <div className="my-3">
+        <div className="mt-3">
           <SourceAdminReg/>
         </div>
       </div>
