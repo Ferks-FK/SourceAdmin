@@ -18,6 +18,15 @@ function Field({ id, name, label, type, description, validate, ...props }) {
             {...props}
           />
         )
+      case 'password':
+        return (
+          <Input.Text
+            type={type}
+            id={id}
+            {...field}
+            {...props}
+          />
+        )
       case 'email':
         return (
           <Input.Text
