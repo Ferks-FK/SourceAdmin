@@ -26,12 +26,12 @@ class AppealRequest extends FormRequest
     public function rules()
     {
         return [
-            'steam_id' => function($attribute, $value, $fail) {
+            'player_steam_id' => function($attribute, $value, $fail) {
                 if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
                     $fail(__('The :attribute field must be a valid SteamID or SteamID64.', ['attribute' => $attribute]));
                 }
             },
-            'ip_address' => ['string', 'nullable', 'ipv4'],
+            'player_ip' => ['string', 'nullable', 'ipv4'],
             'player_name' => ['required', 'string', 'min:4', 'max:32'],
             'player_email' => ['required', 'string', 'email'],
             'reason' => ['required', 'string', 'max:1024']

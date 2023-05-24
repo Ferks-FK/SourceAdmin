@@ -23,21 +23,21 @@ function AppealContainer({ flash, errors }) {
   useFlashMessages(flash, errors)
 
   const schema = object().shape({
-    steam_id: string().matches(
+    player_steam_id: string().matches(
       /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/,
       'SteamID invalid.'
     ),
-    ip_address: string().matches(
+    player_ip: string().matches(
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
       'IP Address invalid.'
     ),
     player_name: string().required('The player name is required.'),
-    reason: string().required('The reason is required.'),
-    player_email: string().required('Your email address is required.')
+    player_email: string().required('Your email address is required.'),
+    reason: string().required('The reason is required.')
   }).test(function (value) {
-    const { steam_id, ip_address } = value;
+    const { player_steam_id, player_ip } = value;
 
-    if (!steam_id && !ip_address) {
+    if (!player_steam_id && !player_ip) {
       return this.createError({
         message: 'At least one of the following fields must be provided: Steam ID, Player IP.',
         path: 'steam_id'
@@ -52,11 +52,11 @@ function AppealContainer({ flash, errors }) {
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          steam_id: '',
-          ip_address: '',
+          player_steam_id: '',
+          player_ip: '',
           player_name: '',
-          reason: '',
-          player_email: ''
+          player_email: '',
+          reason: ''
         }}
         validationSchema={schema}
       >
@@ -66,15 +66,15 @@ function AppealContainer({ flash, errors }) {
               <div className="flex flex-col gap-2">
                 <Field
                   type={'text'}
-                  name={'steam_id'}
-                  id={'steam_id'}
+                  name={'player_steam_id'}
+                  id={'player_steam_id'}
                   label={'Steam ID'}
                   maxLength={20}
                 />
                 <Field
                   type={'text'}
-                  name={'ip_address'}
-                  id={'ip_address'}
+                  name={'player_ip'}
+                  id={'player_ip'}
                   label={'Player IP'}
                 />
                 <Field
