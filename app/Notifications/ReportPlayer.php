@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Helpers\SteamHelper;
 use App\Models\User;
 use App\Models\Report;
 
@@ -15,6 +16,7 @@ class ReportPlayer extends Notification implements ShouldQueue
 
     private User $user;
     private Report $report;
+    private SteamHelper $steamHelper;
 
     /**
      * Create a new notification instance.
@@ -25,6 +27,7 @@ class ReportPlayer extends Notification implements ShouldQueue
     {
         $this->user = $user;
         $this->report = $report;
+        $this->steamHelper = new SteamHelper;
     }
 
     /**
@@ -46,14 +49,14 @@ class ReportPlayer extends Notification implements ShouldQueue
      */
     public function toMail()
     {
+        $steamProfile = is_null($this->report->player_steam_id) ? null : $this->steamHelper->generateSteamProfileLink($this->report->player_steam_id);
+
         return (new MailMessage)
             ->subject('Player Report')
-            ->greeting('Hello ' . $this->user->name . '!')
-            ->line('A player was reported on one of your servers!')
-            ->line('Reported User: ' . $this->report->player_name)
-            ->lineIf(!is_null($this->report->player_steam_id), 'Steam-ID User: ' . $this->report->player_steam_id)
-            ->lineIf(!is_null($this->report->player_ip), 'IP User: ' . $this->report->player_ip)
-            ->line('Reporter Name: ' . $this->report->reporter_name)
-            ->line('Reporter Email: ' . $this->report->reporter_email);
+            ->markdown('mail.playerReported', [
+                'userName' => $this->user->name,
+                'content' => $this->report,
+                'steamIDUrl' => $steamProfile
+            ]);
     }
 }

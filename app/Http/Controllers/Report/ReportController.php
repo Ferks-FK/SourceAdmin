@@ -70,7 +70,7 @@ class ReportController extends Controller
             Notification::send($user, new ReportPlayer($user, $report));
         }
 
-        return redirect()->route('report.index')->with('success', __('Your report has been sent to the administrators.'));
+        return redirect()->route('report.create')->with('success', __('Your report has been sent to the administrators.'));
     }
 
     /**
