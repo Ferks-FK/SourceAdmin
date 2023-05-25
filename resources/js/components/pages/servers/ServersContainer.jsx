@@ -114,7 +114,7 @@ function ServersContainer({ serversIds }) {
                       <Table.Component height={'max-h-60'} columns={PlayerColumns}>
                         {playerInfo.length == 0 ? (
                           <Table.Row className={'!cursor-default'}>
-                            <Table.Td colSpan="4">
+                            <Table.Td colSpan="4" className={'py-4'}>
                               <div className="flex flex-col items-center gap-2">
                                 <p className='text-neutral-300'>{t('no_players_found', { ns: 'table' })}</p>
                                 <Button to={`steam://connect/${serverInfo.Ip}:${serverInfo.GamePort}`}>
@@ -126,10 +126,10 @@ function ServersContainer({ serversIds }) {
                         )
                           :
                           playerInfo.map((player) => (
-                            <Table.Row id={player.Id} key={player.Name}>
-                              <Table.Td className={'!py-2 !px-6'}>{player.Name}</Table.Td>
-                              <Table.Td className={'!py-2 !px-6'}>{player.Frags}</Table.Td>
-                              <Table.Td className={'!py-2 !px-6'}>{player.TimeF}</Table.Td>
+                            <Table.Row size='sm' id={player.Id} key={player.Name}>
+                              <Table.Td>{player.Name}</Table.Td>
+                              <Table.Td>{player.Frags}</Table.Td>
+                              <Table.Td>{player.TimeF}</Table.Td>
                             </Table.Row>
                           ))}
                       </Table.Component>

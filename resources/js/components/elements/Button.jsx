@@ -5,7 +5,7 @@ function Button({ to, children, className, isLoading, icon, ...props }) {
   const buttonStyles = `bg-green-500 hover:bg-green-600 transition-all duration-150 text-white rounded disabled:cursor-not-allowed disabled:opacity-75 ${className ?? ''}`;
   const linkStyles = `block text-xs tracking-wide p-2 no-underline uppercase ${isLoading && 'cursor-not-allowed'}`;
 
-  if (to !== undefined && to.startsWith('http')) {
+  if (to !== undefined && (to.startsWith('http') || to.startsWith('steam'))) {
     return (
       <button className={buttonStyles}>
         <a href={to} className={linkStyles} {...props}>

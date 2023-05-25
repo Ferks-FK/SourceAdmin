@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Server;
+use App\Models\Ban;
+use App\Models\Server as ServerModel;
+use App\Traits\Server;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+
 class HomeController extends Controller
 {
+    use Server;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +21,32 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $serverCount = Server::query()
+        $serversCount = ServerModel::query()
+            ->limit(10)
+            ->count();
+        $bansCount = Ban::query()
             ->limit(10)
             ->count();
 
-        return Inertia::render('dashboard/DashboardContainer', [$serverCount]);
+        return Inertia::render('dashboard/DashboardContainer', [
+            'serversCount' => $serversCount,
+            'bansCount' => $bansCount,
+            'serversIds' => $this->getServersIds(5),
+            'bansData' => $this->getBansData(10)
+        ]);
+    }
+
+    public function getBansData(string $limit)
+    {
+        return Ban::query()
+            ->leftJoin('users AS A', 'A.id', 'bans.admin_id')
+            ->leftJoin('users AS B', 'B.id', 'bans.removed_by')
+            ->join('time_bans', 'time_bans.id', 'bans.time_ban_id')
+            ->join('servers', 'servers.id', 'bans.server_id')
+            ->join('mods', 'mods.id', 'mod_id')
+            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by')
+            ->limit($limit)
+            ->get();
     }
 
     /**
