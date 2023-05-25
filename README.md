@@ -11,6 +11,10 @@ Currently this project is in development by [Ferks](https://github.com/Ferks-FK)
 If you find any problems with the current code, please open an issue [here](https://github.com/Ferks-FK/SourceAdmin/issues).
 Contributions are also welcome.
 
+<h1 align="center">Support</h1>
+
+The project is not really stable yet, but we have a [Discord Group](https://discord.gg/BmGkqSwVHs) to support this project.
+
 <h1 align="center">To-Do List</h1>
 
 - [x] Build a basic front-end.
