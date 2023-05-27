@@ -1,31 +1,24 @@
+import { useEffect, useState } from "react";
 import { lowerCase } from "lodash";
 import { useTranslation } from "react-i18next";
 import { Search } from "@/components/elements/Search";
 import { Input } from "@/components/elements/inputs";
+import { Select } from "@/components/elements/Select";
 import { Table } from "@/components/elements/table";
-import { useEffect } from "react";
 
-const Component = ({ columns, children, height, ...props }) => {
-  const { setQuery, limitQuery, setLimitQuery } = props
+const Component = ({ columns, children, className, ...props }) => {
+  const {
+    setQuery,
+    page,
+    setPage,
+    paginationData
+  } = props
   const { t } = useTranslation();
-
-  // It will always fetch at least 1 line.
-  useEffect(() => {
-    limitQuery == 0 && setLimitQuery(1)
-  }, [limitQuery])
 
   return (
     <>
-      {limitQuery || setQuery ?
-        <div className={"flex gap-2 justify-between w-full"}>
-          {setLimitQuery && (
-            <Input.Number
-              placeholder={limitQuery}
-              value={limitQuery}
-              min={1}
-              onChange={setLimitQuery}
-            />
-          )}
+      {setQuery ?
+        <div className={"flex gap-2 justify-end w-full"}>
           {setQuery && (
             <div className="w-full md:w-2/5 max-w-xs">
               <Search setQuery={setQuery} />
@@ -35,7 +28,7 @@ const Component = ({ columns, children, height, ...props }) => {
         :
         null
       }
-      <div className={`overflow-x-auto whitespace-nowrap md:whitespace-normal w-full ${height ? `${height}` : ''}`}>
+      <div className={`flex flex-col gap-4 overflow-x-auto whitespace-nowrap md:whitespace-normal w-full ${className ?? ''}`}>
         <table className="table-auto w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-300 uppercase bg-dark">
             <tr>
@@ -61,6 +54,13 @@ const Component = ({ columns, children, height, ...props }) => {
           </tbody>
         </table>
       </div>
+      {(page && setPage && paginationData) && (
+        <Table.Pagination
+          page={page}
+          setPage={setPage}
+          paginationData={paginationData}
+        />
+      )}
     </>
   )
 }

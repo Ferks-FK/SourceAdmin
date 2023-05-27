@@ -38,7 +38,7 @@ function DashboardContainer({ serversIds, ...props }) {
   }, [])
 
   const TableCustomHeader = ({ title, total }) => (
-    <div className='flex p-4 bg-dark justify-between'>
+    <div className='flex p-4 bg-lightDark justify-between rounded-sm'>
       <p className='text-sm'>{title}</p>
       <p className='text-sm'>{total}</p>
     </div>
@@ -78,7 +78,7 @@ function DashboardContainer({ serversIds, ...props }) {
 
               return (
                 <React.Fragment key={server.id}>
-                  <Table.Row size="sm" className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>
+                  <Table.Row className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>
                     {server.loading ?
                       ServerColumns.map((column, index) => (
                         <Table.Td key={`connecting_${index}`}>
@@ -121,12 +121,12 @@ function DashboardContainer({ serversIds, ...props }) {
             title: 'Latest Added Bans',
             total: `Total Bans: ${bansCount}`
           })}
-          <Table.Component columns={BansColumns} height={`max-h-screen`} dataLength={bansData.length}>
+          <Table.Component columns={BansColumns} className={`max-h-screen`} dataLength={bansData.length}>
             {bansData.map((ban) => {
               const { name, style } = getStyleAndName(ban, t)
 
               return (
-                <Table.Row size='sm' key={ban.id}>
+                <Table.Row key={ban.id}>
                   <Table.Td>
                     <div className='flex gap-1'>
                       <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
@@ -137,7 +137,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   <Table.Td>{ban.player_name}</Table.Td>
                   <Table.Td>{ban.admin_name}</Table.Td>
                   <Table.Td className={'text-center'}>
-                    <div className={`${style} px-1 rounded text-center w-fit`}>
+                    <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
                         {name}
                       </span>

@@ -1,4 +1,4 @@
-const Component = ({ className, children, size = 'base', ...props }) => {
+const Component = ({ className, children, size = 'sm', ...props }) => {
   const trSize = (size) => {
     switch (size) {
       case 'sm':

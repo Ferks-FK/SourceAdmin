@@ -5,26 +5,57 @@ import { Progress } from '@/components/elements/Progress';
 import { useEffect, useState } from 'react';
 import { getPercentage, getStyleAndName, filterData } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { router } from '@inertiajs/react';
 
 function BansContainer({ data }) {
-  const [query, setQuery] = useState('');
-  const [limitQuery, setLimitQuery] = useState(10);
-  const [queryResults, setQueryResults] = useState(data);
+  const pagination = {
+    currentPage: data.current_page,
+    lastPage: data.last_page,
+    perPage: data.per_page,
+    total: data.total,
+    from: data.from,
+    to: data.to,
+    nextPageUrl: data.next_page_url,
+    prevPageUrl: data.prev_page_url
+  }
+  const [ query, setQuery ] = useState('');
+  const [ page, setPage ] = useState(pagination.currentPage);
+  const [ bansData, setBansData ] = useState(data.data)
   const { t } = useTranslation()
 
   useEffect(() => {
-    const filterBansData = async () => {
-      const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
-      const filteredData = filterData(data, keys, query)
+    router.get('/bans', { page: page }, {
+      onSuccess: (data) => {
+        setBansData(data.props.data.data)
+      },
+      onFinish: () => console.log('terminei'),
+      preserveState: true
+    })
+  }, [page])
 
-      setQueryResults(filteredData.slice(0, limitQuery))
-    };
+  // useEffect(() => {
+  //   const filterBansData = async () => {
+  //     const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
+  //     const filteredData = filterData(bansData, keys, query)
 
-    if (query.length === 0 || query.length > 2) {
-      filterBansData();
-    }
+  //     router.get('/bans', { limit: 100 }, {
+  //       onSuccess: (page) => {
+  //         setBansData(filteredData.filter((item, index) => index < page.props.data.length))
+  //       },
+  //       onError: () => {
+  //         console.log('deu erro')
+  //       },
+  //       onFinish: () => console.log('terminei'),
+  //       preserveState: true,
+  //       preserveScroll: true
+  //     })
+  //   };
 
-  }, [query, limitQuery]);
+  //   if (query.length === 0 || query.length > 2) {
+  //     filterBansData();
+  //   }
+
+  // }, [query, page]);
 
   const BansColumns = [
     "MOD/Country",
@@ -37,8 +68,16 @@ function BansContainer({ data }) {
 
   return (
     <PageContentBlock title={"Bans"}>
-      <Table.Component columns={BansColumns} height={`max-h-screen`} setQuery={setQuery} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={queryResults.length}>
-        {queryResults.map((ban) => {
+      <Table.Component
+        columns={BansColumns}
+        className={`max-h-full`}
+        setQuery={setQuery}
+        dataLength={bansData.length}
+        page={page}
+        setPage={setPage}
+        paginationData={pagination}
+      >
+        {bansData.map((ban) => {
           const { name, style } = getStyleAndName(ban, t)
 
           return (
@@ -52,8 +91,8 @@ function BansContainer({ data }) {
               <Table.Td>{ban.created_at}</Table.Td>
               <Table.Td>{ban.player_name}</Table.Td>
               <Table.Td>{ban.admin_name}</Table.Td>
-              <Table.Td className={'flex justify-start'}>
-                <div className={`${style} px-1 rounded text-center w-fit`}>
+              <Table.Td className={'text-center'}>
+                <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                   <span className='text-xs font-semibold'>
                     {name}
                   </span>

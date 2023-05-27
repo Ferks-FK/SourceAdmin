@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
+                    'location' => $request->url()
                 ]);
             },
             'flash' => function () use ($request) {

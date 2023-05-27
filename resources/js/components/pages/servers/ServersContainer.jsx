@@ -111,7 +111,7 @@ function ServersContainer({ serversIds }) {
                 <tr>
                   <Table.Td colSpan="7" className={'!p-0'}>
                     <Collapse visible={activeTable === serverId}>
-                      <Table.Component height={'max-h-60'} columns={PlayerColumns}>
+                      <Table.Component className={'max-h-60'} columns={PlayerColumns}>
                         {playerInfo.length == 0 ? (
                           <Table.Row className={'!cursor-default'}>
                             <Table.Td colSpan="4" className={'py-4'}>
@@ -126,7 +126,7 @@ function ServersContainer({ serversIds }) {
                         )
                           :
                           playerInfo.map((player) => (
-                            <Table.Row size='sm' id={player.Id} key={player.Name}>
+                            <Table.Row id={player.Id} key={player.Name}>
                               <Table.Td>{player.Name}</Table.Td>
                               <Table.Td>{player.Frags}</Table.Td>
                               <Table.Td>{player.TimeF}</Table.Td>
