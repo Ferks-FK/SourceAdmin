@@ -23,4 +23,4 @@ The project is not really stable yet, but we have a [Discord Group](https://disc
 
 <h1 align="center">Preview</h1>
 
-![](https://i.imgur.com/yjUrozo.gif)
+![](https://i.imgur.com/KiWQEFh.gif)
