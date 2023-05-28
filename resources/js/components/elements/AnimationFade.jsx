@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { FlashMessageRender } from "@/components/FlashMessageRender";
 
 function AnimationFade({ children }) {
   return (
@@ -9,6 +10,7 @@ function AnimationFade({ children }) {
       exit={{ opacity: 0 }}
       transition={{duration: 0.2, ease: "easeInOut"}}
     >
+      <FlashMessageRender/>
       {children}
     </motion.div>
   )

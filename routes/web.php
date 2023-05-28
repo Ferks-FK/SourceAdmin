@@ -64,6 +64,7 @@ Route::group(['prefix' => 'servers'], function() {
 */
 Route::group(['prefix' => 'bans'], function() {
     Route::get('/', [BanController::class, 'index'])->name('bans.index');
+    Route::get('/search', [BanController::class, 'getBansData'])->name('bans.search');
 });
 
 /*
@@ -76,6 +77,7 @@ Route::group(['prefix' => 'bans'], function() {
 */
 Route::group(['prefix' => 'mutes'], function() {
     Route::get('/', [MuteController::class, 'index'])->name('mutes.index');
+    Route::get('/search', [MuteController::class, 'getCommsData'])->name('mutes.search');
 });
 
 /*

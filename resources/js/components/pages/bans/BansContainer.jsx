@@ -3,59 +3,39 @@ import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Progress } from '@/components/elements/Progress';
 import { useEffect, useState } from 'react';
-import { getPercentage, getStyleAndName, filterData } from '@/helpers';
+import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
-import { router } from '@inertiajs/react';
+import { useFlashesStore } from '@/stores/flashes';
+import http from '@/api/http';
 
 function BansContainer({ data }) {
-  const pagination = {
-    currentPage: data.current_page,
-    lastPage: data.last_page,
-    perPage: data.per_page,
-    total: data.total,
-    from: data.from,
-    to: data.to,
-    nextPageUrl: data.next_page_url,
-    prevPageUrl: data.prev_page_url
-  }
-  const [ query, setQuery ] = useState('');
-  const [ page, setPage ] = useState(pagination.currentPage);
-  const [ bansData, setBansData ] = useState(data.data)
+  const pagination = paginationItems(data)
+  const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(pagination.currentPage);
+  const [bansData, setBansData] = useState(data.data)
   const { t } = useTranslation()
 
   useEffect(() => {
-    router.get('/bans', { page: page }, {
-      onSuccess: (data) => {
-        setBansData(data.props.data.data)
-      },
-      onFinish: () => console.log('terminei'),
-      preserveState: true
-    })
-  }, [page])
+    clearFlashes();
 
-  // useEffect(() => {
-  //   const filterBansData = async () => {
-  //     const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
-  //     const filteredData = filterData(bansData, keys, query)
+    if (searchQuery.length == 0 || searchQuery.length > 2) {
+      const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
 
-  //     router.get('/bans', { limit: 100 }, {
-  //       onSuccess: (page) => {
-  //         setBansData(filteredData.filter((item, index) => index < page.props.data.length))
-  //       },
-  //       onError: () => {
-  //         console.log('deu erro')
-  //       },
-  //       onFinish: () => console.log('terminei'),
-  //       preserveState: true,
-  //       preserveScroll: true
-  //     })
-  //   };
-
-  //   if (query.length === 0 || query.length > 2) {
-  //     filterBansData();
-  //   }
-
-  // }, [query, page]);
+      // Set the results to the default query when it is no longer being searched.
+      if (searchQuery.length == 0) {
+        setBansData(data.data)
+      } else {
+        // Consult the data based on the search term.
+        // This will probably be redone.
+        http.get(route('bans.search'), { params: { all: true } }).then((response) => {
+          setBansData(filterData(response.data, keys, searchQuery))
+        }).catch((error) => {
+          addError({ message: error.message })
+        })
+      }
+    }
+  }, [searchQuery])
 
   const BansColumns = [
     "MOD/Country",
@@ -71,10 +51,10 @@ function BansContainer({ data }) {
       <Table.Component
         columns={BansColumns}
         className={`max-h-full`}
-        setQuery={setQuery}
+        setQuery={setSearchQuery}
         dataLength={bansData.length}
-        page={page}
-        setPage={setPage}
+        page={currentPage}
+        setPage={setCurrentPage}
         paginationData={pagination}
       >
         {bansData.map((ban) => {

@@ -33,27 +33,30 @@ const DangerButton = ({ className, ...props }) => (
   <Button className={classNames(styles.danger, className)} {...props}/>
 )
 
-const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => (
-  <Button className={classNames(className)} {...props}>
-    <div className={classNames(
-      'flex items-center', {
-      'flex-row-reverse': iconPosition == 'right'
-      })}
-    >
-      <FontAwesomeIcon icon={icon} size={iconSize}/>
-    </div>
-  </Button>
-)
+const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => {
+  const containerStyles = classNames('flex items-center', {
+    'flex-row-reverse': iconPosition == 'right'
+  });
+
+  return (
+    <Button className={classNames(className)} {...props}>
+      <div className={containerStyles}>
+        <FontAwesomeIcon icon={icon} size={iconSize}/>
+      </div>
+    </Button>
+  )
+}
 
 const IconAndLink = ({ className, icon, iconPosition, iconSize, to, children, ...props }) => {
   const buttonStyles = classNames('!p-0 flex items-center');
+  const linkStyles = classNames(styles.link, {
+    'flex flex-row-reverse items-center': iconPosition == 'right',
+    'cursor-not-allowed pointer-events-none': props.disabled
+  });
 
   return (
-    <Button {...props} disabled={props.disabled} className={buttonStyles}>
-      <Link href={to} className={classNames(styles.link, {
-        'flex flex-row-reverse items-center': iconPosition == 'right',
-        'cursor-not-allowed pointer-events-none': props.disabled
-      })}>
+    <Button {...props} className={buttonStyles}>
+      <Link href={to} className={linkStyles}>
         <FontAwesomeIcon icon={icon} size={iconSize} className='w-5'/>
         {children}
       </Link>

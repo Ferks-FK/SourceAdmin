@@ -6,26 +6,38 @@ import { Progress } from '@/components/elements/Progress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { getPercentage, getStyleAndName, filterData } from '@/helpers';
+import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
+import { useFlashesStore } from '@/stores/flashes';
+import http from '@/api/http';
 
 function MutesContainer({ data }) {
-  const [query, setQuery] = useState('');
-  const [limitQuery, setLimitQuery] = useState(10)
-  const [mutesData, setMutesData] = useState(data);
+  const pagination = paginationItems(data)
+  const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(pagination.currentPage);
+  const [mutesData, setMutesData] = useState(data.data);
   const { t } = useTranslation();
 
   useEffect(() => {
-    const filterMutesData = async () => {
+    clearFlashes()
+
+    if (searchQuery.length == 0 || searchQuery.length > 2) {
       const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name', 'type']
-      const filteredData = filterData(data, keys, query)
 
-      setMutesData(filteredData.slice(0, limitQuery))
+      // Set the results to the default query when it is no longer being searched.
+      if (searchQuery.length == 0) {
+        setMutesData(data.data)
+      } else {
+        // Consult the data based on the search term.
+        // This will probably be redone.
+        http.get(route('mutes.search'), { params: { all: true } }).then((response) => {
+          setMutesData(filterData(response.data, keys, searchQuery))
+        }).catch((error) => {
+          addError({ message: error.message })
+        })
+      }
     }
-
-    if (query.length === 0 || query.length > 2) {
-      filterMutesData();
-    }
-  }, [query, limitQuery])
+  }, [searchQuery])
 
 
   const CommsColumns = [
@@ -39,7 +51,14 @@ function MutesContainer({ data }) {
 
   return (
     <PageContentBlock title={"Comms"}>
-      <Table.Component columns={CommsColumns} setQuery={setQuery} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={mutesData.length}>
+      <Table.Component
+        columns={CommsColumns}
+        setQuery={setSearchQuery}
+        dataLength={mutesData.length}
+        page={currentPage}
+        setPage={setCurrentPage}
+        paginationData={pagination}
+      >
         {mutesData.map((mute) => {
           const { name, style } = getStyleAndName(mute, t)
 

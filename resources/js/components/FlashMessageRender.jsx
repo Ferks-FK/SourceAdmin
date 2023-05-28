@@ -1,5 +1,7 @@
-import { useFlashesStore } from "@/stores/flashes"
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useFlashesStore } from "@/stores/flashes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const style = (type) => {
   switch (type) {
@@ -32,7 +34,12 @@ const styleBackground = (type) => {
 }
 
 function FlashMessageRender({ byKey, className }) {
-  const flashes = useFlashesStore((state) => state.items.filter(flash => (byKey ? flash.key === byKey : true)));
+  const [ flashes, clearFlashes ] = useFlashesStore((state) => [state.items.filter(flash => (byKey ? flash.key === byKey : true)), state.clearFlashes]);
+  const [ renderFlash, setRenderFlash ] = useState(flashes.length >= 1 ? true : false);
+
+  useEffect(() => {
+    clearFlashes()
+  }, [renderFlash])
 
   if (flashes.length == 0) return null
 
@@ -41,17 +48,22 @@ function FlashMessageRender({ byKey, className }) {
 
     return (
       <div className={`${className ?? ''}`}>
-        <div className={`p-2 border items-center leading-normal rounded flex w-full text-sm text-white ${style(flash.type)}`}>
-          {flash.title && (
-            <span
-              className={`flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3 leading-none ${styleBackground(flash.type)}`}
-            >
-              {flash.title}
+        <div className={`p-2 border items-center leading-normal rounded flex justify-between w-full text-sm text-white ${style(flash.type)}`}>
+          <div className="flex items-center">
+            {flash.title && (
+              <span
+                className={`flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3 leading-none ${styleBackground(flash.type)}`}
+              >
+                {flash.title}
+              </span>
+            )}
+            <span className="mr-2 text-left flex-auto">
+              {flash.message}
             </span>
-          )}
-          <span className="mr-2 text-left flex-auto">
-            {flash.message}
-          </span>
+          </div>
+          <div className='cursor-pointer' onClick={() => setRenderFlash(!renderFlash)}>
+            <FontAwesomeIcon icon={faClose} size='lg'/>
+          </div>
         </div>
       </div>
     )

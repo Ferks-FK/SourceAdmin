@@ -79,3 +79,14 @@ export function filterData(data, keys, query) {
 export function separateInternalObjects(array) {
   return array.flatMap(object => Object.entries(object).map(([key, value]) => ({ [key]: value })));
 }
+
+export const paginationItems = (data) => ({
+  currentPage: data.current_page,
+  lastPage: data.last_page,
+  perPage: data.per_page,
+  total: data.total,
+  from: data.from,
+  to: data.to,
+  nextPageUrl: data.next_page_url,
+  prevPageUrl: data.prev_page_url
+})

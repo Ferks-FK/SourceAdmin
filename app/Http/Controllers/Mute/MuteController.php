@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Mute;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MuteController extends Controller
 {
@@ -16,26 +17,22 @@ class MuteController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 10);
-
-        if (is_null($limit)) $limit = 10;
-
         return Inertia::render('mutes/MutesContainer', [
-            'data' => $this->getCommsData($limit)
+            'data' => $this->getCommsData($request)
         ]);
     }
 
-    protected function getCommsData(string $limit)
+    protected function getCommsData(Request $request)
     {
-        return Mute::query()
+        $query = QueryBuilder::for(Mute::class)
             ->leftJoin('users AS A', 'A.id', 'mutes.admin_id')
             ->leftJoin('users AS B', 'B.id', 'mutes.removed_by')
             ->join('time_bans', 'time_bans.id', 'mutes.time_ban_id')
             ->join('servers', 'servers.id', 'mutes.server_id')
             ->join('mods', 'mods.id', 'mod_id')
-            ->select('mutes.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'mutes.ip', 'mutes.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'mutes.end_at', 'mutes.type', 'B.name as removed_by')
-            ->limit($limit)
-            ->get();
+            ->select('mutes.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'mutes.ip', 'mutes.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'mutes.end_at', 'mutes.type', 'B.name as removed_by');
+
+        return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
     }
 
     /**

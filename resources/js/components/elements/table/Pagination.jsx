@@ -13,10 +13,9 @@ const Component = ({ paginationData }) => {
     total
   } = paginationData;
 
-  console.log(paginationData)
   return (
     <div className={'flex flex-wrap items-center justify-center sm:justify-between gap-2'}>
-      <p>Showing: {from} to {to} of {total}</p>
+      <p className="text-sm">Showing: {from} to {to} of {total}</p>
       <div className="flex items-center gap-2">
         <Button.IconLink
           key={'previous'}
@@ -24,7 +23,7 @@ const Component = ({ paginationData }) => {
           disabled={currentPage == 1}
           className={currentPage == 1 && 'cursor-not-allowed'}
           icon={faChevronLeft}
-          iconSize={'md'}
+          iconSize={'sm'}
           iconPosition={'left'}
         >
           Previous
@@ -35,7 +34,7 @@ const Component = ({ paginationData }) => {
           disabled={currentPage == lastPage}
           className={'border-none rounded'}
           icon={faChevronRight}
-          iconSize={'md'}
+          iconSize={'sm'}
           iconPosition="right"
         >
           Next
