@@ -5,20 +5,23 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\User;
 
-class TestEmail extends Notification
+class TestEmail extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    private User $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(private User $user)
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**

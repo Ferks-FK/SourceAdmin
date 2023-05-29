@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Appeal;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppealRequest;
+use App\Jobs\Appeal as AppealJob;
 use App\Models\Appeal;
-use App\Models\User;
-use App\Notifications\Appeal as AppealNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 
 class AppealController extends Controller
@@ -43,10 +41,7 @@ class AppealController extends Controller
     {
         $appeal = Appeal::create($request->all());
 
-        $users = User::all();
-        foreach ($users as $user) {
-            Notification::send($user, new AppealNotification($user, $appeal));
-        }
+        AppealJob::dispatch($appeal);
 
         return redirect()->route('appeal.create')->with('success', __('Your appeal has been sent to the administrators.'));
     }

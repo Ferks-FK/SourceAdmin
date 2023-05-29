@@ -90,7 +90,7 @@ Route::group(['prefix' => 'mutes'], function() {
 */
 Route::group(['prefix' => 'report'], function() {
     Route::get('/', [ReportController::class, 'create'])->name('report.create');
-    Route::post('/store', [ReportController::class, 'store'])->name('report.store');
+    Route::post('/store', [ReportController::class, 'store'])->middleware('throttle:3,1')->name('report.store');
 });
 
 /*
@@ -103,7 +103,7 @@ Route::group(['prefix' => 'report'], function() {
 */
 Route::group(['prefix' => 'appeal'], function() {
     Route::get('/', [AppealController::class, 'create'])->name('appeal.create');
-    Route::post('/create', [AppealController::class, 'store'])->name('appeal.store');
+    Route::post('/create', [AppealController::class, 'store'])->middleware('throttle:3,1')->name('appeal.store');
 });
 
 

@@ -10,7 +10,8 @@ function ErrorPage({ status }) {
     503: t(status, {status}),
     500: t(status, {status}),
     404: t(status, {status}),
-    403: t(status, {status})
+    403: t(status, {status}),
+    429: t(status, {status})
   }[status]
 
   return (

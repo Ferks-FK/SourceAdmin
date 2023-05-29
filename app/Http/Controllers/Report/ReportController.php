@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportRequest;
 use App\Traits\Server;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\ReportPlayer;
+use App\Jobs\ReportPlayer;
 use App\Models\Report as ReportModel;
-use App\Models\User;
 use Inertia\Inertia;
 
 class ReportController extends Controller
@@ -65,10 +63,7 @@ class ReportController extends Controller
             $report = ReportModel::create($request->except('upload_demo'));
         }
 
-        $users = User::all();
-        foreach ($users as $user) {
-            Notification::send($user, new ReportPlayer($user, $report));
-        }
+        ReportPlayer::dispatch($report);
 
         return redirect()->route('report.create')->with('success', __('Your report has been sent to the administrators.'));
     }
