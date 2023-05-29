@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { getServerData } from '@/api/servers/getServers';
 import { Table } from '@/components/elements/table';
@@ -8,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
 
 function DashboardContainer({ serversIds, ...props }) {
-  const { serversCount, bansCount, bansData } = props;
+  const { serversCount, bansCount, mutesCount, bansData, mutesData } = props;
   const [serverData, setServerData] = useState([]);
   const { t } = useTranslation();
 
@@ -37,9 +39,12 @@ function DashboardContainer({ serversIds, ...props }) {
     fetchServerData();
   }, [])
 
-  const TableCustomHeader = ({ title, total }) => (
+  const TableCustomHeader = ({ title, total, icon }) => (
     <div className='flex p-4 bg-lightDark justify-between rounded-sm'>
-      <p className='text-sm'>{title}</p>
+      <div className='flex items-center gap-1'>
+        <FontAwesomeIcon icon={icon} color='white' />
+        <p className='text-sm'>{title}</p>
+      </div>
       <p className='text-sm'>{total}</p>
     </div>
   )
@@ -63,55 +68,66 @@ function DashboardContainer({ serversIds, ...props }) {
     "Progress"
   ]
 
+  const CommsColumns = [
+    "MOD/Type",
+    "Date/Time",
+    "Player",
+    "Admin",
+    "Length",
+    "Progress"
+  ]
+
   return (
     <PageContentBlock title={'Dashboard'} className={'gap-10'}>
       <div className='flex flex-col gap-10'>
         <div className='flex flex-col gap-2'>
           {TableCustomHeader({
             title: 'Latest Servers',
-            total: `Total Servers: ${serversCount}`
+            total: `Total Servers: ${serversCount}`,
+            icon: faServer
           })}
-          <Table.Component columns={ServerColumns} dataLength={serverData.length}>
+          <Table.Component
+            columns={ServerColumns}
+            dataLength={serverData.length}
+          >
             {serverData.map((server) => {
               const serverInfo = server[0]
               console.log(serverInfo)
 
               return (
-                <React.Fragment key={server.id}>
-                  <Table.Row className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>
-                    {server.loading ?
-                      ServerColumns.map((column, index) => (
-                        <Table.Td key={`connecting_${index}`}>
-                          {column === "HostName" && t('servers.quering_server_data')}
-                        </Table.Td>
-                      ))
-                      :
-                      <>
-                        <Table.Td>
-                          <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
-                        </Table.Td>
-                        <Table.Td>
-                          {serverInfo?.Is_online ?
-                            <Image src={`/images/${serverInfo.Os}.png`} className="w-5" />
-                            :
-                            "N/A"
-                          }
-                        </Table.Td>
-                        <Table.Td>
-                          {serverInfo?.Is_online ?
-                            <Image src={`/images/${serverInfo.Secure ? 'shield' : 'smac'}.png`} className="w-5" />
-                            :
-                            "N/A"
-                          }
-                        </Table.Td>
-                        <Table.Td>{serverInfo.HostName}</Table.Td>
-                        <Table.Td>{serverInfo?.Is_online ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
-                        <Table.Td>{serverInfo.Map}</Table.Td>
-                        <Table.Td>{serverInfo?.Is_online ? Math.round(serverInfo.Ping) : "N/A"}</Table.Td>
-                      </>
-                    }
-                  </Table.Row>
-                </React.Fragment>
+                <Table.Row key={server.id || serverInfo?.Id} className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>
+                  {server.loading ?
+                    ServerColumns.map((column, index) => (
+                      <Table.Td key={`connecting_${index}`}>
+                        {column === "HostName" && t('servers.quering_server_data')}
+                      </Table.Td>
+                    ))
+                    :
+                    <>
+                      <Table.Td>
+                        <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                      </Table.Td>
+                      <Table.Td>
+                        {serverInfo?.Is_online ?
+                          <Image src={`/images/${serverInfo.Os}.png`} className="w-5" />
+                          :
+                          "N/A"
+                        }
+                      </Table.Td>
+                      <Table.Td>
+                        {serverInfo?.Is_online ?
+                          <Image src={`/images/${serverInfo.Secure ? 'shield' : 'smac'}.png`} className="w-5" />
+                          :
+                          "N/A"
+                        }
+                      </Table.Td>
+                      <Table.Td>{serverInfo.HostName}</Table.Td>
+                      <Table.Td>{serverInfo?.Is_online ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
+                      <Table.Td>{serverInfo.Map}</Table.Td>
+                      <Table.Td>{serverInfo?.Is_online ? Math.round(serverInfo.Ping) : "N/A"}</Table.Td>
+                    </>
+                  }
+                </Table.Row>
               )
             })}
           </Table.Component>
@@ -119,9 +135,14 @@ function DashboardContainer({ serversIds, ...props }) {
         <div className='flex flex-col gap-2'>
           {TableCustomHeader({
             title: 'Latest Added Bans',
-            total: `Total Bans: ${bansCount}`
+            total: `Total Bans: ${bansCount}`,
+            icon: faFaceMeh
           })}
-          <Table.Component columns={BansColumns} className={`max-h-screen`} dataLength={bansData.length}>
+          <Table.Component
+            columns={BansColumns}
+            className={`max-h-screen`}
+            dataLength={bansData.length}
+          >
             {bansData.map((ban) => {
               const { name, style } = getStyleAndName(ban, t)
 
@@ -145,6 +166,87 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>
                     <Progress bgColor={style} completed={getPercentage(ban)} />
+                  </Table.Td>
+                </Table.Row>
+              )
+            })}
+          </Table.Component>
+        </div>
+
+        <div className='flex flex-col gap-2'>
+          {TableCustomHeader({
+            title: 'Latest Added Commns Block',
+            total: `Total Blocked: ${mutesCount}`,
+            icon: faMicrophoneSlash
+          })}
+          <Table.Component
+            columns={CommsColumns}
+            dataLength={mutesData.length}
+          >
+            {mutesData.map((mute) => {
+              const { name, style } = getStyleAndName(mute, t)
+
+              return (
+                <Table.Row key={mute.id}>
+                  <Table.Td>
+                    <div className='flex gap-1'>
+                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                      <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
+                    </div>
+                  </Table.Td>
+                  <Table.Td>{mute.created_at}</Table.Td>
+                  <Table.Td>{mute.player_name}</Table.Td>
+                  <Table.Td>{mute.admin_name}</Table.Td>
+                  <Table.Td className={'text-center'}>
+                    <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
+                      <span className='text-xs font-semibold'>
+                        {name}
+                      </span>
+                    </div>
+                  </Table.Td>
+                  <Table.Td>
+                    <Progress bgColor={style} completed={getPercentage(mute)} />
+                  </Table.Td>
+                </Table.Row>
+              )
+            })}
+          </Table.Component>
+        </div>
+
+        {/* It will be changed as soon as we have the plugin working and returning data from offending players. */}
+        <div className='flex flex-col gap-2'>
+          {TableCustomHeader({
+            title: 'Latest Players Blocked',
+            total: `Total Stopped: ${mutesCount}`,
+            icon: faHand
+          })}
+          <Table.Component
+            columns={CommsColumns}
+            dataLength={mutesData.length}
+          >
+            {mutesData.map((mute) => {
+              const { name, style } = getStyleAndName(mute, t)
+
+              return (
+                <Table.Row key={mute.id}>
+                  <Table.Td>
+                    <div className='flex gap-1'>
+                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                      <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
+                    </div>
+                  </Table.Td>
+                  <Table.Td>{mute.created_at}</Table.Td>
+                  <Table.Td>{mute.player_name}</Table.Td>
+                  <Table.Td>{mute.admin_name}</Table.Td>
+                  <Table.Td className={'text-center'}>
+                    <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
+                      <span className='text-xs font-semibold'>
+                        {name}
+                      </span>
+                    </div>
+                  </Table.Td>
+                  <Table.Td>
+                    <Progress bgColor={style} completed={getPercentage(mute)} />
                   </Table.Td>
                 </Table.Row>
               )
