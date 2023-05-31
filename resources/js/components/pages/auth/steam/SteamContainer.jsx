@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import steam from "@/api/auth/steam";
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
 import { useTranslation } from "react-i18next";
 
 function SteamContainer() {
@@ -21,14 +21,13 @@ function SteamContainer() {
   }, [])
 
   return (
-    <Button
+    <Button.ExternalLink
       to={steamUrl}
-      isLoading={isLoading}
       disabled={isLoading}
-      className={`!bg-slate-800 hover:!bg-slate-900 disabled:hover:!bg-slate-800 p-1`}
+      className={`!bg-slate-800 hover:!bg-slate-900 disabled:hover:!bg-slate-800`}
     >
       {t('login_steam', {ns: 'buttons'})}
-    </Button>
+    </Button.ExternalLink>
   )
 }
 

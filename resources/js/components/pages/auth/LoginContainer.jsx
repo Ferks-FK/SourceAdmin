@@ -4,7 +4,7 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Field } from "@/components/elements/Field";
 import { Form } from "@/components/elements/Form";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
 import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
@@ -40,9 +40,9 @@ function LoginContainer(props) {
                 <Field type="password" name="password" label={t('login.password_label')} size="small" />
               </div>
               <div className="flex justify-center w-full mt-6">
-                <Button type="submit" disabled={isSubmitting} className={'p-2'}>
+                <Button.Text type="submit" disabled={isSubmitting} className={''}>
                   {t('login', { ns: 'buttons' })}
-                </Button>
+                </Button.Text>
               </div>
             </Form>
             <div className="flex flex-col justify-between h-full w-full max-w-sm">

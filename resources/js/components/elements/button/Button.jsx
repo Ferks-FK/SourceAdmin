@@ -47,8 +47,28 @@ const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => {
   )
 }
 
+const ExternalLinkButton = ({ className, to, children, ...props }) => {
+  return (
+    <Button className={classNames(className, '!p-0')} {...props}>
+      <a href={to} target='_blank' className={classNames(styles.link, '!px-4 !py-2 block w-full')}>
+        {children}
+      </a>
+    </Button>
+  )
+}
+
+const InternalLinkButton = ({ className, to, children, ...props }) => {
+  return (
+    <Button className={classNames(className, '!p-0')} {...props}>
+      <Link href={to} className={classNames(styles.link, '!px-4 !py-2 block w-full')}>
+        {children}
+      </Link>
+    </Button>
+  )
+}
+
 const IconAndLink = ({ className, icon, iconPosition, iconSize, to, children, ...props }) => {
-  const buttonStyles = classNames('!p-0 flex items-center');
+  const buttonStyles = classNames('!p-0 flex items-center', className);
   const linkStyles = classNames(styles.link, {
     'flex flex-row-reverse items-center': iconPosition == 'right',
     'cursor-not-allowed pointer-events-none': props.disabled
@@ -71,6 +91,8 @@ const _Button = Object.assign(Button, {
   Text: TextButton,
   Danger: DangerButton,
   Icon: IconButton,
+  InternalLink: InternalLinkButton,
+  ExternalLink: ExternalLinkButton,
   IconLink: IconAndLink
 })
 

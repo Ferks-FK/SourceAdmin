@@ -1,9 +1,15 @@
 import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { useSidebarStore } from "@/stores/components/sidebar";
+import { useUserStore } from "@/stores/user";
 
-export const Layout = ({ children }) => {
+export const Layout = ({ children, userAuth }) => {
   const sidebarIsVisible = useSidebarStore((state) => state.isVisible)
+  const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
+
+  if (!userData && userAuth) {
+    setUserData(userAuth)
+  }
 
   return (
     <>

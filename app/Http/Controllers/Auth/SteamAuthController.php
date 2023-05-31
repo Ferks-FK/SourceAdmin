@@ -42,7 +42,7 @@ class SteamAuthController extends Controller
      */
     public function steamCallback(): RedirectResponse
     {
-        if (empty(config('steam_auth_api_keys'))) {
+        if (empty(config('steam-auth.api_keys'))) {
             return redirect()->route('auth')->with('error', __('Steam API key has not been configured.'));
         }
 

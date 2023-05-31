@@ -7,7 +7,8 @@ import { routes } from "@/routers/routes"
 import { useEffect, useState } from "react";
 import { Translate } from "@/components/Translate";
 import { lowerCase } from "lodash";
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
+import { Size } from "@/components/elements/button/types"
 import { useTranslation } from "react-i18next";
 
 function SideBar({ active }) {
@@ -74,9 +75,9 @@ function SideBar({ active }) {
           </div>
         :
           <div className="flex justify-center">
-          <Button type={'button'} to={'/auth/login'} className="w-full">
+          <Button.InternalLink size={Size.Small} type={'button'} to={'/auth/login'} className="w-full">
             {t('login', {ns: 'buttons'})}
-          </Button>
+          </Button.InternalLink>
         </div>
         }
       </div>

@@ -10,7 +10,7 @@ createInertiaApp({
   resolve: (name) => resolvePageComponent(`./components/pages/${name}.jsx`, import.meta.glob('./components/pages/**/*.jsx')),
   setup({ el, App, props }) {
     createRoot(el).render(
-      <Layout>
+      <Layout userAuth={props.initialPage.props.auth.user}>
         <App {...props} />
       </Layout>
     )
