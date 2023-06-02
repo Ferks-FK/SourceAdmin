@@ -3,7 +3,11 @@ import { faHouse,
   faBan, faLock,
   faMicrophoneSlash,
   faTriangleExclamation,
-  faUserGear
+  faUserGear,
+  faUser,
+  faUsers,
+  faBoxesStacked,
+  faGear
 } from "@fortawesome/free-solid-svg-icons";
 
 export const routes = {
@@ -51,6 +55,50 @@ export const routes = {
       icon: faUserGear,
       route: '/admin',
       isProtected: true
+    }
+  ],
+  adminRoutes: [
+    {
+      title: 'Admin Settings',
+      key: 'admin_settings',
+      icon: faUser,
+      route: '/admin/admin_settings'
+    },
+    {
+      title: 'Server Settings',
+      key: 'server_settings',
+      icon: faServer,
+      route: '/admin/server_settings'
+    },
+    {
+      title: 'Bans Settings',
+      key: 'bans_settings',
+      icon: faBan,
+      route: '/admin/bans_settings'
+    },
+    {
+      title: 'Comms Settings',
+      key: 'comms_settings',
+      icon: faMicrophoneSlash,
+      route: '/admin/comms_settings'
+    },
+    {
+      title: 'Group Settings',
+      key: 'group_settings',
+      icon: faUsers,
+      route: '/admin/group_settings'
+    },
+    {
+      title: 'Mods Settings',
+      key: 'mods_settings',
+      icon: faBoxesStacked,
+      route: '/admin/mods_settings'
+    },
+    {
+      title: 'Panel Settings',
+      key: 'panel_settings',
+      icon: faGear,
+      route: '/admin/panel_settings'
     }
   ]
 };

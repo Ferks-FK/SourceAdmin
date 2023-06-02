@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'version' => 'canary',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

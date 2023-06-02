@@ -57,10 +57,10 @@ const ExternalLinkButton = ({ className, to, children, ...props }) => {
   )
 }
 
-const InternalLinkButton = ({ className, to, children, ...props }) => {
+const InternalLinkButton = ({ className, linkClassName, to, children, ...props }) => {
   return (
     <Button className={classNames(className, '!p-0')} {...props}>
-      <Link href={to} className={classNames(styles.link, '!px-4 !py-2 block w-full')}>
+      <Link href={to} className={classNames(styles.link, 'block w-full', linkClassName)}>
         {children}
       </Link>
     </Button>

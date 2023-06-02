@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\GetAppVersion;
+use App\Models\Appeal;
+use App\Models\Ban;
+use App\Models\Report;
+use App\Models\Server;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,9 +19,22 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(GetAppVersion $version)
     {
-        return Inertia::render('admin/AdminContainer');
+        $isLatestVersion = $version->isLastestVersion();
+
+        return Inertia::render('admin/AdminOverview', [
+            'versionData' => [
+                'isLatestVersion' => $isLatestVersion,
+                'currentVersion' => $version->getCurrentVersion(),
+                'latestVersion' => $version->getLatestVersion()
+            ],
+            'usersCount' => User::query()->count(),
+            'serversCount' => Server::query()->count(),
+            'bansCount' => Ban::query()->count(),
+            'appealsCount' => Appeal::query()->count(),
+            'reportsCount' => Report::query()->count()
+        ]);
     }
 
     /**

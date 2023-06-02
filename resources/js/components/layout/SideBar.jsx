@@ -30,10 +30,6 @@ function SideBar({ active }) {
     }
   }
 
-  const handleActiveRoute = (route) => {
-    setActiveRoute(route);
-  };
-
   useEffect(() => {
     setVisibleRoutes(routes.sidebarRoutes.filter(route => {
       if (route?.isProtected && !isLogged) {
@@ -53,7 +49,7 @@ function SideBar({ active }) {
               href={route}
               className={`${sidebarIsVisible ? 'md:!w-auto' : ''} ${activeRoute === route ? 'active' : ''}`}
               onClick={() => {
-                handleActiveRoute(route)
+                setActiveRoute(route)
                 ocultSidebar()
               }}
             >

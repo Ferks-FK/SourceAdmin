@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from '@inertiajs/react';
 
 function NavLink({ href, children, className, ...props }) {

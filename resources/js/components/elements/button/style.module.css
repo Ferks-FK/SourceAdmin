@@ -12,7 +12,7 @@
     }
 
     &.secondary {
-        @apply text-slate-50 bg-transparent;
+        @apply text-slate-50 bg-transparent hover:!bg-lightDark;
 
         &:disabled {
             background: transparent !important;
