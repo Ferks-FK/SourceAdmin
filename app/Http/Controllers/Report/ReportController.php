@@ -47,7 +47,7 @@ class ReportController extends Controller
         if ($request->hasFile('upload_demo')) {
             $file = $request->file('upload_demo');
             $file_name = 'demo_' . $file->getClientOriginalName();
-            $file->storePubliclyAs('public/upload_demos', $file_name);
+            $file->storeAs('public/upload_demos', $file_name);
 
             $report = ReportModel::create([
                 'player_steam_id' => $request->input('player_steam_id'),

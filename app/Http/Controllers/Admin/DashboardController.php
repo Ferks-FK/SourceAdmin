@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\GetAppVersion;
-use App\Models\Appeal;
-use App\Models\Ban;
-use App\Models\Report;
-use App\Models\Server;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -22,6 +19,7 @@ class DashboardController extends Controller
     public function index(GetAppVersion $version)
     {
         $isLatestVersion = $version->isLastestVersion();
+        $data = DB::select("SELECT (SELECT COUNT(*) FROM users) as usersCount, (SELECT COUNT(*) FROM servers) as serversCount, (SELECT COUNT(*) FROM bans) as bansCount, (SELECT COUNT(*) FROM appeals) as appealsCount, (SELECT COUNT(*) FROM reports) as reportsCount")[0];
 
         return Inertia::render('admin/AdminOverview', [
             'versionData' => [
@@ -29,12 +27,37 @@ class DashboardController extends Controller
                 'currentVersion' => $version->getCurrentVersion(),
                 'latestVersion' => $version->getLatestVersion()
             ],
-            'usersCount' => User::query()->count(),
-            'serversCount' => Server::query()->count(),
-            'bansCount' => Ban::query()->count(),
-            'appealsCount' => Appeal::query()->count(),
-            'reportsCount' => Report::query()->count()
+            'usersCount' => $data->usersCount,
+            'serversCount' => $data->serversCount,
+            'bansCount' => $data->bansCount,
+            'appealsCount' => $data->appealsCount,
+            'reportsCount' => $data->reportsCount,
+            'demosCount' => $this->getTotalDemosCount(),
+            'totalDemoSize' => $this->calculateTotalDemosSize()
         ]);
+    }
+
+    private function getTotalDemosCount(): int
+    {
+        $demoPath = "public/upload_demos";
+
+        $files = Storage::allFiles($demoPath);
+
+        return count($files);
+    }
+
+    private function calculateTotalDemosSize(): float
+    {
+        $demoPath = "public/upload_demos";
+        $folderSize = 0;
+
+        $files = Storage::allFiles($demoPath);
+
+        foreach ($files as $file) {
+            $folderSize += Storage::size($file);
+        }
+
+        return (float) $folderSize;
     }
 
     /**

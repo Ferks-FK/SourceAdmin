@@ -90,3 +90,15 @@ export const paginationItems = (data) => ({
   nextPageUrl: data.next_page_url,
   prevPageUrl: data.prev_page_url
 })
+
+export function formatSizeUnits(size) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  let index = 0;
+
+  while (size >= 1024 && index < units.length - 1) {
+    size /= 1024;
+    index++;
+  }
+
+  return `${size.toFixed(2)} ${units[index]}`;
+}
