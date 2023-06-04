@@ -22,19 +22,19 @@ export default ({ title, ...props }) => {
           { title && <h2 className="text-3xl text-center text-neutral-100 font-medium py-4">{title}</h2> }
           <FlashMessageRender className="mb-2"/>
           <Form { ...props }>
-            <div className="flex flex-col p-5 rounded-md bg-lightDark max-w-6xl">
+            <div className="flex flex-col p-5 rounded-md bg-dark-secondary max-w-6xl">
               {props.children}
             </div>
           </Form>
         </div>
         <div className="flex flex-col justify-between h-full w-full max-w-sm">
-          <div className="flex flex-wrap p-5 rounded-md bg-lightDark mt-5 justify-center gap-1">
+          <div className="flex flex-wrap p-5 rounded-md bg-dark-secondary mt-5 justify-center gap-1">
             <SteamContainer/>
           </div>
         </div>
         <SourceAdminReg/>
         {/* <div className="flex flex-col justify-between h-full w-full max-w-sm ">
-          <div className="flex flex-col p-5 rounded-md bg-lightDark mt-5 items-center">
+          <div className="flex flex-col p-5 rounded-md bg-dark-secondary mt-5 items-center">
             <Select value={currentLanguage} onChange={(e) => changeLanguage(e.currentTarget.value)}>
               {SupportedLanguages.map(({ name, code }) => (
                 <option key={code} value={code}>{name}</option>

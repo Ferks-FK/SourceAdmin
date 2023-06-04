@@ -8,14 +8,14 @@ function Header() {
 
   return (
     <>
-      <header className="flex w-full h-[3.6rem] bg-dark border-b border-gray-100 dark:border-gray-700">
+      <header className="flex w-full h-[3.6rem] bg-dark-primary border-b border-gray-100 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full mx-7">
           <div className="text-center py-3">
             <a href="/" className="text-xl text-white text-center no-underline">
               Company Name
             </a>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center md:hidden">
             <div className="text-4xl">
               <FontAwesomeIcon icon={sidebarIsVisible ? faXmark : faBars} size="sm" className="text-white cursor-pointer transition-all duration-300 ease-in-out" onClick={handleSidebar}/>
             </div>

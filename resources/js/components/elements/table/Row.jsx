@@ -9,7 +9,7 @@ const Component = ({ className, children, size = 'sm', ...props }) => {
   }
 
   return (
-    <tr className={`${trSize(size)} cursor-pointer bg-[#1a1e22] border-b border-gray-700 hover:bg-lightDark ${className ?? ''}`} {...props}>
+    <tr className={`${trSize(size)} cursor-pointer bg-dark-neutral border-b border-gray-700 hover:bg-dark-secondary ${className ?? ''}`} {...props}>
       {children}
     </tr>
   )

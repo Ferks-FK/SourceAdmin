@@ -13,13 +13,12 @@ export const Layout = ({ children, userAuth }) => {
 
   return (
     <>
-      <div className="mx-auto w-auto">
-        <Header/>
-        <div className="flex w-screen h-screen relative" style={{height: 'calc(100vh - 3.6rem)'}}>
-          <SideBar active={sidebarIsVisible}/>
-          <div className={`flex flex-col w-full h-full bg-[#1a1e22] p-5 ${!sidebarIsVisible ? 'absolute md:static' : ''}`}>
-            { children }
-          </div>
+      <Header/>
+      <div className="flex w-full h-full" style={{height: 'calc(100vh - 3.6rem)'}}>
+        <SideBar active={sidebarIsVisible}/>
+        {/* This is the way I managed to fix the damn layout. */}
+        <div className={`flex flex-col w-screen h-full bg-dark-neutral p-5`} style={{ width: 'calc(100% - var(--sidebar-width))' }}>
+          { children }
         </div>
       </div>
     </>

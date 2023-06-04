@@ -17,7 +17,7 @@ function ErrorPage({ status }) {
   return (
     <PageContentBlock title={title}>
       <div className='flex justify-center'>
-        <div className='w-full sm:w-3/4 md:w-1/2 p-6 md:p-8 bg-lightDark rounded-lg shadow-lg text-center relative'>
+        <div className='w-full sm:w-3/4 md:w-1/2 p-6 md:p-8 bg-dark-secondary rounded-lg shadow-lg text-center relative'>
           <div className='flex flex-col justify-between items-center'>
             <div className='pointer-events-none select-none'>
               <Image src={`/images/http_errors/${status}.png`} className={'w-full h-full'}/>

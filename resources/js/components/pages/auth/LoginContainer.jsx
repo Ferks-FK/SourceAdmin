@@ -46,7 +46,7 @@ function LoginContainer(props) {
               </div>
             </Form>
             <div className="flex flex-col justify-between h-full w-full max-w-sm">
-              <div className="flex flex-wrap p-5 rounded-md bg-lightDark mt-5 justify-center gap-1">
+              <div className="flex flex-wrap p-5 rounded-md bg-dark-secondary mt-5 justify-center gap-1">
                 <SteamContainer />
               </div>
             </div>

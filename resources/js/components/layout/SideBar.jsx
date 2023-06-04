@@ -24,12 +24,6 @@ function SideBar({ active }) {
     }
   }
 
-  const handleMouseEnter = () => {
-    if (sidebarIsVisible && window.screen.width >= 768) {
-      setSidebarIsVisible(!sidebarIsVisible)
-    }
-  }
-
   useEffect(() => {
     setVisibleRoutes(routes.sidebarRoutes.filter(route => {
       if (route?.isProtected && !isLogged) {
@@ -41,13 +35,13 @@ function SideBar({ active }) {
 
   return (
     <>
-      <div onMouseEnter={handleMouseEnter} className={`flex flex-col h-full w-full mobile:max-w-[250px] z-10 bg-dark absolute mb:relative md:!transition-[width] transition-all duration-200 ease-in ${active ? 'md:w-20 translate-x-0' : 'md:w-full translate-x-[-100%] md:translate-x-0'}`}>
-        <nav className={`flex flex-col h-full gap-1 p-3 ${sidebarIsVisible ? 'md:items-center' : ''}`}>
+      <div className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary transition-all md:transition-[width] duration-200 ease-in absolute md:relative ${active ? 'translate-x-0' : 'translate-x-[-100%]'}`}>
+        <nav className={`flex flex-col h-full gap-1 p-3`}>
           {visibleRoutes.map(({title, key, icon, route}) => (
             <NavLink
               key={key}
               href={route}
-              className={`${sidebarIsVisible ? 'md:!w-auto' : ''} ${activeRoute === route ? 'active' : ''}`}
+              className={`${activeRoute === route ? 'active' : ''}`}
               onClick={() => {
                 setActiveRoute(route)
                 ocultSidebar()
@@ -55,7 +49,7 @@ function SideBar({ active }) {
             >
               <div className="flex items-center">
                 <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>
-                <p className={`${sidebarIsVisible ? 'md:hidden' : ''}`}>
+                <p>
                   <Translate ns={"sidebar"}>
                     {lowerCase(title).replace(' ', '_')}
                   </Translate>
@@ -65,8 +59,8 @@ function SideBar({ active }) {
           ))}
         </nav>
         {isLogged ?
-          <div className="flex justify-center items-center p-2 gap-2 text-ellipsis bg-lightDark rounded">
-            <strong className={`${sidebarIsVisible ? 'md:hidden' : ''} capitalize`}>{userName}</strong>
+          <div className="flex justify-center items-center p-2 gap-2 text-ellipsis bg-dark-secondary rounded">
+            <strong className={`capitalize`}>{userName}</strong>
             <Avatar email={userEmail} size={100} />
           </div>
         :

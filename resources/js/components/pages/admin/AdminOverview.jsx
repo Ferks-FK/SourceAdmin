@@ -17,7 +17,7 @@ function AdminOverview({ versionData, ...props }) {
               description={data.description}
               paragraph={data.paragraph}
               borderColor={data.borderColor}
-              className={'hover:bg-lightDark transition-all duration-150 select-none'}
+              className={'hover:bg-dark-secondary transition-all duration-150 select-none'}
             />
           ))}
         </div>

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --sidebar-width: 250px;
+}
+
 @layer components {
   .nav-link-hover {
     @apply hover:bg-[#2e3338] hover:transition-all hover:ease-in hover:duration-100 hover:rounded

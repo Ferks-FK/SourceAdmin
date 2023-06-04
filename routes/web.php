@@ -103,7 +103,7 @@ Route::group(['prefix' => 'report'], function() {
 */
 Route::group(['prefix' => 'appeal'], function() {
     Route::get('/', [AppealController::class, 'create'])->name('appeal.create');
-    Route::post('/create', [AppealController::class, 'store'])->middleware('throttle:3,1')->name('appeal.store');
+    Route::post('/store', [AppealController::class, 'store'])->middleware('throttle:3,1')->name('appeal.store');
 });
 
 

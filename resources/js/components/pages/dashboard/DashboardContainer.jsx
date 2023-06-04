@@ -40,7 +40,7 @@ function DashboardContainer({ serversIds, ...props }) {
   }, [])
 
   const TableCustomHeader = ({ title, total, icon }) => (
-    <div className='flex p-4 bg-lightDark justify-between rounded-sm'>
+    <div className='flex p-4 bg-dark-secondary justify-between rounded-sm'>
       <div className='flex items-center gap-1'>
         <FontAwesomeIcon icon={icon} color='white' />
         <p className='text-sm'>{title}</p>
