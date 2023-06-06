@@ -29,5 +29,6 @@ Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
 
 Route::name('admin.settings.')->group(function() {
     Route::get('/admin_settings', [AdminController::class, 'index'])->name('index');
+    Route::get('/admin_settings/create', [AdminController::class, 'create'])->name('create');
     Route::get('/admin_settings/{admin:id}', [AdminController::class, 'show'])->name('show');
 });

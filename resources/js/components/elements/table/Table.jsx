@@ -17,17 +17,15 @@ const Component = ({ columns, children, className, ...props }) => {
 
   return (
     <>
-      {/* {setQuery ?
+      {setQuery ?
         <div className={"flex gap-2 justify-end w-full"}>
-          {setQuery && (
-            <div className="w-full md:w-2/5 max-w-xs">
-              <Search setQuery={setQuery} />
-            </div>
-          )}
+          <div className="w-full md:w-2/5 max-w-xs">
+            <Search setQuery={setQuery} />
+          </div>
         </div>
         :
         null
-      } */}
+      }
       <div className={`flex flex-col gap-4 overflow-x-auto whitespace-nowrap md:whitespace-normal ${className ?? ''}`}>
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-300 uppercase bg-dark-primary">

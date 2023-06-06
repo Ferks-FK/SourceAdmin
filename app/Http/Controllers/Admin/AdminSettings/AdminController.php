@@ -16,7 +16,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/AdminSettings', [
+        return Inertia::render('admin/AdminSettings/AdminIndex', [
             'data' => User::query()->limit(10)->get()
         ]);
     }
@@ -28,7 +28,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/AdminSettings/AdminCreate');
     }
 
     /**
@@ -50,7 +50,11 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return Inertia::render('admin/AdminSettings/AdminShow', [
+            'user' => $user
+        ]);
     }
 
     /**

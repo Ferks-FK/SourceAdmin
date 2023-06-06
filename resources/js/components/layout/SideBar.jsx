@@ -11,7 +11,7 @@ import { Button } from "@/components/elements/button";
 import { Size } from "@/components/elements/button/types"
 import { useTranslation } from "react-i18next";
 
-function SideBar({ active }) {
+function SideBar() {
   const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [ visibleRoutes, setVisibleRoutes ] = useState([]);
@@ -35,7 +35,7 @@ function SideBar({ active }) {
 
   return (
     <>
-      <div className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary transition-all md:transition-[width] duration-200 ease-in absolute md:relative ${active ? 'translate-x-0' : 'translate-x-[-100%]'}`}>
+      <div className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary transition-all md:transition-[width] duration-200 ease-in absolute md:relative ${sidebarIsVisible ? 'translate-x-0' : 'translate-x-[-100%]'}`}>
         <nav className={`flex flex-col h-full gap-1 p-3`}>
           {visibleRoutes.map(({title, key, icon, route}) => (
             <NavLink

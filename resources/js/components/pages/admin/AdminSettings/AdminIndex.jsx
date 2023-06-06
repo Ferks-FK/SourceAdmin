@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Table } from "@/components/elements/table";
+import { Button } from "@/components/elements/button";
+import { router } from '@inertiajs/react';
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
-function AdminSettings({ data }) {
+function AdminIndex({ data, ...props }) {
   const [ adminData, setAdminData ] = useState(data)
 
+  const handleClick = (id) => {
+    router.visit(route('admin.settings.show', id));
+  }
 
   const AdminColumns = [
     "Id",
@@ -20,14 +26,26 @@ function AdminSettings({ data }) {
   ]
 
   return (
-    <PageContentBlock title={'admins'}>
-      <AdminLayout>
+    <PageContentBlock title={'Admins Overview'}>
+      <AdminLayout ziggy={props.ziggy}>
+        <Table.Header
+          title={'Users'}
+          icon={faUsers}
+        >
+          <Button.InternalLink to={route('admin.settings.create')}>
+            Create User
+          </Button.InternalLink>
+        </Table.Header>
         <Table.Component
           columns={AdminColumns}
           dataLength={adminData.length}
         >
           {adminData.map((admin) => (
-            <Table.Row key={admin.id}>
+            <Table.Row
+              key={admin.id}
+              className={'whitespace-nowrap'}
+              onClick={() => handleClick(admin.id)}
+            >
               <Table.Td>{admin.id}</Table.Td>
               <Table.Td>{admin.name}</Table.Td>
               <Table.Td>{admin.email}</Table.Td>
@@ -45,4 +63,4 @@ function AdminSettings({ data }) {
   )
 }
 
-export default AdminSettings
+export default AdminIndex

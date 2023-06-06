@@ -8,7 +8,7 @@ function AdminOverview({ versionData, ...props }) {
 
   return (
     <PageContentBlock>
-      <AdminLayout className={'flex justify-center'}>
+      <AdminLayout ziggy={props.ziggy} className={'items-center'}>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xl:max-w-5xl">
           {overviewData.map((data) => (
             <Box
