@@ -1,6 +1,6 @@
 {
     "name": "sourceadmin/panel",
-    "description": "ControlPanel for Source Engine game servers inspired in SourceBans.",
+    "description": "SourceAdmin, is a management panel for administrators of Source Game servers. It is open source, and totally free. Manage your servers easily with this control panel, get statistics, do bans, and much more!",
     "license": "MIT",
     "authors": [
         {
