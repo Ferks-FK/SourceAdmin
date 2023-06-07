@@ -10,6 +10,7 @@ import { lowerCase } from "lodash";
 import { Button } from "@/components/elements/button";
 import { Size } from "@/components/elements/button/types"
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion"
 
 function SideBar() {
   const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
@@ -33,9 +34,32 @@ function SideBar() {
     }))
   }, [])
 
+  const sidebarVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.3,
+      },
+    },
+    closed: {
+      opacity: 0,
+      x: '-100%',
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
     <>
-      <div className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary transition-all md:transition-[width] duration-200 ease-in absolute md:relative ${sidebarIsVisible ? 'translate-x-0' : 'translate-x-[-100%]'}`}>
+      <motion.div
+        animate={sidebarIsVisible ? 'open' : 'closed'}
+        variants={sidebarVariants}
+        initial={sidebarIsVisible ? 'open' : 'closed'}
+        exit={{ display: 'none' }}
+        className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary absolute md:relative`}
+      >
         <nav className={`flex flex-col h-full gap-1 p-3`}>
           {visibleRoutes.map(({title, key, icon, route}) => (
             <NavLink
@@ -70,7 +94,7 @@ function SideBar() {
           </Button.InternalLink>
         </div>
         }
-      </div>
+      </motion.div>
     </>
   );
 };

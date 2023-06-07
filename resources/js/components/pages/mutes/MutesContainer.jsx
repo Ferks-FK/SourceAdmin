@@ -57,6 +57,7 @@ function MutesContainer({ data }) {
         <Table.Header
           title={t('mutes', { ns: 'sidebar' })}
           icon={faMicrophoneSlash}
+          iconSize='1x'
         >
           <Input.Search
             size={Size.Small}

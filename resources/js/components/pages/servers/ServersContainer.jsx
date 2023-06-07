@@ -71,6 +71,7 @@ function ServersContainer({ serversIds }) {
         <Table.Header
           title={"Servers"}
           icon={faServer}
+          iconSize='1x'
         />
         <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={serverData.length}>
           {serverData.map((server) => {

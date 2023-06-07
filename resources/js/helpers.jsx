@@ -72,7 +72,7 @@ export function filterData(data, keys, query) {
       return null
     }
 
-    return item[key].toLowerCase().includes(query)
+    return item[key].toLowerCase().includes(query.toLowerCase())
   }))
 }
 
