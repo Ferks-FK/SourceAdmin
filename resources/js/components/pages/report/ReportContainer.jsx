@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getServerData } from '@/api/servers/getServers';
@@ -155,9 +155,9 @@ function ReportContainer({ serversIds, flash, errors }) {
                 />
               </div>
               <div className="flex flex-col items-center">
-                <Button type={'submit'} disabled={isSubmitting} className={'p-2'}>
+                <Button.Text type={'submit'} disabled={isSubmitting} className={'p-2'}>
                   Submit
-                </Button>
+                </Button.Text>
               </div>
             </div>
           </Form>

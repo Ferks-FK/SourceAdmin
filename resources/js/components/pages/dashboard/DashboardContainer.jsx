@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
@@ -39,16 +39,6 @@ function DashboardContainer({ serversIds, ...props }) {
     fetchServerData();
   }, [])
 
-  const TableCustomHeader = ({ title, total, icon }) => (
-    <div className='flex p-4 bg-dark-secondary justify-between rounded-sm'>
-      <div className='flex items-center gap-1'>
-        <FontAwesomeIcon icon={icon} color='white' />
-        <p className='text-sm'>{title}</p>
-      </div>
-      <p className='text-sm'>{total}</p>
-    </div>
-  )
-
   const ServerColumns = [
     "MOD",
     "OS",
@@ -80,12 +70,14 @@ function DashboardContainer({ serversIds, ...props }) {
   return (
     <PageContentBlock title={'Dashboard'} className={'gap-10'}>
       <div className='flex flex-col gap-10'>
-        <div className='flex flex-col gap-2'>
-          {TableCustomHeader({
-            title: 'Latest Servers',
-            total: `Total Servers: ${serversCount}`,
-            icon: faServer
-          })}
+        <div className='flex flex-col'>
+          <Table.Header
+            title={'Latest Servers'}
+            icon={faServer}
+            iconSize='1x'
+          >
+            <p>Total Servers: {serversCount}</p>
+          </Table.Header>
           <Table.Component
             columns={ServerColumns}
             dataLength={serverData.length}
@@ -132,12 +124,14 @@ function DashboardContainer({ serversIds, ...props }) {
             })}
           </Table.Component>
         </div>
-        <div className='flex flex-col gap-2'>
-          {TableCustomHeader({
-            title: 'Latest Added Bans',
-            total: `Total Bans: ${bansCount}`,
-            icon: faFaceMeh
-          })}
+        <div className='flex flex-col'>
+          <Table.Header
+            title={'Latest Added Bans'}
+            icon={faFaceMeh}
+            iconSize='1x'
+          >
+            <p>Total Bans: {bansCount}</p>
+          </Table.Header>
           <Table.Component
             columns={BansColumns}
             className={`max-h-screen`}
@@ -173,12 +167,14 @@ function DashboardContainer({ serversIds, ...props }) {
           </Table.Component>
         </div>
 
-        <div className='flex flex-col gap-2'>
-          {TableCustomHeader({
-            title: 'Latest Added Commns Block',
-            total: `Total Blocked: ${mutesCount}`,
-            icon: faMicrophoneSlash
-          })}
+        <div className='flex flex-col'>
+          <Table.Header
+            title={'Latest Added Comms Block'}
+            icon={faMicrophoneSlash}
+            iconSize='1x'
+          >
+            <p>Total Blocked: {mutesCount}</p>
+          </Table.Header>
           <Table.Component
             columns={CommsColumns}
             dataLength={mutesData.length}
@@ -214,12 +210,14 @@ function DashboardContainer({ serversIds, ...props }) {
         </div>
 
         {/* It will be changed as soon as we have the plugin working and returning data from offending players. */}
-        <div className='flex flex-col gap-2'>
-          {TableCustomHeader({
-            title: 'Latest Players Blocked',
-            total: `Total Stopped: ${mutesCount}`,
-            icon: faHand
-          })}
+        <div className='flex flex-col'>
+          <Table.Header
+            title={'Latest Players Blocked'}
+            icon={faHand}
+            iconSize='1x'
+          >
+            <p>Total Stopped: {mutesCount}</p>
+          </Table.Header>
           <Table.Component
             columns={CommsColumns}
             dataLength={mutesData.length}

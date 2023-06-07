@@ -2,10 +2,13 @@ import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Progress } from '@/components/elements/Progress';
+import { Input } from "@/components/elements/inputs";
+import { Size } from "@/components/elements/inputs/types";
 import { useEffect, useState } from 'react';
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
+import { faBan } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
 
 function BansContainer({ data }) {
@@ -34,6 +37,8 @@ function BansContainer({ data }) {
           addError({ message: error.message })
         })
       }
+
+      console.log(searchQuery)
     }
   }, [searchQuery])
 
@@ -48,43 +53,53 @@ function BansContainer({ data }) {
 
   return (
     <PageContentBlock title={"Bans"}>
-      <Table.Component
-        columns={BansColumns}
-        className={`max-h-full`}
-        setQuery={setSearchQuery}
-        dataLength={bansData.length}
-        page={currentPage}
-        setPage={setCurrentPage}
-        paginationData={pagination}
-      >
-        {bansData.map((ban) => {
-          const { name, style } = getStyleAndName(ban, t)
+      <div>
+        <Table.Header
+          title={t('bans', { ns: 'sidebar' })}
+          icon={faBan}
+          iconSize='1x'
+        >
+          <Input.Search
+            size={Size.Small}
+            placeholder={t('generic.search')}
+            onChange={setSearchQuery}
+          />
+        </Table.Header>
+        <Table.Component
+          columns={BansColumns}
+          className={`max-h-full`}
+          dataLength={bansData.length}
+        >
+          {bansData.map((ban) => {
+            const { name, style } = getStyleAndName(ban, t)
 
-          return (
-            <Table.Row key={ban.id}>
-              <Table.Td>
-                <div className='flex gap-1'>
-                  <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
-                  <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
-                </div>
-              </Table.Td>
-              <Table.Td>{ban.created_at}</Table.Td>
-              <Table.Td>{ban.player_name}</Table.Td>
-              <Table.Td>{ban.admin_name}</Table.Td>
-              <Table.Td className={'text-center'}>
-                <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
-                  <span className='text-xs font-semibold'>
-                    {name}
-                  </span>
-                </div>
-              </Table.Td>
-              <Table.Td>
-                <Progress bgColor={style} completed={getPercentage(ban)} />
-              </Table.Td>
-            </Table.Row>
-          )
-        })}
-      </Table.Component>
+            return (
+              <Table.Row key={ban.id}>
+                <Table.Td>
+                  <div className='flex gap-1'>
+                    <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
+                    <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
+                  </div>
+                </Table.Td>
+                <Table.Td>{ban.created_at}</Table.Td>
+                <Table.Td>{ban.player_name}</Table.Td>
+                <Table.Td>{ban.admin_name}</Table.Td>
+                <Table.Td className={'text-center'}>
+                  <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
+                    <span className='text-xs font-semibold'>
+                      {name}
+                    </span>
+                  </div>
+                </Table.Td>
+                <Table.Td>
+                  <Progress bgColor={style} completed={getPercentage(ban)} />
+                </Table.Td>
+              </Table.Row>
+            )
+          })}
+        </Table.Component>
+      </div>
+      <Table.Pagination page={currentPage} setPage={setCurrentPage} paginationData={pagination} />
     </PageContentBlock>
   )
 }

@@ -3,8 +3,10 @@ import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Progress } from '@/components/elements/Progress';
+import { Input } from "@/components/elements/inputs";
+import { Size } from "@/components/elements/inputs/types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneSlash, faCommentSlash } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophoneSlash, faCommentSlash, faBan } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useFlashesStore } from '@/stores/flashes';
@@ -51,42 +53,51 @@ function MutesContainer({ data }) {
 
   return (
     <PageContentBlock title={"Comms"}>
-      <Table.Component
-        columns={CommsColumns}
-        setQuery={setSearchQuery}
-        dataLength={mutesData.length}
-        page={currentPage}
-        setPage={setCurrentPage}
-        paginationData={pagination}
-      >
-        {mutesData.map((mute) => {
-          const { name, style } = getStyleAndName(mute, t)
+      <div>
+        <Table.Header
+          title={t('mutes', { ns: 'sidebar' })}
+          icon={faMicrophoneSlash}
+        >
+          <Input.Search
+            size={Size.Small}
+            placeholder={t('generic.search')}
+            onChange={setSearchQuery}
+          />
+        </Table.Header>
+        <Table.Component
+          columns={CommsColumns}
+          dataLength={mutesData.length}
+        >
+          {mutesData.map((mute) => {
+            const { name, style } = getStyleAndName(mute, t)
 
-          return (
-            <Table.Row key={mute.id}>
-              <Table.Td>
-                <div className='flex gap-1'>
-                  <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
-                  <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
-                </div>
-              </Table.Td>
-              <Table.Td>{mute.created_at}</Table.Td>
-              <Table.Td>{mute.player_name}</Table.Td>
-              <Table.Td>{mute.admin_name}</Table.Td>
-              <Table.Td className={'text-center'}>
-                <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
-                  <span className='text-xs font-semibold'>
-                    {name}
-                  </span>
-                </div>
-              </Table.Td>
-              <Table.Td>
-                <Progress bgColor={style} completed={getPercentage(mute)} />
-              </Table.Td>
-            </Table.Row>
-          )
-        })}
-      </Table.Component>
+            return (
+              <Table.Row key={mute.id}>
+                <Table.Td>
+                  <div className='flex gap-1'>
+                    <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                    <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
+                  </div>
+                </Table.Td>
+                <Table.Td>{mute.created_at}</Table.Td>
+                <Table.Td>{mute.player_name}</Table.Td>
+                <Table.Td>{mute.admin_name}</Table.Td>
+                <Table.Td className={'text-center'}>
+                  <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
+                    <span className='text-xs font-semibold'>
+                      {name}
+                    </span>
+                  </div>
+                </Table.Td>
+                <Table.Td>
+                  <Progress bgColor={style} completed={getPercentage(mute)} />
+                </Table.Td>
+              </Table.Row>
+            )
+          })}
+        </Table.Component>
+      </div>
+      <Table.Pagination page={currentPage} setPage={setCurrentPage} paginationData={pagination} />
     </PageContentBlock>
   )
 }

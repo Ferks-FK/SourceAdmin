@@ -5,14 +5,13 @@ import { Label } from "@/components/elements/Label";
 import { Select } from "@/components/elements/Select";
 import { TextArea } from "@/components/elements/TextArea";
 
-function Field({ id, name, label, type, description, validate, ...props }) {
+function Field({ id, name, label, type, description, ...props }) {
 
   const TypeField = (type, field, props) => {
     switch (type) {
       case 'text':
         return (
           <Input.Text
-            type={type}
             id={id}
             {...field}
             {...props}
@@ -20,7 +19,7 @@ function Field({ id, name, label, type, description, validate, ...props }) {
         )
       case 'password':
         return (
-          <Input.Text
+          <Input.Generic
             type={type}
             id={id}
             {...field}
@@ -29,7 +28,7 @@ function Field({ id, name, label, type, description, validate, ...props }) {
         )
       case 'email':
         return (
-          <Input.Text
+          <Input.Generic
             type={type}
             id={id}
             {...field}

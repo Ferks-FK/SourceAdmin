@@ -1,0 +1,37 @@
+.input {
+    @apply w-full py-3 px-4 outline-none bg-[#1e2327] text-white border;
+    @apply rounded-md text-base font-normal transition-all duration-150 ease-in-out;
+
+    &.small {
+        @apply py-2 px-3 font-normal text-sm focus:ring-2;
+    }
+
+    &.large {
+        @apply py-3 px-4;
+    }
+
+    &.secondary {
+        @apply text-slate-50 bg-transparent hover:!bg-dark-secondary;
+
+        &:disabled {
+            background: transparent !important;
+        }
+    }
+
+    &:disabled {
+        @apply cursor-not-allowed;
+    }
+}
+
+.primary {
+    @apply bg-dark-primary text-slate-50;
+    @apply border-slate-200 hover:border-slate-400;
+
+    &.secondary {
+        @apply hover:bg-dark-primary active:bg-dark-primary;
+    }
+
+    &:disabled {
+        @apply bg-dark-primary/75 text-slate-200/75;
+    }
+}
