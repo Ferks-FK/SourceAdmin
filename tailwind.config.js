@@ -1,8 +1,9 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ['./resources/scripts/**/*.{jsx,js}'],
+    content: ['./resources/js/**/*.{jsx,js}'],
 
     theme: {
         extend: {
@@ -11,8 +12,15 @@ module.exports = {
                 header: ['"IBM Plex Sans"', '"Roboto"', 'system-ui', 'sans-serif'],
             },
             colors: {
-                dark: '#212529',
-                lightDark: '#2e3338'
+                transparent: colors.transparent,
+                dark: {
+                    primary: '#212529',
+                    secondary: '#2e3338',
+                    neutral: '#1a1e22'
+                }
+            },
+            maxWidth: {
+                "sidebar-width": "var(--sidebar-width)"
             }
         },
         screens: {

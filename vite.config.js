@@ -7,14 +7,14 @@ import { fileURLToPath } from 'node:url';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/scripts/index.jsx',
+            input: 'resources/js/app.jsx',
             refresh: true,
         }),
         react(),
     ],
     resolve: {
         alias: {
-            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/scripts')
+            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/js')
         }
     },
     build: {

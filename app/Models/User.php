@@ -39,6 +39,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => "datetime",
+        'updated_at' => "datetime"
     ];
 
     public function getAvatar(): string

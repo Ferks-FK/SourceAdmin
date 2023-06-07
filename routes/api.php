@@ -1,10 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Server\ServerController;
-use App\Http\Controllers\Ban\BanController;
-use App\Http\Controllers\Mute\MuteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,48 +22,11 @@ use App\Http\Controllers\Mute\MuteController;
 | Endpoint: /api/auth
 |
 */
-Route::group(['prefix' => 'auth'], function() {
-    Route::post('/login', [AuthController::class, 'login']);
+// Route::group(['prefix' => 'auth'], function() {
+//     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::group(['middleware' => 'auth:sanctum'], function() {
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::post('/register', [AuthController::class, 'register']);
-    });
-});
-
-/*
-|--------------------------------------------------------------------------
-| Server Routes
-|--------------------------------------------------------------------------
-|
-| Endpoint: /api/servers
-|
-*/
-Route::group(['prefix' => 'servers'], function() {
-    Route::get('/', [ServerController::class, 'index']);
-    Route::get('/{server:id}', [ServerController::class, 'connectToServer']);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Bans Routes
-|--------------------------------------------------------------------------
-|
-| Endpoint: /api/bans
-|
-*/
-Route::group(['prefix' => 'bans'], function() {
-    Route::get('/', [BanController::class, 'index']);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Mutes Routes
-|--------------------------------------------------------------------------
-|
-| Endpoint: /api/mutes
-|
-*/
-Route::group(['prefix' => 'mutes'], function() {
-    Route::get('/', [MuteController::class, 'index']);
-});
+//     Route::group(['middleware' => 'auth:sanctum'], function() {
+//         Route::post('/logout', [AuthController::class, 'logout']);
+//         Route::post('/register', [AuthController::class, 'register']);
+//     });
+// });

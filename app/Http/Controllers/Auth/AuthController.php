@@ -2,52 +2,43 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
     public function index()
     {
-        return view('base.core');
+        return Inertia::render('auth/LoginContainer');
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
 
-        if (!Auth::guard('api')->validate($credentials)) {
-            return response()->json([
-                'complete' => false,
-                'message' => __('Could not find a user with these credentials')
-            ], 404);
+        if (!Auth::validate($credentials)) {
+            return redirect()->route('auth')->with('error', 'Could not find a user with these credentials.');
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        Auth::guard('api')->login($user, true);
+        Auth::login($user, true);
 
-        return response()->json([
-            'complete' => true,
-            'user' => Auth::guard('api')->user()
-        ]);
+        return redirect()->route('home.index')->with('success', __('Successfully logged in, welcome again ' . $user . '!'));
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request): RedirectResponse
     {
-        auth('web')->logout();
+        auth()->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return response()->json([
-            'message' => __('User logged out successfully'),
-            'status' => Response::HTTP_OK
-        ]);
+        return redirect()->route('home.index')->with('success', __('Logged out successfully.'));
     }
 }

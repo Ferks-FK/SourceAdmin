@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Ban;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\Server;
 use App\Services\RconService;
-
+use Inertia\Inertia;
 use Exception;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BanController extends Controller
 {
@@ -21,41 +20,22 @@ class BanController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 10);
-
-        if (is_null($limit)) $limit = 10;
-
-        return response()->json(
-            $this->getBansData($limit)
-        );
+        return Inertia::render('bans/BansContainer', [
+            'data' => $this->getBansData($request)
+        ]);
     }
 
-    public function getBansData(string $limit)
+    public function getBansData(Request $request)
     {
-        return Ban::query()
+        $query = QueryBuilder::for(Ban::class)
             ->leftJoin('users AS A', 'A.id', 'bans.admin_id')
             ->leftJoin('users AS B', 'B.id', 'bans.removed_by')
             ->join('time_bans', 'time_bans.id', 'bans.time_ban_id')
             ->join('servers', 'servers.id', 'bans.server_id')
             ->join('mods', 'mods.id', 'mod_id')
-            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by')
-            ->limit($limit)
-            ->get();
-    }
+            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
 
-    public function getLocation(Request $request)
-    {
-        $ip = $request->get('ip');
-
-        if (is_null($ip)) {
-            return response()->json([
-                'message' => __('An IP address must be provided.')
-            ], 403);
-        }
-
-        return response()->json(
-            Ban::getLocation($request->get('ip'))
-        );
+        return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
     }
 
     /**
@@ -122,20 +102,5 @@ class BanController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function KickPlayer($player_id, $server_id)
-    {
-        $server = Server::findOrFail($server_id);
-        $rconService = new RconService($server->ip, $server->port, $server->rcon);
-
-        try {
-            $player = $rconService->addActionToPlayer($player_id);
-
-            return redirect()->route('servers.show', $server_id)->with('success', __("The player $player was successfully kicked."));
-        }
-        catch (Exception $error) {
-            return redirect()->route('servers.show', $server_id)->with('error', $error->getMessage());
-        }
     }
 }
