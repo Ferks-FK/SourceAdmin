@@ -37,8 +37,6 @@ function BansContainer({ data }) {
           addError({ message: error.message })
         })
       }
-
-      console.log(searchQuery)
     }
   }, [searchQuery])
 
