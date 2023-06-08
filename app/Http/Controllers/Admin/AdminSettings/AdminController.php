@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AdminController extends Controller
 {
@@ -17,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         return Inertia::render('admin/AdminSettings/AdminIndex', [
-            'data' => User::query()->limit(10)->get()
+            'data' => $this->getUsersData()
         ]);
     }
 
@@ -89,5 +90,10 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function getUsersData()
+    {
+        return QueryBuilder::for(User::class)->paginate(10)->appends(request()->query());
     }
 }

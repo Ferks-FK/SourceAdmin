@@ -26,11 +26,11 @@ const Button = ({ shape, size, children, variant, className, ...props }) => {
 }
 
 const TextButton = ({ className, ...props }) => (
-  <Button className={classNames(styles.text, className)} {...props}/>
+  <Button className={classNames(styles.text, className, 'p-2')} {...props}/>
 )
 
 const DangerButton = ({ className, ...props }) => (
-  <Button className={classNames(styles.danger, className)} {...props}/>
+  <Button className={classNames(styles.danger, className, 'p-2')} {...props}/>
 )
 
 const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => {
@@ -39,7 +39,7 @@ const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => {
   });
 
   return (
-    <Button className={classNames(className)} {...props}>
+    <Button className={classNames(className, 'p-2')} {...props}>
       <div className={containerStyles}>
         <FontAwesomeIcon icon={icon} size={iconSize}/>
       </div>
@@ -68,7 +68,7 @@ const InternalLinkButton = ({ className, linkClassName, to, children, ...props }
 }
 
 const IconAndLink = ({ className, icon, iconPosition, iconSize, to, children, ...props }) => {
-  const buttonStyles = classNames('!p-0 flex items-center', className);
+  const buttonStyles = classNames('flex items-center', className);
   const linkStyles = classNames(styles.link, {
     'flex flex-row-reverse items-center': iconPosition == 'right',
     'cursor-not-allowed pointer-events-none': props.disabled

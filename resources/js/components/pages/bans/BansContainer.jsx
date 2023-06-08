@@ -15,7 +15,6 @@ function BansContainer({ data }) {
   const pagination = paginationItems(data)
   const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(pagination.currentPage);
   const [bansData, setBansData] = useState(data.data)
   const { t } = useTranslation()
 
@@ -97,7 +96,7 @@ function BansContainer({ data }) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination page={currentPage} setPage={setCurrentPage} paginationData={pagination} />
+      <Table.Pagination paginationData={pagination} />
     </PageContentBlock>
   )
 }

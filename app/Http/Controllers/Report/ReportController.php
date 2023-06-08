@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportRequest;
 use App\Traits\Server;
-use Illuminate\Http\Request;
 use App\Jobs\ReportPlayer;
 use App\Models\Report as ReportModel;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ReportController extends Controller
