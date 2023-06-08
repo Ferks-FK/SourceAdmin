@@ -21,6 +21,10 @@ The project is not really stable yet, but we have a [Discord Group](https://disc
 - [ ] Build all the main logics of the project (kick, ban, statistics).
 - [ ] Build a SourcePawn plugin for the game servers (SourceBans plugins are not compatible with this project).
 
+<h1 align="center">Demo</h1>
+
+https://demo.sourceadmin.net/
+
 <h1 align="center">Preview</h1>
 
 ![](https://i.imgur.com/KiWQEFh.gif)
