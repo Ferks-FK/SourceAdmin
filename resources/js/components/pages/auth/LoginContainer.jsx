@@ -1,5 +1,4 @@
 import { Formik } from "formik";
-import { object, string } from 'yup';
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Field } from "@/components/elements/Field";
 import { Form } from "@/components/elements/Form";
@@ -7,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
 import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { LoginFormSchema } from "@/yup/YupSchemas";
 import { router } from '@inertiajs/react';
 
 function LoginContainer(props) {
@@ -26,11 +26,11 @@ function LoginContainer(props) {
     <PageContentBlock title={'Login'}>
       <Formik
         onSubmit={handleSubmit}
-        initialValues={{ name: '', password: '' }}
-        validationSchema={object().shape({
-          name: string().required(t('login.name_required')),
-          password: string().required(t('login.password_required'))
-        })}
+        initialValues={{
+          name: '',
+          password: ''
+        }}
+        validationSchema={LoginFormSchema()}
       >
         {({ isSubmitting }) => (
           <div className="flex flex-col items-center">

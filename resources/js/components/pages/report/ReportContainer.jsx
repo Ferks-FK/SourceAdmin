@@ -5,8 +5,8 @@ import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getServerData } from '@/api/servers/getServers';
+import { ReportFormSchema } from "@/yup/YupSchemas";
 import { Formik } from "formik";
-import { object, string } from 'yup';
 import { router } from '@inertiajs/react';
 
 function ReportContainer({ serversIds, flash, errors }) {
@@ -40,32 +40,6 @@ function ReportContainer({ serversIds, flash, errors }) {
 
   useFlashMessages(flash, errors)
 
-  const schema = object().shape({
-    player_steam_id: string().matches(
-      /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/,
-      'SteamID invalid.'
-    ),
-    player_ip: string().matches(
-      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
-      'IP Address invalid.'
-    ),
-    player_name: string().required('The player name is required.'),
-    comments: string().required('The comments is required.'),
-    reporter_name: string(),
-    reporter_email: string().required('Your email address is required.')
-  }).test(function (value) {
-    const { player_steam_id, player_ip } = value;
-
-    if (!player_steam_id && !player_ip) {
-      return this.createError({
-        message: 'At least one of the following fields must be provided: Steam ID, Player IP.',
-        path: 'steam_id'
-      })
-    }
-
-    return true;
-  })
-
   return (
     <PageContentBlock title={'Report'}>
       <Formik
@@ -80,7 +54,7 @@ function ReportContainer({ serversIds, flash, errors }) {
           server_id: '',
           upload_demo: ''
         }}
-        validationSchema={schema}
+        validationSchema={ReportFormSchema}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form title={'Report'} formSize={'xl'} encType={'multipart/form-data'}>

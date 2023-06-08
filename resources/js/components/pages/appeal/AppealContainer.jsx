@@ -4,8 +4,8 @@ import { Button } from "@/components/elements/Button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { Formik } from "formik";
-import { object, string } from 'yup';
 import { router } from '@inertiajs/react';
+import { AppealFormSchema } from "@/yup/YupSchemas";
 
 function AppealContainer({ flash, errors }) {
 
@@ -22,31 +22,6 @@ function AppealContainer({ flash, errors }) {
 
   useFlashMessages(flash, errors)
 
-  const schema = object().shape({
-    player_steam_id: string().matches(
-      /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/,
-      'SteamID invalid.'
-    ),
-    player_ip: string().matches(
-      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
-      'IP Address invalid.'
-    ),
-    player_name: string().required('The player name is required.'),
-    player_email: string().required('Your email address is required.'),
-    reason: string().required('The reason is required.')
-  }).test(function (value) {
-    const { player_steam_id, player_ip } = value;
-
-    if (!player_steam_id && !player_ip) {
-      return this.createError({
-        message: 'At least one of the following fields must be provided: Steam ID, Player IP.',
-        path: 'steam_id'
-      })
-    }
-
-    return true;
-  })
-
   return (
     <PageContentBlock title={'Protest a Ban'}>
       <Formik
@@ -58,7 +33,7 @@ function AppealContainer({ flash, errors }) {
           player_email: '',
           reason: ''
         }}
-        validationSchema={schema}
+        validationSchema={AppealFormSchema}
       >
         {({ isSubmitting }) => (
           <Form title={'Protest a Ban'} formSize={'xl'}>

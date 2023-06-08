@@ -28,8 +28,8 @@ function AdminShow({ user, ...props }) {
           validationSchema={AdminEditSchema}
         >
           {({ isSubmitting, values }) => (
-            <div className={'flex flex-col gap-4 bg-dark-primary'}>
-              <div className="flex flex-col md:flex-row items-center md:text-left p-4 gap-4" style={{ wordBreak: 'break-word' }}>
+            <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
+              <div className="flex flex-col md:flex-row items-center md:text-left gap-4" style={{ wordBreak: 'break-word' }}>
                 <div className="max-w-[150px] md:flex items-center">
                   <Avatar
                     email={user.email}
