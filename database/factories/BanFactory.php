@@ -25,7 +25,7 @@ class BanFactory extends Factory
             "reason_id" => mt_rand(1, 10),
             "time_ban_id" => mt_rand(1, 10),
             "server_id" => 1,
-            "flag_url" => "https://flagcdn.com/br.svg"
+            "flag_url" => "https://flagcdn.com/us.svg"
         ];
     }
 }

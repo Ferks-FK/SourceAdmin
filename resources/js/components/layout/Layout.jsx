@@ -18,8 +18,8 @@ export const Layout = ({ children, userAuth }) => {
         <SideBar/>
         <div className={`flex flex-col w-screen h-full bg-dark-neutral p-5 overflow-hidden`}>
           <div className="flex flex-col rounded flex-1 bg-teal-500 p-4 mb-4">
-            <div>
-              <FontAwesomeIcon icon={faInfoCircle}/>&nbsp;
+            <div className="flex">
+              <FontAwesomeIcon color="white" size="lg" icon={faInfoCircle}/>&nbsp;
               <div>
                 <h1>This version is only a demo with dummy data for demonstration purposes.</h1>
                 <p>The database is reset every 1 hour.</p>
