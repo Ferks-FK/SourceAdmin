@@ -4,7 +4,6 @@ import { Field } from "@/components/elements/Field";
 import { Form } from "@/components/elements/Form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
-import { Size } from "@/components/elements/button/types";
 import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { LoginFormSchema } from "@/yup/YupSchemas";
@@ -28,8 +27,8 @@ function LoginContainer(props) {
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          name: '',
-          password: ''
+          name: 'demo',
+          password: 'demo'
         }}
         validationSchema={LoginFormSchema()}
       >
