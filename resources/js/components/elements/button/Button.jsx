@@ -49,8 +49,8 @@ const IconButton = ({ className, icon, iconPosition, iconSize, ...props }) => {
 
 const ExternalLinkButton = ({ className, to, children, ...props }) => {
   return (
-    <Button className={classNames(className, '!p-0')} {...props}>
-      <a href={to} target='_blank' className={classNames(styles.link, '!px-4 !py-2 block w-full')}>
+    <Button className={classNames(className)} {...props}>
+      <a href={to} target='_blank' className={classNames(styles.link)}>
         {children}
       </a>
     </Button>
@@ -59,8 +59,8 @@ const ExternalLinkButton = ({ className, to, children, ...props }) => {
 
 const InternalLinkButton = ({ className, linkClassName, to, children, ...props }) => {
   return (
-    <Button className={classNames(className, '!p-0')} {...props}>
-      <Link href={to} className={classNames(styles.link, 'block w-full', linkClassName)}>
+    <Button className={classNames(className)} {...props}>
+      <Link href={to} className={classNames(styles.link, linkClassName)}>
         {children}
       </Link>
     </Button>

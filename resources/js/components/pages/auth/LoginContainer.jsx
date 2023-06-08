@@ -4,6 +4,7 @@ import { Field } from "@/components/elements/Field";
 import { Form } from "@/components/elements/Form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
+import { Size } from "@/components/elements/button/types";
 import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { LoginFormSchema } from "@/yup/YupSchemas";
@@ -40,7 +41,7 @@ function LoginContainer(props) {
                 <Field type="password" name="password" label={t('login.password_label')} size="small" />
               </div>
               <div className="flex justify-center w-full mt-6">
-                <Button.Text type="submit" disabled={isSubmitting} className={''}>
+                <Button.Text type="submit" disabled={isSubmitting} className={'!w-20'}>
                   {t('login', { ns: 'buttons' })}
                 </Button.Text>
               </div>

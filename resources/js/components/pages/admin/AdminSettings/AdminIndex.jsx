@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Table } from "@/components/elements/table";

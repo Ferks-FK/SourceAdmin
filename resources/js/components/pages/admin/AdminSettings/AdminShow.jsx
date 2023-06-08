@@ -51,7 +51,7 @@ function AdminShow({ user, ...props }) {
                   <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
                     <h1>admin</h1>
                     <p>{user.created_at}</p>
-                    <Button.Danger size={Size.Default} className={'!font-header w-fit'}>
+                    <Button.Danger className={'!font-header w-fit'}>
                       Delete Account
                     </Button.Danger>
                   </div>

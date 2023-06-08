@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { Translate } from "@/components/Translate";
 import { lowerCase } from "lodash";
 import { Button } from "@/components/elements/button";
-import { Size } from "@/components/elements/button/types"
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
 
@@ -89,7 +88,7 @@ function SideBar() {
           </div>
         :
           <div className="flex justify-center">
-          <Button.InternalLink size={Size.Small} type={'button'} to={'/auth/login'} className="w-full">
+          <Button.InternalLink type={'button'} to={'/auth/login'} className="!w-full">
             {t('login', {ns: 'buttons'})}
           </Button.InternalLink>
         </div>
