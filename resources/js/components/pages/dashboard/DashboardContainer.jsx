@@ -84,7 +84,6 @@ function DashboardContainer({ serversIds, ...props }) {
           >
             {serverData.map((server) => {
               const serverInfo = server[0]
-              console.log(serverInfo)
 
               return (
                 <Table.Row key={server.id || serverInfo?.Id} className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>

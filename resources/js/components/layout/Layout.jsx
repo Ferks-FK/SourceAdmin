@@ -1,6 +1,5 @@
 import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
-import { useSidebarStore } from "@/stores/components/sidebar";
 import { useUserStore } from "@/stores/user";
 
 export const Layout = ({ children, userAuth }) => {

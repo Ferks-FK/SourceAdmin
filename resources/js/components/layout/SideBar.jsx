@@ -31,7 +31,7 @@ function SideBar() {
       }
       return true
     }))
-  }, [])
+  }, [isLogged])
 
   const sidebarVariants = {
     open: {

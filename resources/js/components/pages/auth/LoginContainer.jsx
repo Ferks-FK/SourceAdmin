@@ -4,19 +4,27 @@ import { Field } from "@/components/elements/Field";
 import { Form } from "@/components/elements/Form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
-import { Size } from "@/components/elements/button/types";
 import { SteamContainer } from "@/components/pages/auth/steam/SteamContainer";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { LoginFormSchema } from "@/yup/YupSchemas";
+import { useUserStore } from "@/stores/user";
 import { router } from '@inertiajs/react';
 
 function LoginContainer(props) {
   const { t } = useTranslation();
+  const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.post(route('auth.login'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
+      },
+      onSuccess: (page) => {
+        const user = page.props.auth.user;
+
+        if (!userData && user) {
+          setUserData(user)
+        }
       }
     })
   }
