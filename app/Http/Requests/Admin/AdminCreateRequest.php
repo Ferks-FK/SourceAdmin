@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AppealRequest extends FormRequest
+class AdminCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +26,20 @@ class AppealRequest extends FormRequest
     public function rules()
     {
         return [
-            'player_steam_id' => function($attribute, $value, $fail) {
-                if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
-                    $fail(__('The :attribute field must be a valid SteamID or SteamID64.', ['attribute' => $attribute]));
-                }
-            },
-            'player_ip' => ['string', 'nullable', 'ipv4'],
-            'player_name' => ['required', 'string', 'min:4', 'max:32'],
-            'player_email' => ['required', 'string', 'email'],
-            'reason' => ['required', 'string', 'max:1024']
+            'name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'unique:users,email'],
+            'steam_id' => [
+                'required',
+                'string',
+                'unique:users,steam_id',
+                'regex:/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/'
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'
+            ]
         ];
     }
 

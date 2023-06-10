@@ -1,4 +1,4 @@
-import { AdminOverviewData } from "@/components/pages/admin/AdminOverviewData";
+import { AdminOverviewData } from "@/components/pages/admin/AdminOverview/AdminOverviewData";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Box } from "@/components/elements/Box";

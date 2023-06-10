@@ -97,7 +97,7 @@ export const AdminCreateSchema = () => {
             regex: passwordRegex,
             regexMessage: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         }),
-        confirm_password: validateField({
+        password_confirmation: validateField({
             required: true,
             requiredMessage: 'The confirm password is required.',
             oneOf: [ref('password')],
@@ -134,7 +134,7 @@ export const AdminEditSchema = () => {
             regex: passwordRegex,
             regexMessage: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         }),
-        new_password_confirm: validateField({
+        new_password_confirmation: validateField({
             oneOf: [ref('new_password')],
             oneOfMessage: 'The passwords do not match.'
         })

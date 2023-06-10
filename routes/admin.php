@@ -25,10 +25,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
 
-Route::name('admin.settings.')->group(function() {
-    Route::get('/admin_settings', [AdminController::class, 'index'])->name('index');
-    Route::get('/admin_settings/create', [AdminController::class, 'create'])->name('create');
-    Route::get('/admin_settings/{admin:id}', [AdminController::class, 'show'])->name('show');
+
+Route::name('admin.')->group(function() {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::group(['prefix' => 'admin_settings'], function() {
+        Route::get('/', [AdminController::class, 'index'])->name('settings.index');
+        Route::get('/create', [AdminController::class, 'create'])->name('settings.create');
+        Route::get('/{admin:id}', [AdminController::class, 'show'])->name('settings.show');
+        Route::patch('/update/{admin:id}', [AdminController::class, 'update'])->name('settings.update');
+        Route::post('/store', [AdminController::class, 'store'])->name('settings.store');
+
+    });
 });

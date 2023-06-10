@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('steam_id')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('should_re_login')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,32 +2,49 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@/components/elements/button";
-import { Size } from "@/components/elements/button/types";
 import { Avatar } from "@/components/Avatar";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
 import { AdminEditSchema } from "@/yup/YupSchemas";
+import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { router } from '@inertiajs/react';
 
-function AdminShow({ user, ...props }) {
+function AdminShow({ user, flash, errors, ziggy }) {
+  console.log(ziggy)
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+
+    router.patch(route('admin.settings.update', user.id), { ...values }, {
+      onFinish: () => {
+        setSubmitting(false)
+      },
+      onSuccess: () => {
+        resetForm()
+      }
+    })
+  }
+
+  useFlashMessages(flash, errors)
 
   return (
     <PageContentBlock title={`Admin ${user.name}`}>
-      <AdminLayout ziggy={props.ziggy}>
+      <AdminLayout ziggy={ziggy}>
         <Formik
+          onSubmit={handleSubmit}
+          enableReinitialize
           initialValues={{
             name: user.name,
             email: user.email,
             steam_id: user.steam_id,
             current_password: '',
             new_password: '',
-            new_password_confirm: ''
+            new_password_confirmation: ''
           }}
 
           validationSchema={AdminEditSchema}
         >
-          {({ isSubmitting, values }) => (
+          {({ isSubmitting }) => (
             <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
               <div className="flex flex-col md:flex-row items-center md:text-left gap-4" style={{ wordBreak: 'break-word' }}>
                 <div className="max-w-[150px] md:flex items-center">
@@ -92,8 +109,8 @@ function AdminShow({ user, ...props }) {
                     />
                     <Field
                       type={'password'}
-                      name={'new_password_confirm'}
-                      id={'new_password_confirm'}
+                      name={'new_password_confirmation'}
+                      id={'new_password_confirmation'}
                       label={'Confirm Password'}
                     />
                   </div>
