@@ -12,7 +12,6 @@ import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
 import { router } from '@inertiajs/react';
 
 function AdminShow({ user, flash, errors, ziggy }) {
-  console.log(ziggy)
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
 
     router.patch(route('admin.settings.update', user.id), { ...values }, {

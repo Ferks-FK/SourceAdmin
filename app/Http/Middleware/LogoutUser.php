@@ -29,7 +29,5 @@ class LogoutUser
         }
 
         return $next($request);
-
-        return $next($request);
     }
 }
