@@ -149,7 +149,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{ban.created_at}</Table.Td>
                   <Table.Td>{ban.player_name}</Table.Td>
-                  <Table.Td>{ban.admin_name}</Table.Td>
+                  <Table.Td>{ban.admin_name ?? 'Admin Deleted'}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
@@ -191,7 +191,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{mute.created_at}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
-                  <Table.Td>{mute.admin_name}</Table.Td>
+                  <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
@@ -234,7 +234,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{mute.created_at}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
-                  <Table.Td>{mute.admin_name}</Table.Td>
+                  <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
