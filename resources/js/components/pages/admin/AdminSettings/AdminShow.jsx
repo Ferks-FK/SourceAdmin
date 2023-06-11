@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,12 +9,16 @@ import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
 import { AdminEditSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { useUserStore } from "@/stores/user";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
+import { Modal } from "@/components/elements/modal";
 
-function AdminShow({ user, flash, errors, ziggy }) {
+function AdminShow({ user, flash, errors, ziggy, auth }) {
+  const [ modalVisible, setModalVisible ] = useState(false);
+  const [ clearData ] = useUserStore((state) => [state.clearData])
+
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-
     router.patch(route('admin.settings.update', user.id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -22,6 +27,24 @@ function AdminShow({ user, flash, errors, ziggy }) {
         resetForm()
       }
     })
+  }
+
+  const handleDelete = () => {
+    router.delete(route('admin.settings.destroy', user.id), {
+      onSuccess: () => {
+        if (user.id == auth.user.id) {
+          clearData()
+        }
+      }
+    })
+  }
+
+  function showModal() {
+    setModalVisible(true);
+  }
+
+  function hideModal() {
+    setModalVisible(false);
   }
 
   useFlashMessages(flash, errors)
@@ -67,10 +90,40 @@ function AdminShow({ user, flash, errors, ziggy }) {
                   <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
                     <h1>admin</h1>
                     <p>{user.created_at}</p>
-                    <Button.Danger className={'!font-header'}>
+                    <Button.Danger className={'!font-header'} onClick={showModal}>
                       Delete Account
                     </Button.Danger>
                   </div>
+                  <Modal
+                    isVisible={modalVisible}
+                    onClickCloseBtn={hideModal}
+                    onPressEscKey={hideModal}
+                    onClickBackdrop={hideModal}
+                    position={"top"}
+                  >
+                    <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
+                      <div className="flex flex-col gap-4">
+                        <h3 className="text-2xl text-left">Delete Admin "{user.name}"?</h3>
+                        <p className="text-sm">
+                          When you confirm the deletion of the user, the action is permanent and cannot be undone.
+                          He will also lose the rights to the servers he is associated with.
+                        </p>
+                        {user.id == auth.user.id && (
+                          <p className="text-red-500">
+                            You are about to delete your own account!
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button.Text onClick={hideModal}>
+                          Cancel
+                        </Button.Text>
+                        <Button.Danger onClick={handleDelete}>
+                          Delete
+                        </Button.Danger>
+                      </div>
+                    </div>
+                  </Modal>
                 </div>
               </div>
               <Form formSize={'xl'} className={'pb-4'}>

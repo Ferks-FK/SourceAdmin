@@ -35,7 +35,7 @@ Route::name('admin.')->group(function() {
         Route::get('/create', [AdminController::class, 'create'])->name('settings.create');
         Route::get('/{admin:id}', [AdminController::class, 'show'])->name('settings.show');
         Route::patch('/update/{admin:id}', [AdminController::class, 'update'])->name('settings.update');
+        Route::delete('/{admin:id}', [AdminController::class, 'destroy'])->name('settings.destroy');
         Route::post('/store', [AdminController::class, 'store'])->name('settings.store');
-
     });
 });
