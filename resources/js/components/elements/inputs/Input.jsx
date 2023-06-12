@@ -55,6 +55,9 @@ const InputFile = ({ className, onChange, ...props }) => (
   <Input type={'file'} className={classNames(className)} onChange={onChange} {...props}/>
 )
 
+const InputCheckBox = ({ className, ...props }) => (
+  <Input type={'checkbox'} className={classNames(styles.checkbox, className)} {...props}/>
+)
 
 const _Input = Object.assign(Input, {
   Sizes: Options.Size,
@@ -62,7 +65,8 @@ const _Input = Object.assign(Input, {
   Generic: Input,
   Text: InputText,
   Search: InputSearch,
-  File: InputFile
+  File: InputFile,
+  CheckBox: InputCheckBox
 })
 
 export default _Input;

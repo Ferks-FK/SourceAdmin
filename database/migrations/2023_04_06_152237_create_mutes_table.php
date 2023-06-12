@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('type', ['chat', 'voice', 'all']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('end_at')->nullable();
-            $table->foreignId('admin_id')->constrained('users');
+            $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('reason_id')->constrained('reasons');
             $table->foreignId('time_ban_id')->constrained('time_bans');
             $table->foreignId('server_id')->constrained('servers');

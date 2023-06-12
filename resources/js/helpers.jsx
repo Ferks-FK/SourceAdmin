@@ -88,7 +88,9 @@ export const paginationItems = (data) => ({
   from: data.from,
   to: data.to,
   nextPageUrl: data.next_page_url,
-  prevPageUrl: data.prev_page_url
+  prevPageUrl: data.prev_page_url,
+  firstPageUrl: data.first_page_url,
+  lastPageUrl: data.last_page_url,
 })
 
 export function formatSizeUnits(size) {

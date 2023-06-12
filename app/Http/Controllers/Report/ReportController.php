@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReportRequest;
+use App\Http\Requests\Report\ReportCreateRequest;
 use App\Traits\Server;
 use App\Jobs\ReportPlayer;
 use App\Models\Report as ReportModel;
@@ -42,7 +42,7 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ReportRequest $request)
+    public function store(ReportCreateRequest $request)
     {
         if ($request->hasFile('upload_demo')) {
             $file = $request->file('upload_demo');

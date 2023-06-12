@@ -18,12 +18,11 @@ class DashboardController extends Controller
      */
     public function index(GetAppVersion $version)
     {
-        $isLatestVersion = $version->isLastestVersion();
         $data = DB::select("SELECT (SELECT COUNT(*) FROM users) as usersCount, (SELECT COUNT(*) FROM servers) as serversCount, (SELECT COUNT(*) FROM bans) as bansCount, (SELECT COUNT(*) FROM appeals) as appealsCount, (SELECT COUNT(*) FROM reports) as reportsCount")[0];
 
-        return Inertia::render('admin/AdminOverview', [
+        return Inertia::render('admin/AdminOverview/AdminOverview', [
             'versionData' => [
-                'isLatestVersion' => $isLatestVersion,
+                'isLatestVersion' => $version->isLastestVersion(),
                 'currentVersion' => $version->getCurrentVersion(),
                 'latestVersion' => $version->getLatestVersion()
             ],

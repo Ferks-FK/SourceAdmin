@@ -4,20 +4,33 @@ import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
+import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 
-function AdminCreate({ ...props }) {
+function AdminCreate({ flash, errors, ziggy }) {
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    router.post(route('admin.settings.store'), { ...values }, {
+      onFinish: () => {
+        setSubmitting(false)
+      }
+    })
+  }
+
+  useFlashMessages(flash, errors)
 
   return (
     <PageContentBlock title={'Create New Admin'}>
-      <AdminLayout ziggy={props.ziggy}>
+      <AdminLayout ziggy={ziggy}>
         <Formik
+          onSubmit={handleSubmit}
           initialValues={{
             name: '',
             email: '',
             steam_id: '',
             password: '',
-            confirm_password: ''
+            password_confirmation: ''
           }}
 
           validationSchema={AdminCreateSchema}
@@ -52,8 +65,8 @@ function AdminCreate({ ...props }) {
                   />
                   <Field
                     type={'password'}
-                    name={'confirm_password'}
-                    id={'confirm_password'}
+                    name={'password_confirmation'}
+                    id={'password_confirmation'}
                     label={'Confirm Password'}
                   />
                 </div>

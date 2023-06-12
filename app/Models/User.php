@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -19,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'steam_id',
         'password',
     ];
 
@@ -43,8 +45,8 @@ class User extends Authenticatable
         'updated_at' => "datetime"
     ];
 
-    public function getAvatar(): string
+    public function setPasswordAttribute($value)
     {
-        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+        $this->attributes['password'] = Hash::make($value);
     }
 }

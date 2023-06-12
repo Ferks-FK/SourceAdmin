@@ -5,15 +5,18 @@ import { Table } from "@/components/elements/table";
 import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';
 
-function AdminIndex({ data, ...props }) {
+function AdminIndex({ data, flash, errors, ziggy }) {
   const pagination = paginationItems(data)
   const [adminData] = useState(data.data)
 
   const handleClick = (id) => {
     router.visit(route('admin.settings.show', id));
   }
+
+  useFlashMessages(flash, errors)
 
   const AdminColumns = [
     "Id",
@@ -29,7 +32,7 @@ function AdminIndex({ data, ...props }) {
 
   return (
     <PageContentBlock title={'Admins Overview'}>
-      <AdminLayout ziggy={props.ziggy}>
+      <AdminLayout ziggy={ziggy}>
         <Table.Header
           title={'Users'}
           icon={faUsers}

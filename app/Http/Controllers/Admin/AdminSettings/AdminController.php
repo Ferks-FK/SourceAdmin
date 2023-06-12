@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin\AdminSettings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\AdminCreateRequest;
+use App\Http\Requests\Admin\AdminUpdateRequest;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -38,9 +39,11 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminCreateRequest $request)
     {
-        //
+        User::create($request->except('password_confirmation'));
+
+        return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully created.'));
     }
 
     /**
@@ -76,9 +79,25 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminUpdateRequest $request, $id)
     {
-        //
+        $data = $request->except('new_password_confirmation');
+        $user = User::findOrFail($id);
+
+        if ($request->input('new_password')) {
+            unset($data['new_password']);
+            $data['password'] = $request->input('new_password');
+
+            // Force user to login again with new credentials.
+            if (!$user->should_re_login) {
+                $user->should_re_login = true;
+            }
+        }
+
+        $user->fill($data);
+        $user->save();
+
+        return redirect()->back()->with('success', __('The user has been successfully updated.'));
     }
 
     /**
@@ -89,7 +108,11 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('admin.settings.index')->with('success', __('The administrator has been successfully deleted.'));
     }
 
     protected function getUsersData()

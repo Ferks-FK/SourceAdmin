@@ -31,7 +31,7 @@ function SideBar() {
       }
       return true
     }))
-  }, [])
+  }, [isLogged])
 
   const sidebarVariants = {
     open: {
@@ -88,7 +88,12 @@ function SideBar() {
           </div>
         :
           <div className="flex justify-center">
-          <Button.InternalLink type={'button'} to={'/auth/login'} className="!w-full">
+          <Button.InternalLink
+            type={'button'}
+            to={'/auth/login'}
+            className="!w-full"
+            onClick={ocultSidebar}
+          >
             {t('login', {ns: 'buttons'})}
           </Button.InternalLink>
         </div>

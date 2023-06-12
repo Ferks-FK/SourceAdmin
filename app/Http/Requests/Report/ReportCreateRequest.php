@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Report;
 
 use App\Traits\Server;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ReportRequest extends FormRequest
+class ReportCreateRequest extends FormRequest
 {
     use Server;
 
@@ -32,11 +32,7 @@ class ReportRequest extends FormRequest
         $servers_ids = $this->getServersIds(getAll: true); // Allow only the server ID's registered in the DB.
 
         return [
-            'player_steam_id' => function($attribute, $value, $fail) {
-                if (!preg_match('/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/', $value)) {
-                    $fail(__('The :attribute field must be a valid SteamID or SteamID64.', ['attribute' => $attribute]));
-                }
-            },
+            'player_steam_id' => ['nullable', 'string', 'regex:/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/'],
             'player_ip' => ['string', 'nullable', 'ipv4'],
             'player_name' => ['required', 'string', 'min:4', 'max:32'],
             'comments' => ['required', 'string', 'max:1024'],

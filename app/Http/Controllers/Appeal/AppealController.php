@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Appeal;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AppealRequest;
+use App\Http\Requests\Appeal\AppealCreateRequest;
 use App\Jobs\Appeal as AppealJob;
 use App\Models\Appeal;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class AppealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AppealRequest $request)
+    public function store(AppealCreateRequest $request)
     {
         $appeal = Appeal::create($request->all());
 
