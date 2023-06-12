@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export const Layout = ({ children, userAuth }) => {
   const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
