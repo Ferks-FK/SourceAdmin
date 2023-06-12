@@ -2,6 +2,7 @@ import { useEffect, useState, useId, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Options } from "./types";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import styles from "./style.module.css";
@@ -45,14 +46,14 @@ function Modal({
   className,
   animation = defaultModalAnimation,
   backdropAnimation = defaultModalBackdropAnimation,
-  position = "center"
+  position = Options.Position.Default
 }) {
   const headingId = useId();
   const modalMainClassName = classNames(
     styles.modal,
     {
-      ['m-auto']: position === "center",
-      ['mx-auto mt-10']: position === "top"
+      ['m-auto']: position == Options.Position.Center || position == Options.Position.Default,
+      ['mx-auto mt-10']: position == Options.Position.Top
     },
     className
   );

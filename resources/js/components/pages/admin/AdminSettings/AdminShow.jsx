@@ -99,7 +99,6 @@ function AdminShow({ user, flash, errors, ziggy, auth }) {
                     onClickCloseBtn={hideModal}
                     onPressEscKey={hideModal}
                     onClickBackdrop={hideModal}
-                    position={"top"}
                   >
                     <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                       <div className="flex flex-col gap-4">

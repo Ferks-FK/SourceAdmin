@@ -8,7 +8,7 @@ const style = (type) => {
     case 'error':
       return `bg-red-600 border-red-800`;
     case 'info':
-      return `bg-primary-600 border-primary-800`;
+      return `bg-blue-600 border-blue-800`;
     case 'success':
       return `bg-green-600 border-green-800`;
     case 'warning':
@@ -23,7 +23,7 @@ const styleBackground = (type) => {
     case 'error':
       return `bg-red-500`;
     case 'info':
-      return `bg-primary-500`;
+      return `bg-blue-500`;
     case 'success':
       return `bg-green-500`;
     case 'warning':

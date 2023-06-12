@@ -1,9 +1,12 @@
 import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { useUserStore } from "@/stores/user";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 export const Layout = ({ children, userAuth }) => {
   const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
+
+  useDeviceType()
 
   if (!userData && userAuth) {
     setUserData(userAuth)

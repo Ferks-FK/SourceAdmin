@@ -1,5 +1,4 @@
 import { Button } from "@/components/elements/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faAnglesRight, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Component = ({ paginationData }) => {
@@ -15,7 +14,6 @@ const Component = ({ paginationData }) => {
     total
   } = paginationData;
 
-  console.log(paginationData)
   return (
     <div className={'flex flex-wrap items-center justify-center sm:justify-between gap-2'}>
       <p className="text-sm">Showing: {from} to {to} of {total}</p>
