@@ -96,7 +96,7 @@ class BanController extends Controller
             ->join('time_bans', 'time_bans.id', 'bans.time_ban_id')
             ->join('servers', 'servers.id', 'bans.server_id')
             ->join('mods', 'mods.id', 'mod_id')
-            ->select('bans.id', 'mods.icon as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
+            ->select('bans.id', 'mods.mod as mod_icon', 'A.name as admin_name', 'player_name', 'bans.ip', 'bans.created_at', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
 
         return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
     }

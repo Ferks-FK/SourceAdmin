@@ -18,6 +18,8 @@ function BansContainer({ data }) {
   const [bansData, setBansData] = useState(data.data)
   const { t } = useTranslation()
 
+
+  console.log(data)
   useEffect(() => {
     clearFlashes();
 

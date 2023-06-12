@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('mods', function (Blueprint $table) {
             $table->id();
+            $table->string('mod');
             $table->string('name');
-            $table->string('icon');
             $table->boolean('enabled');
         });
     }

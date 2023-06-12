@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDeviceStore } from '@/stores/theme/device';
+import { useSidebarStore } from '@/stores/components/sidebar';
 
 export enum DeviceSize {
     'SM' = 'sm',
@@ -10,44 +11,45 @@ export enum DeviceSize {
 }
 
 function getDeviceType() {
-    const width: number = window.innerWidth;
-
-    let device: string = '';
+    const widthSize: number = window.innerWidth;
+    let deviceSize: string = '';
 
     // mobile between 280px at 639px OR between 640px at 767px.
-    if ((width >= 280 && width < 640) || (width >= 640 && width < 768)) {
-        device = DeviceSize.SM
+    if ((widthSize >= 280 && widthSize < 640) || (widthSize >= 640 && widthSize < 768)) {
+        deviceSize = DeviceSize.SM
     }
 
     // tablet between 768px at 1023px.
-    if (width >= 768 && width < 1024) {
-        device = DeviceSize.MD
+    if (widthSize >= 768 && widthSize < 1024) {
+        deviceSize = DeviceSize.MD
     }
 
     // desktop between 1024px at 1279px.
-    if (width >= 1024 && width < 1280) {
-        device = DeviceSize.LG
+    if (widthSize >= 1024 && widthSize < 1280) {
+        deviceSize = DeviceSize.LG
     }
 
     // desktop between 1280px at 1535px.
-    if (width >= 1280 && width < 1536) {
-        device = DeviceSize.XL
+    if (widthSize >= 1280 && widthSize < 1536) {
+        deviceSize = DeviceSize.XL
     }
 
     // desktop 1536px or higher.
-    if (width >= 1536) {
-        device = DeviceSize['2XL']
+    if (widthSize >= 1536) {
+        deviceSize = DeviceSize['2XL']
     }
 
-    return device;
+    return { deviceSize, widthSize };
 }
 
 function useDeviceType() {
+    const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
     const [ setDeviceType ] = useDeviceStore((state) => [state.setDevice]);
+    const { deviceSize, widthSize } = getDeviceType()
 
     useEffect(() => {
         const handleResize = () => {
-            setDeviceType(getDeviceType())
+            setDeviceType(deviceSize)
         }
 
         handleResize()
@@ -57,6 +59,17 @@ function useDeviceType() {
             window.removeEventListener('resize', handleResize);
         }
     }, [])
+
+    // This is only for manual screen size adjustment.
+    useEffect(() => {
+        if ((widthSize >= 768) && sidebarIsVisible == false) {
+            setSidebarIsVisible(true)
+        }
+
+        if ((widthSize < 768) && sidebarIsVisible == true) {
+            setSidebarIsVisible(false)
+        }
+    }, [deviceSize])
 }
 
 export { useDeviceType }

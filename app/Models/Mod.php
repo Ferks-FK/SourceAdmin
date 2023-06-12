@@ -17,8 +17,8 @@ class Mod extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'mod',
         'name',
-        'icon',
         'enabled'
     ];
 }

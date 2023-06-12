@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Server extends Model
 {
@@ -17,7 +18,8 @@ class Server extends Model
     protected $fillable = [
         'ip',
         'port',
-        'mod_id'
+        'mod_id',
+        'rcon'
     ];
 
     /**
@@ -28,6 +30,11 @@ class Server extends Model
     protected $hidden = [
         'rcon'
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['rcon'] = Hash::make($value);
+    }
 
     /**
      * Get the mod associated with the server.

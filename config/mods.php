@@ -4,30 +4,32 @@ return [
 
     /*
     | All mod icon names to propagate in DB.
+    |
+    | IDK all the names of the games, if you do, tell me later xD
     */
 
-    'alienswarm',
-    'csgo',
-    'csource',
-    'cspromod',
-    'dods',
-    'dys',
-    'eye',
-    'gmod',
-    'hidden',
-    'hl2-fortressforever',
-    'hl2ctf',
-    'hl2dm',
-    'ins',
-    'l4d',
-    'l4d2',
-    'nucleardawn',
-    'pdark',
-    'pvkii',
-    'ship',
-    'source-forts',
-    'synergy',
-    'tf2',
-    'web',
-    'zps'
+    'web' => config('app.name'),
+    'alienswarm' => 'Alien Swarm',
+    'csgo' => 'Counter Strike - Global Offensive',
+    'csource' => 'Counter Strike - Source',
+    'cspromod' => 'Counter Strike - Source Promod',
+    'dods' => 'Day of Defeat',
+    'dys' => 'DYS',
+    'eye' => 'E.Y.E - Divine Cybermancy',
+    'gmod' => "Garry's Mod",
+    'hidden' => 'Hidden',
+    'hl2-fortressforever' => 'Fortress Forever',
+    'hl2ctf' => 'Half-Life 2 - Capture the Flag',
+    'hl2dm' => 'Half-Life 2 - Deathmatch',
+    'ins' => 'INS',
+    'l4d' => 'Left 4 Dead',
+    'l4d2' => 'Left 4 Dead 2',
+    'nucleardawn' => 'Nuclear Dawn',
+    'pdark' => 'Dark',
+    'pvkii' => 'Pirates, Vikings, and Knights II',
+    'ship' => 'The Ship',
+    'source-forts' => 'SourceForts Gamemode',
+    'synergy' => 'Synergy',
+    'tf2' => 'Team Fortress 2',
+    'zps' => 'Zombie Panic - Source'
 ];

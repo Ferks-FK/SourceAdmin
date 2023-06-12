@@ -26,6 +26,11 @@ trait Server
         ]);
     }
 
+    public function getServerAttributes($id, array $attrs)
+    {
+        return ServerModel::where('id', $id)->get($attrs);
+    }
+
     public function getServersIds(int $limit = 10, bool $getAll = false): array
     {
         $servers = ServerModel::pluck('id')->toArray();

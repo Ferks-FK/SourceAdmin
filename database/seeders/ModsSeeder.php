@@ -14,11 +14,11 @@ class ModsSeeder extends Seeder
      */
     public function run()
     {
-        foreach(config('mods') as $mod) {
+        foreach(config('mods') as $mod_key => $mod_value) {
             DB::table('mods')->insert([
-                'name' => $mod,
-                'icon' => $mod,
-                'enabled' => true
+                'mod' => $mod_key,
+                'name' => $mod_value,
+                'enabled' => $mod_key === 'web' ? false : true
             ]);
         }
     }

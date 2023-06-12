@@ -38,4 +38,10 @@ Route::name('admin.')->group(function() {
         Route::delete('/{admin:id}', [AdminController::class, 'destroy'])->name('settings.destroy');
         Route::post('/store', [AdminController::class, 'store'])->name('settings.store');
     });
+
+    Route::group(['prefix' => 'server_settings'], function() {
+        Route::get('/', [ServerController::class, 'index'])->name('servers.index');
+        Route::get('/create', [ServerController::class, 'create'])->name('servers.create');
+        Route::get('/{server:id}', [ServerController::class, 'show'])->name('servers.show');
+    });
 });
