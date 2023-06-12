@@ -110,6 +110,10 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
 
+        if ($user->name === "demo") {
+            return redirect()->route('admin.settings.index')->with('info', "Sorry, you can't delete the demo account xD");
+        }
+
         $user->delete();
 
         return redirect()->route('admin.settings.index')->with('success', __('The administrator has been successfully deleted.'));
