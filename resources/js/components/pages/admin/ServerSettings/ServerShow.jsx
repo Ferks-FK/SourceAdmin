@@ -19,13 +19,10 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ modsData ] = useState(mods);
   const [ regionsData ] = useState(regions);
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values, { setSubmitting }) => {
     router.patch(route('admin.servers.update', serverData.Id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
-      },
-      onSuccess: () => {
-        resetForm()
       }
     })
   }
