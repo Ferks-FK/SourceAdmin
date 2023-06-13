@@ -43,5 +43,6 @@ Route::name('admin.')->group(function() {
         Route::get('/', [ServerController::class, 'index'])->name('servers.index');
         Route::get('/create', [ServerController::class, 'create'])->name('servers.create');
         Route::get('/{server:id}', [ServerController::class, 'show'])->name('servers.show');
+        Route::patch('/update/{server:id}', [ServerController::class, 'update'])->name('servers.update');
     });
 });

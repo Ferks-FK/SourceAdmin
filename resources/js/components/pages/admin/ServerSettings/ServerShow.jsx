@@ -4,14 +4,12 @@ import { AdminLayout } from "@/components/layout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
-import { Avatar } from "@/components/Avatar";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
-import { AdminEditSchema } from "@/yup/YupSchemas";
+import { ServerEditSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { useUserStore } from "@/stores/user";
-import { faCircle, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 
@@ -21,7 +19,16 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ modsData ] = useState(mods);
   const [ regionsData ] = useState(regions);
 
-  console.log(regionsData)
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    router.patch(route('admin.servers.update', serverData.Id), { ...values }, {
+      onFinish: () => {
+        setSubmitting(false)
+      },
+      onSuccess: () => {
+        resetForm()
+      }
+    })
+  }
 
   const handleDelete = () => {
 
@@ -35,10 +42,13 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
     setModalVisible(false);
   }
 
+  useFlashMessages(flash, errors)
+
   return (
     <PageContentBlock title={`Server ${serverData.HostName}`}>
       <AdminLayout ziggy={ziggy}>
         <Formik
+          onSubmit={handleSubmit}
           initialValues={{
             ip: serverData.Ip,
             port: serverData.GamePort || serverData.Port,
@@ -46,8 +56,10 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
             new_rcon: '',
             new_rcon_confirmation: '',
             mod_id: serverData.ModId,
-            server_region_id: ''
+            region_id: serverData.RegionId,
+            enabled: serverData.Enabled
           }}
+          validationSchema={ServerEditSchema}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
@@ -58,8 +70,8 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
                     alt={serverData.Mod}
                     className={'rounded-full w-24 pointer-events-none select-none'}
                   />
-                  <div className="flex flex-col gap-1 items-center md:items-start">
-                    <p className={`${serverData.Is_online ? 'text-sm' : 'text-base'}`}>
+                  <div className={`flex flex-col gap-1 items-center md:items-start ${serverData.Is_online ? 'text-sm' : 'text-base'}`}>
+                    <p>
                       {serverData.HostName}
                     </p>
                     <p className="flex gap-1 items-center text-base">
@@ -83,18 +95,12 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
                     onClickBackdrop={hideModal}
                   >
                     <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
-                      {/* <div className="flex flex-col gap-4">
-                        <h3 className="text-2xl text-left">Delete Admin "{user.name}"?</h3>
+                      <div className="flex flex-col gap-4">
+                        <h3 className="text-2xl text-left">Delete Server "{serverData.HostName}"?</h3>
                         <p className="text-sm">
-                          When you confirm the deletion of the user, the action is permanent and cannot be undone.
-                          He will also lose the rights to the servers he is associated with.
+                          When you confirm the deletion of the server, the action is permanent and cannot be undone.
                         </p>
-                        {user.id == auth.user.id && (
-                          <p className="text-red-500">
-                            You are about to delete your own account!
-                          </p>
-                        )}
-                      </div> */}
+                      </div>
                       <div className="flex gap-2">
                         <Button.Text onClick={hideModal}>
                           Cancel
@@ -156,11 +162,11 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
                     </Field>
                     <Field
                       type={'select'}
-                      name={'server_region_id'}
-                      id={'server_region_id'}
+                      name={'region_id'}
+                      id={'region_id'}
                       label={'Server Region'}
-                      value={values.server_region_id}
-                      onChange={(e) => setFieldValue('server_region_id', e.target.value)}
+                      value={values.region_id}
+                      onChange={(e) => setFieldValue('region_id', e.target.value)}
                     >
                       {regionsData.map(({ id, region }) => (
                         <option key={id} value={id}>
@@ -168,6 +174,15 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
                         </option>
                       ))}
                     </Field>
+                    <Field
+                      type={'checkbox'}
+                      name={'enabled'}
+                      id={'enabled'}
+                      label={'Server Enabled'}
+                      value={values.enabled}
+                      checked={values.enabled}
+                      onChange={(e) => setFieldValue('enabled', e.target.checked)}
+                    />
                   </div>
                   <div className="flex flex-col items-center">
                     <Button.Text type={'submit'} disabled={isSubmitting}>

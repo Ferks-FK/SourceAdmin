@@ -18,13 +18,10 @@ function AdminShow({ user, flash, errors, ziggy, auth }) {
   const [ modalVisible, setModalVisible ] = useState(false);
   const [ clearData ] = useUserStore((state) => [state.clearData])
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values, { setSubmitting }) => {
     router.patch(route('admin.settings.update', user.id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
-      },
-      onSuccess: () => {
-        resetForm()
       }
     })
   }
@@ -54,7 +51,6 @@ function AdminShow({ user, flash, errors, ziggy, auth }) {
       <AdminLayout ziggy={ziggy}>
         <Formik
           onSubmit={handleSubmit}
-          enableReinitialize
           initialValues={{
             name: user.name,
             email: user.email,

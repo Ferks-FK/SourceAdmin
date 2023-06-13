@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Server extends Model
@@ -20,8 +19,10 @@ class Server extends Model
     protected $fillable = [
         'ip',
         'port',
+        'rcon',
         'mod_id',
-        'rcon'
+        'region_id',
+        'enabled'
     ];
 
     /**
@@ -33,7 +34,16 @@ class Server extends Model
         'rcon'
     ];
 
-    public function setPasswordAttribute($value)
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'enabled' => 'bool'
+    ];
+
+    public function setRconAttribute($value)
     {
         $this->attributes['rcon'] = Hash::make($value);
     }

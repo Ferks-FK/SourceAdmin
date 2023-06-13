@@ -17,7 +17,6 @@ function ServerIndex({ serversIds, flash, errors, ziggy }) {
   const { t } = useTranslation()
 
   const handleClick = (id) => {
-    console.log(id)
     router.visit(route('admin.servers.show', id))
   }
 
@@ -46,6 +45,8 @@ function ServerIndex({ serversIds, flash, errors, ziggy }) {
 
     fetchServerData()
   }, [])
+
+  useFlashMessages(flash, errors);
 
   const ServerColumns = [
     "MOD",
