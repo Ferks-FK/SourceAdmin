@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Server extends Model
 {
@@ -39,8 +41,24 @@ class Server extends Model
     /**
      * Get the mod associated with the server.
      */
-    public function mod()
+    public function mod(): HasOne
     {
-        return $this->belongsTo(Mod::class);
+        return $this->hasOne(Mod::class);
+    }
+
+    /**
+     * Get the bans associated with the server.
+     */
+    public function bans()
+    {
+        return $this->hasMany(Ban::class);
+    }
+
+    /**
+     * Get the region associated with the server.
+     */
+    public function region(): HasOne
+    {
+        return $this->hasOne(Region::class);
     }
 }

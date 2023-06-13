@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Server;
 use App\Http\Controllers\Controller;
 use App\Traits\Server;
 use App\Models\Mod;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -61,10 +62,12 @@ class ServerController extends Controller
         $serverData[0]->ModId = $serverAttrs[0]->mod_id;
 
         $mods = Mod::where('enabled', true)->get(['id', 'name']);
+        $regions = Region::where('enabled', true)->get(['id', 'region']);
 
         return Inertia::render('admin/ServerSettings/ServerShow', [
             'server' => $serverData,
-            'mods' => $mods
+            'mods' => $mods,
+            'regions' => $regions
         ]);
     }
 

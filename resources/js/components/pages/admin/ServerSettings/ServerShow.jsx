@@ -15,12 +15,13 @@ import { faCircle, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 
-function ServerShow({ server, mods, flash, errors, ziggy }) {
+function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ modalVisible, setModalVisible ] = useState(false);
   const [ serverData ] = useState(server[0]);
-  const [ modData ] = useState(mods)
+  const [ modsData ] = useState(mods);
+  const [ regionsData ] = useState(regions);
 
-  console.log(serverData.ModId)
+  console.log(regionsData)
 
   const handleDelete = () => {
 
@@ -44,7 +45,8 @@ function ServerShow({ server, mods, flash, errors, ziggy }) {
             rcon: '',
             new_rcon: '',
             new_rcon_confirmation: '',
-            mod_id: serverData.ModId
+            mod_id: serverData.ModId,
+            server_region_id: ''
           }}
         >
           {({ isSubmitting, values, setFieldValue }) => (
@@ -146,7 +148,7 @@ function ServerShow({ server, mods, flash, errors, ziggy }) {
                       value={values.mod_id}
                       onChange={(e) => setFieldValue('mod_id', e.target.value)}
                     >
-                      {modData.map(({ id, name }) => (
+                      {modsData.map(({ id, name }) => (
                         <option key={id} value={id}>
                           {name}
                         </option>
@@ -157,7 +159,15 @@ function ServerShow({ server, mods, flash, errors, ziggy }) {
                       name={'server_region_id'}
                       id={'server_region_id'}
                       label={'Server Region'}
-                    />
+                      value={values.server_region_id}
+                      onChange={(e) => setFieldValue('server_region_id', e.target.value)}
+                    >
+                      {regionsData.map(({ id, region }) => (
+                        <option key={id} value={id}>
+                          {region}
+                        </option>
+                      ))}
+                    </Field>
                   </div>
                   <div className="flex flex-col items-center">
                     <Button.Text type={'submit'} disabled={isSubmitting}>

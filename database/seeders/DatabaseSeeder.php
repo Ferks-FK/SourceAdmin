@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\ModsSeeder;
+use Database\Seeders\RegionsSeeder;
 use Database\Seeders\ReasonSeeder;
 use Database\Seeders\TimeBansSeeder;
 use Database\Seeders\UserWeb;
@@ -25,7 +26,8 @@ class DatabaseSeeder extends Seeder
             UserWeb::class, // The 'Console' user, used for when something non-human does an action on the servers.
             ModsSeeder::class,
             ReasonSeeder::class,
-            TimeBansSeeder::class
+            TimeBansSeeder::class,
+            RegionsSeeder::class
         ]);
 
         if (config("app.env") === "development" || config("app.env") === "local") {

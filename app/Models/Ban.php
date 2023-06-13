@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Stevebauman\Location\Facades\Location;
 
 class Ban extends Model
@@ -45,24 +46,24 @@ class Ban extends Model
     /**
      * Get the server associated with the ban.
      */
-    public function server()
+    public function server(): HasOne
     {
-        return $this->belongsTo(Server::class);
+        return $this->hasOne(Server::class);
     }
 
     /**
      * Get the time_ban associated with the ban.
      */
-    public function time_ban()
+    public function time_ban(): HasOne
     {
-        return $this->belongsTo(TimeBans::class);
+        return $this->hasOne(TimeBans::class);
     }
 
     /**
      * Get the admin associated with the ban.
      */
-    public function admin()
+    public function admin(): HasOne
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
 }
