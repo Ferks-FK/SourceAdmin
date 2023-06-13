@@ -51,7 +51,7 @@ Route::group(['prefix' => 'auth'], function() {
 */
 Route::group(['prefix' => 'servers'], function() {
     Route::get('/', [ServerController::class, 'index'])->name('servers.index');
-    Route::get('/{server:id}/{getPlayers?}{showEnabled?}', [ServerController::class, 'getServer'])->name('server.connect');
+    Route::get('/{server:id}/{getPlayers?}', [ServerController::class, 'getServer'])->name('server.connect');
 });
 
 /*
