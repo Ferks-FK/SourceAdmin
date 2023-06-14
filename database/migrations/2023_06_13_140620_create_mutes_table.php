@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('reason_id')->constrained('reasons');
             $table->foreignId('time_ban_id')->constrained('time_bans');
-            $table->foreignId('server_id')->constrained('servers');
+            $table->foreignId('server_id')->nullable()->constrained('servers')->nullOnDelete();
             $table->foreignId('removed_by')->nullable()->constrained('users');
             $table->timestamp('removed_on')->nullable();
             $table->string('unban_reason')->nullable();

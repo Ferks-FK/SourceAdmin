@@ -12,6 +12,7 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
+import { useForm } from '@inertiajs/react'
 
 function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ modalVisible, setModalVisible ] = useState(false);
@@ -20,7 +21,7 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ regionsData ] = useState(regions);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    router.patch(route('admin.servers.update', serverData.Id), { ...values }, {
+    router.patch(route('admin.servers.update', serverData?.Id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -28,7 +29,7 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   }
 
   const handleDelete = () => {
-
+    router.delete(route('admin.servers.destroy', serverData?.Id))
   }
 
   function showModal() {

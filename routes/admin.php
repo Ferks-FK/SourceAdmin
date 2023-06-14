@@ -33,16 +33,18 @@ Route::name('admin.')->group(function() {
     Route::group(['prefix' => 'admin_settings'], function() {
         Route::get('/', [AdminController::class, 'index'])->name('settings.index');
         Route::get('/create', [AdminController::class, 'create'])->name('settings.create');
-        Route::get('/{admin:id}', [AdminController::class, 'show'])->name('settings.show');
-        Route::patch('/update/{admin:id}', [AdminController::class, 'update'])->name('settings.update');
-        Route::delete('/{admin:id}', [AdminController::class, 'destroy'])->name('settings.destroy');
+        Route::get('/{id}', [AdminController::class, 'show'])->name('settings.show');
         Route::post('/store', [AdminController::class, 'store'])->name('settings.store');
+        Route::patch('/update/{id}', [AdminController::class, 'update'])->name('settings.update');
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('settings.destroy');
     });
 
     Route::group(['prefix' => 'server_settings'], function() {
         Route::get('/', [ServerController::class, 'index'])->name('servers.index');
         Route::get('/create', [ServerController::class, 'create'])->name('servers.create');
-        Route::get('/{server:id}', [ServerController::class, 'show'])->name('servers.show');
-        Route::patch('/update/{server:id}', [ServerController::class, 'update'])->name('servers.update');
+        Route::get('/{id}', [ServerController::class, 'show'])->name('servers.show');
+        Route::post('/store', [ServerController::class, 'store'])->name('servers.store');
+        Route::patch('/update/{id}', [ServerController::class, 'update'])->name('servers.update');
+        Route::delete('/{id}', [ServerController::class, 'destroy'])->name('servers.destroy');
     });
 });

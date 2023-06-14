@@ -119,6 +119,12 @@ class ServerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $server = ServerModel::findOrFail($id);
+
+        $server->delete();
+
+        $this->removeServerFromCache($id);
+
+        return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully deleted.'));
     }
 }

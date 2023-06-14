@@ -13,13 +13,10 @@ use Illuminate\Routing\Route;
 class AdminUpdateRequest extends FormRequest
 {
     private User $user;
-    private Route $route;
 
     public function __construct(Route $route)
     {
-        $this->route = $route;
-        $user = User::findOrFail($this->route->admin);
-        $this->user = $user;
+        $this->user = User::findOrFail($route->id);
     }
 
     /**

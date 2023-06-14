@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
-import { faBan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBan, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
 
 function BansContainer({ data }) {
@@ -18,8 +19,6 @@ function BansContainer({ data }) {
   const [bansData, setBansData] = useState(data.data)
   const { t } = useTranslation()
 
-
-  console.log(data)
   useEffect(() => {
     clearFlashes();
 
@@ -76,7 +75,11 @@ function BansContainer({ data }) {
               <Table.Row key={ban.id}>
                 <Table.Td>
                   <div className='flex gap-1'>
-                    <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
+                    {ban.mod_icon ?
+                      <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
+                      :
+                      <FontAwesomeIcon icon={faCircleQuestion} size='lg'/>
+                    }
                     <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                   </div>
                 </Table.Td>

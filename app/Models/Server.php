@@ -40,7 +40,8 @@ class Server extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'enabled' => 'bool'
+        'id' => 'integer',
+        'enabled' => 'boolean'
     ];
 
     public function setRconAttribute($value)

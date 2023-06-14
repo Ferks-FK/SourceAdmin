@@ -15,7 +15,7 @@ class ServerUpdateRequest extends FormRequest
 
     public function __construct(Route $route)
     {
-        $this->serverModel = Server::findOrFail($route->server);
+        $this->serverModel = Server::findOrFail($route->id);
     }
 
     /**
