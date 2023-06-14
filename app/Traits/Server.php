@@ -6,6 +6,7 @@ use App\Models\Server as ServerModel;
 use App\Helpers\QueryServer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 trait Server
 {
@@ -26,14 +27,26 @@ trait Server
         ]);
     }
 
+    public function getServerAttributes($id, array $attrs)
+    {
+        return ServerModel::where('id', $id)->get($attrs);
+    }
+
     public function getServersIds(int $limit = 10, bool $getAll = false): array
     {
-        $servers = ServerModel::pluck('id')->toArray();
+        $servers = ServerModel::where('enabled', true)->pluck('id')->toArray();
 
         if ($getAll) {
-            return $servers;
+            return ServerModel::pluck('id')->toArray();
         }
 
         return array_slice($servers, 0, $limit);
+    }
+
+    public function removeServerFromCache($id)
+    {
+        if (Cache::has('server.' . $id)) {
+            Cache::forget('server.' . $id);
+        }
     }
 }

@@ -62,6 +62,14 @@ function Field({ id, name, label, type, description, ...props }) {
             {...field}
           />
         )
+      case 'checkbox':
+        return (
+          <Input.CheckBox
+            name={name}
+            id={id}
+            {...props}
+          />
+        )
     }
   }
 

@@ -20,7 +20,8 @@ class ServerFactory extends Factory
             "ip" => "103.88.233.84",
             "port" => "27315",
             "rcon" => "password",
-            "mod_id" => 2
+            "mod_id" => 2,
+            "region_id" => 3
         ];
     }
 }

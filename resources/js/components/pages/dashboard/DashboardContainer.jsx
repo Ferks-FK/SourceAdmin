@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { getServerData } from '@/api/servers/getServers';
 import { Table } from '@/components/elements/table';
@@ -143,7 +143,11 @@ function DashboardContainer({ serversIds, ...props }) {
                 <Table.Row key={ban.id}>
                   <Table.Td>
                     <div className='flex gap-1'>
-                      <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
+                      {ban.mod_icon ?
+                        <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
+                        :
+                        <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                      }
                       <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                     </div>
                   </Table.Td>
@@ -185,7 +189,11 @@ function DashboardContainer({ serversIds, ...props }) {
                 <Table.Row key={mute.id}>
                   <Table.Td>
                     <div className='flex gap-1'>
-                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                      {mute.mod_icon ?
+                        <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
+                        :
+                        <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                      }
                       <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                     </div>
                   </Table.Td>
@@ -228,7 +236,11 @@ function DashboardContainer({ serversIds, ...props }) {
                 <Table.Row key={mute.id}>
                   <Table.Td>
                     <div className='flex gap-1'>
-                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                      {mute.mod_icon ?
+                        <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
+                        :
+                        <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                      }
                       <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                     </div>
                   </Table.Td>

@@ -37,7 +37,7 @@
 }
 
 .checkbox {
-    @apply w-4 h-4 rounded-sm border-neutral-500 bg-neutral-600 text-neutral-500;
+    @apply w-4 p-0 cursor-pointer rounded-sm border-neutral-500 bg-neutral-600 text-neutral-500;
 
     &:focus, &:active {
         @apply ring-2 ring-neutral-500 ring-offset-2 ring-offset-neutral-700;

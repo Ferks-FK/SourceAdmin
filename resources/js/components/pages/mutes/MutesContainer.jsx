@@ -6,7 +6,7 @@ import { Progress } from '@/components/elements/Progress';
 import { Input } from "@/components/elements/inputs";
 import { Size } from "@/components/elements/inputs/types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneSlash, faCommentSlash, faBan } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophoneSlash, faCommentSlash, faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useFlashesStore } from '@/stores/flashes';
@@ -76,7 +76,11 @@ function MutesContainer({ data }) {
               <Table.Row key={mute.id}>
                 <Table.Td>
                   <div className='flex gap-1'>
-                    <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="w-5" />
+                    {mute.mod_icon ?
+                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
+                      :
+                      <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                    }
                     <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                   </div>
                 </Table.Td>

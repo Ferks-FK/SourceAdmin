@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
 const steamIDRegex = /^STEAM_[0-1]:[0-1]:\d{1,10}$|^\d{17}$/;
 const IPAddressRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+const IPAddressOrDomainRegex = /^(?:(?:https?|http):\/\/)?(?:[a-zA-Z0-9]+\.[a-zA-Z]{2,}|(?:\d{1,3}\.){3}\d{1,3})(?:\/\S*)?$/;
+const PortRegex = /^(?:[1-9]\d{0,3}|[1-5]\d{4}|6(?:[0-4]\d{3}|5(?:[0-4]\d{2}|5(?:[0-2]\d|3[0-5]))))$/;
 
 const validateField = ({ validationType = 'string', ...props }) => {
     const validationMessages = {
@@ -215,5 +217,36 @@ export const ReportFormSchema = () => {
         }
 
         return true;
+    })
+}
+
+export const ServerEditSchema = () => {
+    return object().shape({
+        ip: validateField({
+            required: true,
+            requiredMessage: "The ip/domain is required.",
+            regex: IPAddressOrDomainRegex,
+            regexMessage: 'The IP/Domain is not valid.'
+        }),
+        port: validateField({
+            required: true,
+            requiredMessage: 'The port is required.',
+            regex: PortRegex,
+            regexMessage: 'The port is not valid.'
+        }),
+        rcon: validateField({
+            required: true,
+            requiredMessage: 'The RCON is required.',
+        }),
+        new_rcon: validateField({
+            min: 8,
+            minMessage: 'Your RCON is too short.',
+            regex: passwordRegex,
+            regexMessage: 'RCON must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        }),
+        new_rcon_confirmation: validateField({
+            oneOf: [ref('new_rcon')],
+            oneOfMessage: "The RCON's do not match."
+        })
     })
 }

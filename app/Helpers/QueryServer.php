@@ -33,6 +33,7 @@ class QueryServer
         $this->server_data = $data['server_data'];
         $this->player_data = $data['player_data'];
         $this->is_online = is_array($this->server_data);
+
         if ($this->is_online) {
             $this->putServerInCache($data);
         }
@@ -101,6 +102,8 @@ class QueryServer
             "Os" => "N/A",
             "Map" => "N/A",
             "Secure" => "N/A",
+            "Ip" => $this->ip,
+            "Port" => $this->port,
             "HostName" => "Error Connection ($this->ip:$this->port)",
             "Players" => "N/A",
             "MaxPlayers" => "N/A",
@@ -129,6 +132,6 @@ class QueryServer
      */
     protected function getMod(): mixed
     {
-        return Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mods.name')->first()->name;
+        return Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mod')->first()->mod;
     }
 }

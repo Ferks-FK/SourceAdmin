@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Server extends Model
 {
@@ -17,7 +19,10 @@ class Server extends Model
     protected $fillable = [
         'ip',
         'port',
-        'mod_id'
+        'rcon',
+        'mod_id',
+        'region_id',
+        'enabled'
     ];
 
     /**
@@ -30,10 +35,41 @@ class Server extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'enabled' => 'boolean'
+    ];
+
+    public function setRconAttribute($value)
+    {
+        $this->attributes['rcon'] = Hash::make($value);
+    }
+
+    /**
      * Get the mod associated with the server.
      */
-    public function mod()
+    public function mod(): HasOne
     {
-        return $this->belongsTo(Mod::class);
+        return $this->hasOne(Mod::class);
+    }
+
+    /**
+     * Get the bans associated with the server.
+     */
+    public function bans()
+    {
+        return $this->hasMany(Ban::class);
+    }
+
+    /**
+     * Get the region associated with the server.
+     */
+    public function region(): HasOne
+    {
+        return $this->hasOne(Region::class);
     }
 }

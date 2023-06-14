@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('port');
             $table->string('rcon');
             $table->foreignId('mod_id')->constrained('mods');
+            $table->foreignId('region_id')->constrained('regions');
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }

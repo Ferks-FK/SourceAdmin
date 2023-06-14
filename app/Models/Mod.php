@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mod extends Model
 {
@@ -17,8 +18,16 @@ class Mod extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'mod',
         'name',
-        'icon',
         'enabled'
     ];
+
+    /**
+     * Get the servers associated with the mod.
+     */
+    public function servers(): HasMany
+    {
+        return $this->hasMany(Server::class);
+    }
 }

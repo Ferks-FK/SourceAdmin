@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText('comments');
             $table->string('reporter_name')->nullable();
             $table->string('reporter_email');
-            $table->foreignId('server_id')->constrained('servers');
+            $table->foreignId('server_id')->nullable()->constrained('servers')->nullOnDelete();
             $table->string('upload_demo')->nullable();
             $table->timestamps();
         });
