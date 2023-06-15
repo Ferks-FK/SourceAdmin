@@ -1,4 +1,4 @@
-import { object, string, ref, number, date, boolean } from 'yup';
+import { object, string, ref, number, date, boolean, mixed } from 'yup';
 import { useTranslation } from "react-i18next";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
@@ -30,6 +30,9 @@ const validateField = ({ validationType = 'string', ...props }) => {
             break
         case 'boolean':
             validation = boolean();
+            break
+        case 'mixed':
+            validation = mixed();
             break
         default:
             validation = string();
@@ -247,6 +250,45 @@ export const ServerEditSchema = () => {
         new_rcon_confirmation: validateField({
             oneOf: [ref('new_rcon')],
             oneOfMessage: "The RCON's do not match."
+        })
+    })
+}
+
+export const ServerCreateSchema = () => {
+    return object().shape({
+        ip: validateField({
+            required: true,
+            requiredMessage: "The ip/domain is required.",
+            regex: IPAddressOrDomainRegex,
+            regexMessage: 'The IP/Domain is not valid.'
+        }),
+        port: validateField({
+            required: true,
+            requiredMessage: 'The port is required.',
+            regex: PortRegex,
+            regexMessage: 'The port is not valid.'
+        }),
+        rcon: validateField({
+            required: true,
+            requiredMessage: 'The RCON is required.',
+            min: 8,
+            minMessage: 'Your RCON is too short.',
+            regex: passwordRegex,
+            regexMessage: 'RCON must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        }),
+        rcon_confirmation: validateField({
+            required: true,
+            requiredMessage: 'The RCON Confirm is required.',
+            oneOf: [ref('rcon')],
+            oneOfMessage: "The RCON's do not match."
+        }),
+        mod_id: validateField({
+            required: true,
+            requiredMessage: 'The MOD is required.'
+        }),
+        region_id: validateField({
+            required: true,
+            requiredMessage: 'The Region is required.'
         })
     })
 }

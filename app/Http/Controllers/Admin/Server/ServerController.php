@@ -4,16 +4,27 @@ namespace App\Http\Controllers\Admin\Server;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Server\ServerUpdateRequest;
+use App\Http\Requests\Admin\Server\ServerCreateRequest;
 use App\Traits\Server;
 use App\Models\Mod;
 use App\Models\Region;
 use App\Models\Server as ServerModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 
 class ServerController extends Controller
 {
     use Server;
+
+    private Collection $mods;
+    private Collection $regions;
+
+    public function __construct()
+    {
+        $this->mods = Mod::where('enabled', true)->get(['id', 'name']);
+        $this->regions = Region::where('enabled', true)->get(['id', 'region']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -34,7 +45,10 @@ class ServerController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/ServerSettings/ServerCreate', [
+            'mods' => $this->mods,
+            'regions' => $this->regions
+        ]);
     }
 
     /**
@@ -43,9 +57,11 @@ class ServerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServerCreateRequest $request)
     {
-        //
+        ServerModel::create($request->except('rcon_confirmation'));
+
+        return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully created.'));
     }
 
     /**
@@ -65,13 +81,10 @@ class ServerController extends Controller
         $serverData[0]->RegionId = $serverAttrs[0]->region_id;
         $serverData[0]->Enabled = $serverAttrs[0]->enabled;
 
-        $mods = Mod::where('enabled', true)->get(['id', 'name']);
-        $regions = Region::where('enabled', true)->get(['id', 'region']);
-
         return Inertia::render('admin/ServerSettings/ServerShow', [
             'server' => $serverData,
-            'mods' => $mods,
-            'regions' => $regions
+            'mods' => $this->mods,
+            'regions' => $this->regions
         ]);
     }
 
