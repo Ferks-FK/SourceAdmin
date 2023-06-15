@@ -32,11 +32,11 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return Inertia::render('admin/ServerSettings/ServerIndex', [
             'serversIds' => $this->getServersIds(getAll: true),
-            'data' => $this->getServerData($request)
+            'data' => $this->getServerData()
         ]);
     }
 
@@ -143,10 +143,10 @@ class ServerController extends Controller
         return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully deleted.'));
     }
 
-    protected function getServerData(Request $request)
+    protected function getServerData()
     {
         $query = QueryBuilder::for(ServerModel::class);
 
-        return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
+        return $query->paginate(10)->appends(request()->query());
     }
 }
