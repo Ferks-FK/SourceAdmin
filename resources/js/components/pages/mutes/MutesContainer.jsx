@@ -102,7 +102,7 @@ function MutesContainer({ data }) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination page={currentPage} setPage={setCurrentPage} paginationData={pagination} />
+      {mutesData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
     </PageContentBlock>
   )
 }

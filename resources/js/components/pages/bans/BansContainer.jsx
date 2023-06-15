@@ -101,7 +101,7 @@ function BansContainer({ data }) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} />
+      {bansData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
     </PageContentBlock>
   )
 }

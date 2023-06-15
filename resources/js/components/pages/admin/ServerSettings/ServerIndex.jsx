@@ -11,8 +11,8 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';
 import { useTranslation } from 'react-i18next';
 
-function ServerIndex({ serversIds, flash, errors, ziggy }) {
-  const pagination = paginationItems([])
+function ServerIndex({ serversIds, data, flash, errors, ziggy }) {
+  const pagination = paginationItems(data)
   const [serverData, setServerData] = useState([])
   const { t } = useTranslation()
 
@@ -61,15 +61,15 @@ function ServerIndex({ serversIds, flash, errors, ziggy }) {
   return (
     <PageContentBlock title={'Servers Overview'}>
       <AdminLayout ziggy={ziggy}>
-        <Table.Header
-          title={'Servers'}
-          icon={faServer}
-        >
-          <Button.InternalLink to={route('admin.servers.create')}>
-            Create Server
-          </Button.InternalLink>
-        </Table.Header>
         <div>
+          <Table.Header
+            title={'Servers'}
+            icon={faServer}
+          >
+            <Button.InternalLink to={route('admin.servers.create')}>
+              Create Server
+            </Button.InternalLink>
+          </Table.Header>
           <Table.Component
             columns={ServerColumns}
             dataLength={serverData.length}
@@ -116,6 +116,7 @@ function ServerIndex({ serversIds, flash, errors, ziggy }) {
             })}
           </Table.Component>
         </div>
+        {serversIds.length >= 10 && <Table.Pagination paginationData={pagination}/>}
       </AdminLayout>
     </PageContentBlock>
   )

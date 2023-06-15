@@ -34,7 +34,7 @@ function AdminLayout({ className, children, ziggy }) {
           </div>
         </div>
       </div>
-      <div className={classNames('flex flex-col', className)}>
+      <div className={classNames('flex flex-col gap-4', className)}>
         {children}
       </div>
     </>

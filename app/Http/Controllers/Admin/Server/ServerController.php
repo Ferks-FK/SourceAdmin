@@ -12,6 +12,7 @@ use App\Models\Server as ServerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServerController extends Controller
 {
@@ -31,10 +32,11 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('admin/ServerSettings/ServerIndex', [
-            'serversIds' => $this->getServersIds(getAll: true)
+            'serversIds' => $this->getServersIds(getAll: true),
+            'data' => $this->getServerData($request)
         ]);
     }
 
@@ -139,5 +141,12 @@ class ServerController extends Controller
         $this->removeServerFromCache($id);
 
         return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully deleted.'));
+    }
+
+    protected function getServerData(Request $request)
+    {
+        $query = QueryBuilder::for(ServerModel::class);
+
+        return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
     }
 }

@@ -4,14 +4,15 @@ import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
 import { getServerData } from '@/api/servers/getServers';
+import { paginationItems } from "@/helpers";
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/Button";
 import { faServer } from '@fortawesome/free-solid-svg-icons';
 
-function ServersContainer({ serversIds }) {
+function ServersContainer({ serversIds, data }) {
+  const pagination = paginationItems(data)
   const [serverData, setServerData] = useState([]);
   const [activeTable, setActiveTable] = useState('');
-  const [limitQuery, setLimitQuery] = useState(10);
   const { t } = useTranslation()
 
   const handleActiveTable = (server_id) => {
@@ -26,13 +27,14 @@ function ServersContainer({ serversIds }) {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      setServerData(serversIds.slice(0, limitQuery).map((server_id) => {
+      setServerData(serversIds.map((server_id) => {
         return { id: server_id, loading: true }
       }))
 
-      serversIds.forEach(async server => {
-        try {
-          const response = await getServerData(server)
+      try {
+        for (const server of serversIds) {
+          const response = await getServerData(server);
+
           setServerData((state) => state.map((server) => {
             if (server.id == response[0].Id) {
               return response
@@ -40,14 +42,14 @@ function ServersContainer({ serversIds }) {
 
             return server
           }))
-        } catch (error) {
-          console.error(error)
         }
-      })
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     fetchServerData()
-  }, [limitQuery])
+  }, [])
 
   const ServerColumns = [
     "MOD",
@@ -73,7 +75,10 @@ function ServersContainer({ serversIds }) {
           icon={faServer}
           iconSize='1x'
         />
-        <Table.Component columns={ServerColumns} limitQuery={limitQuery} setLimitQuery={setLimitQuery} dataLength={serverData.length}>
+        <Table.Component
+          columns={ServerColumns}
+          dataLength={serverData.length}
+        >
           {serverData.map((server) => {
             const serverInfo = server[0]
             const playerInfo = server[1] ? server[1] : []
@@ -149,6 +154,7 @@ function ServersContainer({ serversIds }) {
           })}
         </Table.Component>
       </div>
+      {serversIds.length >= 10 && <Table.Pagination paginationData={pagination}/>}
     </PageContentBlock>
   )
 }

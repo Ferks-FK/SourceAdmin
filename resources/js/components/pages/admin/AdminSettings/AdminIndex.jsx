@@ -33,15 +33,15 @@ function AdminIndex({ data, flash, errors, ziggy }) {
   return (
     <PageContentBlock title={'Admins Overview'}>
       <AdminLayout ziggy={ziggy}>
-        <Table.Header
-          title={'Users'}
-          icon={faUsers}
-        >
-          <Button.InternalLink to={route('admin.settings.create')}>
-            Create User
-          </Button.InternalLink>
-        </Table.Header>
         <div>
+          <Table.Header
+            title={'Users'}
+            icon={faUsers}
+          >
+            <Button.InternalLink to={route('admin.settings.create')}>
+              Create User
+            </Button.InternalLink>
+          </Table.Header>
           <Table.Component
             columns={AdminColumns}
             dataLength={adminData.length}
@@ -65,7 +65,7 @@ function AdminIndex({ data, flash, errors, ziggy }) {
             ))}
           </Table.Component>
         </div>
-        <Table.Pagination paginationData={pagination}/>
+        {adminData.length >= 10 && <Table.Pagination paginationData={pagination} />}
       </AdminLayout>
     </PageContentBlock>
   )
