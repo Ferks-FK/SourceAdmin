@@ -12,7 +12,6 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
-import { useForm } from '@inertiajs/react'
 
 function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
   const [ modalVisible, setModalVisible ] = useState(false);
@@ -111,9 +110,13 @@ function ServerShow({ server, mods, regions, flash, errors, ziggy }) {
                   </Modal>
                 </div>
               </div>
-              <Form formSize={'xl'} className={'pb-4'}>
+              <Form
+                formikClassNames={'flex justify-center w-full'}
+                formSize={'full'}
+                className={'max-w-6xl w-full'}
+              >
                 <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-2">
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
                     <Field
                       type={'text'}
                       name={'ip'}

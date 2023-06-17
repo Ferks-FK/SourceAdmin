@@ -10,9 +10,9 @@ import { LoginFormSchema } from "@/yup/YupSchemas";
 import { useUserStore } from "@/stores/user";
 import { router } from '@inertiajs/react';
 
-function LoginContainer(props) {
+function LoginContainer({ flash }) {
+  const [userData, setUserData, isLogged, clearData] = useUserStore((state) => [state.data, state.setUserData, state.isLogged, state.clearData])
   const { t } = useTranslation();
-  const [ userData, setUserData, isLogged, clearData ] = useUserStore((state) => [state.data, state.setUserData, state.isLogged, state.clearData])
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.post(route('auth.login'), { ...values }, {
@@ -33,7 +33,7 @@ function LoginContainer(props) {
     })
   }
 
-  useFlashMessages(props.flash)
+  useFlashMessages(flash)
 
   return (
     <PageContentBlock title={'Login'}>
@@ -47,15 +47,29 @@ function LoginContainer(props) {
       >
         {({ isSubmitting }) => (
           <div className="flex flex-col items-center">
-            <Form title={t('login', { ns: 'buttons' })}>
-              <Field type="text" name="name" label={t('login.username_or_email_label')} size="small" />
-              <div className="mt-6">
-                <Field type="password" name="password" label={t('login.password_label')} size="small" />
-              </div>
-              <div className="flex justify-center w-full mt-6">
-                <Button.Text type="submit" disabled={isSubmitting} className={'!w-20'}>
-                  {t('login', { ns: 'buttons' })}
-                </Button.Text>
+            <Form
+              title={t('login', { ns: 'buttons' })}
+              formikClassNames={'flex justify-center w-full'}
+              className={'max-w-6xl w-full'}
+            >
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2 lg:gap-4">
+                  <Field
+                    type="text"
+                    name="name"
+                    label={t('login.username_or_email_label')}
+                  />
+                  <Field
+                    type="password"
+                    name="password"
+                    label={t('login.password_label')}
+                  />
+                </div>
+                <div className="flex justify-center w-full">
+                  <Button.Text type="submit" disabled={isSubmitting} className={'!w-20'}>
+                    {t('login', { ns: 'buttons' })}
+                  </Button.Text>
+                </div>
               </div>
             </Form>
             <div className="flex flex-col justify-between h-full w-full max-w-sm">

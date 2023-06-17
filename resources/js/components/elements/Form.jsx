@@ -1,7 +1,8 @@
 import { Form as FormikForm } from "formik";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 
-function Form({ title, formSize, children, ...props }) {
+function Form({ title, formSize, children, className, formikClassNames, ...props }) {
   const { i18n } = useTranslation();
 
   const handleFormSize = () => {
@@ -24,11 +25,11 @@ function Form({ title, formSize, children, ...props }) {
   }
 
   return (
-    <div className="flex flex-col w-full h-full items-center gap-4">
-      <div className={`flex flex-col w-full overflow-y-auto ${handleFormSize()}`}>
+    <div className="flex flex-col items-center w-full h-full gap-4">
+      <div className={`flex flex-col w-full overflow-y-auto items-center ${handleFormSize()}`}>
         { title && <h2 className="text-3xl text-center text-neutral-100 font-medium py-4">{title}</h2> }
-        <FormikForm { ...props }>
-          <div className="flex flex-col p-5 rounded-md bg-dark-secondary max-w-6xl">
+        <FormikForm { ...props } className={classNames(formikClassNames)}>
+          <div className={classNames('flex flex-col p-5 rounded-md bg-dark-secondary', className)}>
             {children}
           </div>
         </FormikForm>

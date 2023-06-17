@@ -57,9 +57,15 @@ function ReportContainer({ serversIds, flash, errors }) {
         validationSchema={ReportFormSchema}
       >
         {({ isSubmitting, values, setFieldValue }) => (
-          <Form title={'Report'} formSize={'xl'} encType={'multipart/form-data'}>
+          <Form
+            title={'Report'}
+            formikClassNames={'flex justify-center w-full'}
+            formSize={'full'}
+            className={'max-w-6xl w-full'}
+            encType={'multipart/form-data'}
+          >
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
                 <Field
                   type={'text'}
                   name={'player_steam_id'}

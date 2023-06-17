@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\{
     AdminSettings\AdminController,
-    Ban\BansController,
+    Ban\BanController,
     Mute\MutesController,
     Mod\ModController,
     Group\GroupController,
@@ -46,5 +46,14 @@ Route::name('admin.')->group(function() {
         Route::post('/store', [ServerController::class, 'store'])->name('servers.store');
         Route::patch('/update/{id}', [ServerController::class, 'update'])->name('servers.update');
         Route::delete('/{id}', [ServerController::class, 'destroy'])->name('servers.destroy');
+    });
+
+    Route::group(['prefix' => 'bans_settings'], function() {
+        Route::get('/', [BanController::class, 'index'])->name('bans.index');
+        Route::get('/create', [BanController::class, 'create'])->name('bans.create');
+        Route::get('/{id}', [BanController::class, 'show'])->name('bans.show');
+        Route::post('/store', [BanController::class, 'store'])->name('bans.store');
+        Route::patch('/update/{id}', [BanController::class, 'update'])->name('bans.update');
+        Route::delete('/{id}', [BanController::class, 'destroy'])->name('bans.destroy');
     });
 });
