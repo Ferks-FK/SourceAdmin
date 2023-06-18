@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin\Ban;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Ban\BanUpdateRequest;
 use App\Models\Ban;
 use App\Models\Reason;
 use App\Models\TimeBan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 use Carbon\Carbon;
@@ -95,9 +98,13 @@ class BanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BanUpdateRequest $request, $id)
     {
-        //
+        $ban = Ban::findOrFail($id);
+        $ban->fill($request->all());
+        $ban->save();
+
+        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully updated.'));
     }
 
     /**
@@ -108,7 +115,69 @@ class BanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ban = Ban::findOrFail($id);
+        $ban->delete();
+
+        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully deleted.'));
+    }
+
+    /**
+     * Reban the specified player.
+     *
+     * @param Request $request
+     * @param int $id
+     */
+    public function reban(Request $request, $id)
+    {
+        $banInfo = $this->getBansData($id);
+
+        if (!$this->playerRemainsBanned($banInfo)) {
+            $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
+            $ban = Ban::findOrFail($id);
+            $data = ['admin_id' => $admin->id];
+
+            if ($ban->removed_by || $ban->removed_on) {
+                $data['removed_by'] = null;
+                $data['removed_on'] = null;
+            }
+
+            $ban->fill($data);
+
+            $ban->save();
+
+            // TODO: Do the whole thing of fetching the player from the servers, and disconnecting him.
+
+            return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));
+        }
+
+        return redirect()->back()->with('error', __('The player is already banned.'));
+    }
+
+    /**
+     * Unban the specified player.
+     *
+     * @param Request $request
+     * @param int $id
+     */
+    public function unban(Request $request, $id)
+    {
+        $banInfo = $this->getBansData($id);
+
+        if ($this->playerRemainsBanned($banInfo)) {
+            $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
+            $ban = Ban::findOrFail($id);
+
+            $ban->fill([
+                'removed_by' => $admin->id,
+                'removed_on' => $request->removed_on ? Carbon::createFromTimestamp($request->removed_on)->toDateTimeString() : Carbon::now(config('app.timezone'))->toDateTimeString()
+            ]);
+
+            $ban->save();
+
+            return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully undone.'));
+        }
+
+        return redirect()->back()->with('error', __('The player is not banned.'));
     }
 
     protected function getBansData($getById = null)
@@ -151,9 +220,12 @@ class BanController extends Controller
             return true;
         }
 
+        if ($banInfo->removed_by || $banInfo->removed_on) {
+            return false;
+        }
+
         $end_at = Carbon::parse($banInfo->end_at, config('app.timezone'));
 
-        // Maybe this is not really accurate in relation to hours or minutes.
         return !$end_at->isPast();
     }
 }

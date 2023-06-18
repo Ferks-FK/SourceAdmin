@@ -57,7 +57,7 @@ function SideBar() {
         variants={sidebarVariants}
         initial={sidebarIsVisible ? 'open' : 'closed'}
         exit={{ display: 'none' }}
-        className={`flex flex-col max-w-sidebar-width w-full h-full z-10 bg-dark-primary absolute md:relative`}
+        className={`flex flex-col max-w-[250px] w-full h-full z-10 bg-dark-primary absolute md:relative`}
       >
         <nav className={`flex flex-col h-full gap-1 p-3`}>
           {visibleRoutes.map(({title, key, icon, route}) => (

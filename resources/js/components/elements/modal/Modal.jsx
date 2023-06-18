@@ -81,6 +81,7 @@ function Modal({
               aria-labelledby={headingId}
               {...animation}
               className={modalMainClassName}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className={styles.closeModalBtn} onClick={onClickCloseBtn}>
                 <FontAwesomeIcon icon={faXmark} color="gray"/>
@@ -102,7 +103,10 @@ function Modal({
             <motion.div
               key={'modal-backdrop'}
               {...backdropAnimation}
-              onClick={onClickBackdrop}
+              onClick={(e) => {
+                e.stopPropagation()
+                onClickBackdrop()
+              }}
               className={styles.modalBackdrop}
             />
           </>

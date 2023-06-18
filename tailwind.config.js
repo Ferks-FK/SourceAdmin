@@ -19,9 +19,6 @@ module.exports = {
                     neutral: '#1a1e22'
                 }
             },
-            maxWidth: {
-                "sidebar-width": "var(--sidebar-width)"
-            }
         },
         screens: {
             'mobile': '320px',

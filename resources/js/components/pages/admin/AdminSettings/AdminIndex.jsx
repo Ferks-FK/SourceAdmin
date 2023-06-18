@@ -25,9 +25,7 @@ function AdminIndex({ data, flash, errors, ziggy }) {
     "Steam ID",
     "Is Verified",
     "Role",
-    "Immunity",
-    "Created At",
-    "Updated At"
+    "Immunity"
   ]
 
   return (
@@ -59,8 +57,6 @@ function AdminIndex({ data, flash, errors, ziggy }) {
                 <Table.Td>{admin.email_verified_at ? "yes" : "no"}</Table.Td>
                 <Table.Td>admin</Table.Td>
                 <Table.Td>100</Table.Td>
-                <Table.Td>{admin.created_at}</Table.Td>
-                <Table.Td>{admin.updated_at}</Table.Td>
               </Table.Row>
             ))}
           </Table.Component>

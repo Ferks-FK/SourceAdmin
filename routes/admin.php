@@ -49,11 +49,16 @@ Route::name('admin.')->group(function() {
     });
 
     Route::group(['prefix' => 'bans_settings'], function() {
+        Route::group(['prefix' => 'actions'], function() {
+            Route::put('/reban/{id}', [BanController::class, 'reban'])->name('bans.action.reban');
+            Route::put('/unban/{id}', [BanController::class, 'unban'])->name('bans.action.unban');
+        });
         Route::get('/', [BanController::class, 'index'])->name('bans.index');
         Route::get('/create', [BanController::class, 'create'])->name('bans.create');
         Route::get('/{id}', [BanController::class, 'show'])->name('bans.show');
         Route::post('/store', [BanController::class, 'store'])->name('bans.store');
         Route::patch('/update/{id}', [BanController::class, 'update'])->name('bans.update');
         Route::delete('/{id}', [BanController::class, 'destroy'])->name('bans.destroy');
+
     });
 });

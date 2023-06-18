@@ -3,15 +3,13 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@/components/elements/button";
-import { Image } from "@/components/elements/Image";
+import { Variant } from "@/components/elements/button/types";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
-import { Table } from "@/components/elements/table";
 import { Formik } from "formik";
-import { ServerEditSchema } from "@/yup/YupSchemas";
 import { getServerData } from "@/api/servers/getServers";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { faBan, faCircle, faClock, faHourglassHalf, faNetworkWired, faPlay, faQuestion, faServer, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faClock, faHourglassHalf, faNetworkWired, faPlay, faQuestion, faServer, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
@@ -41,19 +39,19 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
   }, [])
 
   const handleSubmit = (values, { setSubmitting }) => {
-
+    router.patch(route('admin.bans.update', banInfo.id), { ...values })
   }
 
   const handleDelete = () => {
-
+    router.delete(route('admin.bans.destroy', banInfo.id))
   }
 
   const handleUnban = () => {
-
+    router.put(route('admin.bans.action.unban', banInfo.id))
   }
 
   const handleReban = () => {
-
+    router.put(route('admin.bans.action.reban', banInfo.id))
   }
 
   function showModal(content) {
@@ -116,7 +114,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
           </ul>
           <div className="flex justify-center gap-2">
             {banInfo.remains_banned ?
-              <Button.Text onClick={() => showModal(
+              <Button.Text variant={Variant.Warning} onClick={() => showModal(
                 <>
                   <div className="flex flex-col gap-4">
                     <h3 className="text-2xl text-left">Unban player "{banInfo.player_name}"?</h3>
@@ -137,7 +135,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
                 Unban
               </Button.Text>
               :
-              <Button.Text onClick={() => showModal(
+              <Button.Text variant={Variant.Info} onClick={() => showModal(
                 <>
                   <div className="flex flex-col gap-4">
                     <h3 className="text-2xl text-left">Reban player "{banInfo.player_name}"?</h3>
@@ -182,6 +180,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
           </div>
         </div>
         <Formik
+          onSubmit={handleSubmit}
           initialValues={{
             reason_id: banInfo.reason_id,
             time_ban_id: banInfo.time_ban_id

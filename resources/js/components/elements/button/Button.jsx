@@ -12,6 +12,8 @@ const Button = ({ shape, size, children, variant, className, ...props }) => {
         styles.primary,
         {
           [styles.secondary]: variant === Options.Variant.Secondary,
+          [styles.warning]: variant === Options.Variant.Warning,
+          [styles.info]: variant === Options.Variant.Info,
           [styles.square]: shape === Options.Shape.IconSquare,
           [styles.small]: size === Options.Size.Small,
           [styles.large]: size === Options.Size.Large,
