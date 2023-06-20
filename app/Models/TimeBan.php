@@ -23,6 +23,15 @@ class TimeBan extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'id' => 'int'
+    ];
+
+    /**
      * Get the bans associated with the time_ban.
      */
     public function bans(): HasMany

@@ -9,6 +9,7 @@ import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
 import { getServerData } from "@/api/servers/getServers";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
+import { BanEditSchema } from "@/yup/YupSchemas";
 import { faBan, faClock, faHourglassHalf, faNetworkWired, faPlay, faQuestion, faServer, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
@@ -185,6 +186,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
             reason_id: banInfo.reason_id,
             time_ban_id: banInfo.time_ban_id
           }}
+          validationSchema={BanEditSchema}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <div className="flex flex-col gap-4 p-4 bg-dark-primary">

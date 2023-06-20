@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Ban;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Ban\BanCreateRequest;
 use App\Http\Requests\Admin\Ban\BanUpdateRequest;
 use App\Models\Ban;
 use App\Models\Reason;
@@ -35,7 +36,15 @@ class BanController extends Controller
      */
     public function create()
     {
-        //
+        $reasons = Reason::all(['id', 'reason']);
+        $time_bans = TimeBan::all(['id', 'name']);
+        $admins = User::orderBy('name', 'ASC')->get(['id', 'name']);
+
+        return Inertia::render('admin/BanSettings/BanCreate', [
+            'reasons' => $reasons,
+            'time_bans' => $time_bans,
+            'admins' => $admins
+        ]);
     }
 
     /**
@@ -44,9 +53,11 @@ class BanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BanCreateRequest $request)
     {
-        //
+        Ban::create($request->all());
+
+        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully created.'));
     }
 
     /**
@@ -67,7 +78,7 @@ class BanController extends Controller
 
         $banInfo = $this->getBansData($id);
         $banInfo->ban_count = $banCount;
-        $banInfo->player_is_banned = $this->playerisBanned($banInfo);
+        $banInfo->player_is_banned = $this->playerIsBanned($banInfo);
 
         $reasons = Reason::all(['id', 'reason']);
         $timeBans = TimeBan::all(['id', 'name']);
@@ -100,10 +111,8 @@ class BanController extends Controller
      */
     public function update(BanUpdateRequest $request, $id)
     {
-        $data = $this->calculateBanLength($id);
         $ban = Ban::findOrFail($id);
-        $ban->end_at = $data['end_at'];
-        $ban->fill($data);
+        $ban->fill($request->all());
         $ban->save();
 
         return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully updated.'));
@@ -141,13 +150,10 @@ class BanController extends Controller
         }
 
         $data['admin_id'] = $admin->id;
-        $data['end_at'] = $this->calculateBanLength($id);
 
         $ban->fill($data);
 
         $ban->save();
-
-        // TODO: Do the whole thing of fetching the player from the servers, and disconnecting him.
 
         return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));
     }
@@ -207,7 +213,7 @@ class BanController extends Controller
         return $query->paginate(10)->appends(request()->query());
     }
 
-    protected function playerisBanned(mixed $banInfo)
+    protected function playerIsBanned(mixed $banInfo)
     {
         if ($banInfo->removed_by || $banInfo->removed_on) {
             return false;
@@ -220,26 +226,5 @@ class BanController extends Controller
         $end_at = Carbon::parse($banInfo->end_at, config('app.timezone'));
 
         return !$end_at->isPast();
-    }
-
-    protected function calculateBanLength(int $ban_id)
-    {
-        $time_ban_id = request()->input('time_ban_id') ?? Ban::where('id', $ban_id)->get('time_ban_id')->first()->time_ban_id;
-        $data = request()->all();
-
-        // Set to null if the ban is permanent.
-        if (!is_null($time_ban_id) && $time_ban_id == 1) {
-            $data['end_at'] = null;
-        }
-
-        // Set a new end date for the ban if it is not permanent.
-        if (!is_null($time_ban_id) && $time_ban_id != 1) {
-            $time_ban = TimeBan::where('id', $time_ban_id)->get('value')->first();
-            $end_at = Carbon::now(config('app.timezone'))->addMinutes($time_ban->value)->toDateTimeString();
-
-            $data['end_at'] = $end_at;
-        }
-
-        return $data;
     }
 }
