@@ -113,7 +113,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors, ziggy }) {
             </li>
           </ul>
           <div className="flex justify-center gap-2">
-            {banInfo.remains_banned ?
+            {banInfo.player_is_banned ?
               <Button.Text variant={Variant.Warning} onClick={() => showModal(
                 <>
                   <div className="flex flex-col gap-4">

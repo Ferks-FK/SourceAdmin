@@ -67,7 +67,7 @@ class BanController extends Controller
 
         $banInfo = $this->getBansData($id);
         $banInfo->ban_count = $banCount;
-        $banInfo->remains_banned = $this->playerRemainsBanned($banInfo);
+        $banInfo->player_is_banned = $this->playerisBanned($banInfo);
 
         $reasons = Reason::all(['id', 'reason']);
         $timeBans = TimeBan::all(['id', 'name']);
@@ -100,8 +100,10 @@ class BanController extends Controller
      */
     public function update(BanUpdateRequest $request, $id)
     {
+        $data = $this->calculateBanLength($id);
         $ban = Ban::findOrFail($id);
-        $ban->fill($request->all());
+        $ban->end_at = $data['end_at'];
+        $ban->fill($data);
         $ban->save();
 
         return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully updated.'));
@@ -129,28 +131,25 @@ class BanController extends Controller
      */
     public function reban(Request $request, $id)
     {
-        $banInfo = $this->getBansData($id);
+        $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
+        $ban = Ban::findOrFail($id);
+        $data = [];
 
-        if (!$this->playerRemainsBanned($banInfo)) {
-            $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
-            $ban = Ban::findOrFail($id);
-            $data = ['admin_id' => $admin->id];
-
-            if ($ban->removed_by || $ban->removed_on) {
-                $data['removed_by'] = null;
-                $data['removed_on'] = null;
-            }
-
-            $ban->fill($data);
-
-            $ban->save();
-
-            // TODO: Do the whole thing of fetching the player from the servers, and disconnecting him.
-
-            return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));
+        if ($ban->removed_by || $ban->removed_on) {
+            $data['removed_by'] = null;
+            $data['removed_on'] = null;
         }
 
-        return redirect()->back()->with('error', __('The player is already banned.'));
+        $data['admin_id'] = $admin->id;
+        $data['end_at'] = $this->calculateBanLength($id);
+
+        $ban->fill($data);
+
+        $ban->save();
+
+        // TODO: Do the whole thing of fetching the player from the servers, and disconnecting him.
+
+        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));
     }
 
     /**
@@ -161,23 +160,17 @@ class BanController extends Controller
      */
     public function unban(Request $request, $id)
     {
-        $banInfo = $this->getBansData($id);
+        $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
+        $ban = Ban::findOrFail($id);
 
-        if ($this->playerRemainsBanned($banInfo)) {
-            $admin = User::where('id', $request->removed_by)->first() ?? Auth::user();
-            $ban = Ban::findOrFail($id);
+        $ban->fill([
+            'removed_by' => $admin->id,
+            'removed_on' => $request->removed_on ? Carbon::createFromTimestamp($request->removed_on)->toDateTimeString() : Carbon::now(config('app.timezone'))->toDateTimeString()
+        ]);
 
-            $ban->fill([
-                'removed_by' => $admin->id,
-                'removed_on' => $request->removed_on ? Carbon::createFromTimestamp($request->removed_on)->toDateTimeString() : Carbon::now(config('app.timezone'))->toDateTimeString()
-            ]);
+        $ban->save();
 
-            $ban->save();
-
-            return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully undone.'));
-        }
-
-        return redirect()->back()->with('error', __('The player is not banned.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully undone.'));
     }
 
     protected function getBansData($getById = null)
@@ -198,12 +191,12 @@ class BanController extends Controller
             ->where(function ($query) {
                 $query->orWhere(function ($subquery) {
                     $subquery->whereNotNull('bans.admin_id')
-                            ->whereNotNull('bans.removed_by')
-                            ->whereNotNull('bans.server_id');
+                        ->whereNotNull('bans.removed_by')
+                        ->whereNotNull('bans.server_id');
                 })
-                ->orWhereNull('bans.admin_id')
-                ->orWhereNull('bans.removed_by')
-                ->orWhereNull('bans.server_id');
+                    ->orWhereNull('bans.admin_id')
+                    ->orWhereNull('bans.removed_by')
+                    ->orWhereNull('bans.server_id');
             })
             ->select('bans.id', 'bans.server_id', 'mods.mod as mod_icon', 'reasons.reason', 'reasons.id as reason_id', 'A.name as admin_name', 'bans.player_name', 'bans.ip', 'bans.created_at', 'time_bans.id as time_ban_id', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
 
@@ -214,18 +207,39 @@ class BanController extends Controller
         return $query->paginate(10)->appends(request()->query());
     }
 
-    protected function playerRemainsBanned(mixed $banInfo)
+    protected function playerisBanned(mixed $banInfo)
     {
-        if ($banInfo->time_ban_value == 0) {
-            return true;
-        }
-
         if ($banInfo->removed_by || $banInfo->removed_on) {
             return false;
+        }
+
+        if ($banInfo->time_ban_value == 0) {
+            return true;
         }
 
         $end_at = Carbon::parse($banInfo->end_at, config('app.timezone'));
 
         return !$end_at->isPast();
+    }
+
+    protected function calculateBanLength(int $ban_id)
+    {
+        $time_ban_id = request()->input('time_ban_id') ?? Ban::where('id', $ban_id)->get('time_ban_id')->first()->time_ban_id;
+        $data = request()->all();
+
+        // Set to null if the ban is permanent.
+        if (!is_null($time_ban_id) && $time_ban_id == 1) {
+            $data['end_at'] = null;
+        }
+
+        // Set a new end date for the ban if it is not permanent.
+        if (!is_null($time_ban_id) && $time_ban_id != 1) {
+            $time_ban = TimeBan::where('id', $time_ban_id)->get('value')->first();
+            $end_at = Carbon::now(config('app.timezone'))->addMinutes($time_ban->value)->toDateTimeString();
+
+            $data['end_at'] = $end_at;
+        }
+
+        return $data;
     }
 }
