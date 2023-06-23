@@ -24,23 +24,7 @@ class LocaleController extends Controller
 
     public function availableLocales(Request $request)
     {
-        $locales = [
-            [
-                "name" => "English (United States)",
-                "code" => "en",
-                "flag" => "us"
-            ],
-            [
-                "name" => "Portuguese (Brazil)",
-                "code" => "pt",
-                "flag" => "br"
-            ],
-            [
-                "name" => "Spanish (Spain)",
-                "code" => "es",
-                "flag" => "es"
-            ]
-        ];
+        $locales = config('locales.locales');
 
         if ($request->ajax()) {
             return response()->json($locales);
