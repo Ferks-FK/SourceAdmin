@@ -345,3 +345,57 @@ export const BanCreateSchema = () => {
         return true;
     })
 }
+
+export const MuteEditSchema = () => {
+    return object().shape({
+        reason_id: validateField({
+            required: true,
+            requiredMessage: 'The Reason is required.'
+        }),
+        time_ban_id: validateField({
+            required: true,
+            requiredMessage: 'The Ban Length is required.'
+        })
+    })
+}
+
+export const MuteCreateSchema = () => {
+    return object().shape({
+        ip: validateField({
+            regex: IPAddressRegex,
+            regexMessage: 'The IP is not valid.'
+        }),
+        steam_id: validateField({
+            regex: steamIDRegex,
+            regexMessage: 'The Steam ID is invalid.'
+        }),
+        player_name: validateField({
+            required: true,
+            requiredMessage: 'The player name is required.'
+        }),
+        time_ban_id: validateField({
+            required: true,
+            requiredMessage: 'The Ban Length is required.'
+        }),
+        admin_id: validateField({
+            required: true,
+            requiredMessage: 'The Admin is required.'
+        }),
+        reason_id: validateField({
+            required: true,
+            requiredMessage: 'The Reason is required.'
+        }),
+    }).test(function (value) {
+        const { ip, steam_id } = value;
+
+        if (!ip && !steam_id) {
+            return this.createError({
+                message: 'At least one of the following fields must be provided: Steam ID, Player IP.',
+                path: 'ip'
+            })
+        }
+
+        return true;
+    })
+}
+

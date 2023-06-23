@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\{
     AdminSettings\AdminController,
     Ban\BanController,
-    Mute\MutesController,
+    Mute\MuteController,
     Mod\ModController,
     Group\GroupController,
     Server\ServerController,
@@ -60,5 +60,18 @@ Route::name('admin.')->group(function() {
         Route::patch('/update/{id}', [BanController::class, 'update'])->name('bans.update');
         Route::delete('/{id}', [BanController::class, 'destroy'])->name('bans.destroy');
 
+    });
+
+    Route::group(['prefix' => 'mutes_settings'], function() {
+        Route::group(['prefix' => 'actions'], function() {
+            Route::put('/remute/{id}', [MuteController::class, 'remute'])->name('mutes.action.remute');
+            Route::put('/unmute/{id}', [MuteController::class, 'unmute'])->name('mutes.action.unmute');
+        });
+        Route::get('/', [MuteController::class, 'index'])->name('mutes.index');
+        Route::get('/create', [MuteController::class, 'create'])->name('mutes.create');
+        Route::get('/{id}', [MuteController::class, 'show'])->name('mutes.show');
+        Route::post('/store', [MuteController::class, 'store'])->name('mutes.store');
+        Route::patch('/update/{id}', [MuteController::class, 'update'])->name('mutes.update');
+        Route::delete('/{id}', [MuteController::class, 'destroy'])->name('mutes.destroy');
     });
 });

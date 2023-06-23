@@ -5,17 +5,17 @@ import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
+import { MuteCreateSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
-import { BanCreateSchema } from "@/yup/YupSchemas";
 
-function BanCreate({ reasons, time_bans, admins, flash, errors, ziggy, auth }) {
+function MuteCreate({ reasons, time_bans, admins, flash, errors, ziggy, auth }) {
   const [reasonsData] = useState(reasons);
   const [timeBansData] = useState(time_bans);
   const [adminsData] = useState(admins);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    router.post(route('admin.bans.store'), { ...values }, {
+    router.post(route('admin.mutes.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -25,7 +25,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, ziggy, auth }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={'Create New Ban'}>
+    <PageContentBlock title={'Create New Mute'}>
       <AdminLayout ziggy={ziggy}>
         <Formik
           onSubmit={handleSubmit}
@@ -37,7 +37,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, ziggy, auth }) {
             admin_id: auth.user.id,
             reason_id: ''
           }}
-          validationSchema={BanCreateSchema}
+          validationSchema={MuteCreateSchema}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <Form
@@ -128,4 +128,4 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, ziggy, auth }) {
   )
 }
 
-export default BanCreate
+export default MuteCreate

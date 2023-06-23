@@ -77,10 +77,10 @@ export const routes = {
       route: '/admin/bans_settings'
     },
     {
-      title: 'Comms Settings',
-      key: 'comms_settings',
+      title: 'Mutes Settings',
+      key: 'mutes_settings',
       icon: faMicrophoneSlash,
-      route: '/admin/comms_settings'
+      route: '/admin/mutes_settings'
     },
     {
       title: 'Group Settings',
