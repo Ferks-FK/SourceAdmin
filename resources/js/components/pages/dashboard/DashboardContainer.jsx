@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
-import { getServerData } from '@/api/servers/getServers';
+import { getServerData } from '@/api/getServers';
 import { Table } from '@/components/elements/table';
 import { Image } from '@/components/elements/Image';
 import { Progress } from '@/components/elements/Progress';

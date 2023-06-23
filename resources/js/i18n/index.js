@@ -5,23 +5,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import ChainedBackend from 'i18next-chained-backend';
 import LocalStorageBackend from 'i18next-localstorage-backend';
 import { initReactI18next } from 'react-i18next';
+import { supportedLanguages } from "@/i18n/locales";
 
-export const SupportedLanguages = [
-  {
-    name: "English",
-    code: "en"
-  },
-  {
-    name: "Portuguese",
-    code: "pt"
-  },
-  {
-    name: "Spanish",
-    code: "es"
-  }
-]
-
-const supportedLngs = SupportedLanguages.map(({ code }) => (code)) // Only support one language region.
+const supportedLngs = supportedLanguages.map(({ code }) => (code)) // Only support one language region.
 
 i18next
   .use(LanguageDetector)

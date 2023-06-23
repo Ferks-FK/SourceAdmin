@@ -7,7 +7,7 @@ import { Variant } from "@/components/elements/button/types";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/Field";
 import { Formik } from "formik";
-import { getServerData } from "@/api/servers/getServers";
+import { getServerData } from "@/api/getServers";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { BanEditSchema } from "@/yup/YupSchemas";
 import { faBan, faClock, faHourglassHalf, faNetworkWired, faPlay, faQuestion, faServer, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";

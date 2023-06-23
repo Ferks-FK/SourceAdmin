@@ -4,7 +4,7 @@ import { Field } from "@/components/elements/Field";
 import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { getServerData } from '@/api/servers/getServers';
+import { getServerData } from '@/api/getServers';
 import { ReportFormSchema } from "@/yup/YupSchemas";
 import { Formik } from "formik";
 import { router } from '@inertiajs/react';

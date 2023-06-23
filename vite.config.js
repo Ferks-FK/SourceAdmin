@@ -18,6 +18,7 @@ export default defineConfig({
         }
     },
     build: {
-        chunkSizeWarningLimit: 768
+        chunkSizeWarningLimit: 768,
+        target: 'esnext'
     }
 });

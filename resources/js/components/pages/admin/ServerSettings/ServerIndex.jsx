@@ -5,7 +5,7 @@ import { Table } from "@/components/elements/table";
 import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
 import { router } from '@inertiajs/react';
-import { getServerData } from '@/api/servers/getServers';
+import { getServerData } from '@/api/getServers';
 import { faServer } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';

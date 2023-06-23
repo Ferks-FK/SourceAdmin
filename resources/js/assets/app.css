@@ -36,6 +36,10 @@ textarea, select, input, button, button:focus, button:focus-visible {
   @apply mt-1 text-xs text-[#fc8484]
 }
 
+.ellipsis {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis text-slate-200
+}
+
 strong {
   height: fit-content;
 }

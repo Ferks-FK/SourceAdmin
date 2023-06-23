@@ -15,7 +15,7 @@ export const Layout = ({ children, userAuth }) => {
   return (
     <>
       <Header/>
-      <div className="flex w-screen" style={{height: 'calc(100vh - 3.6rem)'}}>
+      <div className="flex w-screen relative" style={{height: 'calc(100vh - 3.6rem)'}}>
         <SideBar/>
         <div className={`flex flex-col w-screen h-full bg-dark-neutral p-5 overflow-hidden`}>
           { children }

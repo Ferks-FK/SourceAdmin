@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import steam from "@/api/auth/steam";
+import steam from "@/api/steam";
 import { Button } from "@/components/elements/button";
 import { useTranslation } from "react-i18next";
 
