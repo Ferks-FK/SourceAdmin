@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
-  @routes('app')
+  @routes('admin')
   @viteReactRefresh
   @vite(['resources/js/app.jsx', "resources/js/components/pages/{$page['component']}.jsx"])
   @inertiaHead

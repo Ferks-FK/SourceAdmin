@@ -5,5 +5,14 @@
     "mutes": "Comunicações",
     "report_player": "Reportar Jogador",
     "appeal_ban": "Protestar Banimento",
-    "admin": "Administração"
+    "admin": "Administração",
+    "admin_overview": "Administração Geral",
+    "admin_settings": "Administrar Admins",
+    "server_settings": "Administrar Servidores",
+    "bans_settings": "Administrar Banimentos",
+    "mutes_settings": "Administrar Mutes",
+    "group_settings": "Administrar Grupos",
+    "mods_settings": "Administrar Mods",
+    "panel_settings": "Administrar Painel",
+    "return": "Voltar"
 }

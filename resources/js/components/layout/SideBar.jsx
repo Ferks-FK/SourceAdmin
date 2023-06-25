@@ -10,12 +10,13 @@ import { lowerCase } from "lodash";
 import { Button } from "@/components/elements/button";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
+import { faReply, faUserGear } from "@fortawesome/free-solid-svg-icons";
 
-function SideBar() {
-  const [ userName, userEmail, isLogged ] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
-  const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
-  const [ visibleRoutes, setVisibleRoutes ] = useState([]);
-  const [ activeRoute, setActiveRoute ] = useState(window.location.pathname); // Set the currently loaded route as 'active'.
+function SideBar({ layout }) {
+  const [userName, userEmail, isLogged] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
+  const [sidebarIsVisible, setSidebarIsVisible] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
+  const [visibleRoutes, setVisibleRoutes] = useState([]);
+  const [activeRoute, setActiveRoute] = useState(window.location.pathname); // Set the currently loaded route as 'active'.
   const { t } = useTranslation();
 
   const ocultSidebar = () => {
@@ -25,12 +26,14 @@ function SideBar() {
   }
 
   useEffect(() => {
-    setVisibleRoutes(routes.sidebarRoutes.filter(route => {
-      if (route?.isProtected && !isLogged) {
-        return false
-      }
-      return true
-    }))
+    if (layout === 'app') {
+      setVisibleRoutes(routes.sidebarRoutes)
+    }
+
+    if (isLogged && layout === 'admin') {
+      setVisibleRoutes(routes.adminRoutes)
+    }
+
   }, [isLogged])
 
   const sidebarVariants = {
@@ -57,46 +60,72 @@ function SideBar() {
         variants={sidebarVariants}
         initial={sidebarIsVisible ? 'open' : 'closed'}
         exit={{ display: 'none' }}
-        className={`flex flex-col max-w-[250px] w-full h-full z-10 bg-dark-primary absolute md:relative`}
+        className={`flex flex-col max-w-[280px] w-full h-full z-10 bg-dark-primary absolute md:relative`}
       >
-        <nav className={`flex flex-col h-full gap-1 p-3`}>
-          {visibleRoutes.map(({title, key, icon, route}) => (
-            <NavLink
-              key={key}
-              href={route}
-              className={`${activeRoute === route ? 'active' : ''}`}
-              onClick={() => {
-                setActiveRoute(route)
-                ocultSidebar()
-              }}
+        <nav className={`flex flex-col justify-between h-full p-3`}>
+          <div className="flex flex-col gap-1">
+            {visibleRoutes.map(({ title, key, icon, route }) => (
+              <NavLink
+                key={key}
+                href={route}
+                className={`${activeRoute === route ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveRoute(route)
+                  ocultSidebar()
+                }}
+              >
+                <div className="flex items-center">
+                  <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8" />
+                  <p>
+                    <Translate ns={"sidebar"}>
+                      {lowerCase(title).replace(' ', '_')}
+                    </Translate>
+                  </p>
+                </div>
+              </NavLink>
+            ))}
+            {layout === 'app' && (
+              <a
+                href={'/admin'}
+                className="block border-l-4 border-transparent w-full p-2 rounded nav-link-hover"
+                onClick={ocultSidebar}
+              >
+                <div className="flex items-center rounded">
+                  <FontAwesomeIcon icon={faUserGear} size="1x" className="text-slate-200 w-8" />
+                  <p>{t('admin', { ns: 'sidebar' })}</p>
+                </div>
+              </a>
+            )}
+          </div>
+          {layout === 'admin' && (
+            <a
+              href={'/'}
+              className="block w-full p-2 nav-link-hover"
+              onClick={ocultSidebar}
             >
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={icon} size="1x" className="text-slate-200 w-8"/>
-                <p>
-                  <Translate ns={"sidebar"}>
-                    {lowerCase(title).replace(' ', '_')}
-                  </Translate>
-                </p>
+              <div className="flex items-center rounded">
+                <FontAwesomeIcon icon={faReply} size="1x" className="text-slate-200 w-8" />
+                <p>{t('return', {ns: 'sidebar'})}</p>
               </div>
-            </NavLink>
-          ))}
+            </a>
+          )}
         </nav>
         {isLogged ?
           <div className="flex justify-center items-center p-2 gap-2 text-ellipsis bg-dark-secondary rounded">
             <strong className={`capitalize`}>{userName}</strong>
             <Avatar email={userEmail} size={100} />
           </div>
-        :
+          :
           <div className="flex justify-center">
-          <Button.InternalLink
-            type={'button'}
-            to={'/auth/login'}
-            className="!w-full"
-            onClick={ocultSidebar}
-          >
-            {t('login', {ns: 'buttons'})}
-          </Button.InternalLink>
-        </div>
+            <Button.InternalLink
+              type={'button'}
+              to={'/auth/login'}
+              className="!w-full"
+              onClick={ocultSidebar}
+            >
+              {t('login', { ns: 'buttons' })}
+            </Button.InternalLink>
+          </div>
         }
       </motion.div>
     </>

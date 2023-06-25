@@ -131,5 +131,5 @@ Route::group(['prefix' => 'steam'], function() {
 */
 Route::group(['prefix' => 'locale'], function() {
     Route::get('/', [LocaleController::class, 'availableLocales'])->name('locales');
-    Route::post('/setLocale', [LocaleController::class, 'setLocale'])->name('locale.store');
+    Route::post('/setLocale', [LocaleController::class, 'setLocale'])->name('locales.store');
 });

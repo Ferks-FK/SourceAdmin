@@ -7,7 +7,8 @@ import { faHouse,
   faUser,
   faUsers,
   faBoxesStacked,
-  faGear
+  faGear,
+  faListUl
 } from "@fortawesome/free-solid-svg-icons";
 
 export const routes = {
@@ -48,16 +49,15 @@ export const routes = {
       key: 'appeal',
       icon: faLock,
       route: '/appeal'
-    },
-    {
-      title: 'Admin',
-      key: 'admin',
-      icon: faUserGear,
-      route: '/admin',
-      isProtected: true
     }
   ],
   adminRoutes: [
+    {
+      title: 'Admin Overview',
+      key: 'admin_overview',
+      icon: faListUl,
+      route: '/admin'
+    },
     {
       title: 'Admin Settings',
       key: 'admin_settings',

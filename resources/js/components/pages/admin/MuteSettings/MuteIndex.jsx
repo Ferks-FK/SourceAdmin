@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
-import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Table } from "@/components/elements/table";
 import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
@@ -12,7 +11,7 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 
-function MuteIndex({ data, flash, errors, ziggy }) {
+function MuteIndex({ data, flash, errors }) {
   const pagination = paginationItems(data)
   const [mutesData] = useState(data.data)
   const { t } = useTranslation();
@@ -35,59 +34,57 @@ function MuteIndex({ data, flash, errors, ziggy }) {
 
   return (
     <PageContentBlock title={'Mutes Overview'}>
-      <AdminLayout ziggy={ziggy}>
-        <div>
-          <Table.Header
-            title={'Mutes'}
-            icon={faMicrophoneSlash}
-          >
-            <Button.InternalLink to={route('admin.mutes.create')}>
-              Create Mute
-            </Button.InternalLink>
-          </Table.Header>
-          <Table.Component
-            columns={CommsColumns}
-            dataLength={mutesData.length}
-          >
-            {mutesData.map((mute) => {
-              const { name, style } = getStyleAndName(mute, t)
+      <div>
+        <Table.Header
+          title={'Mutes'}
+          icon={faMicrophoneSlash}
+        >
+          <Button.InternalLink to={route('admin.mutes.create')}>
+            Create Mute
+          </Button.InternalLink>
+        </Table.Header>
+        <Table.Component
+          columns={CommsColumns}
+          dataLength={mutesData.length}
+        >
+          {mutesData.map((mute) => {
+            const { name, style } = getStyleAndName(mute, t)
 
-              return (
-                <Table.Row
-                  key={mute.id}
-                  onClick={() => handleClick(mute.id)}
-                >
-                  <Table.Td>{mute.id}</Table.Td>
-                  <Table.Td>
-                    <div className='flex gap-1'>
-                      {mute.mod_icon ?
-                        <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
-                        :
-                        <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
-                      }
-                      <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
-                    </div>
-                  </Table.Td>
-                  <Table.Td>{mute.created_at}</Table.Td>
-                  <Table.Td>{mute.player_name}</Table.Td>
-                  <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
-                  <Table.Td className={'text-center'}>
-                    <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
-                      <span className='text-xs font-semibold'>
-                        {name}
-                      </span>
-                    </div>
-                  </Table.Td>
-                  <Table.Td>
-                    <Progress bgColor={style} completed={getPercentage(mute)} />
-                  </Table.Td>
-                </Table.Row>
-              )
-            })}
-          </Table.Component>
-        </div>
-        {mutesData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
-      </AdminLayout>
+            return (
+              <Table.Row
+                key={mute.id}
+                onClick={() => handleClick(mute.id)}
+              >
+                <Table.Td>{mute.id}</Table.Td>
+                <Table.Td>
+                  <div className='flex gap-1'>
+                    {mute.mod_icon ?
+                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
+                      :
+                      <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                    }
+                    <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
+                  </div>
+                </Table.Td>
+                <Table.Td>{mute.created_at}</Table.Td>
+                <Table.Td>{mute.player_name}</Table.Td>
+                <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
+                <Table.Td className={'text-center'}>
+                  <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
+                    <span className='text-xs font-semibold'>
+                      {name}
+                    </span>
+                  </div>
+                </Table.Td>
+                <Table.Td>
+                  <Progress bgColor={style} completed={getPercentage(mute)} />
+                </Table.Td>
+              </Table.Row>
+            )
+          })}
+        </Table.Component>
+      </div>
+      {mutesData.length >= 10 && <Table.Pagination paginationData={pagination} />}
     </PageContentBlock>
   )
 }

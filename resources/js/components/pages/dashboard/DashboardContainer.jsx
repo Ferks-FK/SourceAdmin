@@ -13,6 +13,7 @@ function DashboardContainer({ serversIds, ...props }) {
   const { serversCount, bansCount, mutesCount, bansData, mutesData } = props;
   const [serverData, setServerData] = useState([]);
   const { t } = useTranslation();
+  console.log(props)
 
   useEffect(() => {
     const fetchServerData = async () => {
