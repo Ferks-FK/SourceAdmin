@@ -9,10 +9,9 @@ import { ReportFormSchema } from "@/yup/YupSchemas";
 import { Formik } from "formik";
 import { router } from '@inertiajs/react';
 
-function ReportContainer({ serversIds, flash, errors, ...props }) {
+function ReportContainer({ serversIds, flash, errors }) {
   const [ serverData, setServerData ] = useState([]);
 
-  console.log(props)
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     router.post(route('report.store'), { ...values }, {
       onFinish: () => {
