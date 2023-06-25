@@ -16,7 +16,7 @@ class MuteObserver
      */
     public function created(Mute $mute)
     {
-        //
+        // Search the servers for the muted player, and if found, mute him.
     }
 
     /**
@@ -38,7 +38,7 @@ class MuteObserver
      */
     public function updated(Mute $mute)
     {
-        //
+        // Search the servers for the muted player, and if found, mute him.
     }
 
     /**
