@@ -13,7 +13,7 @@ import { motion } from "framer-motion"
 import { faReply, faUserGear } from "@fortawesome/free-solid-svg-icons";
 
 function SideBar({ layout }) {
-  const [userName, userEmail, isLogged] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
+  const [userName, userEmail, isLogged] = useUserStore((state) => [state.data.name, state.data.email, state.isLogged]);
   const [sidebarIsVisible, setSidebarIsVisible] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [visibleRoutes, setVisibleRoutes] = useState([]);
   const [activeRoute, setActiveRoute] = useState(window.location.pathname); // Set the currently loaded route as 'active'.
@@ -100,7 +100,7 @@ function SideBar({ layout }) {
           {layout === 'admin' && (
             <a
               href={'/'}
-              className="block w-full p-2 nav-link-hover"
+              className="block border-l-4 border-transparent w-full p-2 nav-link-hover"
               onClick={ocultSidebar}
             >
               <div className="flex items-center rounded">

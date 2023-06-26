@@ -1,6 +1,7 @@
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Image } from "@/components/elements/Image";
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
+import { Size } from "@/components/elements/button/types";
 import { useTranslation } from 'react-i18next';
 
 function ErrorPage({ status }) {
@@ -22,9 +23,9 @@ function ErrorPage({ status }) {
             <div className='pointer-events-none select-none'>
               <Image src={`/images/http_errors/${status}.png`} className={'w-full h-full'}/>
             </div>
-            <Button to={route('home.index')} className={'w-min'}>
+            <Button.InternalLink to={route('home.index')} size={Size.Large}>
               {t('back', {ns: 'buttons'})}
-            </Button>
+            </Button.InternalLink>
           </div>
         </div>
       </div>

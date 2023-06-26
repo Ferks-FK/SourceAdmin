@@ -4,11 +4,11 @@ import { useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
 export const Layout = ({ children, userAuth, layout }) => {
-  const [ userData, setUserData ] = useUserStore((state) => [state.data, state.setUserData])
+  const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData])
 
   useDeviceType()
 
-  if (!userData && userAuth) {
+  if (!isLogged && userAuth) {
     setUserData(userAuth)
   }
 

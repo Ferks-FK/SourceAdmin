@@ -25,6 +25,7 @@ class HandleInertiaRequests extends Middleware
         if ($request->is(['admin', 'admin/*'])) {
             return 'admin';
         }
+
         return 'app';
     }
 
@@ -43,16 +44,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $layout = $this->defineLayout($request);
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
+            'ziggy' => function () use ($request, $layout) {
+                return array_merge((new Ziggy($layout))->toArray(), [
                     'location' => $request->url()
                 ]);
             },
-            'layout' => $this->defineLayout($request),
+            'layout' => $layout,
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),
