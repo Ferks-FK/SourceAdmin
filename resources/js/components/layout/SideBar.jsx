@@ -62,7 +62,7 @@ function SideBar({ layout }) {
         exit={{ display: 'none' }}
         className={`flex flex-col max-w-[280px] w-full h-full z-10 bg-dark-primary absolute md:relative`}
       >
-        <nav className={`flex flex-col justify-between h-full p-3`}>
+        <nav className={`flex flex-col justify-between h-full p-3 overflow-y-auto`}>
           <div className="flex flex-col gap-1">
             {visibleRoutes.map(({ title, key, icon, route }) => (
               <NavLink
