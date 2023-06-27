@@ -3,13 +3,13 @@ import { useSidebarStore } from "@/stores/components/sidebar";
 import { Avatar } from "@/components/Avatar";
 import { NavLink } from "@/components/elements/NavLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { routes } from "@/routers/routes"
+import { routes } from "@/routers/routes";
 import { useEffect, useState } from "react";
 import { Translate } from "@/components/Translate";
 import { lowerCase } from "lodash";
 import { Button } from "@/components/elements/button";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { faReply, faUserGear } from "@fortawesome/free-solid-svg-icons";
 
 function SideBar({ layout }) {
@@ -84,7 +84,7 @@ function SideBar({ layout }) {
                 </div>
               </NavLink>
             ))}
-            {layout === 'app' && (
+            {(layout === 'app' && isLogged) && (
               <a
                 href={'/admin'}
                 className="block border-l-4 border-transparent w-full p-2 rounded nav-link-hover"

@@ -11,7 +11,7 @@ import { useUserStore } from "@/stores/user";
 import { router } from '@inertiajs/react';
 
 function LoginContainer({ flash }) {
-  const [userData, setUserData, isLogged, clearData] = useUserStore((state) => [state.data, state.setUserData, state.isLogged, state.clearData])
+  const [setUserData, isLogged] = useUserStore((state) => [state.setUserData, state.isLogged])
   const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -22,11 +22,7 @@ function LoginContainer({ flash }) {
       onSuccess: (page) => {
         const user = page.props.auth.user;
 
-        if (userData && isLogged) {
-          clearData()
-        }
-
-        if (!userData && user) {
+        if (!isLogged && user) {
           setUserData(user)
         }
       }

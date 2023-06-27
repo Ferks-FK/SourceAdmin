@@ -25,7 +25,10 @@ const useUserStore = create<UserStore>((set) => ({
     data: data,
     isLogged: true
   })),
-  clearData: () => { set({ data: [], isLogged: false }) }
+  clearData: () => set(() => ({
+    data: [],
+    isLogged: false
+  }))
 }))
 
 export { useUserStore };
