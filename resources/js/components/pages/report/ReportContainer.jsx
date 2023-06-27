@@ -8,9 +8,11 @@ import { getServerData } from '@/api/getServers';
 import { ReportFormSchema } from "@/yup/YupSchemas";
 import { Formik } from "formik";
 import { router } from '@inertiajs/react';
+import { useTranslation } from "react-i18next";
 
 function ReportContainer({ serversIds, flash, errors }) {
   const [ serverData, setServerData ] = useState([]);
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     router.post(route('report.store'), { ...values }, {
@@ -41,7 +43,7 @@ function ReportContainer({ serversIds, flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={'Report'}>
+    <PageContentBlock title={t('report.report')}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -58,7 +60,7 @@ function ReportContainer({ serversIds, flash, errors }) {
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form
-            title={'Report'}
+            title={t('report.report')}
             formikClassNames={'flex justify-center w-full'}
             formSize={'full'}
             className={'max-w-6xl w-full'}
@@ -70,51 +72,51 @@ function ReportContainer({ serversIds, flash, errors }) {
                   type={'text'}
                   name={'player_steam_id'}
                   id={'player_steam_id'}
-                  label={'Steam ID'}
+                  label={t('report.steam_id')}
                   maxLength={20}
                 />
                 <Field
                   type={'text'}
                   name={'player_ip'}
                   id={'player_ip'}
-                  label={'Player IP'}
+                  label={t('report.player_ip')}
                 />
                 <Field
                   type={'text'}
                   name={'player_name'}
                   id={'player_name'}
-                  label={'Player Name'}
+                  label={t('report.player_name')}
                 />
                 <Field
                   type={'text-area'}
                   name={'comments'}
                   id={'comments'}
-                  label={'Comments'}
+                  label={t('report.comments')}
                   className={'border-2 rounded'}
                 />
                 <Field
                   type={'text'}
                   name={'reporter_name'}
                   id={'reporter_name'}
-                  label={'Your Name'}
+                  label={t('report.your_name')}
                 />
                 <Field
                   type={'email'}
                   name={'reporter_email'}
                   id={'reporter_email'}
-                  label={'Your Email'}
+                  label={t('report.your_email')}
                 />
                 <Field
                   type={'select'}
                   name={'server_id'}
                   id={'server_id'}
-                  label={'Server'}
+                  label={t('servers.server')}
                   value={values.server_id || 'default_value'}
                   className={'border-2 hover:border-neutral-400'}
                   onChange={(e) => setFieldValue('server_id', e.target.value)}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
-                    Select Server
+                    {t('servers.select_server')}
                   </option>
                   {serverData.map((server) => {
                     const serverInfo = server[0]
@@ -130,13 +132,13 @@ function ReportContainer({ serversIds, flash, errors }) {
                   type={'file'}
                   name={'upload_demo'}
                   id={'upload_demo'}
-                  label={'Upload Demo'}
+                  label={t('report.upload_demo')}
                   onChange={(e) => setFieldValue('upload_demo', e.target.files[0])}
                 />
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting} className={'p-2'}>
-                  Submit
+                  {t('submit', {ns: 'buttons'})}
                 </Button.Text>
               </div>
             </div>

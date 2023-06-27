@@ -8,12 +8,144 @@
         "steam_validate_failed": "Failed to validate your steam account.",
         "steam_api_not_found": "Steam API key has not been configured."
     },
+    "dashboard": {
+        "dashboard": "Dashboard"
+    },
     "servers": {
-        "quering_server_data": "Quering server data..."
+        "quering_server_data": "Quering server data...",
+        "server": "Server",
+        "servers": "Servers",
+        "select_server": "Select Server",
+        "latest_servers": "Latest Servers",
+        "total_servers": "Total Servers: {{serversCount}}"
+    },
+    "bans": {
+        "latest_bans": "Latest Added Bans",
+        "total_bans": "Total Bans: {{bansCount}}"
+    },
+    "mutes": {
+        "latest_mutes": "Latest Added Comms Block",
+        "total_blocked": "Total Blocked: {{mutesCount}}",
+        "latest_players_blocked": "Latest Players Blocked",
+        "total_stopped": "Total Stopped: {{mutesCount}}"
+    },
+    "report": {
+        "report": "Report",
+        "steam_id": "Steam ID",
+        "player_ip": "Player IP",
+        "player_name": "Player Name",
+        "comments": "Comments",
+        "your_name": "Your Name",
+        "your_email": "Your Email",
+        "upload_demo": "Upload Demo"
+    },
+    "appeal": {
+        "protest": "Protest a Ban",
+        "reason": "Reason",
+        "reason_placeholder": "Be as descriptive as possible as to why you should be unbanned."
+    },
+    "admin_overview": {
+        "admin_overview": "Admin Overview",
+        "version_info": "Version Info",
+        "admins_info": "Admins Info",
+        "servers_info": "Servers Info",
+        "bans_info": "Bans Info",
+        "protests_info": "Protests Info",
+        "submissions_info": "Submissions Info",
+        "system_info": "System Info",
+        "panel_updated": "You have the latest version of the panel in operation!",
+        "panel_outdated": "The version of your panel is outdated, consider upgrading immediately.",
+        "total_admins": "Total Admins",
+        "total_servers": "Total Servers",
+        "total_bans": "Total Bans",
+        "total_appeals": "Total Appeals",
+        "total_reports": "Total Reports",
+        "total_demos": "Total Demos",
+        "total_demos_size": "Total Demos Size"
+    },
+    "admin_settings": {
+        "users": "Users",
+        "create_user": "Create User",
+        "create_new_admin": "Create New Admin",
+        "admin_editing_name": "Admin {{adminName}}",
+        "delete_admin": "Delete Admin \"{{adminName}}\"",
+        "delete_admin_message": "When you confirm the deletion of the user, the action is permanent and cannot be undone. He will also lose the rights to the servers he is associated with.",
+        "delete_own_account_warning": "You are about to delete your own account!",
+        "admin_name": "Admin Name",
+        "admin_email": "Admin Email",
+        "admin_steam_id": "Admin SteamID",
+        "admin_password": "Password",
+        "admin_current_password": "Current Password",
+        "admin_new_password": "New Password",
+        "admin_confirm_new_password": "Confirm Password"
+    },
+    "bans_settings": {
+        "bans_overview": "Bans Overview",
+        "bans": "Bans",
+        "create_ban": "Create Ban",
+        "ban_of": "Ban of {{playerName}}",
+        "player_steam_id": "Player Steam ID",
+        "create_new_ban": "Create New Ban",
+        "banned_by": "Banned By",
+        "banned_from": "Banned From",
+        "unban_player": "Unban Player \"{{playerName}}\"",
+        "unban_player_message": "When you confirm the unbanning of the player, he will be unbanned from your servers and will be able to connect to any of them again.",
+        "reban_player": "Reban Player \"{{playerName}}\"",
+        "reban_player_message": "When you confirm the player reban, he will be banned from all your servers again. If he is currently online, he will be disconnected.",
+        "delete_ban_of": "Delete ban of \"{{playerName}}\"",
+        "delete_ban_of_message": "When you confirm the deletion of the ban, it will be deleted from the database, and the banned player will be able to connect to your servers again."
+    },
+    "mutes_settings": {
+        "mutes_overview": "Mutes Overview",
+        "mutes": "Mutes",
+        "create_mute": "Create Mute",
+        "mute_of": "Mute of {{playerName}}",
+        "muted_by": "Muted By",
+        "total_mutes": "Total Mutes",
+        "muted_from": "Muted From",
+        "unmute_player": "Unmute player \"{{playerName}}\"",
+        "unmute_player_message": "When you confirm the unmute of the player mute, the player will be unmuted from your servers and will be able to speak/type again.",
+        "remute_player": "Remute player \"{{playerName}}\"",
+        "remute_player_message": "When you confirm the remute of the player, he will be mutated from all your servers again.",
+        "delete_mute_of": "Delete mute of \"{{playerName}}\"",
+        "delete_mute_of_message": "When you confirm the deletion of the mute, it will be deleted from the database, and the muted player will be able to speak/type again on the servers."
+    },
+    "servers_settings": {
+        "servers_overview": "Servers Overview",
+        "create_server": "Create Server",
+        "create_new_server": "Create New Server",
+        "server_name": "Server {{serverName}}",
+        "delete_server": "Delete server \"{{serverName}}\"",
+        "delete_server_message": "When you confirm the deletion of the server, the action is permanent and cannot be undone.",
+        "server_ip_or_domain": "Server IP/Domain",
+        "server_port": "Server Port",
+        "server_rcon": "Server RCON",
+        "current_rcon": "Current RCON",
+        "confirm_rcon": "Confirm RCON",
+        "new_rcon": "New RCON",
+        "confirm_new_rcon": "Confirm New RCON",
+        "server_mod": "Server MOD",
+        "server_region": "Server Region",
+        "server_enabled": "Server Enabled"
     },
     "generic": {
         "message_not_found": "Message not found.",
         "search": "Search...",
-        "min_characters": "Enter at least {{minChars}} characters."
+        "min_characters": "Enter at least {{minChars}} characters.",
+        "admin_deleted": "Admin Deleted",
+        "server_deleted": "Server Deleted",
+        "no_ip": "No IP present",
+        "no_steam": "No SteamID present",
+        "created_at": "Created At",
+        "updated_at": "Updated At",
+        "expires_at": "Expires At",
+        "length": "Length",
+        "select_length": "Select Length",
+        "select_reason": "Select Reason",
+        "select_mod": "Select MOD",
+        "select_region": "Select Region",
+        "never": "Never",
+        "admin": "Admin",
+        "status": "Status"
     }
 }

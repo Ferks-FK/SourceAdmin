@@ -68,15 +68,15 @@ function DashboardContainer({ serversIds, ...props }) {
   ]
 
   return (
-    <PageContentBlock title={'Dashboard'} className={'gap-10'}>
+    <PageContentBlock title={t('dashboard.dashboard')} className={'gap-10'}>
       <div className='flex flex-col gap-10'>
         <div className='flex flex-col'>
           <Table.Header
-            title={'Latest Servers'}
+            title={t('servers.latest_servers')}
             icon={faServer}
             iconSize='1x'
           >
-            <p>Total Servers: {serversCount}</p>
+            <p>{t('servers.total_servers', {serversCount})}</p>
           </Table.Header>
           <Table.Component
             columns={ServerColumns}
@@ -125,11 +125,11 @@ function DashboardContainer({ serversIds, ...props }) {
         </div>
         <div className='flex flex-col'>
           <Table.Header
-            title={'Latest Added Bans'}
+            title={t('bans.latest_bans')}
             icon={faFaceMeh}
             iconSize='1x'
           >
-            <p>Total Bans: {bansCount}</p>
+            <p>{t('bans.total_bans', {bansCount})}</p>
           </Table.Header>
           <Table.Component
             columns={BansColumns}
@@ -153,7 +153,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{ban.created_at}</Table.Td>
                   <Table.Td>{ban.player_name}</Table.Td>
-                  <Table.Td>{ban.admin_name ?? 'Admin Deleted'}</Table.Td>
+                  <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
@@ -172,11 +172,11 @@ function DashboardContainer({ serversIds, ...props }) {
 
         <div className='flex flex-col'>
           <Table.Header
-            title={'Latest Added Comms Block'}
+            title={t('mutes.latest_mutes')}
             icon={faMicrophoneSlash}
             iconSize='1x'
           >
-            <p>Total Blocked: {mutesCount}</p>
+            <p>{t('mutes.total_blocked', {mutesCount})}</p>
           </Table.Header>
           <Table.Component
             columns={CommsColumns}
@@ -199,7 +199,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{mute.created_at}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
-                  <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
+                  <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>
@@ -219,11 +219,11 @@ function DashboardContainer({ serversIds, ...props }) {
         {/* It will be changed as soon as we have the plugin working and returning data from offending players. */}
         <div className='flex flex-col'>
           <Table.Header
-            title={'Latest Players Blocked'}
+            title={t('mutes.latest_players_blocked')}
             icon={faHand}
             iconSize='1x'
           >
-            <p>Total Stopped: {mutesCount}</p>
+            <p>{t('mutes.total_stopped', {mutesCount})}</p>
           </Table.Header>
           <Table.Component
             columns={CommsColumns}
@@ -246,7 +246,7 @@ function DashboardContainer({ serversIds, ...props }) {
                   </Table.Td>
                   <Table.Td>{mute.created_at}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
-                  <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
+                  <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
                     <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                       <span className='text-xs font-semibold'>

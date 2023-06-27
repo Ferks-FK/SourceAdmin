@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useFlashesStore } from "@/stores/flashes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 const style = (type) => {
   switch (type) {
@@ -36,6 +37,7 @@ const styleBackground = (type) => {
 function FlashMessageRender({ byKey, className }) {
   const [ flashes, clearFlashes ] = useFlashesStore((state) => [state.items.filter(flash => (byKey ? flash.key === byKey : true)), state.clearFlashes]);
   const [ renderFlash, setRenderFlash ] = useState(flashes.length >= 1 ? true : false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     clearFlashes()
@@ -73,7 +75,7 @@ function FlashMessageRender({ byKey, className }) {
     return (
       <div className={`${className ?? ''}`}>
         <div className={`p-2 border text-base leading-normal rounded flex flex-col w-full text-white ${style(flashes[0].type)}`}>
-          <h1>There was an error validating the data provided.</h1>
+          <h1>{t('validating_data', {ns: 'errors'})}</h1>
           <div className="flex flex-col">
             {flashes.map((flash) => (
               <Fragment key={flash.id || flash.type + flash.message}>

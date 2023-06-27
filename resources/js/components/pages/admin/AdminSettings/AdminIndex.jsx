@@ -6,10 +6,12 @@ import { router } from '@inertiajs/react';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';
+import { useTranslation } from "react-i18next";
 
 function AdminIndex({ data, flash, errors }) {
   const pagination = paginationItems(data)
   const [adminData] = useState(data.data)
+  const { t } = useTranslation();
 
   const handleClick = (id) => {
     router.visit(route('admin.settings.show', id));
@@ -28,14 +30,14 @@ function AdminIndex({ data, flash, errors }) {
   ]
 
   return (
-    <PageContentBlock title={'Admins Overview'}>
+    <PageContentBlock title={t('admin_overview.admin_overview')}>
       <div>
         <Table.Header
-          title={'Users'}
+          title={t('admin_settings.users')}
           icon={faUsers}
         >
           <Button.InternalLink to={route('admin.settings.create')}>
-            Create User
+            {t('admin_settings.create_user')}
           </Button.InternalLink>
         </Table.Header>
         <Table.Component

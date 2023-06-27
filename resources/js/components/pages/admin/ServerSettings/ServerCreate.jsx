@@ -7,10 +7,12 @@ import { Formik } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { ServerCreateSchema } from "@/yup/YupSchemas"
+import { useTranslation } from "react-i18next";
 
 function ServerCreate({ mods, regions, flash, errors }) {
   const [modsData] = useState(mods);
   const [regionsData] = useState(regions);
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.post(route('admin.servers.store'), { ...values }, {
@@ -23,7 +25,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={'Create New Server'}>
+    <PageContentBlock title={t('servers_settings.create_new_server')}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -49,36 +51,36 @@ function ServerCreate({ mods, regions, flash, errors }) {
                   type={'text'}
                   name={'ip'}
                   id={'ip'}
-                  label={'Server IP/Domain'}
+                  label={t('servers_settings.server_ip_or_domain')}
                 />
                 <Field
                   type={'text'}
                   name={'port'}
                   id={'port'}
-                  label={'Server Port'}
+                  label={t('servers_settings.server_port')}
                 />
                 <Field
                   type={'password'}
                   name={'rcon'}
                   id={'rcon'}
-                  label={'Server RCON'}
+                  label={t('servers_settings.server_rcon')}
                 />
                 <Field
                   type={'password'}
                   name={'rcon_confirmation'}
                   id={'rcon_confirmation'}
-                  label={'Confirm RCON'}
+                  label={t('servers_settings.confirm_rcon')}
                 />
                 <Field
                   type={'select'}
                   name={'mod_id'}
                   id={'mod_id'}
-                  label={'Server MOD'}
+                  label={t('servers_settings.server_mod')}
                   value={values.mod_id || 'default_value'}
                   onChange={(e) => setFieldValue('mod_id', e.target.value)}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
-                    Select MOD
+                    {t('generic.select_mod')}
                   </option>
                   {modsData.map(({ id, name }) => (
                     <option key={id} value={id}>
@@ -95,7 +97,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
                   onChange={(e) => setFieldValue('region_id', e.target.value)}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
-                    Select Region
+                    {t('generic.select_region')}
                   </option>
                   {regionsData.map(({ id, region }) => (
                     <option key={id} value={id}>
@@ -115,7 +117,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>
-                  Submit
+                  {t('submit', {ns: 'buttons'})}
                 </Button.Text>
               </div>
             </div>

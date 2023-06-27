@@ -2,5 +2,6 @@
     "503": "{{status}}: Service Unavailable.",
     "500": "{{status}}: Server Error.",
     "404": "{{status}}: Page Not Found.",
-    "403": "{{status}}: Forbidden."
+    "403": "{{status}}: Forbidden.",
+    "validating_data": "There was an error validating the data provided."
 }

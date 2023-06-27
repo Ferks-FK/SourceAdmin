@@ -33,14 +33,14 @@ function BanIndex({ data, flash, errors }) {
   ]
 
   return (
-    <PageContentBlock title={'Bans Overview'}>
+    <PageContentBlock title={t('bans_settings.bans_overview')}>
       <div>
         <Table.Header
-          title={'Bans'}
+          title={t('bans_settings.bans')}
           icon={faBan}
         >
           <Button.InternalLink to={route('admin.bans.create')}>
-            Create Ban
+            {t('bans_settings.create_ban')}
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
@@ -68,7 +68,7 @@ function BanIndex({ data, flash, errors }) {
                 </Table.Td>
                 <Table.Td>{ban.created_at}</Table.Td>
                 <Table.Td>{ban.player_name}</Table.Td>
-                <Table.Td>{ban.admin_name ?? 'Admin Deleted'}</Table.Td>
+                <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>
                   <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                     <span className='text-xs font-semibold'>

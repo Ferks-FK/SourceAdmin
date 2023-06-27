@@ -2,5 +2,16 @@
     "login": "Login",
     "logout": "Logout",
     "login_steam": "Login with steam",
-    "back": "Back"
+    "back": "Back",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "unban": "Unban",
+    "reban": "Reban",
+    "unmute": "Unmute",
+    "remute": "Remute",
+    "delete_account": "Delete Account",
+    "delete_ban": "Delete Ban",
+    "delete_mute": "Delete Mute",
+    "delete_server": "Delete Server"
 }

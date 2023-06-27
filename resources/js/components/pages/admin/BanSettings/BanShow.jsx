@@ -13,6 +13,7 @@ import { faBan, faClock, faHourglassHalf, faNetworkWired, faPlay, faQuestion, fa
 import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
+import { useTranslation } from "react-i18next";
 
 function BanShow({ ban, reasons, timeBans, flash, errors }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +22,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
   const [reasonsData] = useState(reasons);
   const [timeBansData] = useState(timeBans);
   const [banInfo] = useState(ban);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -67,48 +69,48 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={`Ban Of ${banInfo.player_name}`}>
+    <PageContentBlock title={t('bans_settings.ban_of', {playerName: banInfo.player_name})}>
       <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4 bg-dark-primary">
         <ul>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faUser} color="white" className="w-4" />&nbsp;
-            <p>Player Name: {banInfo.player_name}</p>
+            <p>{t('report.player_name')}: {banInfo.player_name}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faNetworkWired} color="white" className="w-4" />&nbsp;
-            <p>Player IP: {banInfo.ip ?? 'No IP present.'}</p>
+            <p>{t('report.player_ip')}: {banInfo.ip ?? t('generic.no_ip')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faSteam} color="white" className="w-4" />&nbsp;
-            <p>Player SteamID: {banInfo.steam_id ?? 'No SteamID present.'}</p>
+            <p>{t('report.steam_id')}: {banInfo.steam_id ?? t('generic.no_steam')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faPlay} color="white" className="w-4" />&nbsp;
-            <p>Created At: {banInfo.created_at}</p>
+            <p>{t('generic.created_at')}: {banInfo.created_at}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faHourglassHalf} color="white" className="w-4" />&nbsp;
-            <p>Length: {banInfo.time_ban_name}</p>
+            <p>{t('generic.length')}: {banInfo.time_ban_name}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faClock} color="white" className="w-4" />&nbsp;
-            <p>Expires At: {banInfo.time_ban_value == 0 ? 'Never.' : banInfo.end_at}</p>
+            <p>{t('generic.expires_at')}: {banInfo.time_ban_value == 0 ? t('generic.never') : banInfo.end_at}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faQuestion} color="white" className="w-4" />&nbsp;
-            <p>Reason: {banInfo.reason}</p>
+            <p>{t('appeal.reason')}: {banInfo.reason}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faUserGear} color="white" className="w-4" />&nbsp;
-            <p>Banned By: {banInfo.admin_name ?? 'Admin Deleted.'}</p>
+            <p>{t('bans_settings.banned_by')}: {banInfo.admin_name ?? t('generic.admin_deleted')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faBan} color="white" className="w-4" />&nbsp;
-            <p>Total Bans: {banInfo.ban_count}</p>
+            <p>{t('admin_overview.total_bans')}: {banInfo.ban_count}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faServer} color="white" className="w-4" />&nbsp;
-            <p>Banned From: {banInfo.server_id ? serverInfo.HostName : 'Server Deleted.'}</p>
+            <p>{t('bans_settings.banned_from')}: {banInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}</p>
           </li>
         </ul>
         <div className="flex justify-center gap-2">
@@ -116,65 +118,64 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
             <Button.Text variant={Variant.Warning} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">Unban player "{banInfo.player_name}"?</h3>
+                  <h3 className="text-2xl text-left">{t('bans_settings.unban_player', {playerName: banInfo.player_name})}?</h3>
                   <p className="text-sm">
-                    When you confirm the unbanning of the player, he will be unbanned from your servers and will be able to connect to any of them again.
+                    {t('bans_settings.unban_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    Cancel
+                    {t('cancel', {ns: 'buttons'})}
                   </Button.Text>
                   <Button.Danger onClick={handleUnban}>
-                    Unban
+                    {t('unban', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              Unban
+              {t('unban', {ns: 'buttons'})}
             </Button.Text>
             :
             <Button.Text variant={Variant.Info} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">Reban player "{banInfo.player_name}"?</h3>
+                  <h3 className="text-2xl text-left">{t('bans_settings.reban_player', {playerName: banInfo.player_name})}?</h3>
                   <p className="text-sm">
-                    When you confirm the player reban, he will be banned from all your servers again.
-                    If he is currently online, he will be disconnected.
+                    {t('bans_settings.reban_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    Cancel
+                    {t('cancel', {ns: 'buttons'})}
                   </Button.Text>
                   <Button.Danger onClick={handleReban}>
-                    Reban
+                    {t('reban', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              Reban
+              {t('reban', {ns: 'buttons'})}
             </Button.Text>
           }
           <Button.Danger className={'!font-header'} onClick={() => showModal(
             <>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-left">Delete ban of "{banInfo.player_name}"?</h3>
+                <h3 className="text-2xl text-left">{t('bans_settings.delete_ban_of', {playerName: banInfo.player_name})}?</h3>
                 <p className="text-sm">
-                  When you confirm the deletion of the ban, it will be deleted from the database, and the banned player will be able to connect to your servers again.
+                  {t('bans_settings.delete_ban_of_message')}
                 </p>
               </div>
               <div className="flex gap-2">
                 <Button.Text onClick={hideModal}>
-                  Cancel
+                  {t('cancel', {ns: 'buttons'})}
                 </Button.Text>
                 <Button.Danger onClick={handleDelete}>
-                  Delete
+                  {t('delete', {ns: 'buttons'})}
                 </Button.Danger>
               </div>
             </>
           )}>
-            Delete Ban
+            {t('delete_ban', {ns: 'buttons'})}
           </Button.Danger>
         </div>
       </div>
@@ -209,7 +210,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
                     type={'select'}
                     name={'time_ban_id'}
                     id={'time_ban_id'}
-                    label={'Length'}
+                    label={t('generic.length')}
                     value={values.time_ban_id}
                     onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
                   >
@@ -223,7 +224,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
                     type={'select'}
                     name={'reason_id'}
                     id={'reason_id'}
-                    label={'Reason'}
+                    label={t('appeal.reason')}
                     value={values.reason_id}
                     onChange={(e) => setFieldValue('reason_id', e.target.value)}
                   >
@@ -236,7 +237,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    Submit
+                    {t('submit', {ns: 'buttons'})}
                   </Button.Text>
                 </div>
               </div>

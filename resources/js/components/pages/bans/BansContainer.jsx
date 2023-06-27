@@ -50,7 +50,7 @@ function BansContainer({ data }) {
   ]
 
   return (
-    <PageContentBlock title={"Bans"}>
+    <PageContentBlock title={t('bans', { ns: 'sidebar' })}>
       <div>
         <Table.Header
           title={t('bans', { ns: 'sidebar' })}
@@ -85,7 +85,7 @@ function BansContainer({ data }) {
                 </Table.Td>
                 <Table.Td>{ban.created_at}</Table.Td>
                 <Table.Td>{ban.player_name}</Table.Td>
-                <Table.Td>{ban.admin_name ?? 'Admin Deleted'}</Table.Td>
+                <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>
                   <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                     <span className='text-xs font-semibold'>

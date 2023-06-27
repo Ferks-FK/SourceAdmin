@@ -6,7 +6,7 @@ import { Collapse } from "@/components/elements/Collapse";
 import { getServerData } from '@/api/getServers';
 import { paginationItems } from "@/helpers";
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/elements/Button";
+import { Button } from "@/components/elements/button";
 import { faServer } from '@fortawesome/free-solid-svg-icons';
 
 function ServersContainer({ serversIds, data }) {
@@ -68,10 +68,10 @@ function ServersContainer({ serversIds, data }) {
   ]
 
   return (
-    <PageContentBlock title={'Servers'}>
+    <PageContentBlock title={t('servers.servers')}>
       <div>
         <Table.Header
-          title={"Servers"}
+          title={t('servers.servers')}
           icon={faServer}
           iconSize='1x'
         />
@@ -129,9 +129,9 @@ function ServersContainer({ serversIds, data }) {
                               <Table.Td colSpan="4" className={'py-4'}>
                                 <div className="flex flex-col items-center gap-2">
                                   <p className='text-neutral-300'>{t('no_players_found', { ns: 'table' })}</p>
-                                  <Button to={`steam://connect/${serverInfo.Ip}:${serverInfo.GamePort}`}>
+                                  <Button.ExternalLink to={`steam://connect/${serverInfo.Ip}:${serverInfo.GamePort}`}>
                                     {t('connect', { ns: 'table' })}
-                                  </Button>
+                                  </Button.ExternalLink>
                                 </div>
                               </Table.Td>
                             </Table.Row>

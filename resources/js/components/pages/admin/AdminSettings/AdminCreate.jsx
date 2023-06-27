@@ -6,8 +6,10 @@ import { Formik } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
+import { useTranslation } from "react-i18next";
 
 function AdminCreate({ flash, errors }) {
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.post(route('admin.settings.store'), { ...values }, {
@@ -20,7 +22,7 @@ function AdminCreate({ flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={'Create New Admin'}>
+    <PageContentBlock title={t('admin_settings.create_new_admin')}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -45,36 +47,36 @@ function AdminCreate({ flash, errors }) {
                   type={'text'}
                   name={'name'}
                   id={'name'}
-                  label={'Admin Name'}
+                  label={t('admin_settings.admin_name')}
                 />
                 <Field
                   type={'text'}
                   name={'email'}
                   id={'email'}
-                  label={'Admin Email'}
+                  label={t('admin_settings.admin_email')}
                 />
                 <Field
                   type={'text'}
                   name={'steam_id'}
                   id={'steam_id'}
-                  label={'Admin SteamID'}
+                  label={t('admin_settings.admin_steam_id')}
                 />
                 <Field
                   type={'password'}
                   name={'password'}
                   id={'password'}
-                  label={'Password'}
+                  label={t('admin_settings.admin_password')}
                 />
                 <Field
                   type={'password'}
                   name={'password_confirmation'}
                   id={'password_confirmation'}
-                  label={'Confirm Password'}
+                  label={t('admin_settings.admin_confirm_new_password')}
                 />
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>
-                  Submit
+                  {t('submit', {ns: 'buttons'})}
                 </Button.Text>
               </div>
             </div>

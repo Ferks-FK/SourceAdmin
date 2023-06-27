@@ -33,14 +33,14 @@ function MuteIndex({ data, flash, errors }) {
   ]
 
   return (
-    <PageContentBlock title={'Mutes Overview'}>
+    <PageContentBlock title={t('mutes_settings.mutes_overview')}>
       <div>
         <Table.Header
-          title={'Mutes'}
+          title={t('mutes_settings.mutes')}
           icon={faMicrophoneSlash}
         >
           <Button.InternalLink to={route('admin.mutes.create')}>
-            Create Mute
+            {t('mutes_settings.create_mute')}
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
@@ -68,7 +68,7 @@ function MuteIndex({ data, flash, errors }) {
                 </Table.Td>
                 <Table.Td>{mute.created_at}</Table.Td>
                 <Table.Td>{mute.player_name}</Table.Td>
-                <Table.Td>{mute.admin_name ?? 'Admin Deleted'}</Table.Td>
+                <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>
                   <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                     <span className='text-xs font-semibold'>

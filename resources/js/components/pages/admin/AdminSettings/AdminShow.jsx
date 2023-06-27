@@ -12,10 +12,12 @@ import { useUserStore } from "@/stores/user";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
+import { useTranslation } from "react-i18next";
 
 function AdminShow({ user, flash, errors, auth }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [clearData] = useUserStore((state) => [state.clearData])
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.patch(route('admin.settings.update', user.id), { ...values }, {
@@ -35,18 +37,18 @@ function AdminShow({ user, flash, errors, auth }) {
     })
   }
 
-  function showModal() {
+  const showModal = () => {
     setModalVisible(true);
   }
 
-  function hideModal() {
+  const hideModal = () => {
     setModalVisible(false);
   }
 
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={`Admin ${user.name}`}>
+    <PageContentBlock title={t('admin_settings.admin_editing_name', {adminName: user.name})}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -85,7 +87,7 @@ function AdminShow({ user, flash, errors, auth }) {
                   <h1>admin</h1>
                   <p>{user.created_at}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
-                    Delete Account
+                    {t('delete_account', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
                 <Modal
@@ -96,23 +98,22 @@ function AdminShow({ user, flash, errors, auth }) {
                 >
                   <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                     <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl text-left">Delete Admin "{user.name}"?</h3>
+                      <h3 className="text-2xl text-left">{t('admin_settings.delete_admin', {adminName: user.name})}?</h3>
                       <p className="text-sm">
-                        When you confirm the deletion of the user, the action is permanent and cannot be undone.
-                        He will also lose the rights to the servers he is associated with.
+                        {t('admin_settings.delete_admin_message')}
                       </p>
                       {user.id == auth.user.id && (
                         <p className="text-red-500">
-                          You are about to delete your own account!
+                          {t('admin_settings.delete_own_account_warning')}
                         </p>
                       )}
                     </div>
                     <div className="flex gap-2">
                       <Button.Text onClick={hideModal}>
-                        Cancel
+                        {t('cancel', {ns: 'buttons'})}
                       </Button.Text>
                       <Button.Danger onClick={handleDelete}>
-                        Delete
+                        {t('delete', {ns: 'buttons'})}
                       </Button.Danger>
                     </div>
                   </div>
@@ -130,42 +131,42 @@ function AdminShow({ user, flash, errors, auth }) {
                     type={'text'}
                     name={'name'}
                     id={'name'}
-                    label={'Admin Name'}
+                    label={t('admin_settings.admin_name')}
                   />
                   <Field
                     type={'text'}
                     name={'email'}
                     id={'email'}
-                    label={'Admin Email'}
+                    label={t('admin_settings.admin_email')}
                   />
                   <Field
                     type={'text'}
                     name={'steam_id'}
                     id={'steam_id'}
-                    label={'Admin SteamID'}
+                    label={t('admin_settings.admin_steam_id')}
                   />
                   <Field
                     type={'password'}
                     name={'current_password'}
                     id={'current_password'}
-                    label={'Current Password'}
+                    label={t('admin_settings.admin_current_password')}
                   />
                   <Field
                     type={'password'}
                     name={'new_password'}
                     id={'new_password'}
-                    label={'New Password'}
+                    label={t('admin_settings.admin_new_password')}
                   />
                   <Field
                     type={'password'}
                     name={'new_password_confirmation'}
                     id={'new_password_confirmation'}
-                    label={'Confirm Password'}
+                    label={t('admin_settings.admin_confirm_new_password')}
                   />
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    Submit
+                    {t('submit', {ns: 'buttons'})}
                   </Button.Text>
                 </div>
               </div>

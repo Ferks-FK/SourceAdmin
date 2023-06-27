@@ -7,11 +7,13 @@ import { Formik } from "formik";
 import { MuteCreateSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
+import { useTranslation } from "react-i18next";
 
 function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
   const [reasonsData] = useState(reasons);
   const [timeBansData] = useState(time_bans);
   const [adminsData] = useState(admins);
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.post(route('admin.mutes.store'), { ...values }, {

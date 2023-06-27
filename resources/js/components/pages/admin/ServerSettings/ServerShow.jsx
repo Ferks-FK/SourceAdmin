@@ -11,12 +11,14 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
+import { useTranslation } from "react-i18next";
 
 function ServerShow({ server, mods, regions, flash, errors }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [serverData] = useState(server[0]);
   const [modsData] = useState(mods);
   const [regionsData] = useState(regions);
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting }) => {
     router.patch(route('admin.servers.update', serverData?.Id), { ...values }, {
@@ -30,18 +32,18 @@ function ServerShow({ server, mods, regions, flash, errors }) {
     router.delete(route('admin.servers.destroy', serverData?.Id))
   }
 
-  function showModal() {
+  const showModal = () => {
     setModalVisible(true);
   }
 
-  function hideModal() {
+  const hideModal = () => {
     setModalVisible(false);
   }
 
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={`Server ${serverData.HostName}`}>
+    <PageContentBlock title={t('servers_settings.server_name', {serverName: serverData.HostName})}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -70,17 +72,17 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                     {serverData.HostName}
                   </p>
                   <p className="flex gap-1 items-center text-base">
-                    Status:
+                    {t('generic.status')}:
                     <FontAwesomeIcon icon={faCircle} color={serverData.Is_online ? 'green' : 'red'} />
                   </p>
                 </div>
               </div>
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex flex-col items-center text-center md:items-end gap-2 md:text-right">
-                  <p>Created At: {serverData.Created_At}</p>
-                  <p>Updated At: {serverData.Updated_At}</p>
+                  <p>{t('generic.created_at')}: {serverData.Created_At}</p>
+                  <p>{t('generic.updated_at')}: {serverData.Updated_At}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
-                    Delete Server
+                    {t('delete_server', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
                 <Modal
@@ -91,17 +93,17 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                 >
                   <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                     <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl text-left">Delete Server "{serverData.HostName}"?</h3>
+                      <h3 className="text-2xl text-left">{t('servers_settings.delete_server', {serverName: serverData.HostName})}?</h3>
                       <p className="text-sm">
-                        When you confirm the deletion of the server, the action is permanent and cannot be undone.
+                        {t('servers_settings.delete_server_message')}
                       </p>
                     </div>
                     <div className="flex gap-2">
                       <Button.Text onClick={hideModal}>
-                        Cancel
+                        {t('cancel', {ns: 'buttons'})}
                       </Button.Text>
                       <Button.Danger onClick={handleDelete}>
-                        Delete
+                        {t('delete', {ns: 'buttons'})}
                       </Button.Danger>
                     </div>
                   </div>
@@ -119,37 +121,37 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                     type={'text'}
                     name={'ip'}
                     id={'ip'}
-                    label={'Server IP/Domain'}
+                    label={t('servers_settings.server_ip_or_domain')}
                   />
                   <Field
                     type={'text'}
                     name={'port'}
                     id={'port'}
-                    label={'Server Port'}
+                    label={t('servers_settings.server_port')}
                   />
                   <Field
                     type={'password'}
                     name={'rcon'}
                     id={'rcon'}
-                    label={'Current RCON'}
+                    label={t('servers_settings.current_rcon')}
                   />
                   <Field
                     type={'password'}
                     name={'new_rcon'}
                     id={'new_rcon'}
-                    label={'New RCON'}
+                    label={t('servers_settings.new_rcon')}
                   />
                   <Field
                     type={'password'}
                     name={'new_rcon_confirmation'}
                     id={'new_rcon_confirmation'}
-                    label={'Confirm New RCON'}
+                    label={t('servers_settings.confirm_new_rcon')}
                   />
                   <Field
                     type={'select'}
                     name={'mod_id'}
                     id={'mod_id'}
-                    label={'Server MOD'}
+                    label={t('servers_settings.server_mod')}
                     value={values.mod_id}
                     onChange={(e) => setFieldValue('mod_id', e.target.value)}
                   >
@@ -163,7 +165,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                     type={'select'}
                     name={'region_id'}
                     id={'region_id'}
-                    label={'Server Region'}
+                    label={t('servers_settings.server_region')}
                     value={values.region_id}
                     onChange={(e) => setFieldValue('region_id', e.target.value)}
                   >
@@ -177,7 +179,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                     type={'checkbox'}
                     name={'enabled'}
                     id={'enabled'}
-                    label={'Server Enabled'}
+                    label={t('servers_settings.server_enabled')}
                     value={values.enabled}
                     checked={values.enabled}
                     onChange={(e) => setFieldValue('enabled', e.target.checked)}
@@ -185,7 +187,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    Submit
+                    {t('submit', {ns: 'buttons'})}
                   </Button.Text>
                 </div>
               </div>

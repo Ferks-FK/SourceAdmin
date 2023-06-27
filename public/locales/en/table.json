@@ -21,5 +21,11 @@
     "permanent": "Permanent",
     "no_data_found": "No data was found.",
     "no_players_found": "No players in the server.",
-    "connect": "Connect"
+    "connect": "Connect",
+    "id": "Id",
+    "email": "Email",
+    "steamid": "Steam ID",
+    "isverified": "Is Verified",
+    "role": "Role",
+    "immunity": "Immunity"
 }

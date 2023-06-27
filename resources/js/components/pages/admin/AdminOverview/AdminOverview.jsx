@@ -1,12 +1,14 @@
 import { AdminOverviewData } from "@/components/pages/admin/AdminOverview/AdminOverviewData";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Box } from "@/components/elements/Box";
+import { useTranslation } from "react-i18next";
 
 function AdminOverview({ versionData, ...props }) {
-  const overviewData = AdminOverviewData(versionData, props)
+  const overviewData = AdminOverviewData(versionData, props);
+  const { t } = useTranslation();
 
   return (
-    <PageContentBlock title={'Admin Overview'} className={'items-center'}>
+    <PageContentBlock title={t('admin_overview.admin_overview')} className={'items-center'}>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xl:max-w-5xl">
         {overviewData.map((data) => (
           <Box

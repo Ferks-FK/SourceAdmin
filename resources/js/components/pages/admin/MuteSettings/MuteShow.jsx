@@ -13,6 +13,7 @@ import { faClock, faCommentSlash, faHourglassHalf, faMicrophoneSlash, faNetworkW
 import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
+import { useTranslation } from "react-i18next";
 
 function MuteShow({ mute, reasons, timeBans, flash, errors }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,8 +22,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
   const [reasonsData] = useState(reasons);
   const [timeBansData] = useState(timeBans);
   const [muteInfo] = useState(mute);
-
-  console.log(muteInfo)
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -40,7 +40,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
     }
   }, [])
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values) => {
     router.patch(route('admin.mutes.update', muteInfo.id), { ...values })
   }
 
@@ -69,48 +69,48 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={`Mute Of ${muteInfo.player_name}`}>
+    <PageContentBlock title={t('mutes_settings.mute_of', {playerName: muteInfo.player_name})}>
       <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4 bg-dark-primary">
         <ul>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faUser} color="white" className="w-4" />&nbsp;
-            <p>Player Name: {muteInfo.player_name}</p>
+            <p>{t('report.player_name')}: {muteInfo.player_name}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faNetworkWired} color="white" className="w-4" />&nbsp;
-            <p>Player IP: {muteInfo.ip ?? 'No IP present.'}</p>
+            <p>{t('report.player_ip')}: {muteInfo.ip ?? t('generic.no_ip')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faSteam} color="white" className="w-4" />&nbsp;
-            <p>Player SteamID: {muteInfo.steam_id ?? 'No SteamID present.'}</p>
+            <p>{t('report.steam_id')}: {muteInfo.steam_id ?? t('generic.no_steam')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faPlay} color="white" className="w-4" />&nbsp;
-            <p>Created At: {muteInfo.created_at}</p>
+            <p>{t('generic.created_at')}: {muteInfo.created_at}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faHourglassHalf} color="white" className="w-4" />&nbsp;
-            <p>Length: {muteInfo.time_ban_name}</p>
+            <p>{t('generic.length')}: {muteInfo.time_ban_name}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faClock} color="white" className="w-4" />&nbsp;
-            <p>Expires At: {muteInfo.time_ban_value == 0 ? 'Never.' : muteInfo.end_at}</p>
+            <p>{t('generic.expires_at')}: {muteInfo.time_ban_value == 0 ? t('generic.never') : muteInfo.end_at}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faQuestion} color="white" className="w-4" />&nbsp;
-            <p>Reason: {muteInfo.reason}</p>
+            <p>{t('appeal.reason')}: {muteInfo.reason}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faUserGear} color="white" className="w-4" />&nbsp;
-            <p>Muted By: {muteInfo.admin_name ?? 'Admin Deleted.'}</p>
+            <p>{t('mutes_settings.muted_by')}: {muteInfo.admin_name ?? t('generic.admin_deleted')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={muteInfo.type === 'voice' ? faMicrophoneSlash : faCommentSlash} color="white" className="w-4" />&nbsp;
-            <p>Total Mutes: {muteInfo.ban_count}</p>
+            <p>{t('mutes_settings.total_mutes')}: {muteInfo.ban_count}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faServer} color="white" className="w-4" />&nbsp;
-            <p>Muted From: {muteInfo.server_id ? serverInfo.HostName : 'Server Deleted.'}</p>
+            <p>{t('mutes_settings.muted_from')}: {muteInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}</p>
           </li>
         </ul>
         <div className="flex justify-center gap-2">
@@ -118,64 +118,64 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
             <Button.Text variant={Variant.Warning} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">Unmute player "{muteInfo.player_name}"?</h3>
+                  <h3 className="text-2xl text-left">{t('mutes_settings.unmute_player', {playerName: muteInfo.player_name})}?</h3>
                   <p className="text-sm">
-                    When you confirm the unmute of the player mute, the player will be unmuted from your servers and will be able to speak/type again.
+                    {t('mutes_settings.unmute_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    Cancel
+                    {t('cancel', {ns: 'buttons'})}
                   </Button.Text>
                   <Button.Danger onClick={handleUnmute}>
-                    Unmute
+                    {t('unmute', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              Unmute
+              {t('unmute', {ns: 'buttons'})}
             </Button.Text>
             :
             <Button.Text variant={Variant.Info} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">Remute player "{muteInfo.player_name}"?</h3>
+                  <h3 className="text-2xl text-left">{t('mutes_settings.remute_player', {playerName: muteInfo.player_name})}?</h3>
                   <p className="text-sm">
-                    When you confirm the remute of the player, he will be mutated from all your servers again.
+                    {t('mutes_settings.remute_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    Cancel
+                    {t('cancel', {ns: 'buttons'})}
                   </Button.Text>
                   <Button.Danger onClick={handleRemute}>
-                    Remute
+                    {t('remute', {ns: 'buttons'})}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              Remute
+              {t('remute', {ns: 'buttons'})}
             </Button.Text>
           }
           <Button.Danger className={'!font-header'} onClick={() => showModal(
             <>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-left">Delete mute of "{muteInfo.player_name}"?</h3>
+                <h3 className="text-2xl text-left">{t('mutes_settings.delete_mute_of', {playerName: muteInfo.player_name})}?</h3>
                 <p className="text-sm">
-                  When you confirm the deletion of the mute, it will be deleted from the database, and the muted player will be able to speak/type again on the servers.
+                  {t('mutes_settings.delete_mute_of_message')}
                 </p>
               </div>
               <div className="flex gap-2">
                 <Button.Text onClick={hideModal}>
-                  Cancel
+                  {t('cancel', {ns: 'buttons'})}
                 </Button.Text>
                 <Button.Danger onClick={handleDelete}>
-                  Delete
+                  {t('delete', {ns: 'buttons'})}
                 </Button.Danger>
               </div>
             </>
           )}>
-            Delete Mute
+            {t('delete_mute', {ns: 'buttons'})}
           </Button.Danger>
         </div>
       </div>
@@ -210,7 +210,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
                     type={'select'}
                     name={'time_ban_id'}
                     id={'time_ban_id'}
-                    label={'Length'}
+                    label={t('generic.length')}
                     value={values.time_ban_id}
                     onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
                   >
@@ -224,7 +224,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
                     type={'select'}
                     name={'reason_id'}
                     id={'reason_id'}
-                    label={'Reason'}
+                    label={t('appeal.reason')}
                     value={values.reason_id}
                     onChange={(e) => setFieldValue('reason_id', e.target.value)}
                   >
@@ -237,7 +237,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    Submit
+                    {t('submit', {ns: 'buttons'})}
                   </Button.Text>
                 </div>
               </div>

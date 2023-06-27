@@ -6,8 +6,10 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { Formik } from "formik";
 import { router } from '@inertiajs/react';
 import { AppealFormSchema } from "@/yup/YupSchemas";
+import { useTranslation } from "react-i18next";
 
 function AppealContainer({ flash, errors }) {
+  const { t } = useTranslation();
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     router.post(route('appeal.store'), { ...values }, {
@@ -23,7 +25,7 @@ function AppealContainer({ flash, errors }) {
   useFlashMessages(flash, errors)
 
   return (
-    <PageContentBlock title={'Protest a Ban'}>
+    <PageContentBlock title={t('appeal.protest')}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -37,7 +39,7 @@ function AppealContainer({ flash, errors }) {
       >
         {({ isSubmitting }) => (
           <Form
-            title={'Protest a Ban'}
+            title={t('appeal.protest')}
             formikClassNames={'flex justify-center w-full'}
             formSize={'full'}
             className={'max-w-6xl w-full'}
@@ -48,39 +50,39 @@ function AppealContainer({ flash, errors }) {
                   type={'text'}
                   name={'player_steam_id'}
                   id={'player_steam_id'}
-                  label={'Steam ID'}
+                  label={t('report.steam_id')}
                   maxLength={20}
                 />
                 <Field
                   type={'text'}
                   name={'player_ip'}
                   id={'player_ip'}
-                  label={'Player IP'}
+                  label={t('report.player_ip')}
                 />
                 <Field
                   type={'text'}
                   name={'player_name'}
                   id={'player_name'}
-                  label={'Your Name'}
+                  label={t('report.player_name')}
                 />
                 <Field
                   type={'text-area'}
                   name={'reason'}
                   id={'reason'}
-                  label={'Reason'}
-                  placeholder={'Be as descriptive as possible as to why you should be unbanned.'}
+                  label={t('appeal.reason')}
+                  placeholder={t('appeal.reason_placeholder')}
                   className={'border-2 rounded'}
                 />
                 <Field
                   type={'email'}
                   name={'player_email'}
                   id={'player_email'}
-                  label={'Your Email'}
+                  label={t('report.your_email')}
                 />
               </div>
               <div className="flex flex-col items-center">
                 <Button type={'submit'} disabled={isSubmitting} className={'p-2'}>
-                  Submit
+                  {t('submit', {ns: 'buttons'})}
                 </Button>
               </div>
             </div>

@@ -58,14 +58,14 @@ function ServerIndex({ serversIds, data, flash, errors }) {
   ]
 
   return (
-    <PageContentBlock title={'Servers Overview'}>
+    <PageContentBlock title={t('servers_settings.servers_overview')}>
       <div>
         <Table.Header
-          title={'Servers'}
+          title={t('servers.servers')}
           icon={faServer}
         >
           <Button.InternalLink to={route('admin.servers.create')}>
-            Create Server
+            {t('servers_settings.create_server')}
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
