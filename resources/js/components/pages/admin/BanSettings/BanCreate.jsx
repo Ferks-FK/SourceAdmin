@@ -37,7 +37,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
           admin_id: auth.user.id,
           reason_id: ''
         }}
-        validationSchema={BanCreateSchema}
+        validationSchema={BanCreateSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form
@@ -100,7 +100,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                   type={'select'}
                   name={'reason_id'}
                   id={'reason_id'}
-                  label={t('appeal.reason')}
+                  label={t('generic.reason')}
                   value={values.reason_id || 'default_value'}
                   onChange={(e) => setFieldValue('reason_id', e.target.value)}
                 >

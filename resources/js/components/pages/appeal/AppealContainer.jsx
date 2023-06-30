@@ -35,7 +35,7 @@ function AppealContainer({ flash, errors }) {
           player_email: '',
           reason: ''
         }}
-        validationSchema={AppealFormSchema}
+        validationSchema={AppealFormSchema()}
       >
         {({ isSubmitting }) => (
           <Form
@@ -69,7 +69,7 @@ function AppealContainer({ flash, errors }) {
                   type={'text-area'}
                   name={'reason'}
                   id={'reason'}
-                  label={t('appeal.reason')}
+                  label={t('generic.reason')}
                   placeholder={t('appeal.reason_placeholder')}
                   className={'border-2 rounded'}
                 />

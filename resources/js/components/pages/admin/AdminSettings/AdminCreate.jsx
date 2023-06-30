@@ -33,7 +33,7 @@ function AdminCreate({ flash, errors }) {
           password_confirmation: ''
         }}
 
-        validationSchema={AdminCreateSchema}
+        validationSchema={AdminCreateSchema()}
       >
         {({ isSubmitting }) => (
           <Form

@@ -56,7 +56,7 @@ function ReportContainer({ serversIds, flash, errors }) {
           server_id: '',
           upload_demo: ''
         }}
-        validationSchema={ReportFormSchema}
+        validationSchema={ReportFormSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form

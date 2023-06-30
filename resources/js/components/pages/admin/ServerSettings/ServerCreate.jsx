@@ -37,7 +37,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
           region_id: '',
           enabled: true
         }}
-        validationSchema={ServerCreateSchema}
+        validationSchema={ServerCreateSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form
@@ -92,7 +92,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
                   type={'select'}
                   name={'region_id'}
                   id={'region_id'}
-                  label={'Server Region'}
+                  label={t('servers_settings.server_region')}
                   value={values.region_id || 'default_value'}
                   onChange={(e) => setFieldValue('region_id', e.target.value)}
                 >
@@ -109,7 +109,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
                   type={'checkbox'}
                   name={'enabled'}
                   id={'enabled'}
-                  label={'Server Enabled'}
+                  label={t('servers_settings.server_enabled')}
                   value={values.enabled}
                   checked={values.enabled}
                   onChange={(e) => setFieldValue('enabled', e.target.checked)}

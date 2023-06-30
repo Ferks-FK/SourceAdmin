@@ -1,7 +1,5 @@
 {
     "login": {
-        "name_required": "A username or email address must be provided.",
-        "password_required": "Account password is required.",
         "username_or_email_label": "Username or Email",
         "password_label": "Password",
         "steam_user_not_found": "We could not find a user related to your steam account.",
@@ -41,7 +39,6 @@
     },
     "appeal": {
         "protest": "Protest a Ban",
-        "reason": "Reason",
         "reason_placeholder": "Be as descriptive as possible as to why you should be unbanned."
     },
     "admin_overview": {
@@ -74,10 +71,10 @@
         "admin_name": "Admin Name",
         "admin_email": "Admin Email",
         "admin_steam_id": "Admin SteamID",
-        "admin_password": "Password",
+        "admin_password": "Admin password",
         "admin_current_password": "Current Password",
         "admin_new_password": "New Password",
-        "admin_confirm_new_password": "Confirm Password"
+        "admin_confirm_new_password": "Confirm new Password"
     },
     "bans_settings": {
         "bans_overview": "Bans Overview",
@@ -101,6 +98,7 @@
         "create_mute": "Create Mute",
         "mute_of": "Mute of {{playerName}}",
         "muted_by": "Muted By",
+        "create_new_mute": "Create New Mute",
         "total_mutes": "Total Mutes",
         "muted_from": "Muted From",
         "unmute_player": "Unmute player \"{{playerName}}\"",
@@ -140,6 +138,7 @@
         "updated_at": "Updated At",
         "expires_at": "Expires At",
         "length": "Length",
+        "reason": "Reason",
         "select_length": "Select Length",
         "select_reason": "Select Reason",
         "select_mod": "Select MOD",
@@ -147,5 +146,28 @@
         "never": "Never",
         "admin": "Admin",
         "status": "Status"
+    },
+    "yup_schemas": {
+        "required_attribute": "The {{attribute}} is required.",
+        "invalid_attribute": "The {{attribute}} is invalid.",
+        "password_attribute": "The {{attribute}} must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+        "short_attribute": "Your {{attribute}} is too short.",
+        "match_attribute": "The {{attribute}} do not match.",
+        "your_attribute": "Your {{attribute}} is required.",
+        "following_fields_attribute": "At least one of the following fields must be provided: {{attribute}}",
+        "name_or_email": "Name or email",
+        "password": "Password",
+        "passwords": "Passwords",
+        "confirm_password": "Confirm Password",
+        "current_password": "Current Password",
+        "confirm_new_password": "Confirm New Password",
+        "new_password": "New Password",
+        "email": "Email",
+        "steam_id": "Steam ID",
+        "ip_address": "IP Address",
+        "ip/domain": "IP/Domain",
+        "port": "Port",
+        "rcon": "RCON",
+        "ban_length": "Ban Length"
     }
 }

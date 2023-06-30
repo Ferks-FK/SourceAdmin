@@ -63,11 +63,11 @@ function useDeviceType() {
     // This is only for manual screen size adjustment.
     useEffect(() => {
         if ((widthSize >= 768) && sidebarIsVisible == false) {
-            setSidebarIsVisible(true)
+            setSidebarIsVisible()
         }
 
         if ((widthSize < 768) && sidebarIsVisible == true) {
-            setSidebarIsVisible(false)
+            setSidebarIsVisible()
         }
     }, [deviceSize])
 }

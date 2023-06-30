@@ -98,7 +98,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faQuestion} color="white" className="w-4" />&nbsp;
-            <p>{t('appeal.reason')}: {banInfo.reason}</p>
+            <p>{t('generic.reason')}: {banInfo.reason}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faUserGear} color="white" className="w-4" />&nbsp;
@@ -185,7 +185,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
           reason_id: banInfo.reason_id,
           time_ban_id: banInfo.time_ban_id
         }}
-        validationSchema={BanEditSchema}
+        validationSchema={BanEditSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <div className="flex flex-col gap-4 p-4 bg-dark-primary">
@@ -224,7 +224,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
                     type={'select'}
                     name={'reason_id'}
                     id={'reason_id'}
-                    label={t('appeal.reason')}
+                    label={t('generic.reason')}
                     value={values.reason_id}
                     onChange={(e) => setFieldValue('reason_id', e.target.value)}
                   >

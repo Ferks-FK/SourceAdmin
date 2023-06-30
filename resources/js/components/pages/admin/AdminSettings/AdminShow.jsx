@@ -60,7 +60,7 @@ function AdminShow({ user, flash, errors, auth }) {
           new_password_confirmation: ''
         }}
 
-        validationSchema={AdminEditSchema}
+        validationSchema={AdminEditSchema()}
       >
         {({ isSubmitting }) => (
           <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>

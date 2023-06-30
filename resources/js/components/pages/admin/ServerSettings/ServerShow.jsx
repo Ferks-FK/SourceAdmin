@@ -56,7 +56,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
           region_id: serverData.RegionId,
           enabled: serverData.Enabled
         }}
-        validationSchema={ServerEditSchema}
+        validationSchema={ServerEditSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
