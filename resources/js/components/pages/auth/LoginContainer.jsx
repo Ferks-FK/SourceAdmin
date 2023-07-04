@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
 import { Form } from "@/components/elements/Form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
@@ -50,13 +50,11 @@ function LoginContainer({ flash }) {
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2 lg:gap-4">
-                  <Field
-                    type="text"
+                  <Field.Text
                     name="name"
                     label={t('login.username_or_email_label')}
                   />
-                  <Field
-                    type="password"
+                  <Field.Password
                     name="password"
                     label={t('login.password_label')}
                   />

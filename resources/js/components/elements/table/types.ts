@@ -1,0 +1,44 @@
+import { IconDefinition, SizeProp } from '@fortawesome/fontawesome-svg-core';
+import { HTMLAttributes } from 'react';
+
+export enum iconPosition {
+    Right = 'right',
+    Left = 'left'
+}
+
+export enum SizeRowProps {
+    Sm = 'sm',
+    Base = 'base'
+}
+
+export type TableProps = JSX.IntrinsicElements['table'] & {
+    columns: string[]
+    dataLength: number
+};
+
+export interface HeaderProps extends HTMLAttributes<HTMLTableCellElement> {
+    title?: string
+    icon?: IconDefinition
+    iconSize?: SizeProp
+    iconPosition?: iconPosition
+}
+
+export interface RowProps extends HTMLAttributes<HTMLTableRowElement> {
+    size?: SizeRowProps
+}
+
+export type TDProps = JSX.IntrinsicElements['td']
+
+export interface PaginationProps {
+    paginationData: {
+        currentPage: number
+        lastPage: number
+        nextPageUrl: string
+        prevPageUrl: string
+        firstPageUrl: string
+        lastPageUrl: string
+        from: number
+        to: number
+        total: number
+    }
+}

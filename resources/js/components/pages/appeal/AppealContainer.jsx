@@ -1,6 +1,6 @@
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
-import { Button } from "@/components/elements/Button";
+import { Field } from "@/components/elements/field";
+import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { Formik } from "formik";
@@ -46,44 +46,34 @@ function AppealContainer({ flash, errors }) {
           >
             <div className="flex flex-col gap-6">
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_steam_id'}
-                  id={'player_steam_id'}
                   label={t('report.steam_id')}
                   maxLength={20}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_ip'}
-                  id={'player_ip'}
                   label={t('report.player_ip')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_name'}
-                  id={'player_name'}
                   label={t('report.player_name')}
                 />
-                <Field
-                  type={'text-area'}
+                <Field.TextArea
                   name={'reason'}
-                  id={'reason'}
                   label={t('generic.reason')}
                   placeholder={t('appeal.reason_placeholder')}
                   className={'border-2 rounded'}
                 />
-                <Field
-                  type={'email'}
+                <Field.Email
                   name={'player_email'}
-                  id={'player_email'}
                   label={t('report.your_email')}
                 />
               </div>
               <div className="flex flex-col items-center">
-                <Button type={'submit'} disabled={isSubmitting} className={'p-2'}>
+                <Button.Text type={'submit'} disabled={isSubmitting} className={'p-2'}>
                   {t('submit', {ns: 'buttons'})}
-                </Button>
+                </Button.Text>
               </div>
             </div>
           </Form>

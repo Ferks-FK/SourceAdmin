@@ -2,7 +2,8 @@ import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
+import { Field as FieldOld } from "@/components/elements/Field";
 import { Formik } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
@@ -47,28 +48,21 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
           >
             <div className="flex flex-col gap-6">
               <div className="grid grid-cols-1 gap-2 lg:gap-4 lg:grid-cols-3">
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'ip'}
-                  id={'ip'}
                   label={t('report.player_ip')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'steam_id'}
-                  id={'steam_id'}
                   label={t('bans_settings.player_steam_id')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_name'}
-                  id={'player_name'}
                   label={t('report.player_name')}
                 />
-                <Field
+                {/* <FieldOld
                   type={'select'}
                   name={'time_ban_id'}
-                  id={'time_ban_id'}
                   label={t('generic.length')}
                   value={values.time_ban_id || 'default_value'}
                   onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
@@ -81,11 +75,10 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </Field>
-                <Field
+                </FieldOld>
+                <FieldOld
                   type={'select'}
                   name={'admin_id'}
-                  id={'admin_id'}
                   label={t('generic.admin')}
                   value={values.admin_id}
                   onChange={(e) => setFieldValue('admin_id', e.target.value)}
@@ -95,11 +88,10 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </Field>
-                <Field
+                </FieldOld>
+                <FieldOld
                   type={'select'}
                   name={'reason_id'}
-                  id={'reason_id'}
                   label={t('generic.reason')}
                   value={values.reason_id || 'default_value'}
                   onChange={(e) => setFieldValue('reason_id', e.target.value)}
@@ -112,7 +104,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {reason}
                     </option>
                   ))}
-                </Field>
+                </FieldOld> */}
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>

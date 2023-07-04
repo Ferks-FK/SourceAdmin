@@ -9,6 +9,7 @@ import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/h
 import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDebounce } from 'use-debounce';
 import { faBan, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
 
@@ -18,6 +19,7 @@ function BansContainer({ data }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [bansData, setBansData] = useState(data.data)
   const { t } = useTranslation()
+  const [debouncedValue] = useDebounce(searchQuery, 500)
 
   useEffect(() => {
     clearFlashes();
@@ -32,13 +34,13 @@ function BansContainer({ data }) {
         // Consult the data based on the search term.
         // This will probably be redone.
         http.get(route('bans.search'), { params: { all: true } }).then((response) => {
-          setBansData(filterData(response.data, keys, searchQuery))
+          setBansData(filterData({data: response.data, keys: keys, query: searchQuery}))
         }).catch((error) => {
           addError({ message: error.message })
         })
       }
     }
-  }, [searchQuery])
+  }, [debouncedValue])
 
   const BansColumns = [
     "MOD/Country",
@@ -60,7 +62,8 @@ function BansContainer({ data }) {
           <Input.Search
             size={Size.Small}
             placeholder={t('generic.search')}
-            onChange={setSearchQuery}
+            searchQuery={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </Table.Header>
         <Table.Component

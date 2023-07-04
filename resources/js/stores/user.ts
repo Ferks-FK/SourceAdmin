@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 interface UserStore {
-    data: UserData[],
+    data: UserData | null,
     isLogged: boolean,
-    setUserData: (data: UserData[]) => void,
+    setUserData: (data: UserData) => void,
     clearData: () => void
 }
 
-interface UserData {
+export interface UserData {
     id: number,
     name: string,
     email: string,
@@ -19,14 +19,14 @@ interface UserData {
 }
 
 const useUserStore = create<UserStore>((set) => ({
-  data: [],
+  data: null,
   isLogged: false,
   setUserData: (data) => set(() => ({
     data: data,
     isLogged: true
   })),
   clearData: () => set(() => ({
-    data: [],
+    data: null,
     isLogged: false
   }))
 }))

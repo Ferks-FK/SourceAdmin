@@ -45,6 +45,19 @@
     }
 }
 
+.text {
+    @apply bg-slate-500 text-slate-50;
+    @apply hover:bg-slate-400 active:bg-slate-400 focus:ring-slate-300 focus:ring-opacity-50;
+
+    &.secondary {
+        @apply hover:bg-slate-500 active:bg-slate-500;
+    }
+
+    &:disabled {
+        @apply bg-slate-500/75 text-slate-200/75;
+    }
+}
+
 .danger {
     @apply bg-red-600 text-slate-50;
     @apply hover:bg-red-500 active:bg-red-500 focus:ring-red-400 focus:ring-opacity-75;

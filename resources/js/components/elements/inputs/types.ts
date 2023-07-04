@@ -11,7 +11,12 @@ export enum Variant {
 
 export const Options = { Size, Variant };
 
-export type ButtonProps = JSX.IntrinsicElements['input'] & {
-    size?: Size;
-    variant?: Variant;
+export type InputProps = JSX.IntrinsicElements['input'] & {
+    size?: Size
+    variant?: Variant
 };
+
+export interface InputSearchProps extends InputProps {
+    searchQuery: string
+    minChars: number
+}

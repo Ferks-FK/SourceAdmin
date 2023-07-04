@@ -8,15 +8,15 @@ interface FlashStore {
     clearFlashes: (payload?: FlashMessage) => void
 }
 
-interface FlashMessage {
+export interface FlashMessage {
     id?: number,
     key?: string,
-    type: FlashMessageType,
+    type?: FlashMessageType,
     title?: string,
     message: string
 }
 
-type FlashMessageType = 'success' | 'info' | 'warning' | 'error';
+export type FlashMessageType = 'success' | 'info' | 'warning' | 'error';
 
 const useFlashesStore = create<FlashStore>((set) => ({
   items: [],
