@@ -1,5 +1,5 @@
-import { getAvailableLocales, AvailableLocales } from "@/api/locale";
+import { getAvailableLocales, Locale } from "@/api/locale";
 
-const supportedLanguages: AvailableLocales = await getAvailableLocales();
+const supportedLanguages: Locale[] = await getAvailableLocales();
 
 export { supportedLanguages }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
 import { Formik } from "formik";
 import { MuteCreateSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
@@ -47,26 +47,22 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
           >
             <div className="flex flex-col gap-6">
               <div className="grid grid-cols-1 gap-2 lg:gap-4 lg:grid-cols-3">
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'ip'}
                   id={'ip'}
                   label={t('report.player_ip')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'steam_id'}
                   id={'steam_id'}
                   label={t('bans_settings.player_steam_id')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_name'}
                   id={'player_name'}
                   label={t('report.player_name')}
                 />
-                <Field
-                  type={'select'}
+                <Field.Select
                   name={'time_ban_id'}
                   id={'time_ban_id'}
                   label={t('generic.length')}
@@ -81,9 +77,8 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </Field>
-                <Field
-                  type={'select'}
+                </Field.Select>
+                <Field.Select
                   name={'admin_id'}
                   id={'admin_id'}
                   label={t('generic.admin')}
@@ -95,9 +90,8 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </Field>
-                <Field
-                  type={'select'}
+                </Field.Select>
+                <Field.Select
                   name={'reason_id'}
                   id={'reason_id'}
                   label={t('generic.reason')}
@@ -112,7 +106,7 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {reason}
                     </option>
                   ))}
-                </Field>
+                </Field.Select>
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>

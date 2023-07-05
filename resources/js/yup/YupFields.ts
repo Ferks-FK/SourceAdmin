@@ -10,7 +10,7 @@ export const fieldType = (field: string | Array<FieldObject>, group: string = 'y
     const { i18n, t } = useTranslation()
     const groupKey = group.endsWith('.') ? group + field : group + '.' + field
     const attribute = i18n.exists(groupKey) ? t(groupKey) : field
-    let fields = []
+    let fields: string[] = []
 
     if (Array.isArray(field)) {
         fields = field.map(({ i18nKey, group = 'yup_schemas', ns = 'translations' }) => {
@@ -19,13 +19,13 @@ export const fieldType = (field: string | Array<FieldObject>, group: string = 'y
     }
 
     return {
-        required: t('yup_schemas.required_attribute', {attribute: attribute}),
-        invalid: t('yup_schemas.invalid_attribute', {attribute: attribute}),
-        password: t('yup_schemas.password_attribute', {attribute: attribute}),
-        short: t('yup_schemas.short_attribute', {attribute: attribute}),
-        match: t('yup_schemas.match_attribute', {attribute: attribute}),
-        your: t('yup_schemas.your_attribute', {attribute: attribute}),
-        following_fields: t('yup_schemas.following_fields_attribute', {attribute: fields.join(', ')})
+        required: t('yup_schemas.required_attribute', {attribute: attribute, ns: ns}),
+        invalid: t('yup_schemas.invalid_attribute', {attribute: attribute, ns: ns}),
+        password: t('yup_schemas.password_attribute', {attribute: attribute, ns: ns}),
+        short: t('yup_schemas.short_attribute', {attribute: attribute, ns: ns}),
+        match: t('yup_schemas.match_attribute', {attribute: attribute, ns: ns}),
+        your: t('yup_schemas.your_attribute', {attribute: attribute, ns: ns}),
+        following_fields: t('yup_schemas.following_fields_attribute', {attribute: fields.join(', '), ns: ns})
     }
 }
 

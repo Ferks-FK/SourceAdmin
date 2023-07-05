@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@/components/elements/button";
 import { Avatar } from "@/components/Avatar";
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
 import { Formik } from "formik";
 import { AdminEditSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
@@ -127,38 +127,32 @@ function AdminShow({ user, flash, errors, auth }) {
             >
               <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
-                  <Field
-                    type={'text'}
+                  <Field.Text
                     name={'name'}
                     id={'name'}
                     label={t('admin_settings.admin_name')}
                   />
-                  <Field
-                    type={'text'}
+                  <Field.Text
                     name={'email'}
                     id={'email'}
                     label={t('admin_settings.admin_email')}
                   />
-                  <Field
-                    type={'text'}
+                  <Field.Text
                     name={'steam_id'}
                     id={'steam_id'}
                     label={t('admin_settings.admin_steam_id')}
                   />
-                  <Field
-                    type={'password'}
+                  <Field.Password
                     name={'current_password'}
                     id={'current_password'}
                     label={t('admin_settings.admin_current_password')}
                   />
-                  <Field
-                    type={'password'}
+                  <Field.Password
                     name={'new_password'}
                     id={'new_password'}
                     label={t('admin_settings.admin_new_password')}
                   />
-                  <Field
-                    type={'password'}
+                  <Field.Password
                     name={'new_password_confirmation'}
                     id={'new_password_confirmation'}
                     label={t('admin_settings.admin_confirm_new_password')}

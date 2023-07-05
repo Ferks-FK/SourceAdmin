@@ -50,19 +50,22 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
               <div className="grid grid-cols-1 gap-2 lg:gap-4 lg:grid-cols-3">
                 <Field.Text
                   name={'ip'}
+                  id={'ip'}
                   label={t('report.player_ip')}
                 />
                 <Field.Text
                   name={'steam_id'}
+                  id={'steam_id'}
                   label={t('bans_settings.player_steam_id')}
                 />
                 <Field.Text
                   name={'player_name'}
+                  id={'player_name'}
                   label={t('report.player_name')}
                 />
-                {/* <FieldOld
-                  type={'select'}
+                <Field.Select
                   name={'time_ban_id'}
+                  id={'time_ban_id'}
                   label={t('generic.length')}
                   value={values.time_ban_id || 'default_value'}
                   onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
@@ -75,10 +78,10 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </FieldOld>
-                <FieldOld
-                  type={'select'}
+                </Field.Select>
+                <Field.Select
                   name={'admin_id'}
+                  id={'admin_id'}
                   label={t('generic.admin')}
                   value={values.admin_id}
                   onChange={(e) => setFieldValue('admin_id', e.target.value)}
@@ -88,10 +91,10 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {name}
                     </option>
                   ))}
-                </FieldOld>
-                <FieldOld
-                  type={'select'}
+                </Field.Select>
+                <Field.Select
                   name={'reason_id'}
+                  id={'reason_id'}
                   label={t('generic.reason')}
                   value={values.reason_id || 'default_value'}
                   onChange={(e) => setFieldValue('reason_id', e.target.value)}
@@ -104,7 +107,7 @@ function BanCreate({ reasons, time_bans, admins, flash, errors, auth }) {
                       {reason}
                     </option>
                   ))}
-                </FieldOld> */}
+                </Field.Select>
               </div>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>

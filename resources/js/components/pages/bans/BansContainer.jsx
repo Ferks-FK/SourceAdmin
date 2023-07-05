@@ -18,8 +18,8 @@ function BansContainer({ data }) {
   const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
   const [searchQuery, setSearchQuery] = useState('');
   const [bansData, setBansData] = useState(data.data)
-  const { t } = useTranslation()
   const [debouncedValue] = useDebounce(searchQuery, 500)
+  const { t } = useTranslation()
 
   useEffect(() => {
     clearFlashes();

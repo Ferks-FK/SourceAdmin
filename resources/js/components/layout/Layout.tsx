@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { UserData, useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { LayoutType } from "@/App";
 import React from "react";
 
 interface Props {
@@ -9,8 +10,6 @@ interface Props {
   userAuth: UserData
   layout: LayoutType
 }
-
-export type LayoutType = 'admin' | 'app'
 
 export const Layout = ({ children, userAuth, layout }: Props) => {
   const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData])

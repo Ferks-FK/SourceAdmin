@@ -1,14 +1,33 @@
 import './i18n';
 import './assets/app.css';
 import './bootstrap.js';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { Layout } from "@/components/layout/Layout";
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { UserData } from "@/stores/user";
+
+interface UserAuth {
+  el: HTMLElement
+  App: React.ComponentType<any>
+  props: {
+    initialPage: {
+      props: {
+        layout: LayoutType
+        auth: {
+          user: UserData
+        }
+      }
+    }
+  }
+}
+
+export type LayoutType = 'admin' | 'app'
 
 createInertiaApp({
   resolve: (name) => resolvePageComponent(`./components/pages/${name}.jsx`, import.meta.glob('./components/pages/**/*.jsx')),
-  setup({ el, App, props }) {
+  setup({ el, App, props }: UserAuth) {
     const userAuth = props.initialPage.props.auth.user
     const layout = props.initialPage.props.layout
 

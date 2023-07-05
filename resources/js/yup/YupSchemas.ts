@@ -73,18 +73,19 @@ export const ReportFormSchema = () => {
 
     return object().shape({
         player_steam_id: string().matches(steamIDRegex, fieldType('steam_id').match).when('player_ip', {
-              is: (player_ip: string) => !player_ip || player_ip.length == 0,
-              then: (schema) => schema.required(required)
+            is: (player_ip: string) => !player_ip || player_ip.length == 0,
+            then: (schema) => schema.required(required)
         }),
         player_ip: string().matches(IPAddressRegex, fieldType('ip_address').invalid).when('player_steam_id', {
-              is: (player_steam_id: string) => !player_steam_id || player_steam_id.length == 0,
-              then: (schema) => schema.required(required)
+            is: (player_steam_id: string) => !player_steam_id || player_steam_id.length == 0,
+            then: (schema) => schema.required(required)
         }),
         player_name: string().required(fieldType('player_name', 'report').required),
         comments: string().required(fieldType('comments', 'report').required),
         reporter_name: string(),
         reporter_email: string().required(fieldType('email').your).email(fieldType('email').invalid),
-      }, [['player_steam_id', 'player_ip']])
+        server_id: string().required(fieldType('server', 'servers').required)
+    }, [['player_steam_id', 'player_ip']])
 }
 
 export const ServerEditSchema = () => object().shape({

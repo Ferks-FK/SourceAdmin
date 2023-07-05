@@ -38,7 +38,10 @@
         "strict": true,
         "stripInternal": true,
         "useDefineForClassFields": true,
-        "rootDir": "."
+        "rootDir": ".",
+        "types": [
+            "vite/client"
+        ]
     },
     "include": ["./resources/js/**/*", "vite.config.ts"],
     "exclude": ["node_modules"]

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
 import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
@@ -68,46 +68,39 @@ function ReportContainer({ serversIds, flash, errors }) {
           >
             <div className="flex flex-col gap-6">
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_steam_id'}
                   id={'player_steam_id'}
                   label={t('report.steam_id')}
                   maxLength={20}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_ip'}
                   id={'player_ip'}
                   label={t('report.player_ip')}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'player_name'}
                   id={'player_name'}
                   label={t('report.player_name')}
                 />
-                <Field
-                  type={'text-area'}
+                <Field.TextArea
                   name={'comments'}
                   id={'comments'}
                   label={t('report.comments')}
                   className={'border-2 rounded'}
                 />
-                <Field
-                  type={'text'}
+                <Field.Text
                   name={'reporter_name'}
                   id={'reporter_name'}
                   label={t('report.your_name')}
                 />
-                <Field
-                  type={'email'}
+                <Field.Email
                   name={'reporter_email'}
                   id={'reporter_email'}
                   label={t('report.your_email')}
                 />
-                <Field
-                  type={'select'}
+                <Field.Select
                   name={'server_id'}
                   id={'server_id'}
                   label={t('servers.server')}
@@ -127,9 +120,8 @@ function ReportContainer({ serversIds, flash, errors }) {
                       </option>
                     )
                   })}
-                </Field>
-                <Field
-                  type={'file'}
+                </Field.Select>
+                <Field.File
                   name={'upload_demo'}
                   id={'upload_demo'}
                   label={t('report.upload_demo')}

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@/components/elements/button";
 import { Variant } from "@/components/elements/button/types";
 import { Form } from "@/components/elements/Form";
-import { Field } from "@/components/elements/Field";
+import { Field } from "@/components/elements/field";
 import { Formik } from "formik";
 import { getServerData } from "@/api/getServers";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
@@ -206,8 +206,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
             >
               <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-2 gap-2 lg:gap-4">
-                  <Field
-                    type={'select'}
+                  <Field.Select
                     name={'time_ban_id'}
                     id={'time_ban_id'}
                     label={t('generic.length')}
@@ -219,9 +218,8 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
                         {name}
                       </option>
                     ))}
-                  </Field>
-                  <Field
-                    type={'select'}
+                  </Field.Select>
+                  <Field.Select
                     name={'reason_id'}
                     id={'reason_id'}
                     label={t('generic.reason')}
@@ -233,7 +231,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
                         {reason}
                       </option>
                     ))}
-                  </Field>
+                  </Field.Select>
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>

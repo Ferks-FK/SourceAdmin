@@ -2,7 +2,7 @@ import { Form as FormikForm, FormikFormProps } from "formik";
 import classNames from "classnames";
 import { HTMLAttributes } from "react";
 
-type Props =  HTMLAttributes<HTMLDivElement> & FormikFormProps & {
+type Props =  HTMLAttributes<HTMLFormElement> & FormikFormProps & {
   title?: string
   formSize?: FormSize
   formikClassNames?: string

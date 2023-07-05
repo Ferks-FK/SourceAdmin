@@ -41,7 +41,7 @@ function Header() {
                 onChange={(e) => changeLanguage(e.currentTarget.value)}
                 className={'!py-1.5'}
               >
-                {supportedLanguages.locales.map(({ name, code }) => (
+                {supportedLanguages.map(({ name, code }) => (
                   <option key={code} value={code}>
                     {name}
                   </option>

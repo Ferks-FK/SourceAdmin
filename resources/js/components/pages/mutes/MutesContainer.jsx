@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
+import { useDebounce } from 'use-debounce';
 import { useFlashesStore } from '@/stores/flashes';
 import http from '@/api/http';
 
@@ -18,6 +19,7 @@ function MutesContainer({ data }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(pagination.currentPage);
   const [mutesData, setMutesData] = useState(data.data);
+  const [debouncedValue] = useDebounce(searchQuery, 500)
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -33,13 +35,13 @@ function MutesContainer({ data }) {
         // Consult the data based on the search term.
         // This will probably be redone.
         http.get(route('mutes.search'), { params: { all: true } }).then((response) => {
-          setMutesData(filterData(response.data, keys, searchQuery))
+          setMutesData(filterData({data: response.data, keys: keys, query: searchQuery}))
         }).catch((error) => {
           addError({ message: error.message })
         })
       }
     }
-  }, [searchQuery])
+  }, [debouncedValue])
 
 
   const CommsColumns = [
@@ -62,7 +64,8 @@ function MutesContainer({ data }) {
           <Input.Search
             size={Size.Small}
             placeholder={t('generic.search')}
-            onChange={setSearchQuery}
+            searchQuery={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </Table.Header>
         <Table.Component

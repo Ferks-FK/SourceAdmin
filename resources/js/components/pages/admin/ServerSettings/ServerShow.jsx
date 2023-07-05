@@ -119,26 +119,32 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
                   <Field.Text
                     name={'ip'}
+                    id={'ip'}
                     label={t('servers_settings.server_ip_or_domain')}
                   />
                   <Field.Text
                     name={'port'}
+                    id={'port'}
                     label={t('servers_settings.server_port')}
                   />
                   <Field.Password
                     name={'rcon'}
+                    id={'rcon'}
                     label={t('servers_settings.current_rcon')}
                   />
                   <Field.Password
                     name={'new_rcon'}
+                    id={'new_rcon'}
                     label={t('servers_settings.new_rcon')}
                   />
                   <Field.Password
                     name={'new_rcon_confirmation'}
+                    id={'new_rcon_confirmation'}
                     label={t('servers_settings.confirm_new_rcon')}
                   />
                   <Field.Select
                     name={'mod_id'}
+                    id={'mod_id'}
                     label={t('servers_settings.server_mod')}
                     value={values.mod_id}
                     onChange={(e) => setFieldValue('mod_id', e.target.value)}
@@ -151,6 +157,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                   </Field.Select>
                   <Field.Select
                     name={'region_id'}
+                    id={'region_id'}
                     label={t('servers_settings.server_region')}
                     value={values.region_id}
                     onChange={(e) => setFieldValue('region_id', e.target.value)}
@@ -163,6 +170,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                   </Field.Select>
                   <Field.CheckBox
                     name={'enabled'}
+                    id={'enabled'}
                     label={t('servers_settings.server_enabled')}
                     value={values.enabled}
                     checked={values.enabled}
