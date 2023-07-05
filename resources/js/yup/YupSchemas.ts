@@ -1,4 +1,4 @@
-import { object, string, ref, number, date, boolean, mixed } from 'yup';
+import { object, string, ref } from 'yup';
 import { fieldType, FieldObject } from '@/yup/YupFields';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
