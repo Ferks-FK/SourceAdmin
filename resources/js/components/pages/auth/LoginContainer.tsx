@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Field } from "@/components/elements/field";
 import { Form } from "@/components/elements/Form";
@@ -9,18 +9,31 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { LoginFormSchema } from "@/yup/YupSchemas";
 import { useUserStore } from "@/stores/user";
 import { router } from '@inertiajs/react';
+import { UserData } from "@/stores/user";
+import route from 'ziggy-js'
+import { FlashProp } from "@/types";
 
-function LoginContainer({ flash }) {
+interface Props {
+  flash: FlashProp
+}
+
+interface Values {
+  name: string
+  password: string
+}
+
+function LoginContainer({ flash }: Props) {
   const [setUserData, isLogged] = useUserStore((state) => [state.setUserData, state.isLogged])
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.post(route('auth.login'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       },
       onSuccess: (page) => {
-        const user = page.props.auth.user;
+        // @ts-expect-error
+        const user: UserData = page.props.auth.user;
 
         if (!isLogged && user) {
           setUserData(user)

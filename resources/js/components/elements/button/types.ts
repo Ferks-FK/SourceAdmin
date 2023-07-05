@@ -38,6 +38,7 @@ export interface IconButtonProps extends ButtonProps {
 }
 
 export interface LinkButtonProps extends ButtonProps {
+    external: boolean,
     to: string,
     linkClassName?: string
   }

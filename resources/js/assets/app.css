@@ -33,8 +33,12 @@ textarea, select, input, button, button:focus, button:focus-visible {
 }
 
 .input-help {
-  @apply mt-1 text-xs text-[#fc8484]
+  @apply mt-1 text-xs text-[hsla(210,16%,82%,var(--tw-text-opacity))]
 }
+
+.input-error {
+    @apply mt-1 text-xs text-[#fc8484]
+  }
 
 .ellipsis {
     @apply whitespace-nowrap overflow-hidden text-ellipsis text-slate-200

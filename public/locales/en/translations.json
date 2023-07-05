@@ -145,7 +145,8 @@
         "select_region": "Select Region",
         "never": "Never",
         "admin": "Admin",
-        "status": "Status"
+        "status": "Status",
+        "steam_id_formats": "Only the following formats are accepted: Steam ID, Steam64 ID."
     },
     "yup_schemas": {
         "required_attribute": "The {{attribute}} is required.",

@@ -14,7 +14,9 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/js')
+            'ziggy-js': './vendor/tightenco/ziggy/src/js/index.js',
+            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/js'),
+            '@type': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/@types')
         }
     },
     build: {

@@ -1,6 +1,6 @@
 import i18next from 'i18next';
 import I18NextHttpBackend from 'i18next-http-backend';
-import HttpBackend from "i18next-http-backend";
+import HttpBackend, { HttpBackendOptions } from "i18next-http-backend";
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ChainedBackend from 'i18next-chained-backend';
 import LocalStorageBackend from 'i18next-localstorage-backend';
@@ -24,6 +24,7 @@ i18next
     interpolation: {
       escapeValue: false
     },
+    returnNull: false,
     allowMultiLoading: false,
     backend: {
       backends: [
@@ -35,7 +36,8 @@ i18next
       }, {
         loadPath: '/locales/{{lng}}/{{ns}}.json'
       }]
-    }
-  })
+    } as HttpBackendOptions
+  } as Record<string, any>
+)
 
 export default i18next;

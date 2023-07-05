@@ -57,6 +57,7 @@ function AdminCreate({ flash, errors }) {
                   name={'steam_id'}
                   id={'steam_id'}
                   label={t('admin_settings.admin_steam_id')}
+                  description={t('generic.steam_id_formats')}
                 />
                 <Field.Password
                   name={'password'}

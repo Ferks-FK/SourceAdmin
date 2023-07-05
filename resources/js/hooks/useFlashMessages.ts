@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useFlashesStore } from "@/stores/flashes";
 import { separateInternalObjects } from "@/helpers";
+import { FlashProp, ErrorsProp } from "@/types";
 
-export function useFlashMessages(flash, errors = {}) {
+export function useFlashMessages(flash: FlashProp, errors: ErrorsProp = {}) {
     const [ addFlash, addError, clearFlashes ] = useFlashesStore((state) => [ state.addFlash, state.addError, state.clearFlashes ])
 
     useEffect(() => {
@@ -43,6 +44,7 @@ export function useFlashMessages(flash, errors = {}) {
 
             array.forEach((error, index) => {
                 const key = Object.keys(error)[0]
+                //@ts-expect-error Not sure how to solve it.
                 const value = error[key]
                 addError({
                     message: { [index]: value }[index]

@@ -17,7 +17,7 @@ const Field = ({ name, label, description, touched, field, errors, children }: F
       )}
       {children}
       {touched[field.name] && errors[field.name] ? (
-        <p className={'input-help'}>
+        <p className={'input-error'}>
           {capitalize(errors[field.name] as string)}
         </p>
       ) : description ? (

@@ -11,7 +11,7 @@ import { Button } from "@/components/elements/button";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { faReply, faUserGear } from "@fortawesome/free-solid-svg-icons";
-import { LayoutType } from "@/components/layout/Layout";
+import { LayoutType } from "@/App";
 
 interface Props {
   layout: LayoutType
@@ -118,7 +118,7 @@ function SideBar({ layout }: Props) {
         {isLogged ?
           <div className="flex justify-center items-center p-2 gap-2 text-ellipsis bg-dark-secondary rounded">
             <strong className={`capitalize`}>{userName}</strong>
-            <Avatar email={userEmail} size={100} />
+            <Avatar email={userEmail!} size={100} />
           </div>
           :
           <div className="flex justify-center">

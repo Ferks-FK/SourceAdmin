@@ -72,6 +72,7 @@ function ReportContainer({ serversIds, flash, errors }) {
                   name={'player_steam_id'}
                   id={'player_steam_id'}
                   label={t('report.steam_id')}
+                  description={t('generic.steam_id_formats')}
                   maxLength={20}
                 />
                 <Field.Text

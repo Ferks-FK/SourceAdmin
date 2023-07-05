@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
-import { getServerData } from '@/api/getServers';
+import { getServerData, ArrayDataResponse } from '@/api/getServers';
 import { Table } from '@/components/elements/table';
 import { Image } from '@/components/elements/Image';
 import { Progress } from '@/components/elements/Progress';
 import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
-import { BanObject, MuteObject } from "@/types";
+import { BanObject, MuteObject, ServerDataResponse, PlayersDataResponse } from "@/types";
+
 
 export interface DashboardProps {
   serversIds: number[],
@@ -19,7 +20,7 @@ export interface DashboardProps {
   mutesData: MuteObject[]
 }
 
-type ServerData = {
+interface ServerData extends ServerDataResponse {
   id: number,
   loading: boolean
 }
@@ -38,6 +39,7 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
       try {
         for (const server_id of serversIds) {
           const response = await getServerData(server_id, false);
+          console.log(response)
           setServerData((state) => state.map((server) => {
             if (server.id == response[0].Id) {
               return response

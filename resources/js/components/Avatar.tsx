@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { BaseProps } from "@/types";
 
 interface Props extends BaseProps {
-  email?: string,
+  email: string,
   size: number
 }
 

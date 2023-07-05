@@ -7,7 +7,8 @@
         "module": "ESNext",
         "target": "ESNext",
         "paths": {
-            "@/*": ["./resources/js/*"]
+            "@/*": ["./resources/js/*"],
+            "@type/*": ["./resources/@types/*"]
         },
         "plugins": [
             {"name": "typescript-plugin-css-modules"}
