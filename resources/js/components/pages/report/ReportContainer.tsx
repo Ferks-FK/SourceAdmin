@@ -6,15 +6,34 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getServerData } from '@/api/getServers';
 import { ReportFormSchema } from "@/yup/YupSchemas";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
+import { FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
+import route from 'ziggy-js';
 
-function ReportContainer({ serversIds, flash, errors }) {
-  const [ serverData, setServerData ] = useState([]);
+interface Props {
+  serversIds: number[]
+  flash: FlashProp
+  errors: ErrorsProp
+}
+
+interface Values {
+  player_steam_id: string
+  player_ip: string
+  player_name: string
+  comments: string
+  reporter_name: string
+  reporter_email: string
+  server_id: string
+  upload_demo: string
+}
+
+function ReportContainer({ serversIds, flash, errors }: Props) {
+  const [ serverData, setServerData ] = useState<ServerDataResponse[]>([]);
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     router.post(route('report.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -30,7 +49,7 @@ function ReportContainer({ serversIds, flash, errors }) {
       try {
         for (const server of serversIds) {
           const response = await getServerData(server, false);
-          setServerData((prevState) => [...prevState, response]);
+          setServerData((prevState) => [...prevState, response.server]);
         }
       } catch (error) {
         console.error(error);
@@ -112,21 +131,17 @@ function ReportContainer({ serversIds, flash, errors }) {
                   <option key={'disabled'} value={'default_value'} disabled>
                     {t('servers.select_server')}
                   </option>
-                  {serverData.map((server) => {
-                    const serverInfo = server[0]
-
-                    return (
-                      <option key={serverInfo.Id} value={serverInfo.Id}>
-                        {serverInfo.HostName}
-                      </option>
-                    )
-                  })}
+                  {serverData.map((server) => (
+                    <option key={server.Id} value={server.Id}>
+                      {server.HostName}
+                    </option>
+                  ))}
                 </Field.Select>
                 <Field.File
                   name={'upload_demo'}
                   id={'upload_demo'}
                   label={t('report.upload_demo')}
-                  onChange={(e) => setFieldValue('upload_demo', e.target.files[0])}
+                  onChange={(e) => setFieldValue('upload_demo', e.target.files![0])}
                 />
               </div>
               <div className="flex flex-col items-center">

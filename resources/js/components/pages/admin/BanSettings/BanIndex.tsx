@@ -10,17 +10,27 @@ import { faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { PaginationProps, BanObject, FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function BanIndex({ data, flash, errors }) {
-  const pagination = paginationItems(data)
-  const [bansData] = useState(data.data);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  data: PaginationProps & {
+    data: BanObject[]
+  }
+}
+
+function BanIndex(props: Props) {
+  const pagination = paginationItems(props.data)
+  const [bansData] = useState(props.data.data);
   const { t } = useTranslation();
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     router.visit(route('admin.bans.show', id));
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   const BansColumns = [
     "Id",

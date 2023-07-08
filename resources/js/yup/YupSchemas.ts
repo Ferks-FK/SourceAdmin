@@ -1,4 +1,4 @@
-import { object, string, ref } from 'yup';
+import { object, string, ref, number } from 'yup';
 import { fieldType, FieldObject } from '@/yup/YupFields';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
@@ -133,9 +133,9 @@ export const BanCreateSchema = () => {
             then: (schema) => schema.required(required)
         }),
         player_name: string().required(fieldType('player_name', 'report').required),
-        time_ban_id: string().required(fieldType('length', 'generic').required),
-        admin_id: string().required(fieldType('admin', 'generic').required),
-        reason_id: string().required(fieldType('reason', 'generic').required)
+        time_ban_id: number().required(fieldType('length', 'generic').required),
+        admin_id: number().required(fieldType('admin', 'generic').required),
+        reason_id: number().required(fieldType('reason', 'generic').required)
     }, [['ip', 'steam_id']])
 }
 

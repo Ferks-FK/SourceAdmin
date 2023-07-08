@@ -12,7 +12,7 @@ export interface UserData {
     name: string,
     email: string,
     should_re_login: boolean,
-    steam_id: string | null,
+    steam_id: string,
     created_at: string | Date,
     updated_at: string | Date,
     email_verified_at: string | Date

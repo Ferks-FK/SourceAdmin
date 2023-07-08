@@ -7,17 +7,28 @@ import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { PaginationProps, PageProps, FlashProp, ErrorsProp } from "@/types";
+import { UserData } from "@/stores/user";
+import route from 'ziggy-js';
 
-function AdminIndex({ data, flash, errors }) {
-  const pagination = paginationItems(data)
-  const [adminData] = useState(data.data)
+interface Props extends PageProps {
+  flash: FlashProp
+  errors: ErrorsProp
+  data: PaginationProps & {
+    data: UserData[]
+  }
+}
+
+function AdminIndex(props: Props) {
+  const pagination = paginationItems(props.data)
+  const [adminData] = useState(props.data.data)
   const { t } = useTranslation();
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     router.visit(route('admin.settings.show', id));
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   const AdminColumns = [
     "Id",

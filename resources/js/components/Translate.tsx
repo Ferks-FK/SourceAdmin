@@ -1,7 +1,7 @@
-import { BaseProps } from "@/types";
+import { HTMLAttributes } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
-interface Props extends BaseProps {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   ns: string
 }
 

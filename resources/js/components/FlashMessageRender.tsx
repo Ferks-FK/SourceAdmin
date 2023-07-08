@@ -1,13 +1,12 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, HTMLAttributes, useEffect, useState } from 'react';
 import { useFlashesStore } from "@/stores/flashes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import { BaseProps } from '@/types';
 import { FlashMessageType } from "@/stores/flashes";
 import classNames from 'classnames';
 
-interface Props extends BaseProps {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   byKey?: string
 }
 

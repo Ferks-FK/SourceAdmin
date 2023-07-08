@@ -108,6 +108,7 @@ const Pagination = ({paginationData}: PaginationProps) => {
             disabled={currentPage == 1}
             icon={faAnglesLeft}
             iconSize={'sm'}
+            external={false}
           />
           <Button.IconLink
             key={'previous'}
@@ -116,6 +117,7 @@ const Pagination = ({paginationData}: PaginationProps) => {
             icon={faChevronLeft}
             iconSize={'sm'}
             iconPosition={iconPosition.Left}
+            external={false}
           >
             Previous
           </Button.IconLink>
@@ -129,6 +131,7 @@ const Pagination = ({paginationData}: PaginationProps) => {
             icon={faChevronRight}
             iconSize={'sm'}
             iconPosition={iconPosition.Right}
+            external={false}
           >
             Next
           </Button.IconLink>
@@ -138,6 +141,7 @@ const Pagination = ({paginationData}: PaginationProps) => {
             disabled={currentPage == lastPage}
             icon={faAnglesRight}
             iconSize={'sm'}
+            external={false}
           />
         </div>
       </div>

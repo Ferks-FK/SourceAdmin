@@ -25,7 +25,7 @@ interface UserAuth {
 export type LayoutType = 'admin' | 'app'
 
 createInertiaApp({
-  resolve: (name) => resolvePageComponent(`./components/pages/${name}.jsx`, import.meta.glob('./components/pages/**/*.jsx')),
+  resolve: (name) => resolvePageComponent(`./components/pages/${name}.tsx`, import.meta.glob('./components/pages/**/*.tsx')),
   setup({ el, App, props }: UserAuth) {
     const userAuth = props.initialPage.props.auth.user
     const layout = props.initialPage.props.layout

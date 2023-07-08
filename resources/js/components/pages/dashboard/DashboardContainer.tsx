@@ -2,47 +2,45 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faFaceMeh, faServer, faHand, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
-import { getServerData, ArrayDataResponse } from '@/api/getServers';
+import { getServerData } from '@/api/getServers';
 import { Table } from '@/components/elements/table';
 import { Image } from '@/components/elements/Image';
 import { Progress } from '@/components/elements/Progress';
 import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
-import { BanObject, MuteObject, ServerDataResponse, PlayersDataResponse } from "@/types";
-
+import { BanObject, MuteObject, ServerDataResponse } from "@/types";
 
 export interface DashboardProps {
-  serversIds: number[],
-  serversCount: number,
-  bansCount: number,
-  mutesCount: number,
-  bansData: BanObject[],
+  serversIds: number[]
+  serversCount: number
+  bansCount: number
+  mutesCount: number
+  bansData: BanObject[]
   mutesData: MuteObject[]
 }
 
-interface ServerData extends ServerDataResponse {
-  id: number,
+interface ServerItem {
+  id: number
   loading: boolean
+  responseData?: ServerDataResponse
 }
 
 function DashboardContainer({ serversIds, ...props }: DashboardProps) {
   const { serversCount, bansCount, mutesCount, bansData, mutesData } = props;
-  const [serverData, setServerData] = useState<ServerData[]>([]);
+  const [serverData, setServerData] = useState<ServerItem[]>(serversIds.map((server_id) => {
+    return { id: server_id, loading: true }
+  }));
   const { t } = useTranslation();
 
   useEffect(() => {
     const fetchServerData = async () => {
-      setServerData(serversIds.map((server_id) => {
-        return { id: server_id, loading: true }
-      }))
-
       try {
         for (const server_id of serversIds) {
           const response = await getServerData(server_id, false);
-          console.log(response)
+
           setServerData((state) => state.map((server) => {
-            if (server.id == response[0].Id) {
-              return response
+            if (server.id === response.server.Id) {
+              return { id: server.id, loading: false, responseData: response.server }
             }
 
             return server
@@ -100,10 +98,10 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
             dataLength={serverData.length}
           >
             {serverData.map((server) => {
-              const serverInfo = server[0]
+              const serverInfo = server.responseData
 
               return (
-                <Table.Row key={server.id || serverInfo?.Id} className={`${!serverInfo?.Is_online && '!cursor-not-allowed'} !cursor-default`}>
+                <Table.Row key={server.id || serverInfo?.Id} className={`${!serverInfo?.IsOnline && '!cursor-not-allowed'} !cursor-default`}>
                   {server.loading ?
                     ServerColumns.map((column, index) => (
                       <Table.Td key={`connecting_${index}`}>
@@ -111,29 +109,32 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
                       </Table.Td>
                     ))
                     :
+                    serverInfo ?
                     <>
                       <Table.Td>
                         <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
                       </Table.Td>
                       <Table.Td>
-                        {serverInfo?.Is_online ?
+                        {serverInfo?.IsOnline ?
                           <Image src={`/images/${serverInfo.Os}.png`} className="w-5" />
                           :
                           "N/A"
                         }
                       </Table.Td>
                       <Table.Td>
-                        {serverInfo?.Is_online ?
+                        {serverInfo?.IsOnline ?
                           <Image src={`/images/${serverInfo.Secure ? 'shield' : 'smac'}.png`} className="w-5" />
                           :
                           "N/A"
                         }
                       </Table.Td>
                       <Table.Td>{serverInfo.HostName}</Table.Td>
-                      <Table.Td>{serverInfo?.Is_online ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
+                      <Table.Td>{serverInfo?.IsOnline ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
                       <Table.Td>{serverInfo.Map}</Table.Td>
-                      <Table.Td>{serverInfo?.Is_online ? Math.round(serverInfo.Ping) : "N/A"}</Table.Td>
+                      <Table.Td>{serverInfo?.IsOnline ? Math.round(serverInfo.Ping!) : "N/A"}</Table.Td>
                     </>
+                    :
+                    null
                   }
                 </Table.Row>
               )

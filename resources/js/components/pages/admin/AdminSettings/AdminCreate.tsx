@@ -2,16 +2,31 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
+import { FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function AdminCreate({ flash, errors }) {
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+}
+
+interface Values {
+  name: string
+  email: string
+  steam_id: string
+  password: string
+  password_confirmation: string
+}
+
+function AdminCreate({ flash, errors }: Props) {
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.post(route('admin.settings.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)

@@ -3,15 +3,30 @@ import { Field } from "@/components/elements/field";
 import { Button } from "@/components/elements/button";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { router } from '@inertiajs/react';
 import { AppealFormSchema } from "@/yup/YupSchemas";
 import { useTranslation } from "react-i18next";
+import { FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function AppealContainer({ flash, errors }) {
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+}
+
+interface Values {
+  player_steam_id: string
+  player_ip: string
+  player_name: string
+  player_email: string
+  reason: string
+}
+
+function AppealContainer({ flash, errors }: Props) {
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     router.post(route('appeal.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -54,20 +69,24 @@ function AppealContainer({ flash, errors }) {
                 />
                 <Field.Text
                   name={'player_ip'}
+                  id={'player_ip'}
                   label={t('report.player_ip')}
                 />
                 <Field.Text
                   name={'player_name'}
+                  id={'player_name'}
                   label={t('report.player_name')}
                 />
                 <Field.TextArea
                   name={'reason'}
+                  id={'reason'}
                   label={t('generic.reason')}
                   placeholder={t('appeal.reason_placeholder')}
                   className={'border-2 rounded'}
                 />
                 <Field.Email
                   name={'player_email'}
+                  id={'player_email'}
                   label={t('report.your_email')}
                 />
               </div>

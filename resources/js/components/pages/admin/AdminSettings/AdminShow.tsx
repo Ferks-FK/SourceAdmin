@@ -5,22 +5,42 @@ import { Button } from "@/components/elements/button";
 import { Avatar } from "@/components/Avatar";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { AdminEditSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { useUserStore } from "@/stores/user";
+import { useUserStore, UserData } from "@/stores/user";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function AdminShow({ user, flash, errors, auth }) {
-  const [modalVisible, setModalVisible] = useState(false);
+interface Props {
+  user: UserData
+  flash: FlashProp
+  errors: ErrorsProp
+  auth: {
+    user: UserData
+  }
+}
+
+interface Values {
+  name: string
+  email: string
+  steam_id: string
+  current_password: string
+  new_password: string
+  new_password_confirmation: string
+}
+
+function AdminShow(props: Props) {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [clearData] = useUserStore((state) => [state.clearData])
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    router.patch(route('admin.settings.update', user.id), { ...values }, {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
+    router.patch(route('admin.settings.update', props.user.id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -28,9 +48,9 @@ function AdminShow({ user, flash, errors, auth }) {
   }
 
   const handleDelete = () => {
-    router.delete(route('admin.settings.destroy', user.id), {
+    router.delete(route('admin.settings.destroy', props.user.id), {
       onSuccess: () => {
-        if (user.id == auth.user.id) {
+        if (props.user.id == props.auth.user.id) {
           clearData()
         }
       }
@@ -45,16 +65,16 @@ function AdminShow({ user, flash, errors, auth }) {
     setModalVisible(false);
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('admin_settings.admin_editing_name', {adminName: user.name})}>
+    <PageContentBlock title={t('admin_settings.admin_editing_name', {adminName: props.user.name})}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          name: user.name,
-          email: user.email,
-          steam_id: user.steam_id,
+          name: props.user.name,
+          email: props.user.email,
+          steam_id: props.user.steam_id,
           current_password: '',
           new_password: '',
           new_password_confirmation: ''
@@ -67,25 +87,25 @@ function AdminShow({ user, flash, errors, auth }) {
             <div className="flex flex-col md:flex-row items-center md:text-left gap-4" style={{ wordBreak: 'break-word' }}>
               <div className="max-w-[150px] md:flex items-center">
                 <Avatar
-                  email={user.email}
+                  email={props.user.email}
                   size={100}
                   className={'w-full h-full'}
                 />
               </div>
               <div className="flex flex-col md:flex-row justify-between w-full gap-4">
                 <div className="flex flex-col items-center md:items-start">
-                  <h1 className="text-lg">{user.name}</h1>
+                  <h1 className="text-lg">{props.user.name}</h1>
                   <p className="flex gap-1 items-center text-base">
-                    {user.email}
+                    {props.user.email}
                     <FontAwesomeIcon
-                      icon={user.email_verified_at ? faCircleCheck : faCircleXmark}
-                      color={user.email_verified_at ? 'green' : '#b91c1c'}
+                      icon={props.user.email_verified_at ? faCircleCheck : faCircleXmark}
+                      color={props.user.email_verified_at ? 'green' : '#b91c1c'}
                     />
                   </p>
                 </div>
                 <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
                   <h1>admin</h1>
-                  <p>{user.created_at}</p>
+                  <p>{props.user.created_at as string}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
                     {t('delete_account', {ns: 'buttons'})}
                   </Button.Danger>
@@ -98,11 +118,11 @@ function AdminShow({ user, flash, errors, auth }) {
                 >
                   <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                     <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl text-left">{t('admin_settings.delete_admin', {adminName: user.name})}?</h3>
+                      <h3 className="text-2xl text-left">{t('admin_settings.delete_admin', {adminName: props.user.name})}?</h3>
                       <p className="text-sm">
                         {t('admin_settings.delete_admin_message')}
                       </p>
-                      {user.id == auth.user.id && (
+                      {props.user.id == props.auth.user.id && (
                         <p className="text-red-500">
                           {t('admin_settings.delete_own_account_warning')}
                         </p>

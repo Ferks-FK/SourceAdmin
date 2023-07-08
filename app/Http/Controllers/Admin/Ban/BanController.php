@@ -42,7 +42,7 @@ class BanController extends Controller
 
         return Inertia::render('admin/BanSettings/BanCreate', [
             'reasons' => $reasons,
-            'time_bans' => $time_bans,
+            'timeBans' => $time_bans,
             'admins' => $admins
         ]);
     }
@@ -204,7 +204,7 @@ class BanController extends Controller
                     ->orWhereNull('bans.removed_by')
                     ->orWhereNull('bans.server_id');
             })
-            ->select('bans.id', 'bans.server_id', 'mods.mod as mod_icon', 'reasons.reason', 'reasons.id as reason_id', 'A.name as admin_name', 'bans.player_name', 'bans.ip', 'bans.created_at', 'time_bans.id as time_ban_id', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
+            ->select('bans.id', 'bans.server_id', 'mods.mod as mod_icon', 'reasons.reason', 'reasons.id as reason_id', 'A.name as admin_name', 'bans.player_name', 'bans.ip as player_ip', 'bans.steam_id as player_steam_id', 'bans.created_at', 'time_bans.id as time_ban_id', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'bans.end_at', 'bans.flag_url', 'B.name as removed_by');
 
         if ($getById) {
             return $query->where('bans.id', $getById)->get()->first();

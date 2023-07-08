@@ -3,8 +3,13 @@ import { Image } from "@/components/elements/Image";
 import { Button } from "@/components/elements/button";
 import { Size } from "@/components/elements/button/types";
 import { useTranslation } from 'react-i18next';
+import route from 'ziggy-js';
 
-function ErrorPage({ status }) {
+interface Props {
+  status: string
+}
+
+function ErrorPage({ status }: Props) {
   const { t } = useTranslation('errors');
 
   const title = {

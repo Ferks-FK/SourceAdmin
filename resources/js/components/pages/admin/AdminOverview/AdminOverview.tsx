@@ -2,9 +2,11 @@ import { AdminOverviewData } from "@/components/pages/admin/AdminOverview/AdminO
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Box } from "@/components/elements/Box";
 import { useTranslation } from "react-i18next";
+import { Props } from "@/components/pages/admin/AdminOverview/AdminOverviewData";
 
-function AdminOverview({ versionData, ...props }) {
-  const overviewData = AdminOverviewData(versionData, props);
+function AdminOverview({ versionData, ...props }: Props) {
+  console.log(props)
+  const overviewData = AdminOverviewData({ versionData, ...props });
   const { t } = useTranslation();
 
   return (

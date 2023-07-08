@@ -3,12 +3,12 @@ import { useEffect, useRef } from "react";
 import { formatSizeUnits } from "@/helpers";;
 
 interface Props {
-  from: number,
+  from?: number,
   to: number,
-  convertToHumanSizeUnit: boolean
+  convertToHumanSizeUnit?: boolean
 }
 
-interface CounterProps extends Props {
+type CounterProps = Props & {
   title: string
 }
 
@@ -22,7 +22,7 @@ function Counter({ from, to, convertToHumanSizeUnit }: Props) {
       duration: 1.5,
       onUpdate(value) {
         if (ref.current) {
-          ref.current.textContent = convertToHumanSizeUnit ? formatSizeUnits(value) : value.toFixed(0);
+          ref.current.textContent = convertToHumanSizeUnit ? formatSizeUnits(value!) : value!.toFixed(0);
         }
       }
     });

@@ -1,41 +1,48 @@
-import { useEffect, useState } from 'react';
 import { PageContentBlock } from '@/components/elements/PageContentBlock';
 import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Progress } from '@/components/elements/Progress';
 import { Input } from "@/components/elements/inputs";
 import { Size } from "@/components/elements/inputs/types";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophoneSlash, faCommentSlash, faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from 'react';
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
-import { useDebounce } from 'use-debounce';
+import { PaginationProps, BanObject, PageProps } from "@/types";
+import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDebounce } from 'use-debounce';
+import { faBan, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
+import route from 'ziggy-js';
 
-function MutesContainer({ data }) {
-  const pagination = paginationItems(data)
+interface Props extends PageProps {
+  data: PaginationProps & {
+    data: BanObject[]
+  }
+}
+
+function BansContainer(props: Props) {
+  const pagination = paginationItems(props.data)
   const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(pagination.currentPage);
-  const [mutesData, setMutesData] = useState(data.data);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [bansData, setBansData] = useState(props.data.data)
   const [debouncedValue] = useDebounce(searchQuery, 500)
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   useEffect(() => {
-    clearFlashes()
+    clearFlashes();
 
     if (searchQuery.length == 0 || searchQuery.length > 2) {
-      const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name', 'type']
+      const keys = ['mod_icon', 'admin_name', 'player_name', 'removed_by', 'time_ban_name']
 
       // Set the results to the default query when it is no longer being searched.
       if (searchQuery.length == 0) {
-        setMutesData(data.data)
+        setBansData(props.data.data)
       } else {
         // Consult the data based on the search term.
         // This will probably be redone.
-        http.get(route('mutes.search'), { params: { all: true } }).then((response) => {
-          setMutesData(filterData({data: response.data, keys: keys, query: searchQuery}))
+        http.get(route('bans.search'), { params: { all: true } }).then((response) => {
+          setBansData(filterData({data: response.data, keys: keys, query: searchQuery}))
         }).catch((error) => {
           addError({ message: error.message })
         })
@@ -43,9 +50,8 @@ function MutesContainer({ data }) {
     }
   }, [debouncedValue])
 
-
-  const CommsColumns = [
-    "MOD/Type",
+  const BansColumns = [
+    "MOD/Country",
     "Date/Time",
     "Player",
     "Admin",
@@ -54,11 +60,11 @@ function MutesContainer({ data }) {
   ]
 
   return (
-    <PageContentBlock title={t('mutes', { ns: 'sidebar' })}>
+    <PageContentBlock title={t('bans', { ns: 'sidebar' })}>
       <div>
         <Table.Header
-          title={t('mutes', { ns: 'sidebar' })}
-          icon={faMicrophoneSlash}
+          title={t('bans', { ns: 'sidebar' })}
+          icon={faBan}
           iconSize='1x'
         >
           <Input.Search
@@ -69,27 +75,28 @@ function MutesContainer({ data }) {
           />
         </Table.Header>
         <Table.Component
-          columns={CommsColumns}
-          dataLength={mutesData.length}
+          columns={BansColumns}
+          className={`max-h-full`}
+          dataLength={bansData.length}
         >
-          {mutesData.map((mute) => {
-            const { name, style } = getStyleAndName(mute, t)
+          {bansData.map((ban) => {
+            const { name, style } = getStyleAndName(ban, t)
 
             return (
-              <Table.Row key={mute.id}>
+              <Table.Row key={ban.id}>
                 <Table.Td>
                   <div className='flex gap-1'>
-                    {mute.mod_icon ?
-                      <Image src={`/images/games/${mute.mod_icon}.png`} alt={mute.mod_icon} className="h-5" />
+                    {ban.mod_icon ?
+                      <Image src={`/images/games/${ban.mod_icon}.png`} alt={ban.mod_icon} className="h-5" />
                       :
-                      <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+                      <FontAwesomeIcon icon={faCircleQuestion} size='lg'/>
                     }
-                    <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
+                    <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                   </div>
                 </Table.Td>
-                <Table.Td>{mute.created_at}</Table.Td>
-                <Table.Td>{mute.player_name}</Table.Td>
-                <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
+                <Table.Td>{ban.created_at}</Table.Td>
+                <Table.Td>{ban.player_name}</Table.Td>
+                <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>
                   <div className={`${style} px-1 rounded text-center whitespace-nowrap w-fit`}>
                     <span className='text-xs font-semibold'>
@@ -98,16 +105,16 @@ function MutesContainer({ data }) {
                   </div>
                 </Table.Td>
                 <Table.Td>
-                  <Progress bgColor={style} completed={getPercentage(mute)} />
+                  <Progress bgColor={style} completed={getPercentage(ban)} />
                 </Table.Td>
               </Table.Row>
             )
           })}
         </Table.Component>
       </div>
-      {mutesData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
+      {bansData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
     </PageContentBlock>
   )
 }
 
-export default MutesContainer
+export default BansContainer

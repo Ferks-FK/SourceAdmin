@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { faSteam } from "@fortawesome/free-brands-svg-icons";
 
 function SteamContainer() {
-  const [ steamUrl, setSteamUrl ] = useState('');
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [ steamUrl, setSteamUrl ] = useState<string>('');
+  const [ isLoading, setIsLoading ] = useState<boolean>(true);
   const { t } = useTranslation()
 
   useEffect(() => {

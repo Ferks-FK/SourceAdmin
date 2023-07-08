@@ -1,9 +1,9 @@
 import { md5 } from "@/helpers";
 import { Image } from "@/components/elements/Image";
 import classNames from "classnames";
-import { BaseProps } from "@/types";
+import { HTMLAttributes } from "react";
 
-interface Props extends BaseProps {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   email: string,
   size: number
 }

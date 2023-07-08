@@ -5,7 +5,7 @@ import { Input } from "@/components/elements/inputs";
 import { TextArea as TextAreaComponent } from "@/components/elements/TextArea";
 import { Select as SelectComponent } from "@/components/elements/Select";
 import { FieldProps as FormikFieldProps } from 'formik';
-import { FieldProps, BaseInputProps } from "@/components/elements/field/types";
+import { FieldProps, BaseInputProps, TextAreaProps, SelectProps } from "@/components/elements/field/types";
 
 const Field = ({ name, label, description, touched, field, errors, children }: FieldProps) => {
   return (
@@ -80,7 +80,7 @@ const Email = ({ name, label, description, ...props }: BaseInputProps) => (
   </FormikField>
 )
 
-const TextArea = ({ name, label, description, ...props }: BaseInputProps) => (
+const TextArea = ({ name, label, description, ...props }: TextAreaProps) => (
   <FormikField name={name}>
     {({ field, form: { errors, touched } }: FormikFieldProps) => (
       <Field
@@ -131,7 +131,7 @@ const File = ({ name, label, description, ...props }: BaseInputProps) => (
   </FormikField>
 )
 
-const Select = ({ name, label, description, children, ...props }: BaseInputProps) => (
+const Select = ({ name, label, description, children, ...props }: SelectProps) => (
   <FormikField name={name}>
     {({ field, form: { errors, touched } }: FormikFieldProps) => (
       <Field

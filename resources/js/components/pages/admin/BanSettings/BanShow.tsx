@@ -14,33 +14,55 @@ import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { BanObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
+import route from 'ziggy-js';
 
-function BanShow({ ban, reasons, timeBans, flash, errors }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState('');
-  const [serverInfo, setServerInfo] = useState([]);
-  const [reasonsData] = useState(reasons);
-  const [timeBansData] = useState(timeBans);
-  const [banInfo] = useState(ban);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  ban: BanObject
+  reasons: ReasonObject[]
+  timeBans: TimeBanObject[]
+}
+
+interface Values {
+  reason_id: number
+  time_ban_id: number
+}
+
+function BanShow(props: Props) {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+  const [serverInfo, setServerInfo] = useState<ServerDataResponse | null>(null);
+  const [reasonsData] = useState(props.reasons);
+  const [timeBansData] = useState(props.timeBans);
+  const [banInfo] = useState(props.ban);
   const { t } = useTranslation();
 
+  console.log(banInfo.server_id)
+
   useEffect(() => {
+    console.log('al´skdjnaosdkjnoçasd~kmasdop~kmasd')
     const fetchServerData = async () => {
       try {
-        const response = await getServerData(banInfo.server_id, false);
+        console.log('ué')
+        const response = await getServerData(banInfo.server_id!, false);
 
-        setServerInfo(response[0])
+        console.log(response)
+
+        setServerInfo(response.server)
       } catch (error) {
         console.error(error)
       }
     }
+
 
     if (banInfo.server_id) {
       fetchServerData()
     }
   }, [])
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values) => {
     router.patch(route('admin.bans.update', banInfo.id), { ...values })
   }
 
@@ -56,20 +78,20 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
     router.put(route('admin.bans.action.reban', banInfo.id))
   }
 
-  const showModal = (content) => {
+  const showModal = (content: JSX.Element) => {
     setModalContent(content);
     setModalVisible(true);
   }
 
   const hideModal = () => {
     setModalVisible(false);
-    setModalContent('');
+    setModalContent(null);
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('bans_settings.ban_of', {playerName: banInfo.player_name})}>
+    <PageContentBlock title={t('bans_settings.ban_of', { playerName: banInfo.player_name })}>
       <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4 bg-dark-primary">
         <ul>
           <li className="flex mobile:items-center">
@@ -78,11 +100,11 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faNetworkWired} color="white" className="w-4" />&nbsp;
-            <p>{t('report.player_ip')}: {banInfo.ip ?? t('generic.no_ip')}</p>
+            <p>{t('report.player_ip')}: {banInfo.player_ip ?? t('generic.no_ip')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faSteam} color="white" className="w-4" />&nbsp;
-            <p>{t('report.steam_id')}: {banInfo.steam_id ?? t('generic.no_steam')}</p>
+            <p>{t('report.steam_id')}: {banInfo.player_steam_id ?? t('generic.no_steam')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faPlay} color="white" className="w-4" />&nbsp;
@@ -110,7 +132,15 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faServer} color="white" className="w-4" />&nbsp;
-            <p>{t('bans_settings.banned_from')}: {banInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}</p>
+            {serverInfo !== null ? (
+              <p>
+                {t('bans_settings.banned_from')}: {banInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}
+              </p>
+            ) : (
+              <p>
+                {t('bans_settings.banned_from')}: {t('generic.server_deleted')}
+              </p>
+            )}
           </li>
         </ul>
         <div className="flex justify-center gap-2">
@@ -118,64 +148,64 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
             <Button.Text variant={Variant.Warning} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('bans_settings.unban_player', {playerName: banInfo.player_name})}?</h3>
+                  <h3 className="text-2xl text-left">{t('bans_settings.unban_player', { playerName: banInfo.player_name })}?</h3>
                   <p className="text-sm">
                     {t('bans_settings.unban_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    {t('cancel', {ns: 'buttons'})}
+                    {t('cancel', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger onClick={handleUnban}>
-                    {t('unban', {ns: 'buttons'})}
+                    {t('unban', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              {t('unban', {ns: 'buttons'})}
+              {t('unban', { ns: 'buttons' })}
             </Button.Text>
             :
             <Button.Text variant={Variant.Info} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('bans_settings.reban_player', {playerName: banInfo.player_name})}?</h3>
+                  <h3 className="text-2xl text-left">{t('bans_settings.reban_player', { playerName: banInfo.player_name })}?</h3>
                   <p className="text-sm">
                     {t('bans_settings.reban_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    {t('cancel', {ns: 'buttons'})}
+                    {t('cancel', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger onClick={handleReban}>
-                    {t('reban', {ns: 'buttons'})}
+                    {t('reban', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              {t('reban', {ns: 'buttons'})}
+              {t('reban', { ns: 'buttons' })}
             </Button.Text>
           }
           <Button.Danger className={'!font-header'} onClick={() => showModal(
             <>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-left">{t('bans_settings.delete_ban_of', {playerName: banInfo.player_name})}?</h3>
+                <h3 className="text-2xl text-left">{t('bans_settings.delete_ban_of', { playerName: banInfo.player_name })}?</h3>
                 <p className="text-sm">
                   {t('bans_settings.delete_ban_of_message')}
                 </p>
               </div>
               <div className="flex gap-2">
                 <Button.Text onClick={hideModal}>
-                  {t('cancel', {ns: 'buttons'})}
+                  {t('cancel', { ns: 'buttons' })}
                 </Button.Text>
                 <Button.Danger onClick={handleDelete}>
-                  {t('delete', {ns: 'buttons'})}
+                  {t('delete', { ns: 'buttons' })}
                 </Button.Danger>
               </div>
             </>
           )}>
-            {t('delete_ban', {ns: 'buttons'})}
+            {t('delete_ban', { ns: 'buttons' })}
           </Button.Danger>
         </div>
       </div>
@@ -235,7 +265,7 @@ function BanShow({ ban, reasons, timeBans, flash, errors }) {
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    {t('submit', {ns: 'buttons'})}
+                    {t('submit', { ns: 'buttons' })}
                   </Button.Text>
                 </div>
               </div>

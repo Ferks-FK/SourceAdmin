@@ -88,7 +88,7 @@ class QueryServer
     {
         $mod = $this->getMod();
         $this->server_data['Id'] = $this->id;
-        $this->server_data['Is_online'] = $this->is_online;
+        $this->server_data['IsOnline'] = $this->is_online;
         $this->server_data['Ip'] = $this->ip;
         $this->server_data['Mod'] = $mod;
 
@@ -101,13 +101,13 @@ class QueryServer
             "Mod" => $mod,
             "Os" => "N/A",
             "Map" => "N/A",
-            "Secure" => "N/A",
+            "Secure" => false,
             "Ip" => $this->ip,
-            "Port" => $this->port,
+            "GamePort" => $this->port,
             "HostName" => "Error Connection ($this->ip:$this->port)",
             "Players" => "N/A",
             "MaxPlayers" => "N/A",
-            "Is_online" => $this->is_online
+            "IsOnline" => $this->is_online
         ];
     }
 

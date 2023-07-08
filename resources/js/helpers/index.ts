@@ -1,12 +1,13 @@
 import { MD5 } from "crypto-js";
-import { BaseProps, PaginationProps, FilterDataProps } from "@/helpers/types";
+import { FilterDataProps } from "@/helpers/types";
+import { PaginationProps, PunishmentObject } from "@/types";
 import { TFunction } from "i18next";
 
 export function md5(string: string) {
   return MD5(string.toLowerCase().trim())
 }
 
-export const getStyleAndName = (props: BaseProps, t: TFunction) => {
+export const getStyleAndName = (props: PunishmentObject, t: TFunction) => {
   // TODO: Find a user-friendly way to translate the strings from the `time_bans` table.
   const now = Date.now();
   const end = new Date(props.end_at).getTime();
@@ -39,7 +40,7 @@ export const getStyleAndName = (props: BaseProps, t: TFunction) => {
   };
 };
 
-export function getPercentage(props: BaseProps) {
+export function getPercentage(props: PunishmentObject) {
   // Punishment removed or permanent.
   if (props.removed_by || props.time_ban_value == 0) {
     return 100;

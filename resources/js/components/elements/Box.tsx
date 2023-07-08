@@ -3,8 +3,8 @@ import { HTMLAttributes } from "react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string,
-  description: string,
-  paragraph?: string,
+  description: string | JSX.Element,
+  paragraph?: string | JSX.Element,
   borderColor?: string
 }
 

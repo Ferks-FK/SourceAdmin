@@ -18,5 +18,5 @@ export type InputProps = JSX.IntrinsicElements['input'] & {
 
 export interface InputSearchProps extends InputProps {
     searchQuery: string
-    minChars: number
+    minChars?: number
 }

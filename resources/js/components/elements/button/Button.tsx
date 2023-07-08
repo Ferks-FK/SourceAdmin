@@ -69,7 +69,7 @@ const InternalLinkButton = ({ className, linkClassName, to, children, ...props }
   )
 }
 
-const IconAndLink = ({ className, icon, iconPosition, iconSize, to, external = true, children, ...props }: IconButtonProps & LinkButtonProps) => {
+const IconAndLink = ({ className, icon, iconPosition, iconSize, to, external = true, children, ...props }: IconButtonProps & LinkButtonProps & { external?: boolean }) => {
   const buttonStyles = classNames('flex items-center', className);
   const linkStyles = classNames(styles.link, {
     'flex flex-row-reverse items-center': iconPosition == Options.iconPosition.Right,
