@@ -112,7 +112,7 @@ function MutesContainer(props: Props) {
           })}
         </Table.Component>
       </div>
-      {mutesData.length >= 10 && <Table.Pagination paginationData={pagination}/>}
+      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length}/>
     </PageContentBlock>
   )
 }

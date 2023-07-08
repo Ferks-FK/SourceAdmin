@@ -72,7 +72,7 @@ function AdminIndex(props: Props) {
           ))}
         </Table.Component>
       </div>
-      {adminData.length >= 10 && <Table.Pagination paginationData={pagination} />}
+      <Table.Pagination paginationData={pagination} visible={props.data.total > adminData.length}/>
     </PageContentBlock>
   )
 }

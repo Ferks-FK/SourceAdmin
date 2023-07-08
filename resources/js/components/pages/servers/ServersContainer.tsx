@@ -170,7 +170,7 @@ function ServersContainer({ serversIds, ...props }: Props) {
           })}
         </Table.Component>
       </div>
-      {serversIds.length >= 10 && <Table.Pagination paginationData={pagination} />}
+      <Table.Pagination paginationData={pagination} visible={props.data.total > serversIds.length}/>
     </PageContentBlock>
   )
 }

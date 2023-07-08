@@ -27,5 +27,8 @@
     "steamid": "Steam ID",
     "isverified": "É verificado",
     "role": "Função",
-    "immunity": "Imunidade"
+    "immunity": "Imunidade",
+    "showing_pagination": "Mostrando: {{from}} a {{to}} do total {{total}}",
+    "previous": "Anterior",
+    "next": "Próximo"
 }

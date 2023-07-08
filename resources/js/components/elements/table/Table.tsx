@@ -47,7 +47,7 @@ const Header = ({ title, icon, iconSize = 'lg', children, className }: HeaderPro
   <div className={classNames(styles.header, className)}>
     {title && (
       <h1>
-        {icon && <FontAwesomeIcon icon={icon} size={iconSize}/>}&nbsp;
+        {icon && <FontAwesomeIcon icon={icon} size={iconSize} />}&nbsp;
         {title}
       </h1>
     )}
@@ -71,7 +71,7 @@ const Row = ({ className, children, size = SizeRowProps.Sm, ...props }: RowProps
     <tr
       className={classNames(styles.row, trSize(), className)}
       {...props}
-      >
+    >
       {children}
     </tr>
   )
@@ -83,8 +83,8 @@ const Td = ({ className, children, ...props }: TDProps) => (
   </td>
 )
 
-const Pagination = ({paginationData}: PaginationProps) => {
-
+const Pagination = ({ paginationData, visible }: PaginationProps) => {
+  const { t } = useTranslation();
   const {
     currentPage,
     lastPage,
@@ -98,54 +98,57 @@ const Pagination = ({paginationData}: PaginationProps) => {
   } = paginationData
 
   return (
-    <div className={styles.pagination_container}>
-      <p className="text-sm">Showing: {from} to {to} of {total}</p>
-      <div className="flex items-center gap-2">
-        <div className="flex gap-1">
-          <Button.IconLink
-            key={'first'}
-            to={firstPageUrl}
-            disabled={currentPage == 1}
-            icon={faAnglesLeft}
-            iconSize={'sm'}
-            external={false}
-          />
-          <Button.IconLink
-            key={'previous'}
-            to={prevPageUrl}
-            disabled={currentPage == 1}
-            icon={faChevronLeft}
-            iconSize={'sm'}
-            iconPosition={iconPosition.Left}
-            external={false}
-          >
-            Previous
-          </Button.IconLink>
-        </div>
-        <div className="flex gap-1">
-          <Button.IconLink
-            key={'next'}
-            to={nextPageUrl}
-            disabled={currentPage == lastPage}
-            className={'border-none rounded'}
-            icon={faChevronRight}
-            iconSize={'sm'}
-            iconPosition={iconPosition.Right}
-            external={false}
-          >
-            Next
-          </Button.IconLink>
-          <Button.IconLink
-            key={'last'}
-            to={lastPageUrl}
-            disabled={currentPage == lastPage}
-            icon={faAnglesRight}
-            iconSize={'sm'}
-            external={false}
-          />
+    visible ?
+      <div className={styles.pagination_container}>
+        <p className="text-sm">{t('showing_pagination', { ns: 'table', from: from, to: to, total: total })}</p>
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button.IconLink
+              key={'first'}
+              to={firstPageUrl}
+              disabled={currentPage == 1}
+              icon={faAnglesLeft}
+              iconSize={'sm'}
+              external={false}
+            />
+            <Button.IconLink
+              key={'previous'}
+              to={prevPageUrl}
+              disabled={currentPage == 1}
+              icon={faChevronLeft}
+              iconSize={'sm'}
+              iconPosition={iconPosition.Left}
+              external={false}
+            >
+              {t('previous', { ns: 'table' })}
+            </Button.IconLink>
+          </div>
+          <div className="flex gap-1">
+            <Button.IconLink
+              key={'next'}
+              to={nextPageUrl}
+              disabled={currentPage == lastPage}
+              className={'border-none rounded'}
+              icon={faChevronRight}
+              iconSize={'sm'}
+              iconPosition={iconPosition.Right}
+              external={false}
+            >
+              {t('next', { ns: 'table' })}
+            </Button.IconLink>
+            <Button.IconLink
+              key={'last'}
+              to={lastPageUrl}
+              disabled={currentPage == lastPage}
+              icon={faAnglesRight}
+              iconSize={'sm'}
+              external={false}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      :
+      null
   );
 }
 

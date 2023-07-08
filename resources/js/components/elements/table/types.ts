@@ -41,4 +41,5 @@ export interface PaginationProps {
         to: number
         total: number
     }
+    visible: boolean
 }

@@ -94,7 +94,7 @@ function BanIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      {bansData.length >= 10 && <Table.Pagination paginationData={pagination} />}
+      <Table.Pagination paginationData={pagination} visible={props.data.total > bansData.length}/>
     </PageContentBlock>
   )
 }
