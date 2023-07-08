@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
 import { useDebounce } from 'use-debounce';
 import { useFlashesStore } from '@/stores/flashes';
+import { FormatLocaleDate } from '@/i18n/locales';
 import { PaginationProps, MuteObject, PageProps } from "@/types";
 import http from '@/api/http';
 import route from 'ziggy-js';
@@ -19,6 +20,7 @@ interface Props extends PageProps {
   data: PaginationProps & {
     data: MuteObject[]
   }
+  timeZone: string
 }
 
 function MutesContainer(props: Props) {
@@ -94,7 +96,7 @@ function MutesContainer(props: Props) {
                     <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                   </div>
                 </Table.Td>
-                <Table.Td>{mute.created_at}</Table.Td>
+                <Table.Td>{FormatLocaleDate(mute.created_at, props.timeZone, undefined, false)}</Table.Td>
                 <Table.Td>{mute.player_name}</Table.Td>
                 <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>

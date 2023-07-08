@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDebounce } from 'use-debounce';
+import { FormatLocaleDate } from '@/i18n/locales';
 import { faBan, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
 import route from 'ziggy-js';
@@ -19,6 +20,7 @@ interface Props extends PageProps {
   data: PaginationProps & {
     data: BanObject[]
   }
+  timeZone: string
 }
 
 function BansContainer(props: Props) {
@@ -28,6 +30,7 @@ function BansContainer(props: Props) {
   const [bansData, setBansData] = useState(props.data.data)
   const [debouncedValue] = useDebounce(searchQuery, 500)
   const { t } = useTranslation()
+  console.log(props)
 
   useEffect(() => {
     clearFlashes();
@@ -94,7 +97,7 @@ function BansContainer(props: Props) {
                     <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                   </div>
                 </Table.Td>
-                <Table.Td>{ban.created_at}</Table.Td>
+                <Table.Td>{FormatLocaleDate(ban.created_at, props.timeZone, undefined, false)}</Table.Td>
                 <Table.Td>{ban.player_name}</Table.Td>
                 <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>

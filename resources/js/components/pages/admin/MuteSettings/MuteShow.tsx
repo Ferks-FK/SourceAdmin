@@ -14,6 +14,7 @@ import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { FormatLocaleDate } from "@/i18n/locales";
 import { MuteObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
 import route from 'ziggy-js';
 
@@ -23,10 +24,12 @@ interface Props {
   mute: MuteObject
   reasons: ReasonObject[]
   timeBans: TimeBanObject[]
+  timeZone: string
 }
 
 interface Values {
-
+  reason_id: number
+  time_ban_id: number
 }
 
 function MuteShow(props: Props) {
@@ -100,7 +103,7 @@ function MuteShow(props: Props) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faPlay} color="white" className="w-4" />&nbsp;
-            <p>{t('generic.created_at')}: {muteInfo.created_at}</p>
+            <p>{t('generic.created_at')}: {FormatLocaleDate(muteInfo.created_at, props.timeZone)}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faHourglassHalf} color="white" className="w-4" />&nbsp;
@@ -108,7 +111,7 @@ function MuteShow(props: Props) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faClock} color="white" className="w-4" />&nbsp;
-            <p>{t('generic.expires_at')}: {muteInfo.time_ban_value == 0 ? t('generic.never') : muteInfo.end_at}</p>
+            <p>{t('generic.expires_at')}: {muteInfo.time_ban_value == 0 ? t('generic.never') : FormatLocaleDate(muteInfo.end_at, props.timeZone)}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faQuestion} color="white" className="w-4" />&nbsp;

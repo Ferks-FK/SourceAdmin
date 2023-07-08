@@ -12,6 +12,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { FormatLocaleDate } from "@/i18n/locales";
 import { ServerDataResponse, ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
 import route from 'ziggy-js';
 
@@ -25,6 +26,7 @@ interface Props {
     Created_At: string
     Updated_At: string
   }
+  timeZone: string
   mods: ModObject[]
   regions: RegionObject[]
 }
@@ -106,8 +108,8 @@ function ServerShow(props: Props) {
               </div>
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex flex-col items-center text-center md:items-end gap-2 md:text-right">
-                  <p>{t('generic.created_at')}: {serverData.Created_At}</p>
-                  <p>{t('generic.updated_at')}: {serverData.Updated_At}</p>
+                  <p>{t('generic.created_at')}: {FormatLocaleDate(serverData.Created_At, props.timeZone)}</p>
+                  <p>{t('generic.updated_at')}: {FormatLocaleDate(serverData.Updated_At, props.timeZone)}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
                     {t('delete_server', {ns: 'buttons'})}
                   </Button.Danger>

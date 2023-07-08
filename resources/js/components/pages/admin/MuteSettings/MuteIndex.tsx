@@ -10,6 +10,7 @@ import { faCircleQuestion, faCommentSlash, faMicrophoneSlash } from "@fortawesom
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, MuteObject, FlashProp, ErrorsProp } from "@/types";
 import route from 'ziggy-js';
 
@@ -19,6 +20,7 @@ interface Props {
   data: PaginationProps & {
     data: MuteObject[]
   }
+  timeZone: string
 }
 
 function MuteIndex(props: Props) {
@@ -76,7 +78,7 @@ function MuteIndex(props: Props) {
                     <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                   </div>
                 </Table.Td>
-                <Table.Td>{mute.created_at}</Table.Td>
+                <Table.Td>{FormatLocaleDate(mute.created_at, props.timeZone, undefined, false)}</Table.Td>
                 <Table.Td>{mute.player_name}</Table.Td>
                 <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>

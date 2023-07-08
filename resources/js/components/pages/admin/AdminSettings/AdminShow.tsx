@@ -13,6 +13,7 @@ import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { FormatLocaleDate } from "@/i18n/locales";
 import { FlashProp, ErrorsProp } from "@/types";
 import route from 'ziggy-js';
 
@@ -23,6 +24,7 @@ interface Props {
   auth: {
     user: UserData
   }
+  timeZone: string
 }
 
 interface Values {
@@ -105,7 +107,7 @@ function AdminShow(props: Props) {
                 </div>
                 <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
                   <h1>admin</h1>
-                  <p>{props.user.created_at as string}</p>
+                  <p>{t('generic.created_at')}: {FormatLocaleDate(props.user.created_at, props.timeZone)}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
                     {t('delete_account', {ns: 'buttons'})}
                   </Button.Danger>

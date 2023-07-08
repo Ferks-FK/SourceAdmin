@@ -10,6 +10,7 @@ import { faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, BanObject, FlashProp, ErrorsProp } from "@/types";
 import route from 'ziggy-js';
 
@@ -19,6 +20,7 @@ interface Props {
   data: PaginationProps & {
     data: BanObject[]
   }
+  timeZone: string
 }
 
 function BanIndex(props: Props) {
@@ -76,7 +78,7 @@ function BanIndex(props: Props) {
                     <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                   </div>
                 </Table.Td>
-                <Table.Td>{ban.created_at}</Table.Td>
+                <Table.Td>{FormatLocaleDate(ban.created_at, props.timeZone, undefined, false)}</Table.Td>
                 <Table.Td>{ban.player_name}</Table.Td>
                 <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                 <Table.Td className={'text-center'}>

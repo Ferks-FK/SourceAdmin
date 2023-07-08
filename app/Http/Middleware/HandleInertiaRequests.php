@@ -56,6 +56,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'layout' => $layout,
+            'timeZone' => config('app.timezone'),
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

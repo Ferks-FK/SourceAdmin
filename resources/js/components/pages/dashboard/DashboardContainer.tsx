@@ -8,15 +8,17 @@ import { Image } from '@/components/elements/Image';
 import { Progress } from '@/components/elements/Progress';
 import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
+import { FormatLocaleDate } from '@/i18n/locales';
 import { BanObject, MuteObject, ServerDataResponse } from "@/types";
 
-export interface DashboardProps {
+export interface Props {
   serversIds: number[]
   serversCount: number
   bansCount: number
   mutesCount: number
   bansData: BanObject[]
   mutesData: MuteObject[]
+  timeZone: string
 }
 
 interface ServerItem {
@@ -25,7 +27,7 @@ interface ServerItem {
   responseData?: ServerDataResponse
 }
 
-function DashboardContainer({ serversIds, ...props }: DashboardProps) {
+function DashboardContainer({ serversIds, ...props }: Props) {
   const { serversCount, bansCount, mutesCount, bansData, mutesData } = props;
   const [serverData, setServerData] = useState<ServerItem[]>(serversIds.map((server_id) => {
     return { id: server_id, loading: true }
@@ -169,7 +171,7 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
                       <Image src={ban.flag_url || '/images/unknown.svg'} className="h-5 w-7" />
                     </div>
                   </Table.Td>
-                  <Table.Td>{ban.created_at}</Table.Td>
+                  <Table.Td>{FormatLocaleDate(ban.created_at, props.timeZone, undefined, false)}</Table.Td>
                   <Table.Td>{ban.player_name}</Table.Td>
                   <Table.Td>{ban.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
@@ -215,7 +217,7 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
                       <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                     </div>
                   </Table.Td>
-                  <Table.Td>{mute.created_at}</Table.Td>
+                  <Table.Td>{FormatLocaleDate(mute.created_at, props.timeZone, undefined, false)}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
                   <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
@@ -262,7 +264,7 @@ function DashboardContainer({ serversIds, ...props }: DashboardProps) {
                       <FontAwesomeIcon icon={mute.type === 'voice' ? faMicrophoneSlash : faCommentSlash} size='xl' />
                     </div>
                   </Table.Td>
-                  <Table.Td>{mute.created_at}</Table.Td>
+                  <Table.Td>{FormatLocaleDate(mute.created_at, props.timeZone, undefined, false)}</Table.Td>
                   <Table.Td>{mute.player_name}</Table.Td>
                   <Table.Td>{mute.admin_name ?? t('generic.admin_deleted')}</Table.Td>
                   <Table.Td className={'text-center'}>
