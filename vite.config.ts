@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/App.tsx',
+            input: 'resources/ts/App.tsx',
             refresh: true,
         }),
         react(),
@@ -15,7 +15,7 @@ export default defineConfig({
     resolve: {
         alias: {
             'ziggy-js': './vendor/tightenco/ziggy/src/js/index.js',
-            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/js'),
+            '@': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/ts'),
             '@type': resolve(dirname(fileURLToPath(import.meta.url)), 'resources/@types')
         }
     },

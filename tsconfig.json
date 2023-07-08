@@ -7,7 +7,7 @@
         "module": "ESNext",
         "target": "ESNext",
         "paths": {
-            "@/*": ["./resources/js/*"],
+            "@/*": ["./resources/ts/*"],
             "@type/*": ["./resources/@types/*"]
         },
         "plugins": [
@@ -44,6 +44,6 @@
             "vite/client"
         ]
     },
-    "include": ["./resources/js/**/*", "vite.config.ts"],
+    "include": ["./resources/ts/**/*", "vite.config.ts"],
     "exclude": ["node_modules"]
 }

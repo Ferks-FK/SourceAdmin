@@ -31,8 +31,8 @@ function LoginContainer({ flash }: Props) {
       onFinish: () => {
         setSubmitting(false)
       },
-      onSuccess: (page) => {
-        // @ts-expect-error
+      // TODO Review typing.
+      onSuccess: (page: any) => {
         const user: UserData = page.props.auth.user;
 
         if (!isLogged && user) {

@@ -12,7 +12,7 @@
 
   @yield('routes')
   @viteReactRefresh
-  @vite(['resources/js/App.tsx', "resources/js/components/pages/{$page['component']}.tsx"])
+  @vite(['resources/ts/App.tsx', "resources/ts/components/pages/{$page['component']}.tsx"])
   @inertiaHead
   </head>
 <body style="margin-bottom: 0px">
