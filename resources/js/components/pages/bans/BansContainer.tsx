@@ -30,7 +30,6 @@ function BansContainer(props: Props) {
   const [bansData, setBansData] = useState(props.data.data)
   const [debouncedValue] = useDebounce(searchQuery, 500)
   const { t } = useTranslation()
-  console.log(props)
 
   useEffect(() => {
     clearFlashes();

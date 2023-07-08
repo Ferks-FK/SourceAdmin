@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { Props } from "@/components/pages/admin/AdminOverview/AdminOverviewData";
 
 function AdminOverview({ versionData, ...props }: Props) {
-  console.log(props)
   const overviewData = AdminOverviewData({ versionData, ...props });
   const { t } = useTranslation();
 
