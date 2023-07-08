@@ -53,17 +53,27 @@ export interface MuteObject {
 }
 
 export interface ReasonObject {
-    id: number,
+    id: number
     reason: string
 }
 
 export interface TimeBanObject {
-    id: number,
+    id: number
     name: string
 }
 
+export interface ModObject {
+    id: number
+    name: string
+}
+
+export interface RegionObject {
+    id: number
+    region: string
+}
+
 export interface AdminObject {
-    id: number,
+    id: number
     name: string
 }
 

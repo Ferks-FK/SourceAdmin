@@ -20,6 +20,7 @@ class Mute extends Model
         'ip',
         'steam_id',
         'player_name',
+        'admin_id',
         'reason_id',
         'time_ban_id',
         'removed_by',

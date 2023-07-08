@@ -3,18 +3,37 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { ServerCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
+import { ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function ServerCreate({ mods, regions, flash, errors }) {
-  const [modsData] = useState(mods);
-  const [regionsData] = useState(regions);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  mods: ModObject[]
+  regions: RegionObject[]
+}
+
+interface Values {
+  ip: string
+  port: string
+  rcon: string
+  rcon_confirmation: string
+  mod_id: string
+  region_id: string
+  enabled: boolean
+}
+
+function ServerCreate(props: Props) {
+  const [modsData] = useState(props.mods);
+  const [regionsData] = useState(props.regions);
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.post(route('admin.servers.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -22,7 +41,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
     })
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('servers_settings.create_new_server')}>
@@ -103,7 +122,7 @@ function ServerCreate({ mods, regions, flash, errors }) {
                   name={'enabled'}
                   id={'enabled'}
                   label={t('servers_settings.server_enabled')}
-                  value={values.enabled}
+                  value={values.enabled ? 1 : 0}
                   checked={values.enabled}
                   onChange={(e) => setFieldValue('enabled', e.target.checked)}
                 />

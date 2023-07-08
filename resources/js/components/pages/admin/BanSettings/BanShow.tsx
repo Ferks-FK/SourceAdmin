@@ -42,13 +42,9 @@ function BanShow(props: Props) {
   console.log(banInfo.server_id)
 
   useEffect(() => {
-    console.log('al´skdjnaosdkjnoçasd~kmasdop~kmasd')
     const fetchServerData = async () => {
       try {
-        console.log('ué')
         const response = await getServerData(banInfo.server_id!, false);
-
-        console.log(response)
 
         setServerInfo(response.server)
       } catch (error) {

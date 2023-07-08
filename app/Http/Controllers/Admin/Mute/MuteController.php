@@ -42,7 +42,7 @@ class MuteController extends Controller
 
         return Inertia::render('admin/MuteSettings/MuteCreate', [
             'reasons' => $reasons,
-            'time_bans' => $time_bans,
+            'timeBans' => $time_bans,
             'admins' => $admins
         ]);
     }
@@ -204,7 +204,7 @@ class MuteController extends Controller
                     ->orWhereNull('mutes.removed_by')
                     ->orWhereNull('mutes.server_id');
             })
-            ->select('mutes.id', 'mutes.server_id', 'mods.mod as mod_icon', 'reasons.reason', 'reasons.id as reason_id', 'A.name as admin_name', 'mutes.player_name', 'mutes.ip', 'mutes.created_at', 'time_bans.id as time_ban_id', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'mutes.end_at', 'B.name as removed_by');
+            ->select('mutes.id', 'mutes.server_id', 'mods.mod as mod_icon', 'reasons.reason', 'reasons.id as reason_id', 'A.name as admin_name', 'mutes.player_name', 'mutes.ip as player_ip', 'mutes.steam_id as player_steam_id', 'mutes.created_at', 'time_bans.id as time_ban_id', 'time_bans.name as time_ban_name', 'time_bans.value as time_ban_value', 'mutes.end_at', 'B.name as removed_by');
         if ($getById) {
             return $query->where('mutes.id', $getById)->get()->first();
         }

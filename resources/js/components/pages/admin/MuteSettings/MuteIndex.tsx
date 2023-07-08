@@ -10,17 +10,27 @@ import { faCircleQuestion, faCommentSlash, faMicrophoneSlash } from "@fortawesom
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
+import { PaginationProps, MuteObject, FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function MuteIndex({ data, flash, errors }) {
-  const pagination = paginationItems(data)
-  const [mutesData] = useState(data.data)
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  data: PaginationProps & {
+    data: MuteObject[]
+  }
+}
+
+function MuteIndex(props: Props) {
+  const pagination = paginationItems(props.data)
+  const [mutesData] = useState(props.data.data)
   const { t } = useTranslation();
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     router.visit(route('admin.mutes.show', id));
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   const CommsColumns = [
     "Id",
@@ -84,7 +94,7 @@ function MuteIndex({ data, flash, errors }) {
           })}
         </Table.Component>
       </div>
-      {mutesData.length >= 10 && <Table.Pagination paginationData={pagination} />}
+      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length}/>
     </PageContentBlock>
   )
 }

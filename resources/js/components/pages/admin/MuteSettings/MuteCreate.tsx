@@ -3,19 +3,42 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { MuteCreateSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
+import { UserData } from "@/stores/user";
+import { ReasonObject, TimeBanObject, AdminObject, FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
-  const [reasonsData] = useState(reasons);
-  const [timeBansData] = useState(time_bans);
-  const [adminsData] = useState(admins);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  reasons: ReasonObject[]
+  timeBans: TimeBanObject[]
+  admins: AdminObject[]
+  auth: {
+    user: UserData
+  }
+}
+
+interface Values {
+  ip: string
+  steam_id: string
+  player_name: string
+  time_ban_id: string
+  admin_id: number,
+  reason_id: string
+}
+
+function MuteCreate(props: Props) {
+  const [reasonsData] = useState(props.reasons);
+  const [timeBansData] = useState(props.timeBans);
+  const [adminsData] = useState(props.admins);
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.post(route('admin.mutes.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -23,7 +46,7 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
     })
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('mutes_settings.create_new_mute')}>
@@ -34,7 +57,7 @@ function MuteCreate({ reasons, time_bans, admins, flash, errors, auth }) {
           steam_id: '',
           player_name: '',
           time_ban_id: '',
-          admin_id: auth.user.id,
+          admin_id: props.auth.user.id,
           reason_id: ''
         }}
         validationSchema={MuteCreateSchema()}

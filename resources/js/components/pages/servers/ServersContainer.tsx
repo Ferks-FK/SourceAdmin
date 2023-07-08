@@ -11,10 +11,10 @@ import { faServer } from '@fortawesome/free-solid-svg-icons';
 import { PaginationProps, BanObject } from "@/types";
 
 interface Props {
+  serversIds: number[]
   data: PaginationProps & {
     data: BanObject[]
   }
-  serversIds: number[]
 }
 
 interface ServerItem {
@@ -23,10 +23,9 @@ interface ServerItem {
   responseData?: ResponseData
 }
 
-function ServersContainer({ serversIds, ...props }: Props) {
-  console.log(props)
+function ServersContainer(props: Props) {
   const pagination = paginationItems(props.data)
-  const [serverData, setServerData] = useState<ServerItem[]>(serversIds.map((server_id) => {
+  const [serverData, setServerData] = useState<ServerItem[]>(props.serversIds.map((server_id) => {
     return { id: server_id, loading: true }
   }));
   const [activeTable, setActiveTable] = useState<string>('');
@@ -45,7 +44,7 @@ function ServersContainer({ serversIds, ...props }: Props) {
   useEffect(() => {
     const fetchServerData = async () => {
       try {
-        for (const server of serversIds) {
+        for (const server of props.serversIds) {
           const response = await getServerData(server);
 
           setServerData((state) => state.map((server) => {
@@ -170,7 +169,7 @@ function ServersContainer({ serversIds, ...props }: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > serversIds.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length}/>
     </PageContentBlock>
   )
 }

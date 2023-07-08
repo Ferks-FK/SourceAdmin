@@ -77,14 +77,14 @@ class ServerController extends Controller
     {
         $serverAttrs = $this->getServerAttributes($id, ['created_at', 'updated_at', 'mod_id', 'region_id', 'enabled']);
         $serverData = $this->connectToServer($request, $id)->getData();
-        $serverData[0]->Created_At = $serverAttrs[0]->created_at;
-        $serverData[0]->Updated_At = $serverAttrs[0]->updated_at;
-        $serverData[0]->ModId = $serverAttrs[0]->mod_id;
-        $serverData[0]->RegionId = $serverAttrs[0]->region_id;
-        $serverData[0]->Enabled = $serverAttrs[0]->enabled;
+        $serverData->server->Created_At = $serverAttrs[0]->created_at;
+        $serverData->server->Updated_At = $serverAttrs[0]->updated_at;
+        $serverData->server->ModId = $serverAttrs[0]->mod_id;
+        $serverData->server->RegionId = $serverAttrs[0]->region_id;
+        $serverData->server->Enabled = $serverAttrs[0]->enabled;
 
         return Inertia::render('admin/ServerSettings/ServerShow', [
-            'server' => $serverData,
+            'server' => $serverData->server,
             'mods' => $this->mods,
             'regions' => $this->regions
         ]);

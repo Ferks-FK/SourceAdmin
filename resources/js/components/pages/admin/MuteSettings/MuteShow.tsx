@@ -14,22 +14,36 @@ import { faSteam } from "@fortawesome/free-brands-svg-icons"
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { MuteObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
+import route from 'ziggy-js';
 
-function MuteShow({ mute, reasons, timeBans, flash, errors }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState('');
-  const [serverInfo, setServerInfo] = useState([]);
-  const [reasonsData] = useState(reasons);
-  const [timeBansData] = useState(timeBans);
-  const [muteInfo] = useState(mute);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  mute: MuteObject
+  reasons: ReasonObject[]
+  timeBans: TimeBanObject[]
+}
+
+interface Values {
+
+}
+
+function MuteShow(props: Props) {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+  const [serverInfo, setServerInfo] = useState<ServerDataResponse | null>(null);
+  const [reasonsData] = useState(props.reasons);
+  const [timeBansData] = useState(props.timeBans);
+  const [muteInfo] = useState(props.mute);
   const { t } = useTranslation();
 
   useEffect(() => {
     const fetchServerData = async () => {
       try {
-        const response = await getServerData(muteInfo.server_id, false);
+        const response = await getServerData(muteInfo.server_id!, false);
 
-        setServerInfo(response[0])
+        setServerInfo(response.server)
       } catch (error) {
         console.error(error)
       }
@@ -40,7 +54,7 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
     }
   }, [])
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: Values) => {
     router.patch(route('admin.mutes.update', muteInfo.id), { ...values })
   }
 
@@ -56,17 +70,17 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
     router.put(route('admin.mutes.action.remute', muteInfo.id))
   }
 
-  const showModal = (content) => {
+  const showModal = (content: JSX.Element) => {
     setModalContent(content);
     setModalVisible(true);
   }
 
   const hideModal = () => {
     setModalVisible(false);
-    setModalContent('');
+    setModalContent(null);
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('mutes_settings.mute_of', {playerName: muteInfo.player_name})}>
@@ -78,11 +92,11 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faNetworkWired} color="white" className="w-4" />&nbsp;
-            <p>{t('report.player_ip')}: {muteInfo.ip ?? t('generic.no_ip')}</p>
+            <p>{t('report.player_ip')}: {muteInfo.player_ip ?? t('generic.no_ip')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faSteam} color="white" className="w-4" />&nbsp;
-            <p>{t('report.steam_id')}: {muteInfo.steam_id ?? t('generic.no_steam')}</p>
+            <p>{t('report.steam_id')}: {muteInfo.player_steam_id ?? t('generic.no_steam')}</p>
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faPlay} color="white" className="w-4" />&nbsp;
@@ -110,7 +124,15 @@ function MuteShow({ mute, reasons, timeBans, flash, errors }) {
           </li>
           <li className="flex mobile:items-center">
             <FontAwesomeIcon icon={faServer} color="white" className="w-4" />&nbsp;
-            <p>{t('mutes_settings.muted_from')}: {muteInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}</p>
+            {serverInfo !== null ? (
+              <p>
+                {t('mutes_settings.muted_from')}: {muteInfo.server_id ? serverInfo.HostName : t('generic.server_deleted')}
+              </p>
+            ) : (
+              <p>
+                {t('mutes_settings.muted_from')}: {t('generic.server_deleted')}
+              </p>
+            )}
           </li>
         </ul>
         <div className="flex justify-center gap-2">

@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
-
 class HomeController extends Controller
 {
     use Server;
@@ -24,6 +23,7 @@ class HomeController extends Controller
     public function index()
     {
         $serversCount = ServerModel::query()
+            ->where('enabled', true)
             ->limit(10)
             ->count();
         $bansCount = Ban::query()
@@ -37,7 +37,7 @@ class HomeController extends Controller
             'serversCount' => $serversCount,
             'bansCount' => $bansCount,
             'mutesCount' => $mutesCount,
-            'serversIds' => $this->getServersIds(5),
+            'serversIds' => $this->getServersIds(),
             'bansData' => $this->getBansData(),
             'mutesData' => $this->getMutesData()
         ]);

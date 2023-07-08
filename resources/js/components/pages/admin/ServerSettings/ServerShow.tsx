@@ -5,22 +5,49 @@ import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { ServerEditSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
+import { ServerDataResponse, ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
+import route from 'ziggy-js';
 
-function ServerShow({ server, mods, regions, flash, errors }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [serverData] = useState(server[0]);
-  const [modsData] = useState(mods);
-  const [regionsData] = useState(regions);
+interface Props {
+  flash: FlashProp
+  errors: ErrorsProp
+  server: ServerDataResponse & {
+    ModId: number
+    RegionId: number
+    Enabled: string | boolean
+    Created_At: string
+    Updated_At: string
+  }
+  mods: ModObject[]
+  regions: RegionObject[]
+}
+
+interface Values {
+  ip: string
+  port: number
+  rcon: string
+  new_rcon: string
+  new_rcon_confirmation: string
+  mod_id: number
+  region_id: number
+  enabled: string | boolean
+}
+
+function ServerShow(props: Props) {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [serverData] = useState(props.server);
+  const [modsData] = useState(props.mods);
+  const [regionsData] = useState(props.regions);
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.servers.update', serverData?.Id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
@@ -40,7 +67,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
     setModalVisible(false);
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('servers_settings.server_name', {serverName: serverData.HostName})}>
@@ -48,7 +75,7 @@ function ServerShow({ server, mods, regions, flash, errors }) {
         onSubmit={handleSubmit}
         initialValues={{
           ip: serverData.Ip,
-          port: serverData.GamePort || serverData.Port,
+          port: serverData.GamePort,
           rcon: '',
           new_rcon: '',
           new_rcon_confirmation: '',
@@ -67,13 +94,13 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                   alt={serverData.Mod}
                   className={'rounded-full w-24 pointer-events-none select-none'}
                 />
-                <div className={`flex flex-col gap-1 items-center md:items-start ${serverData.Is_online ? 'text-sm' : 'text-base'}`}>
+                <div className={`flex flex-col gap-1 items-center md:items-start ${serverData.IsOnline ? 'text-sm' : 'text-base'}`}>
                   <p>
                     {serverData.HostName}
                   </p>
                   <p className="flex gap-1 items-center text-base">
                     {t('generic.status')}:
-                    <FontAwesomeIcon icon={faCircle} color={serverData.Is_online ? 'green' : 'red'} />
+                    <FontAwesomeIcon icon={faCircle} color={serverData.IsOnline ? 'green' : 'red'} />
                   </p>
                 </div>
               </div>
@@ -172,8 +199,8 @@ function ServerShow({ server, mods, regions, flash, errors }) {
                     name={'enabled'}
                     id={'enabled'}
                     label={t('servers_settings.server_enabled')}
-                    value={values.enabled}
-                    checked={values.enabled}
+                    value={values.enabled as string}
+                    checked={values.enabled as boolean}
                     onChange={(e) => setFieldValue('enabled', e.target.checked)}
                   />
                 </div>

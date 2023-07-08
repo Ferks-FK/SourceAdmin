@@ -119,7 +119,7 @@
         "server_port": "Porta do servidor",
         "server_rcon": "RCON do servidor",
         "current_rcon": "RCON atual do servidor",
-        "confirm_rcon": "Confirmar RCON atual",
+        "confirm_rcon": "Confirmar RCON",
         "new_rcon": "Novo RCON",
         "confirm_new_rcon": "Confirmar novo RCON",
         "server_mod": "MOD do servidor",
