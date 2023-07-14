@@ -48,11 +48,14 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $layout = $this->defineLayout($request);
-        $userAuth = User::with(['roles', 'roles.permissions'])->findOrFail($request->user()->id);
+
+        if ($request->user()) {
+            $userAuth = User::with(['roles', 'roles.permissions'])->findOrFail($request->user()->id);
+        }
 
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $userAuth
+                'user' => $userAuth ?? null
             ],
             'ziggy' => function () use ($request, $layout) {
                 return array_merge((new Ziggy($layout))->toArray(), [
