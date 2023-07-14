@@ -14,10 +14,12 @@ import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { FlashProp, ErrorsProp } from "@/types";
+import { FlashProp, ErrorsProp, RoleObject } from "@/types";
+import { capitalize } from "lodash";
 import route from 'ziggy-js';
 
 interface Props {
+  roles: RoleObject[]
   user: UserData
   flash: FlashProp
   errors: ErrorsProp
@@ -31,6 +33,7 @@ interface Values {
   name: string
   email: string
   steam_id: string
+  role: number
   current_password: string
   new_password: string
   new_password_confirmation: string
@@ -38,7 +41,8 @@ interface Values {
 
 function AdminShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [clearData] = useUserStore((state) => [state.clearData])
+  const [roles] = useState<RoleObject[]>(props.roles);
+  const [clearData] = useUserStore((state) => [state.clearData]);
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -70,13 +74,14 @@ function AdminShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('admin_settings.admin_editing_name', {adminName: props.user.name})}>
+    <PageContentBlock title={t('admin_settings.admin_editing_name', { adminName: props.user.name })}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
           name: props.user.name,
           email: props.user.email,
           steam_id: props.user.steam_id,
+          role: (props.user.roles.at(0)?.id ?? '') as number,
           current_password: '',
           new_password: '',
           new_password_confirmation: ''
@@ -84,7 +89,7 @@ function AdminShow(props: Props) {
 
         validationSchema={AdminEditSchema()}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setFieldValue }) => (
           <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
             <div className="flex flex-col md:flex-row items-center md:text-left gap-4" style={{ wordBreak: 'break-word' }}>
               <div className="max-w-[150px] md:flex items-center">
@@ -106,10 +111,10 @@ function AdminShow(props: Props) {
                   </p>
                 </div>
                 <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
-                  <h1>admin</h1>
+                  <h1>{capitalize(props.user.roles.at(0)?.name)}</h1>
                   <p>{t('generic.created_at')}: {FormatLocaleDate(props.user.created_at, props.timeZone)}</p>
                   <Button.Danger className={'!font-header'} onClick={showModal}>
-                    {t('delete_account', {ns: 'buttons'})}
+                    {t('delete_account', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
                 <Modal
@@ -120,7 +125,7 @@ function AdminShow(props: Props) {
                 >
                   <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                     <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl text-left">{t('admin_settings.delete_admin', {adminName: props.user.name})}?</h3>
+                      <h3 className="text-2xl text-left">{t('admin_settings.delete_admin', { adminName: props.user.name })}?</h3>
                       <p className="text-sm">
                         {t('admin_settings.delete_admin_message')}
                       </p>
@@ -132,10 +137,10 @@ function AdminShow(props: Props) {
                     </div>
                     <div className="flex gap-2">
                       <Button.Text onClick={hideModal}>
-                        {t('cancel', {ns: 'buttons'})}
+                        {t('cancel', { ns: 'buttons' })}
                       </Button.Text>
                       <Button.Danger onClick={handleDelete}>
-                        {t('delete', {ns: 'buttons'})}
+                        {t('delete', { ns: 'buttons' })}
                       </Button.Danger>
                     </div>
                   </div>
@@ -165,6 +170,22 @@ function AdminShow(props: Props) {
                     label={t('admin_settings.admin_steam_id')}
                     description={t('generic.steam_id_formats')}
                   />
+                  <Field.Select
+                    name={'role'}
+                    id={'role'}
+                    label={t('role_settings.role')}
+                    value={values.role as number || 'default_value'}
+                    onChange={(e) => setFieldValue('role', e.target.value)}
+                  >
+                    <option key={'disabled'} value={'default_value'} disabled>
+                     {t('generic.select_role')}
+                    </option>
+                    {roles.map(({ id, name }) => (
+                      <option key={id} value={id}>
+                        {name}
+                      </option>
+                    ))}
+                  </Field.Select>
                   <Field.Password
                     name={'current_password'}
                     id={'current_password'}
@@ -183,7 +204,7 @@ function AdminShow(props: Props) {
                 </div>
                 <div className="flex flex-col items-center">
                   <Button.Text type={'submit'} disabled={isSubmitting}>
-                    {t('submit', {ns: 'buttons'})}
+                    {t('submit', { ns: 'buttons' })}
                   </Button.Text>
                 </div>
               </div>

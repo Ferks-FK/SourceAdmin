@@ -11,8 +11,14 @@ export enum SizeRowProps {
     Base = 'base'
 }
 
+type ColumnObject = {
+    name: string
+    i18nKey: string
+    ns?: string
+}
+
 export type TableProps = JSX.IntrinsicElements['table'] & {
-    columns: string[]
+    columns: ColumnObject[]
     dataLength: number
 };
 

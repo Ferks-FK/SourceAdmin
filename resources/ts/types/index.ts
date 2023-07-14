@@ -77,6 +77,22 @@ export interface AdminObject {
     name: string
 }
 
+export interface RoleObject {
+    id: number
+    name: string
+    users_count: number
+    permissions_count: number
+    description?: string
+    created_at: string
+    updated_at: string
+}
+
+export interface PermissionObject {
+    id: number
+    name: string
+    readable_name: string
+}
+
 export type PunishmentObject = BanObject | MuteObject
 
 export interface ServerDataResponse {

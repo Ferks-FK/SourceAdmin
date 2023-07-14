@@ -20,6 +20,7 @@ export const AdminCreateSchema = () => object().shape({
     name: string().required(fieldType('admin_name', 'admin_settings').required),
     email: string().required(fieldType('email').required).email(fieldType('email').invalid),
     steam_id: string().required(fieldType('steam_id').required).matches(steamIDRegex, fieldType('steam_id').invalid),
+    role: number().required(fieldType('role', 'role_settings').required),
     password: string().required(fieldType('admin_password', 'admin_settings').required).min(8, fieldType('password').short).matches(passwordRegex, fieldType('password').match),
     password_confirmation: string().required(fieldType('confirm_new_password').required).oneOf([ref('password')], fieldType('passwords').password)
 })
@@ -84,7 +85,7 @@ export const ReportFormSchema = () => {
         comments: string().required(fieldType('comments', 'report').required),
         reporter_name: string(),
         reporter_email: string().required(fieldType('email').your).email(fieldType('email').invalid),
-        server_id: string().required(fieldType('server', 'servers').required)
+        server_id: number().required(fieldType('server', 'servers').required)
     }, [['player_steam_id', 'player_ip']])
 }
 
@@ -102,14 +103,14 @@ export const ServerCreateSchema = () => {
         port: string().required(fieldType('port').required).matches(PortRegex, fieldType('port').invalid),
         rcon: string().required(fieldType('server_rcon', 'servers_settings').required).min(8, fieldType('rcon').short).matches(passwordRegex, fieldType('rcon').password),
         rcon_confirmation: string().required(fieldType('confirm_rcon', 'servers_settings').required).oneOf([ref('rcon')], fieldType('rcon').match),
-        mod_id: string().required(fieldType('server_mod', 'servers_settings').required),
-        region_id: string().required(fieldType('server_region', 'servers_settings').required)
+        mod_id: number().required(fieldType('server_mod', 'servers_settings').required),
+        region_id: number().required(fieldType('server_region', 'servers_settings').required)
     })
 }
 
 export const BanEditSchema = () => object().shape({
-    reason_id: string().required(fieldType('reason', 'generic').required),
-    time_ban_id: string().required(fieldType('ban_length').required)
+    reason_id: number().required(fieldType('reason', 'generic').required),
+    time_ban_id: number().required(fieldType('ban_length').required)
 })
 
 export const BanCreateSchema = () => {
@@ -140,8 +141,8 @@ export const BanCreateSchema = () => {
 }
 
 export const MuteEditSchema = () => object().shape({
-    reason_id: string().required(fieldType('reason', 'generic').required),
-    time_ban_id: string().required(fieldType('length', 'generic').required)
+    reason_id: number().required(fieldType('reason', 'generic').required),
+    time_ban_id: number().required(fieldType('length', 'generic').required)
 })
 
 export const MuteCreateSchema = () => {
@@ -165,9 +166,9 @@ export const MuteCreateSchema = () => {
             then: (schema) => schema.required(required)
         }),
         player_name: string().required(fieldType('player_name', 'report').required),
-        time_ban_id: string().required(fieldType('length', 'generic').required),
-        admin_id: string().required(fieldType('admin', 'generic').required),
-        reason_id: string().required(fieldType('reason', 'generic').required)
+        time_ban_id: number().required(fieldType('length', 'generic').required),
+        admin_id: number().required(fieldType('admin', 'generic').required),
+        reason_id: number().required(fieldType('reason', 'generic').required)
     }, [['ip', 'steam_id']])
 }
 

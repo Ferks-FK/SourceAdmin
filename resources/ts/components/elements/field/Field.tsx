@@ -6,6 +6,8 @@ import { TextArea as TextAreaComponent } from "@/components/elements/TextArea";
 import { Select as SelectComponent } from "@/components/elements/Select";
 import { FieldProps as FormikFieldProps } from 'formik';
 import { FieldProps, BaseInputProps, TextAreaProps, SelectProps } from "@/components/elements/field/types";
+import Select, { Props } from 'react-select';
+import { SelectStyle } from "./style";
 
 const Field = ({ name, label, description, touched, field, errors, children }: FieldProps) => {
   return (
@@ -40,7 +42,7 @@ const Text = ({ name, label, description, ...props }: BaseInputProps) => (
         field={field}
         errors={errors}
       >
-        <Input.Text {...field} {...props}/>
+        <Input.Text {...field} {...props} />
       </Field>
     )}
   </FormikField>
@@ -57,7 +59,7 @@ const Password = ({ name, label, description, ...props }: BaseInputProps) => (
         field={field}
         errors={errors}
       >
-        <Input.Password {...field} {...props}/>
+        <Input.Password {...field} {...props} />
       </Field>
     )}
   </FormikField>
@@ -74,7 +76,7 @@ const Email = ({ name, label, description, ...props }: BaseInputProps) => (
         field={field}
         errors={errors}
       >
-        <Input.Email {...field} {...props}/>
+        <Input.Email {...field} {...props} />
       </Field>
     )}
   </FormikField>
@@ -91,7 +93,7 @@ const TextArea = ({ name, label, description, ...props }: TextAreaProps) => (
         field={field}
         errors={errors}
       >
-        <TextAreaComponent {...field} {...props}/>
+        <TextAreaComponent {...field} {...props} />
       </Field>
     )}
   </FormikField>
@@ -108,7 +110,7 @@ const CheckBox = ({ name, label, description, ...props }: BaseInputProps) => (
         field={field}
         errors={errors}
       >
-        <Input.CheckBox {...props}/>
+        <Input.CheckBox {...props} />
       </Field>
     )}
   </FormikField>
@@ -125,13 +127,13 @@ const File = ({ name, label, description, ...props }: BaseInputProps) => (
         field={field}
         errors={errors}
       >
-        <Input.File {...props}/>
+        <Input.File {...props} />
       </Field>
     )}
   </FormikField>
 )
 
-const Select = ({ name, label, description, children, ...props }: SelectProps) => (
+const SelectElement = ({ name, label, description, children, ...props }: SelectProps) => (
   <FormikField name={name}>
     {({ field, form: { errors, touched } }: FormikFieldProps) => (
       <Field
@@ -150,6 +152,37 @@ const Select = ({ name, label, description, children, ...props }: SelectProps) =
   </FormikField>
 )
 
+export type Option = {
+  label: string
+  value: string | number
+}
+
+type MultiSelectProps = SelectProps & Props & {
+  options: Option | Option[]
+}
+
+const MultiSelect = ({ name, label, description, options, ...props }: MultiSelectProps) => (
+  <FormikField name={name}>
+    {({ field, form: { errors, touched } }: FormikFieldProps) => (
+      <Field
+        name={name}
+        label={label}
+        description={description}
+        touched={touched}
+        field={field}
+        errors={errors}
+      >
+        <Select
+          isMulti={true}
+          options={options}
+          styles={SelectStyle}
+          {...props}
+        />
+      </Field>
+    )}
+  </FormikField>
+)
+
 const _Field = Object.assign(Field, {
   Text: Text,
   Password: Password,
@@ -157,7 +190,8 @@ const _Field = Object.assign(Field, {
   TextArea: TextArea,
   CheckBox: CheckBox,
   File: File,
-  Select: Select
+  Select: SelectElement,
+  MultiSelect: MultiSelect
 })
 
 export default _Field

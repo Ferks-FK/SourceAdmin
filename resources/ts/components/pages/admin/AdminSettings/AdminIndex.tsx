@@ -5,10 +5,11 @@ import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { paginationItems } from '@/helpers';
+import { paginationItems, can } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { PaginationProps, PageProps, FlashProp, ErrorsProp } from "@/types";
 import { UserData } from "@/stores/user";
+import { AdminColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
 interface Props extends PageProps {
@@ -30,16 +31,6 @@ function AdminIndex(props: Props) {
 
   useFlashMessages(props.flash, props.errors)
 
-  const AdminColumns = [
-    "Id",
-    "Name",
-    "Email",
-    "Steam ID",
-    "Is Verified",
-    "Role",
-    "Immunity"
-  ]
-
   return (
     <PageContentBlock title={t('admin_overview.admin_overview')}>
       <div>
@@ -47,9 +38,11 @@ function AdminIndex(props: Props) {
           title={t('admin_settings.users')}
           icon={faUsers}
         >
-          <Button.InternalLink to={route('admin.settings.create')}>
-            {t('admin_settings.create_user')}
-          </Button.InternalLink>
+          {can('admin.admins.create') &&
+            <Button.InternalLink to={route('admin.settings.create')}>
+              {t('admin_settings.create_user')}
+            </Button.InternalLink>
+          }
         </Table.Header>
         <Table.Component
           columns={AdminColumns}
@@ -66,13 +59,13 @@ function AdminIndex(props: Props) {
               <Table.Td>{admin.email}</Table.Td>
               <Table.Td>{admin.steam_id}</Table.Td>
               <Table.Td>{admin.email_verified_at ? "yes" : "no"}</Table.Td>
-              <Table.Td>admin</Table.Td>
+              <Table.Td>{admin.roles.at(0)?.name}</Table.Td>
               <Table.Td>100</Table.Td>
             </Table.Row>
           ))}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > adminData.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > adminData.length} />
     </PageContentBlock>
   )
 }

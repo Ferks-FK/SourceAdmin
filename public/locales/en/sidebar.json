@@ -7,12 +7,10 @@
     "appeal_ban": "Appeal Ban",
     "admin": "Admin",
     "admin_overview": "Admin Overview",
-    "admin_settings": "Admin Settings",
-    "server_settings": "Server Settings",
-    "bans_settings": "Bans Settings",
-    "mutes_settings": "Mutes Settings",
-    "group_settings": "Group Settings",
-    "mods_settings": "Mods Settings",
-    "panel_settings": "Panel Settings",
+    "admins": "Administrators",
+    "groups": "Groups",
+    "mods": "Mods",
+    "roles": "Roles",
+    "settings": "Settings",
     "return": "Return"
 }

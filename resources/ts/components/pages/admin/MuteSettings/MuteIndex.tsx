@@ -12,6 +12,7 @@ import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, MuteObject, FlashProp, ErrorsProp } from "@/types";
+import { AdminMutesColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
 interface Props {
@@ -34,16 +35,6 @@ function MuteIndex(props: Props) {
 
   useFlashMessages(props.flash, props.errors)
 
-  const CommsColumns = [
-    "Id",
-    "MOD/Type",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
-
   return (
     <PageContentBlock title={t('mutes_settings.mutes_overview')}>
       <div>
@@ -56,7 +47,7 @@ function MuteIndex(props: Props) {
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
-          columns={CommsColumns}
+          columns={AdminMutesColumns}
           dataLength={mutesData.length}
         >
           {mutesData.map((mute) => {

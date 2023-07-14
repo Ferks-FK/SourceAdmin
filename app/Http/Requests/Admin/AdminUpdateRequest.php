@@ -50,6 +50,7 @@ class AdminUpdateRequest extends FormRequest
                 'regex:/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/',
                 Rule::unique('users', 'steam_id')->ignore($this->user->steam_id, 'steam_id'),
             ],
+            'role' => ['nullable', 'numeric', 'exists:roles,id'],
             'current_password' => [
                 'required',
                 'min:8'

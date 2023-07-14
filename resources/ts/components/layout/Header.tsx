@@ -39,7 +39,7 @@ function Header() {
               <Select
                 value={currentLanguage ?? ''}
                 onChange={(e) => changeLanguage(e.currentTarget.value)}
-                className={'!py-1.5'}
+                className={'!py-1.5 text-sm'}
               >
                 {supportedLanguages.map(({ name, code }) => (
                   <option key={code} value={code}>

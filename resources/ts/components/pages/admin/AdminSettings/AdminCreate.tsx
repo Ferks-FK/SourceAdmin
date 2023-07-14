@@ -7,10 +7,12 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp } from "@/types";
+import { FlashProp, ErrorsProp, RoleObject } from "@/types";
+import { useState } from "react";
 import route from 'ziggy-js';
 
 interface Props {
+  roles: RoleObject[]
   flash: FlashProp
   errors: ErrorsProp
 }
@@ -19,11 +21,13 @@ interface Values {
   name: string
   email: string
   steam_id: string
+  role: string
   password: string
   password_confirmation: string
 }
 
-function AdminCreate({ flash, errors }: Props) {
+function AdminCreate(props: Props) {
+  const [roles] = useState<RoleObject[]>(props.roles)
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -34,7 +38,7 @@ function AdminCreate({ flash, errors }: Props) {
     })
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('admin_settings.create_new_admin')}>
@@ -44,13 +48,14 @@ function AdminCreate({ flash, errors }: Props) {
           name: '',
           email: '',
           steam_id: '',
+          role: '',
           password: '',
           password_confirmation: ''
         }}
 
         validationSchema={AdminCreateSchema()}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setFieldValue }) => (
           <Form
             formikClassNames={'flex justify-center w-full'}
             formSize={'full'}
@@ -74,6 +79,22 @@ function AdminCreate({ flash, errors }: Props) {
                   label={t('admin_settings.admin_steam_id')}
                   description={t('generic.steam_id_formats')}
                 />
+                <Field.Select
+                  name={'role'}
+                  id={'role'}
+                  label={t('role_settings.role')}
+                  value={values.role || 'default_value'}
+                  onChange={(e) => setFieldValue('role', e.target.value)}
+                >
+                  <option key={'disabled'} value={'default_value'} disabled>
+                    {t('generic.select_role')}
+                  </option>
+                  {roles.map(({ id, name }) => (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
+                </Field.Select>
                 <Field.Password
                   name={'password'}
                   id={'password'}

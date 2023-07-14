@@ -32,7 +32,7 @@ function Form({ title, formSize, children, className, formikClassNames, ...props
 
   return (
     <div className="flex flex-col items-center w-full h-full gap-4">
-      <div className={`flex flex-col w-full overflow-y-auto items-center ${handleFormSize()}`}>
+      <div className={`flex flex-col w-full items-center ${handleFormSize()}`}>
         { title && <h2 className="text-3xl text-center text-neutral-100 font-medium py-4">{title}</h2> }
         <FormikForm { ...props } className={classNames(formikClassNames)}>
           <div className={classNames('flex flex-col p-5 rounded-md bg-dark-secondary', className)}>

@@ -13,6 +13,7 @@ import { useDebounce } from 'use-debounce';
 import { useFlashesStore } from '@/stores/flashes';
 import { FormatLocaleDate } from '@/i18n/locales';
 import { PaginationProps, MuteObject, PageProps } from "@/types";
+import { MutesColumns } from '@/TableColumns';
 import http from '@/api/http';
 import route from 'ziggy-js';
 
@@ -52,16 +53,6 @@ function MutesContainer(props: Props) {
     }
   }, [debouncedValue])
 
-
-  const CommsColumns = [
-    "MOD/Type",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
-
   return (
     <PageContentBlock title={t('mutes', { ns: 'sidebar' })}>
       <div>
@@ -78,7 +69,7 @@ function MutesContainer(props: Props) {
           />
         </Table.Header>
         <Table.Component
-          columns={CommsColumns}
+          columns={MutesColumns}
           dataLength={mutesData.length}
         >
           {mutesData.map((mute) => {

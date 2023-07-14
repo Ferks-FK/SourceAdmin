@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\AdminSettings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use App\Http\Requests\Admin\AdminCreateRequest;
 use App\Http\Requests\Admin\AdminUpdateRequest;
 use Inertia\Inertia;
@@ -30,7 +31,11 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/AdminSettings/AdminCreate');
+        //$this->authorize('create', User::class);
+
+        return Inertia::render('admin/AdminSettings/AdminCreate', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -54,10 +59,13 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        //$this->authorize('edit', User::class);
+
+        $user = User::with('roles')->findOrFail($id);
 
         return Inertia::render('admin/AdminSettings/AdminShow', [
-            'user' => $user
+            'user' => $user,
+            'roles' => Role::all()
         ]);
     }
 
@@ -81,7 +89,7 @@ class AdminController extends Controller
      */
     public function update(AdminUpdateRequest $request, $id)
     {
-        $data = $request->except('new_password_confirmation');
+        $data = $request->except(['new_password_confirmation', 'role']);
         $user = User::findOrFail($id);
 
         if ($request->input('new_password')) {
@@ -92,6 +100,14 @@ class AdminController extends Controller
             if (!$user->should_re_login) {
                 $user->should_re_login = true;
             }
+        }
+
+        if ($request->role) {
+            if ($user->roles->count() >= 1) {
+                $user->removeRole($user->roles[0]);
+            }
+
+            $user->assignRole($request->role);
         }
 
         $user->fill($data);
@@ -117,6 +133,8 @@ class AdminController extends Controller
 
     protected function getUsersData()
     {
-        return QueryBuilder::for(User::class)->paginate(10)->appends(request()->query());
+        return QueryBuilder::for(User::class)
+            ->with('roles')
+            ->paginate(10)->appends(request()->query());
     }
 }

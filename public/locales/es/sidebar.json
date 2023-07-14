@@ -7,12 +7,10 @@
     "appeal_ban": "Prohibición de protestas",
     "admin": "Administración",
     "admin_overview": "Administración General",
-    "admin_settings": "Administrar Admins",
-    "server_settings": "Administrar Servidores",
-    "bans_settings": "Administrar Prohibiciones",
-    "mutes_settings": "Administrar Silenciamientos",
-    "group_settings": "Administrar Grupos",
-    "mods_settings": "Administrar Mods",
-    "panel_settings": "Administrar Panel",
+    "admins": "Administradores",
+    "groups": "Grupos",
+    "mods": "Mods",
+    "roles": "Funciones",
+    "settings": "Ajustes",
     "return": "Volver"
 }

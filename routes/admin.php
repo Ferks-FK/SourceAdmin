@@ -8,7 +8,8 @@ use App\Http\Controllers\Admin\{
     Mod\ModController,
     Group\GroupController,
     Server\ServerController,
-    Settings\SettingsController
+    Settings\SettingsController,
+    Role\RoleController
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -73,5 +74,18 @@ Route::name('admin.')->group(function() {
         Route::post('/store', [MuteController::class, 'store'])->name('mutes.store');
         Route::patch('/update/{id}', [MuteController::class, 'update'])->name('mutes.update');
         Route::delete('/{id}', [MuteController::class, 'destroy'])->name('mutes.destroy');
+    });
+
+    Route::group(['prefix' => 'group_settings'], function() {
+        Route::get('/', [GroupController::class, 'index'])->name('groups.index');
+    });
+
+    Route::group(['prefix' => 'roles_settings'], function() {
+        Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+        Route::get('/{id}', [RoleController::class, 'show'])->name('roles.show');
+        Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
+        Route::patch('/update/{id}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
     });
 });

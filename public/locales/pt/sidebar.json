@@ -7,12 +7,10 @@
     "appeal_ban": "Protestar Banimento",
     "admin": "Administração",
     "admin_overview": "Administração Geral",
-    "admin_settings": "Administrar Admins",
-    "server_settings": "Administrar Servidores",
-    "bans_settings": "Administrar Banimentos",
-    "mutes_settings": "Administrar Mutes",
-    "group_settings": "Administrar Grupos",
-    "mods_settings": "Administrar Mods",
-    "panel_settings": "Administrar Painel",
+    "admins": "Administradores",
+    "groups": "Grupos",
+    "mods": "Mods",
+    "roles": "Funções",
+    "settings": "Configurações",
     "return": "Voltar"
 }

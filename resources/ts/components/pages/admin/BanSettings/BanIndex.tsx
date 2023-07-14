@@ -12,6 +12,7 @@ import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, BanObject, FlashProp, ErrorsProp } from "@/types";
+import { AdminBansColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
 interface Props {
@@ -34,16 +35,6 @@ function BanIndex(props: Props) {
 
   useFlashMessages(props.flash, props.errors)
 
-  const BansColumns = [
-    "Id",
-    "MOD/Country",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
-
   return (
     <PageContentBlock title={t('bans_settings.bans_overview')}>
       <div>
@@ -56,7 +47,7 @@ function BanIndex(props: Props) {
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
-          columns={BansColumns}
+          columns={AdminBansColumns}
           dataLength={bansData.length}
         >
           {bansData.map((ban) => {

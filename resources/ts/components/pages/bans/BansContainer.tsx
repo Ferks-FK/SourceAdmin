@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDebounce } from 'use-debounce';
 import { FormatLocaleDate } from '@/i18n/locales';
 import { faBan, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { BansColumns } from '@/TableColumns';
 import http from '@/api/http';
 import route from 'ziggy-js';
 
@@ -51,15 +52,6 @@ function BansContainer(props: Props) {
       }
     }
   }, [debouncedValue])
-
-  const BansColumns = [
-    "MOD/Country",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
 
   return (
     <PageContentBlock title={t('bans', { ns: 'sidebar' })}>

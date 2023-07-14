@@ -8,6 +8,7 @@ use Database\Seeders\RegionsSeeder;
 use Database\Seeders\ReasonSeeder;
 use Database\Seeders\TimeBansSeeder;
 use Database\Seeders\UserWeb;
+use Database\Seeders\PermissionsSeeder;
 use App\Models\User;
 use App\Models\Server;
 use App\Models\Ban;
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
             ModsSeeder::class,
             ReasonSeeder::class,
             TimeBansSeeder::class,
-            RegionsSeeder::class
+            RegionsSeeder::class,
+            PermissionsSeeder::class
         ]);
 
         if (config("app.env") === "development" || config("app.env") === "local") {

@@ -2,6 +2,7 @@ import { MD5 } from "crypto-js";
 import { FilterDataProps } from "@/helpers/types";
 import { PaginationProps, PunishmentObject } from "@/types";
 import { TFunction } from "i18next";
+import { useUserStore } from "@/stores/user";
 
 export function md5(string: string) {
   return MD5(string.toLowerCase().trim())
@@ -92,4 +93,14 @@ export function formatSizeUnits(size: number) {
   }
 
   return `${size.toFixed(2)} ${units[index]}`;
+}
+
+export function can(permission: string) {
+    const [ data ] = useUserStore((state) => [state.data])
+
+    if (data?.permissions?.includes('*')) {
+        return true
+    }
+
+    return data?.permissions?.find((perm) => perm === permission) ? true : false
 }

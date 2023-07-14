@@ -64,19 +64,49 @@ function ServersContainer(props: Props) {
   }, [])
 
   const ServerColumns = [
-    "MOD",
-    "OS",
-    "VAC",
-    "HostName",
-    "Players",
-    "Map",
-    "Ping"
+    {
+      name: "MOD",
+      i18nKey: "mod"
+    },
+    {
+      name: "OS",
+      i18nKey: "os"
+    },
+    {
+      name: "VAC",
+      i18nKey: "vac"
+    },
+    {
+      name: "HostName",
+      i18nKey: "host_name"
+    },
+    {
+      name: "Players",
+      i18nKey: "players"
+    },
+    {
+      name: "Map",
+      i18nKey: "map"
+    },
+    {
+      name: "Ping",
+      i18nKey: "ping"
+    }
   ]
 
   const PlayerColumns = [
-    "Name",
-    "Score",
-    "Time"
+    {
+      name: "Name",
+      i18nKey: "name"
+    },
+    {
+      name: "Score",
+      i18nKey: "score"
+    },
+    {
+      name: "Time",
+      i18nKey: "time"
+    }
   ]
 
   return (
@@ -102,7 +132,7 @@ function ServersContainer(props: Props) {
                   {server.loading ?
                     ServerColumns.map((column, index) => (
                       <Table.Td key={`connecting_${index}`}>
-                        {column === "HostName" && t('servers.quering_server_data')}
+                        {column.name === "HostName" && t('servers.quering_server_data')}
                       </Table.Td>
                     ))
                     :

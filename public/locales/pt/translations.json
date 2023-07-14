@@ -126,6 +126,14 @@
         "server_region": "Região do servidor",
         "server_enabled": "Servidor ativado"
     },
+    "role_settings": {
+        "role": "Função",
+        "create_role": "Criar função",
+        "create_new_role": "Criar nova função",
+        "role_name": "Nome da função",
+        "role_description": "Descrição da função",
+        "permissions": "Permissões"
+    },
     "generic": {
         "message_not_found": "Mensagem não encontrada.",
         "search": "Buscar...",
@@ -143,6 +151,7 @@
         "select_reason": "Selecionar motivo",
         "select_mod": "Selecionar MOD",
         "select_region": "Selecionar Região",
+        "select_role": "Selecionar Função",
         "never": "Nunca",
         "admin": "Administrador",
         "status": "Status",

@@ -10,6 +10,7 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems } from '@/helpers';
 import { useTranslation } from 'react-i18next';
 import { PaginationProps, ServerDataResponse, FlashProp, ErrorsProp } from "@/types";
+import { AdminServerColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
 interface Props {
@@ -62,16 +63,6 @@ function ServerIndex(props: Props) {
 
   useFlashMessages(props.flash, props.errors);
 
-  const ServerColumns = [
-    "MOD",
-    "OS",
-    "VAC",
-    "HostName",
-    "Players",
-    "Map",
-    "Ping"
-  ]
-
   return (
     <PageContentBlock title={t('servers_settings.servers_overview')}>
       <div>
@@ -84,7 +75,7 @@ function ServerIndex(props: Props) {
           </Button.InternalLink>
         </Table.Header>
         <Table.Component
-          columns={ServerColumns}
+          columns={AdminServerColumns}
           dataLength={serverData.length}
         >
           {serverData.map((server) => {
@@ -94,14 +85,15 @@ function ServerIndex(props: Props) {
             return (
               <Table.Row key={serverId} onClick={() => handleClick(server.id)}>
                 {server.loading ?
-                  ServerColumns.map((column, index) => (
+                  AdminServerColumns.map((column, index) => (
                     <Table.Td key={`connecting_${index}`}>
-                      {column === "HostName" && t('servers.quering_server_data')}
+                      {column.name === "HostName" && t('servers.quering_server_data')}
                     </Table.Td>
                   ))
                   :
                   serverInfo ?
                   <>
+                    <Table.Td>{serverInfo.Id}</Table.Td>
                     <Table.Td>
                       <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
                     </Table.Td>

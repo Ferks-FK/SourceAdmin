@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
 import { FormatLocaleDate } from '@/i18n/locales';
 import { BanObject, MuteObject, ServerDataResponse } from "@/types";
+import { ServerColumns, BansColumns, MutesColumns } from '@/TableColumns';
 
 export interface Props {
   serversIds: number[]
@@ -56,34 +57,6 @@ function DashboardContainer({ serversIds, ...props }: Props) {
     fetchServerData();
   }, [])
 
-  const ServerColumns = [
-    "MOD",
-    "OS",
-    "VAC",
-    "HostName",
-    "Players",
-    "Map",
-    "Ping"
-  ]
-
-  const BansColumns = [
-    "MOD/Country",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
-
-  const CommsColumns = [
-    "MOD/Type",
-    "Date/Time",
-    "Player",
-    "Admin",
-    "Length",
-    "Progress"
-  ]
-
   return (
     <PageContentBlock title={t('dashboard.dashboard')} className={'gap-10'}>
       <div className='flex flex-col gap-10'>
@@ -107,7 +80,7 @@ function DashboardContainer({ serversIds, ...props }: Props) {
                   {server.loading ?
                     ServerColumns.map((column, index) => (
                       <Table.Td key={`connecting_${index}`}>
-                        {column === "HostName" && t('servers.quering_server_data')}
+                        {column.name === "HostName" && t('servers.quering_server_data')}
                       </Table.Td>
                     ))
                     :
@@ -199,7 +172,7 @@ function DashboardContainer({ serversIds, ...props }: Props) {
             <p>{t('mutes.total_blocked', {mutesCount})}</p>
           </Table.Header>
           <Table.Component
-            columns={CommsColumns}
+            columns={MutesColumns}
             dataLength={mutesData.length}
           >
             {mutesData.map((mute) => {
@@ -246,7 +219,7 @@ function DashboardContainer({ serversIds, ...props }: Props) {
             <p>{t('mutes.total_stopped', {mutesCount})}</p>
           </Table.Header>
           <Table.Component
-            columns={CommsColumns}
+            columns={MutesColumns}
             dataLength={mutesData.length}
           >
             {mutesData.map((mute) => {

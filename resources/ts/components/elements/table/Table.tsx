@@ -1,4 +1,3 @@
-import { lowerCase } from "lodash";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/elements/button";
 import { iconPosition } from "@/components/elements/button/types";
@@ -10,6 +9,7 @@ import styles from "./style.module.css"
 
 const Table = ({ columns, children, className, ...props }: TableProps) => {
   const { t } = useTranslation();
+  console.log(columns)
 
   return (
     <>
@@ -17,9 +17,9 @@ const Table = ({ columns, children, className, ...props }: TableProps) => {
         <table className={styles.table}>
           <thead className={styles.thread}>
             <tr>
-              {columns.map((column) => (
-                <td key={lowerCase(column)} className="py-3 px-6">
-                  {t(lowerCase(column).replace(' ', ''), { ns: 'table' })}
+              {columns.map(({ name, i18nKey, ns = 'table' }) => (
+                <td key={name.toLowerCase().replace(/[\/_]/g, '_')} className={'py-3 px-6'}>
+                  {t(i18nKey, {ns: ns})}
                 </td>
               ))}
             </tr>
