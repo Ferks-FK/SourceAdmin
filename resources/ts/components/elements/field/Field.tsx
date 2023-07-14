@@ -8,6 +8,7 @@ import { FieldProps as FormikFieldProps } from 'formik';
 import { FieldProps, BaseInputProps, TextAreaProps, SelectProps } from "@/components/elements/field/types";
 import Select, { Props } from 'react-select';
 import { SelectStyle } from "./style";
+import { useTranslation } from "react-i18next";
 
 const Field = ({ name, label, description, touched, field, errors, children }: FieldProps) => {
   return (
@@ -161,8 +162,11 @@ type MultiSelectProps = SelectProps & Props & {
   options: Option | Option[]
 }
 
-const MultiSelect = ({ name, label, description, options, ...props }: MultiSelectProps) => (
-  <FormikField name={name}>
+const MultiSelect = ({ name, label, description, options, ...props }: MultiSelectProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <FormikField name={name}>
     {({ field, form: { errors, touched } }: FormikFieldProps) => (
       <Field
         name={name}
@@ -176,12 +180,14 @@ const MultiSelect = ({ name, label, description, options, ...props }: MultiSelec
           isMulti={true}
           options={options}
           styles={SelectStyle}
+          placeholder={t('generic.search')}
           {...props}
         />
       </Field>
     )}
   </FormikField>
-)
+  )
+}
 
 const _Field = Object.assign(Field, {
   Text: Text,

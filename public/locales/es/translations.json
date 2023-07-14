@@ -164,6 +164,7 @@
         "short_attribute": "El {{attribute}} es demasiado corto.",
         "match_attribute": "Los {{attribute}} no coinciden.",
         "your_attribute": "Su {{attribute}} es obligatorio(a).",
+        "min_options_attribute": "El {{attribute}} debe tener seleccionada al menos una de las opciones.",
         "following_fields_attribute": "Debe facilitarse al menos uno de los siguientes campos: {{attribute}}",
         "name_or_email": "Nombre o correo electrónico",
         "password": "Contraseña",

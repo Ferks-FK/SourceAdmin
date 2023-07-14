@@ -25,6 +25,7 @@ export const fieldType = (field: string | Array<FieldObject>, group: string = 'y
         short: t('yup_schemas.short_attribute', {attribute: attribute, ns: ns}),
         match: t('yup_schemas.match_attribute', {attribute: attribute, ns: ns}),
         your: t('yup_schemas.your_attribute', {attribute: attribute, ns: ns}),
+        min_options: t('yup_schemas.min_options_attribute', {attribute: attribute, ns: ns}),
         following_fields: t('yup_schemas.following_fields_attribute', {attribute: fields.join(', '), ns: ns})
     }
 }

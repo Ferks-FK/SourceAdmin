@@ -164,6 +164,7 @@
         "short_attribute": "O campo {{attribute}} é muito curto(a).",
         "match_attribute": "O campo {{attribute}} não correspondem.",
         "your_attribute": "Seu {{attribute}} é obrigatório(a).",
+        "min_options_attribute": "O campo {{attribute}} deve ter pelo menos uma das opções selecionadas.",
         "following_fields_attribute": "Pelo menos um dos seguintes campos deve ser fornecidos: {{attribute}}",
         "name_or_email": "Nome ou email",
         "password": "Senha",

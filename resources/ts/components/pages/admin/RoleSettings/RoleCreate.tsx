@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { UserData } from "@/stores/user";
 import { PermissionObject, FlashProp, ErrorsProp } from "@/types";
 import { Option } from "@/components/elements/field/Field";
+import { RoleCreateSchema } from "@/yup/YupSchemas";
 import route from 'ziggy-js';
 
 interface Props {
@@ -51,7 +52,7 @@ function RoleCreate(props: Props) {
           description: '',
           permissions: ''
         }}
-        //validationSchema={BanCreateSchema()}
+        validationSchema={RoleCreateSchema()}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form
@@ -80,9 +81,7 @@ function RoleCreate(props: Props) {
                   onChange={(options: readonly Option[]) => {
                     setFieldValue('permissions', options.map((option) => option.value))
                   }}
-                  options={permissionsData.map((permission) => {
-                    return {label: permission.readable_name, value: permission.name}
-                  })}
+                  options={permissionsData.map((permission) => ({ label: permission.readable_name, value: permission.name }))}
                 />
               </div>
               <div className="flex flex-col items-center">

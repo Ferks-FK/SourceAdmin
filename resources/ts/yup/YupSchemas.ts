@@ -1,4 +1,4 @@
-import { object, string, ref, number } from 'yup';
+import { object, string, ref, number, array } from 'yup';
 import { fieldType, FieldObject } from '@/yup/YupFields';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
@@ -172,4 +172,10 @@ export const MuteCreateSchema = () => {
         reason_id: number().required(fieldType('reason', 'generic').required)
     }, [['ip', 'steam_id']])
 }
+
+export const RoleCreateSchema = () => object().shape({
+    name: string().required(fieldType('role_name', 'role_settings').required),
+    description: string(),
+    permissions: array().required(fieldType('permissions', 'role_settings').required).min(1, fieldType('permissions', 'role_settings').min_options)
+})
 
