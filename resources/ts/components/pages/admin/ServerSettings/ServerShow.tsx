@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { ServerDataResponse, ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
 import route from 'ziggy-js';
+import { can } from "@/helpers";
 
 interface Props {
   flash: FlashProp
@@ -47,6 +48,7 @@ function ServerShow(props: Props) {
   const [serverData] = useState(props.server);
   const [modsData] = useState(props.mods);
   const [regionsData] = useState(props.regions);
+  const [userCanEdit, userCanDelete] = [can('admin.servers.edit'), can('admin.servers.destroy')]
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -110,9 +112,6 @@ function ServerShow(props: Props) {
                 <div className="flex flex-col items-center text-center md:items-end gap-2 md:text-right">
                   <p>{t('generic.created_at')}: {FormatLocaleDate(serverData.Created_At, props.timeZone)}</p>
                   <p>{t('generic.updated_at')}: {FormatLocaleDate(serverData.Updated_At, props.timeZone)}</p>
-                  <Button.Danger className={'!font-header'} onClick={showModal}>
-                    {t('delete_server', {ns: 'buttons'})}
-                  </Button.Danger>
                 </div>
                 <Modal
                   isVisible={modalVisible}
@@ -145,31 +144,36 @@ function ServerShow(props: Props) {
               className={'max-w-6xl w-full'}
             >
               <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
+                <Field.FieldRow>
                   <Field.Text
                     name={'ip'}
                     id={'ip'}
                     label={t('servers_settings.server_ip_or_domain')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Text
                     name={'port'}
                     id={'port'}
                     label={t('servers_settings.server_port')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Password
                     name={'rcon'}
                     id={'rcon'}
                     label={t('servers_settings.current_rcon')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Password
                     name={'new_rcon'}
                     id={'new_rcon'}
                     label={t('servers_settings.new_rcon')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Password
                     name={'new_rcon_confirmation'}
                     id={'new_rcon_confirmation'}
                     label={t('servers_settings.confirm_new_rcon')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Select
                     name={'mod_id'}
@@ -177,6 +181,7 @@ function ServerShow(props: Props) {
                     label={t('servers_settings.server_mod')}
                     value={values.mod_id}
                     onChange={(e) => setFieldValue('mod_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {modsData.map(({ id, name }) => (
                       <option key={id} value={id}>
@@ -190,6 +195,7 @@ function ServerShow(props: Props) {
                     label={t('servers_settings.server_region')}
                     value={values.region_id}
                     onChange={(e) => setFieldValue('region_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {regionsData.map(({ id, region }) => (
                       <option key={id} value={id}>
@@ -204,12 +210,16 @@ function ServerShow(props: Props) {
                     value={values.enabled as string}
                     checked={values.enabled as boolean}
                     onChange={(e) => setFieldValue('enabled', e.target.checked)}
+                    disabled={!userCanEdit}
                   />
-                </div>
-                <div className="flex flex-col items-center">
-                  <Button.Text type={'submit'} disabled={isSubmitting}>
+                </Field.FieldRow>
+                <div className="flex items-center justify-center gap-2">
+                  <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
                     {t('submit', {ns: 'buttons'})}
                   </Button.Text>
+                  <Button.Danger type="button" className={'!font-header'} disabled={!userCanDelete} onClick={showModal}>
+                    {t('delete_server', {ns: 'buttons'})}
+                  </Button.Danger>
                 </div>
               </div>
             </Form>

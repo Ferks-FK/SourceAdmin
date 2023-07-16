@@ -56,7 +56,6 @@ export function getPercentage(props: PunishmentObject) {
 };
 
 export const filterData = (props: FilterDataProps) => {
-  console.log(props.data)
   return props.data.filter((item) => props.keys.some((key) => {
     if (item[key] == null) {
       return null
@@ -98,9 +97,9 @@ export function formatSizeUnits(size: number) {
 export function can(permission: string) {
     const [ data ] = useUserStore((state) => [state.data])
 
-    if (data?.permissions?.includes('*')) {
+    if (data?.roles.at(0)?.permissions?.some((permission) => permission.name === '*')) {
         return true
     }
 
-    return data?.permissions?.find((perm) => perm === permission) ? true : false
+    return data?.roles.at(0)?.permissions?.find((perm) => perm.name === permission) ? true : false
 }

@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { BanObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
 import route from 'ziggy-js';
+import { can } from "@/helpers";
 
 interface Props {
   flash: FlashProp
@@ -39,9 +40,8 @@ function BanShow(props: Props) {
   const [reasonsData] = useState(props.reasons);
   const [timeBansData] = useState(props.timeBans);
   const [banInfo] = useState(props.ban);
+  const [userCanEdit, userCanDelete] = [can('admin.bans.edit'), can('admin.bans.destroy')];
   const { t } = useTranslation();
-
-  console.log(banInfo.server_id)
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -185,26 +185,6 @@ function BanShow(props: Props) {
               {t('reban', { ns: 'buttons' })}
             </Button.Text>
           }
-          <Button.Danger className={'!font-header'} onClick={() => showModal(
-            <>
-              <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-left">{t('bans_settings.delete_ban_of', { playerName: banInfo.player_name })}?</h3>
-                <p className="text-sm">
-                  {t('bans_settings.delete_ban_of_message')}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <Button.Text onClick={hideModal}>
-                  {t('cancel', { ns: 'buttons' })}
-                </Button.Text>
-                <Button.Danger onClick={handleDelete}>
-                  {t('delete', { ns: 'buttons' })}
-                </Button.Danger>
-              </div>
-            </>
-          )}>
-            {t('delete_ban', { ns: 'buttons' })}
-          </Button.Danger>
         </div>
       </div>
       <Formik
@@ -233,13 +213,14 @@ function BanShow(props: Props) {
               className={'max-w-6xl w-full'}
             >
               <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-2 gap-2 lg:gap-4">
+                <Field.FieldRow>
                   <Field.Select
                     name={'time_ban_id'}
                     id={'time_ban_id'}
                     label={t('generic.length')}
                     value={values.time_ban_id}
                     onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {timeBansData.map(({ id, name }) => (
                       <option key={id} value={id}>
@@ -253,6 +234,7 @@ function BanShow(props: Props) {
                     label={t('generic.reason')}
                     value={values.reason_id}
                     onChange={(e) => setFieldValue('reason_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {reasonsData.map(({ id, reason }) => (
                       <option key={id} value={id}>
@@ -260,11 +242,31 @@ function BanShow(props: Props) {
                       </option>
                     ))}
                   </Field.Select>
-                </div>
-                <div className="flex flex-col items-center">
-                  <Button.Text type={'submit'} disabled={isSubmitting}>
+                </Field.FieldRow>
+                <div className="flex items-center justify-center gap-2">
+                  <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
                     {t('submit', { ns: 'buttons' })}
                   </Button.Text>
+                  <Button.Danger type="button" className={'!font-header'} disabled={!userCanDelete} onClick={() => showModal(
+                    <>
+                      <div className="flex flex-col gap-4">
+                        <h3 className="text-2xl text-left">{t('bans_settings.delete_ban_of', { playerName: banInfo.player_name })}?</h3>
+                        <p className="text-sm">
+                          {t('bans_settings.delete_ban_of_message')}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button.Text onClick={hideModal}>
+                          {t('cancel', { ns: 'buttons' })}
+                        </Button.Text>
+                        <Button.Danger onClick={handleDelete}>
+                          {t('delete', { ns: 'buttons' })}
+                        </Button.Danger>
+                      </div>
+                    </>
+                  )}>
+                    {t('delete_ban', { ns: 'buttons' })}
+                  </Button.Danger>
                 </div>
               </div>
             </Form>

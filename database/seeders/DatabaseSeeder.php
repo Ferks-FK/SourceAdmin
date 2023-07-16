@@ -37,6 +37,20 @@ class DatabaseSeeder extends Seeder
             Server::factory(1)->create();
             Ban::factory(150)->create();
             Mute::factory(150)->create();
+
+            $this->editMyUser();
         }
+    }
+
+    protected function editMyUser()
+    {
+        $me = User::find(1);
+
+        $me->name = 'Ferks';
+        $me->should_re_login = false;
+        $me->steam_id = 'STEAM_0:1:222936006';
+
+        $me->save();
+        $me->assignRole('admin');
     }
 }

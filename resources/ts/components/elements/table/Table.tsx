@@ -9,7 +9,6 @@ import styles from "./style.module.css"
 
 const Table = ({ columns, children, className, ...props }: TableProps) => {
   const { t } = useTranslation();
-  console.log(columns)
 
   return (
     <>

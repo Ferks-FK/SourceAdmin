@@ -19,6 +19,8 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', User::class);
+
         return Inertia::render('admin/AdminSettings/AdminIndex', [
             'data' => $this->getUsersData()
         ]);
@@ -31,7 +33,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //$this->authorize('create', User::class);
+        $this->authorize('create', User::class);
 
         return Inertia::render('admin/AdminSettings/AdminCreate', [
             'roles' => Role::all()
@@ -46,6 +48,8 @@ class AdminController extends Controller
      */
     public function store(AdminCreateRequest $request)
     {
+        $this->authorize('create', User::class);
+
         User::create($request->except('password_confirmation'));
 
         return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully created.'));
@@ -59,7 +63,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //$this->authorize('edit', User::class);
+        $this->authorize('show', User::class);
 
         $user = User::with('roles')->findOrFail($id);
 
@@ -67,17 +71,6 @@ class AdminController extends Controller
             'user' => $user,
             'roles' => Role::all()
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -89,6 +82,8 @@ class AdminController extends Controller
      */
     public function update(AdminUpdateRequest $request, $id)
     {
+        $this->authorize('show', User::class);
+
         $data = $request->except(['new_password_confirmation', 'role']);
         $user = User::findOrFail($id);
 
@@ -124,6 +119,8 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', User::class);
+
         $user = User::findOrFail($id);
 
         $user->delete();

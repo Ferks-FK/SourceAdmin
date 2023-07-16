@@ -36,6 +36,8 @@ class BanController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Ban::class);
+
         $reasons = Reason::all(['id', 'reason']);
         $time_bans = TimeBan::all(['id', 'name']);
         $admins = User::orderBy('name', 'ASC')->get(['id', 'name']);
@@ -55,6 +57,8 @@ class BanController extends Controller
      */
     public function store(BanCreateRequest $request)
     {
+        $this->authorize('create', Ban::class);
+
         Ban::create($request->all());
 
         return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully created.'));
@@ -92,17 +96,6 @@ class BanController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -111,6 +104,8 @@ class BanController extends Controller
      */
     public function update(BanUpdateRequest $request, $id)
     {
+        $this->authorize('show', Ban::class);
+
         $ban = Ban::findOrFail($id);
         $ban->fill($request->all());
         $ban->save();
@@ -126,6 +121,8 @@ class BanController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', Ban::class);
+
         $ban = Ban::findOrFail($id);
         $ban->delete();
 
@@ -152,7 +149,6 @@ class BanController extends Controller
         $data['admin_id'] = $admin->id;
 
         $ban->fill($data);
-
         $ban->save();
 
         return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));

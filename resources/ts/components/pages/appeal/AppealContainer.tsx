@@ -60,7 +60,7 @@ function AppealContainer({ flash, errors }: Props) {
             className={'max-w-6xl w-full'}
           >
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
+              <Field.FieldRow>
                 <Field.Text
                   name={'player_steam_id'}
                   label={t('report.steam_id')}
@@ -89,7 +89,7 @@ function AppealContainer({ flash, errors }: Props) {
                   id={'player_email'}
                   label={t('report.your_email')}
                 />
-              </div>
+              </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting} className={'p-2'}>
                   {t('submit', {ns: 'buttons'})}

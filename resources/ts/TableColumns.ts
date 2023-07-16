@@ -149,6 +149,11 @@ export const RolesColumns = [
         i18nKey: "name"
     },
     {
+        name: 'Description',
+        i18nKey: "generic.description",
+        ns: 'translations'
+    },
+    {
         name: 'Users Count',
         i18nKey: "users_count"
     },

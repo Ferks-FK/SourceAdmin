@@ -25,10 +25,8 @@ class PermissionsSeeder extends Seeder
 
     protected function createPermissions()
     {
-        foreach(config('permissions_web') as $name => $values) {
-            foreach($values as $value) {
-                Permission::create(['name' => $value, 'readable_name' => $name]);
-            }
+        foreach(config('permissions_web') as $permission_name => $permission_value) {
+            Permission::create(['name' => $permission_value, 'readable_name' => $permission_name]);
         }
     }
 

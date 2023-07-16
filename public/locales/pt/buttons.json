@@ -6,6 +6,7 @@
     "submit": "Enviar",
     "cancel": "Cancelar",
     "delete": "Excluir",
+    "update": "Atualizar",
     "unban": "Desbanir",
     "reban": "Rebanir",
     "unmute": "Desmutar",
@@ -13,5 +14,6 @@
     "delete_account": "Excluir conta",
     "delete_ban": "Exluir banimento",
     "delete_mute": "Excluir Mute",
-    "delete_server": "Excluir Servidor"
+    "delete_server": "Excluir Servidor",
+    "delete_role": "Excluir Função"
 }

@@ -8,7 +8,7 @@ import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
+import { can, getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, BanObject, FlashProp, ErrorsProp } from "@/types";
@@ -42,9 +42,11 @@ function BanIndex(props: Props) {
           title={t('bans_settings.bans')}
           icon={faBan}
         >
-          <Button.InternalLink to={route('admin.bans.create')}>
-            {t('bans_settings.create_ban')}
-          </Button.InternalLink>
+          {can('admin.bans.create') &&
+            <Button.InternalLink to={route('admin.bans.create')}>
+              {t('bans_settings.create_ban')}
+            </Button.InternalLink>
+          }
         </Table.Header>
         <Table.Component
           columns={AdminBansColumns}
@@ -87,7 +89,7 @@ function BanIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > bansData.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > bansData.length} />
     </PageContentBlock>
   )
 }

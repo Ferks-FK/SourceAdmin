@@ -8,7 +8,7 @@ import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faCommentSlash, faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { getPercentage, getStyleAndName, paginationItems } from '@/helpers';
+import { can, getPercentage, getStyleAndName, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, MuteObject, FlashProp, ErrorsProp } from "@/types";
@@ -42,9 +42,11 @@ function MuteIndex(props: Props) {
           title={t('mutes_settings.mutes')}
           icon={faMicrophoneSlash}
         >
-          <Button.InternalLink to={route('admin.mutes.create')}>
-            {t('mutes_settings.create_mute')}
-          </Button.InternalLink>
+          {can('admin.mutes.create') &&
+            <Button.InternalLink to={route('admin.mutes.create')}>
+              {t('mutes_settings.create_mute')}
+            </Button.InternalLink>
+          }
         </Table.Header>
         <Table.Component
           columns={AdminMutesColumns}
@@ -87,7 +89,7 @@ function MuteIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length} />
     </PageContentBlock>
   )
 }

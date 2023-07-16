@@ -12,13 +12,14 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { faReply, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { LayoutType } from "@/App";
+import { can } from "@/helpers";
 
 interface Props {
   layout: LayoutType
 }
 
 function SideBar({ layout }: Props) {
-  const [userName, userEmail, isLogged] = useUserStore((state) => [state.data?.name, state.data?.email, state.isLogged]);
+  const [userData, isLogged] = useUserStore((state) => [state.data, state.isLogged]);
   const [sidebarIsVisible, setSidebarIsVisible] = useSidebarStore((state) => [state.isVisible, state.setIsVisible])
   const [visibleRoutes, setVisibleRoutes] = useState<Route[]>([]);
   const [activeRoute, setActiveRoute] = useState<string>(window.location.pathname); // Set the currently loaded route as 'active'.
@@ -30,16 +31,24 @@ function SideBar({ layout }: Props) {
     }
   }
 
+  const getFilteredAdminRoutes = routes.adminRoutes.filter((route) => {
+    if (route.permission != undefined) {
+      return can(route.permission)
+    }
+
+    return true
+  })
+
   useEffect(() => {
     if (layout === 'app') {
       setVisibleRoutes(routes.sidebarRoutes)
     }
 
     if (isLogged && layout === 'admin') {
-      setVisibleRoutes(routes.adminRoutes)
+      setVisibleRoutes(getFilteredAdminRoutes)
     }
 
-  }, [isLogged])
+  }, [userData, isLogged])
 
   const sidebarVariants = {
     open: {
@@ -117,8 +126,8 @@ function SideBar({ layout }: Props) {
         </nav>
         {isLogged ?
           <div className="flex justify-center items-center p-2 gap-2 text-ellipsis bg-dark-secondary rounded">
-            <strong className={`capitalize`}>{userName}</strong>
-            <Avatar email={userEmail!} size={100} />
+            <strong className={`capitalize`}>{userData!.name}</strong>
+            <Avatar email={userData!.email} size={100} />
           </div>
           :
           <div className="flex justify-center">

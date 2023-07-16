@@ -34,6 +34,8 @@ class ServerController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Server::class);
+
         return Inertia::render('admin/ServerSettings/ServerIndex', [
             'serversIds' => $this->getServersIds(getAll: true),
             'data' => $this->getServerData()
@@ -47,6 +49,8 @@ class ServerController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Server::class);
+
         return Inertia::render('admin/ServerSettings/ServerCreate', [
             'mods' => $this->mods,
             'regions' => $this->regions
@@ -61,6 +65,8 @@ class ServerController extends Controller
      */
     public function store(ServerCreateRequest $request)
     {
+        $this->authorize('create', Server::class);
+
         ServerModel::create($request->except('rcon_confirmation'));
 
         return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully created.'));
@@ -75,6 +81,8 @@ class ServerController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->authorize('show', Server::class);
+
         $serverAttrs = $this->getServerAttributes($id, ['created_at', 'updated_at', 'mod_id', 'region_id', 'enabled']);
         $serverData = $this->connectToServer($request, $id)->getData();
         $serverData->server->Created_At = $serverAttrs[0]->created_at;
@@ -91,17 +99,6 @@ class ServerController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -110,6 +107,8 @@ class ServerController extends Controller
      */
     public function update(ServerUpdateRequest $request, $id)
     {
+        $this->authorize('show', Server::class);
+
         $data = $request->except('new_rcon_confirmation');
         $server = ServerModel::findOrFail($id);
 
@@ -134,6 +133,8 @@ class ServerController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', Server::class);
+
         $server = ServerModel::findOrFail($id);
 
         $server->delete();

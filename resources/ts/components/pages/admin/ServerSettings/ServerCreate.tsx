@@ -65,7 +65,7 @@ function ServerCreate(props: Props) {
             className={'max-w-6xl w-full'}
           >
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
+              <Field.FieldRow>
                 <Field.Text
                   name={'ip'}
                   id={'ip'}
@@ -126,7 +126,7 @@ function ServerCreate(props: Props) {
                   checked={values.enabled}
                   onChange={(e) => setFieldValue('enabled', e.target.checked)}
                 />
-              </div>
+              </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>
                   {t('submit', {ns: 'buttons'})}

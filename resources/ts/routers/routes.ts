@@ -18,6 +18,7 @@ export interface Route {
     icon: IconDefinition
     route: string
     end?: boolean
+    permission?: string
 }
 
 interface Props {
@@ -76,13 +77,15 @@ export const routes: Props = {
             title: 'Admins',
             key: 'admins',
             icon: faUser,
-            route: '/admin/admin_settings'
+            route: '/admin/admin_settings',
+            permission: 'admin.admins.index'
         },
         {
             title: 'Servers',
             key: 'servers',
             icon: faServer,
-            route: '/admin/server_settings'
+            route: '/admin/server_settings',
+            permission: 'admin.servers.index'
         },
         {
             title: 'Bans',
@@ -100,19 +103,22 @@ export const routes: Props = {
             title: 'Groups',
             key: 'groups',
             icon: faUsers,
-            route: '/admin/group_settings'
+            route: '/admin/group_settings',
+            permission: 'admin.groups.index'
         },
         {
             title: 'Mods',
             key: 'mods',
             icon: faBoxesStacked,
-            route: '/admin/mods_settings'
+            route: '/admin/mods_settings',
+            permission: 'admin.mods.index'
         },
         {
             title: 'Roles',
             key: 'roles',
             icon: faUsersGear,
-            route: '/admin/roles_settings'
+            route: '/admin/roles_settings',
+            permission: 'admin.roles.index'
         },
         {
             title: 'Settings',

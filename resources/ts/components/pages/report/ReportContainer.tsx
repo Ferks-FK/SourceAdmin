@@ -86,7 +86,7 @@ function ReportContainer({ serversIds, flash, errors }: Props) {
             encType={'multipart/form-data'}
           >
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
+              <Field.FieldRow>
                 <Field.Text
                   name={'player_steam_id'}
                   id={'player_steam_id'}
@@ -143,7 +143,7 @@ function ReportContainer({ serversIds, flash, errors }: Props) {
                   label={t('report.upload_demo')}
                   onChange={(e) => setFieldValue('upload_demo', e.target.files![0])}
                 />
-              </div>
+              </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting} className={'p-2'}>
                   {t('submit', {ns: 'buttons'})}

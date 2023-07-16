@@ -131,6 +131,9 @@
         "create_role": "Criar função",
         "create_new_role": "Criar nova função",
         "role_name": "Nome da função",
+        "delete_role": "Excluir função \"{{roleName}}\"",
+        "delete_role_message": "Quando você confirma a exclusão da função, a ação é permanente e não pode ser desfeita.",
+        "delete_own_role_warning": "Atenção! Você está prestes a excluir uma função associada à sua conta. Você poderá perder o acesso a alguns recursos se confirmar a exclusão.",
         "role_description": "Descrição da função",
         "permissions": "Permissões"
     },
@@ -155,7 +158,8 @@
         "never": "Nunca",
         "admin": "Administrador",
         "status": "Status",
-        "steam_id_formats": "Somente os seguintes formatos são aceitos: Steam ID, Steam64 ID."
+        "steam_id_formats": "Somente os seguintes formatos são aceitos: Steam ID, Steam64 ID.",
+        "description": "Descrição"
     },
     "yup_schemas": {
         "required_attribute": "O campo {{attribute}} é obrigatório(a).",

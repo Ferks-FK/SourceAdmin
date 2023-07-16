@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { MuteObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
 import route from 'ziggy-js';
+import { can } from "@/helpers";
 
 interface Props {
   flash: FlashProp
@@ -39,6 +40,7 @@ function MuteShow(props: Props) {
   const [reasonsData] = useState(props.reasons);
   const [timeBansData] = useState(props.timeBans);
   const [muteInfo] = useState(props.mute);
+  const [userCanEdit, userCanDelete] = [can('admin.mutes.edit'), can('admin.mutes.destroy')];
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -86,7 +88,7 @@ function MuteShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('mutes_settings.mute_of', {playerName: muteInfo.player_name})}>
+    <PageContentBlock title={t('mutes_settings.mute_of', { playerName: muteInfo.player_name })}>
       <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4 bg-dark-primary">
         <ul>
           <li className="flex mobile:items-center">
@@ -143,65 +145,45 @@ function MuteShow(props: Props) {
             <Button.Text variant={Variant.Warning} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('mutes_settings.unmute_player', {playerName: muteInfo.player_name})}?</h3>
+                  <h3 className="text-2xl text-left">{t('mutes_settings.unmute_player', { playerName: muteInfo.player_name })}?</h3>
                   <p className="text-sm">
                     {t('mutes_settings.unmute_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    {t('cancel', {ns: 'buttons'})}
+                    {t('cancel', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger onClick={handleUnmute}>
-                    {t('unmute', {ns: 'buttons'})}
+                    {t('unmute', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              {t('unmute', {ns: 'buttons'})}
+              {t('unmute', { ns: 'buttons' })}
             </Button.Text>
             :
             <Button.Text variant={Variant.Info} onClick={() => showModal(
               <>
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('mutes_settings.remute_player', {playerName: muteInfo.player_name})}?</h3>
+                  <h3 className="text-2xl text-left">{t('mutes_settings.remute_player', { playerName: muteInfo.player_name })}?</h3>
                   <p className="text-sm">
                     {t('mutes_settings.remute_player_message')}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
-                    {t('cancel', {ns: 'buttons'})}
+                    {t('cancel', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger onClick={handleRemute}>
-                    {t('remute', {ns: 'buttons'})}
+                    {t('remute', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </>
             )}>
-              {t('remute', {ns: 'buttons'})}
+              {t('remute', { ns: 'buttons' })}
             </Button.Text>
           }
-          <Button.Danger className={'!font-header'} onClick={() => showModal(
-            <>
-              <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-left">{t('mutes_settings.delete_mute_of', {playerName: muteInfo.player_name})}?</h3>
-                <p className="text-sm">
-                  {t('mutes_settings.delete_mute_of_message')}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <Button.Text onClick={hideModal}>
-                  {t('cancel', {ns: 'buttons'})}
-                </Button.Text>
-                <Button.Danger onClick={handleDelete}>
-                  {t('delete', {ns: 'buttons'})}
-                </Button.Danger>
-              </div>
-            </>
-          )}>
-            {t('delete_mute', {ns: 'buttons'})}
-          </Button.Danger>
         </div>
       </div>
       <Formik
@@ -230,13 +212,14 @@ function MuteShow(props: Props) {
               className={'max-w-6xl w-full'}
             >
               <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-2 gap-2 lg:gap-4">
+                <Field.FieldRow>
                   <Field.Select
                     name={'time_ban_id'}
                     id={'time_ban_id'}
                     label={t('generic.length')}
                     value={values.time_ban_id}
                     onChange={(e) => setFieldValue('time_ban_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {timeBansData.map(({ id, name }) => (
                       <option key={id} value={id}>
@@ -250,6 +233,7 @@ function MuteShow(props: Props) {
                     label={t('generic.reason')}
                     value={values.reason_id}
                     onChange={(e) => setFieldValue('reason_id', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     {reasonsData.map(({ id, reason }) => (
                       <option key={id} value={id}>
@@ -257,11 +241,31 @@ function MuteShow(props: Props) {
                       </option>
                     ))}
                   </Field.Select>
-                </div>
-                <div className="flex flex-col items-center">
-                  <Button.Text type={'submit'} disabled={isSubmitting}>
-                    {t('submit', {ns: 'buttons'})}
+                </Field.FieldRow>
+                <div className="flex items-center justify-center gap-2">
+                  <Button.Text disabled={isSubmitting || !userCanEdit}>
+                    {t('submit', { ns: 'buttons' })}
                   </Button.Text>
+                  <Button.Danger type="button" className={'!font-header'} disabled={!userCanDelete} onClick={() => showModal(
+                    <>
+                      <div className="flex flex-col gap-4">
+                        <h3 className="text-2xl text-left">{t('mutes_settings.delete_mute_of', { playerName: muteInfo.player_name })}?</h3>
+                        <p className="text-sm">
+                          {t('mutes_settings.delete_mute_of_message')}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button.Text onClick={hideModal}>
+                          {t('cancel', { ns: 'buttons' })}
+                        </Button.Text>
+                        <Button.Danger onClick={handleDelete}>
+                          {t('delete', { ns: 'buttons' })}
+                        </Button.Danger>
+                      </div>
+                    </>
+                  )}>
+                    {t('delete_mute', { ns: 'buttons' })}
+                  </Button.Danger>
                 </div>
               </div>
             </Form>

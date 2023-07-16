@@ -80,6 +80,7 @@ export interface AdminObject {
 export interface RoleObject {
     id: number
     name: string
+    permissions?: PermissionObject[]
     users_count: number
     permissions_count: number
     description?: string

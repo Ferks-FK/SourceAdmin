@@ -16,7 +16,7 @@ function Select({ children, className, onChange, value, name, ...props }: Props)
       value={value}
       name={name}
       onChange={onChange}
-      className={classNames('shadow-none bg-no-repeat cursor-pointer block py-3 px-4 rounded border w-full text-base transition-all duration-150 ease-in-out border-slate-200 hover:border-slate-400 bg-[#1e2327] text-neutral-200', className)}
+      className={classNames('shadow-none bg-no-repeat cursor-pointer disabled:cursor-not-allowed block py-3 px-4 rounded border w-full text-base transition-all duration-150 ease-in-out border-slate-200 hover:border-slate-400 bg-[#1e2327] text-neutral-200', className)}
       style={SelectCustomStyles}
       {...props}
     >

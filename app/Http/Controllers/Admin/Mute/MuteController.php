@@ -36,6 +36,8 @@ class MuteController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Mute::class);
+
         $reasons = Reason::all(['id', 'reason']);
         $time_bans = TimeBan::all(['id', 'name']);
         $admins = User::orderBy('name', 'ASC')->get(['id', 'name']);
@@ -55,6 +57,8 @@ class MuteController extends Controller
      */
     public function store(MuteCreateRequest $request)
     {
+        $this->authorize('create', Mute::class);
+
         Mute::create($request->all());
 
         return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully created.'));
@@ -92,17 +96,6 @@ class MuteController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -111,6 +104,8 @@ class MuteController extends Controller
      */
     public function update(MuteUpdateRequest $request, $id)
     {
+        $this->authorize('show', Mute::class);
+
         $mute = Mute::findOrFail($id);
         $mute->fill($request->all());
         $mute->save();
@@ -126,6 +121,8 @@ class MuteController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', Mute::class);
+
         $mute = Mute::findOrFail($id);
         $mute->delete();
 
@@ -152,7 +149,6 @@ class MuteController extends Controller
         $data['admin_id'] = $admin->id;
 
         $mute->fill($data);
-
         $mute->save();
 
         return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully re-applied.'));

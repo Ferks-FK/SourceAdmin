@@ -69,7 +69,7 @@ function MuteCreate(props: Props) {
             className={'max-w-6xl w-full'}
           >
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-2 lg:gap-4 lg:grid-cols-3">
+              <Field.FieldRow>
                 <Field.Text
                   name={'ip'}
                   id={'ip'}
@@ -131,7 +131,7 @@ function MuteCreate(props: Props) {
                     </option>
                   ))}
                 </Field.Select>
-              </div>
+              </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>
                   {t('submit', {ns: 'buttons'})}

@@ -5,7 +5,7 @@ import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
 import { faUsersGear } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { paginationItems } from '@/helpers';
+import { can, paginationItems } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
 import { PaginationProps, RoleObject, FlashProp, ErrorsProp } from "@/types";
@@ -39,9 +39,11 @@ function RoleIndex(props: Props) {
           title={t('roles', {ns: 'sidebar'})}
           icon={faUsersGear}
         >
-          <Button.InternalLink to={route('admin.roles.create')}>
-            {t('role_settings.create_role')}
-          </Button.InternalLink>
+          {can('admin.roles.create') &&
+            <Button.InternalLink to={route('admin.roles.create')}>
+              {t('role_settings.create_role')}
+            </Button.InternalLink>
+          }
         </Table.Header>
         <Table.Component
           columns={RolesColumns}
@@ -54,6 +56,7 @@ function RoleIndex(props: Props) {
               >
                 <Table.Td>{role.id}</Table.Td>
                 <Table.Td>{role.name}</Table.Td>
+                <Table.Td>{role.description}</Table.Td>
                 <Table.Td>{role.users_count}</Table.Td>
                 <Table.Td>{role.permissions_count}</Table.Td>
                 <Table.Td>{FormatLocaleDate(role.created_at, props.timeZone, undefined, false)}</Table.Td>

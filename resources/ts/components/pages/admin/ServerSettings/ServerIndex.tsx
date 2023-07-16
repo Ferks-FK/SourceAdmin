@@ -7,7 +7,7 @@ import { router } from '@inertiajs/react';
 import { getServerData } from '@/api/getServers';
 import { faServer } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { paginationItems } from '@/helpers';
+import { can, paginationItems } from '@/helpers';
 import { useTranslation } from 'react-i18next';
 import { PaginationProps, ServerDataResponse, FlashProp, ErrorsProp } from "@/types";
 import { AdminServerColumns } from '@/TableColumns';
@@ -70,9 +70,11 @@ function ServerIndex(props: Props) {
           title={t('servers.servers')}
           icon={faServer}
         >
-          <Button.InternalLink to={route('admin.servers.create')}>
-            {t('servers_settings.create_server')}
-          </Button.InternalLink>
+          {can('admin.servers.create') &&
+            <Button.InternalLink to={route('admin.servers.create')}>
+              {t('servers_settings.create_server')}
+            </Button.InternalLink>
+          }
         </Table.Header>
         <Table.Component
           columns={AdminServerColumns}

@@ -31,7 +31,6 @@ interface Values {
 function RoleCreate(props: Props) {
   const [permissionsData] = useState(props.permissions);
   const { t } = useTranslation();
-  console.log(permissionsData)
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.post(route('admin.roles.store'), { ...values }, {
@@ -61,7 +60,7 @@ function RoleCreate(props: Props) {
             className={'max-w-6xl w-full'}
           >
             <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-2 lg:gap-4 lg:grid-cols-3">
+              <Field.FieldRow>
                 <Field.Text
                   name={'name'}
                   id={'name'}
@@ -77,16 +76,17 @@ function RoleCreate(props: Props) {
                   id={'permissions'}
                   label={t('role_settings.permissions')}
                   closeMenuOnSelect={false}
+                  blurInputOnSelect={false}
                   // @ts-expect-error
                   onChange={(options: readonly Option[]) => {
                     setFieldValue('permissions', options.map((option) => option.value))
                   }}
                   options={permissionsData.map((permission) => ({ label: permission.readable_name, value: permission.name }))}
                 />
-              </div>
+              </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>
-                  {t('submit', {ns: 'buttons'})}
+                  {t('submit', { ns: 'buttons' })}
                 </Button.Text>
               </div>
             </div>

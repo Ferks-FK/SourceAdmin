@@ -6,6 +6,7 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "delete": "Delete",
+    "update": "Update",
     "unban": "Unban",
     "reban": "Reban",
     "unmute": "Unmute",
@@ -13,5 +14,6 @@
     "delete_account": "Delete Account",
     "delete_ban": "Delete Ban",
     "delete_mute": "Delete Mute",
-    "delete_server": "Delete Server"
+    "delete_server": "Delete Server",
+    "delete_role": "Delete Role"
 }

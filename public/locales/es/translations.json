@@ -131,6 +131,9 @@
         "create_role": "Crear función",
         "create_new_role": "Crear nuevo papel",
         "role_name": "Nombre del Función",
+        "delete_role": "Eliminar función \"{{roleName}}\"",
+        "delete_role_message": "Al confirmar la eliminación de la función, la acción es permanente y no se puede deshacer.",
+        "delete_own_role_warning": "¡Atención! Está a punto de eliminar un función asociado a su cuenta, puede perder el acceso a algunas funciones si confirma la eliminación.",
         "role_description": "Descripción del papel",
         "permissions": "Permisos"
     },
@@ -155,7 +158,8 @@
         "never": "Nunca",
         "admin": "Administrador",
         "status": "Situación",
-        "steam_id_formats": "Sólo se aceptan los siguientes formatos: Steam ID, Steam64 ID."
+        "steam_id_formats": "Sólo se aceptan los siguientes formatos: Steam ID, Steam64 ID.",
+        "description": "Descripción"
     },
     "yup_schemas": {
         "required_attribute": "El {{attribute}} es obligatorio(a).",

@@ -131,6 +131,9 @@
         "create_role": "Create Role",
         "create_new_role": "Create new role",
         "role_name": "Role Name",
+        "delete_role": "Delete role \"{{roleName}}\"",
+        "delete_role_message": "When you confirm the deletion of the role, the action is permanent and cannot be undone.",
+        "delete_own_role_warning": "Attention! You are about to delete a role that is associated with your account, you may lose access to some features if you confirm the deletion.",
         "role_description": "Role Description",
         "permissions": "Permissions"
     },
@@ -155,7 +158,8 @@
         "never": "Never",
         "admin": "Admin",
         "status": "Status",
-        "steam_id_formats": "Only the following formats are accepted: Steam ID, Steam64 ID."
+        "steam_id_formats": "Only the following formats are accepted: Steam ID, Steam64 ID.",
+        "description": "Description"
     },
     "yup_schemas": {
         "required_attribute": "The {{attribute}} is required.",

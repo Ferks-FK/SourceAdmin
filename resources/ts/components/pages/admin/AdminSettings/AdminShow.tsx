@@ -17,6 +17,7 @@ import { FormatLocaleDate } from "@/i18n/locales";
 import { FlashProp, ErrorsProp, RoleObject } from "@/types";
 import { capitalize } from "lodash";
 import route from 'ziggy-js';
+import { can } from "@/helpers";
 
 interface Props {
   roles: RoleObject[]
@@ -43,6 +44,7 @@ function AdminShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [roles] = useState<RoleObject[]>(props.roles);
   const [clearData] = useUserStore((state) => [state.clearData]);
+  const [userCanEdit, userCanDelete] = [can('admin.admins.edit'), can('admin.admins.destroy')];
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -113,9 +115,6 @@ function AdminShow(props: Props) {
                 <div className="flex flex-col items-center md:items-end gap-2 md:text-right">
                   <h1>{capitalize(props.user.roles.at(0)?.name)}</h1>
                   <p>{t('generic.created_at')}: {FormatLocaleDate(props.user.created_at, props.timeZone)}</p>
-                  <Button.Danger className={'!font-header'} onClick={showModal}>
-                    {t('delete_account', { ns: 'buttons' })}
-                  </Button.Danger>
                 </div>
                 <Modal
                   isVisible={modalVisible}
@@ -153,22 +152,25 @@ function AdminShow(props: Props) {
               className={'max-w-6xl w-full'}
             >
               <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
+                <Field.FieldRow>
                   <Field.Text
                     name={'name'}
                     id={'name'}
                     label={t('admin_settings.admin_name')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Text
                     name={'email'}
                     id={'email'}
                     label={t('admin_settings.admin_email')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Text
                     name={'steam_id'}
                     id={'steam_id'}
                     label={t('admin_settings.admin_steam_id')}
                     description={t('generic.steam_id_formats')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Select
                     name={'role'}
@@ -176,9 +178,10 @@ function AdminShow(props: Props) {
                     label={t('role_settings.role')}
                     value={values.role as number || 'default_value'}
                     onChange={(e) => setFieldValue('role', e.target.value)}
+                    disabled={!userCanEdit}
                   >
                     <option key={'disabled'} value={'default_value'} disabled>
-                     {t('generic.select_role')}
+                      {t('generic.select_role')}
                     </option>
                     {roles.map(({ id, name }) => (
                       <option key={id} value={id}>
@@ -190,22 +193,28 @@ function AdminShow(props: Props) {
                     name={'current_password'}
                     id={'current_password'}
                     label={t('admin_settings.admin_current_password')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Password
                     name={'new_password'}
                     id={'new_password'}
                     label={t('admin_settings.admin_new_password')}
+                    disabled={!userCanEdit}
                   />
                   <Field.Password
                     name={'new_password_confirmation'}
                     id={'new_password_confirmation'}
                     label={t('admin_settings.admin_confirm_new_password')}
+                    disabled={!userCanEdit}
                   />
-                </div>
-                <div className="flex flex-col items-center">
-                  <Button.Text type={'submit'} disabled={isSubmitting}>
+                </Field.FieldRow>
+                <div className="flex items-center justify-center gap-2">
+                  <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
                     {t('submit', { ns: 'buttons' })}
                   </Button.Text>
+                  <Button.Danger type="button" className={'!font-header'} disabled={!userCanDelete} onClick={showModal}>
+                    {t('delete_account', { ns: 'buttons' })}
+                  </Button.Danger>
                 </div>
               </div>
             </Form>

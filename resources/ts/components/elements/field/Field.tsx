@@ -1,3 +1,4 @@
+import React from "react";
 import { Field as FormikField } from "formik";
 import { capitalize } from "lodash";
 import { Label } from "@/components/elements/Label";
@@ -9,6 +10,7 @@ import { FieldProps, BaseInputProps, TextAreaProps, SelectProps } from "@/compon
 import Select, { Props } from 'react-select';
 import { SelectStyle } from "./style";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 
 const Field = ({ name, label, description, touched, field, errors, children }: FieldProps) => {
   return (
@@ -158,7 +160,7 @@ export type Option = {
   value: string | number
 }
 
-type MultiSelectProps = SelectProps & Props & {
+type MultiSelectProps = Props & Omit<SelectProps, 'defaultValue'> & {
   options: Option | Option[]
 }
 
@@ -189,7 +191,19 @@ const MultiSelect = ({ name, label, description, options, ...props }: MultiSelec
   )
 }
 
+type FieldRowProps = {
+  children: React.ReactNode,
+  className?: string
+}
+
+const FieldRow = ({ children, className }: FieldRowProps) => (
+  <div className={classNames('grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6', className)}>
+    {children}
+  </div>
+)
+
 const _Field = Object.assign(Field, {
+  FieldRow: FieldRow,
   Text: Text,
   Password: Password,
   Email: Email,
