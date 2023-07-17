@@ -43,12 +43,18 @@ interface Values {
 function AdminShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [roles] = useState<RoleObject[]>(props.roles);
-  const [clearData] = useUserStore((state) => [state.clearData]);
+  const [setUserData, clearData] = useUserStore((state) => [state.setUserData, state.clearData]);
   const [userCanEdit, userCanDelete] = [can('admin.admins.edit'), can('admin.admins.destroy')];
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.settings.update', props.user.id), { ...values }, {
+      // TODO Review typing.
+      onSuccess: (page: any) => {
+        const user: UserData = page.props.auth.user
+
+        setUserData(user)
+      },
       onFinish: () => {
         setSubmitting(false)
       }
