@@ -4,7 +4,8 @@ import {
     ControlProps,
     ClearIndicatorProps,
     StylesConfig,
-    DropdownIndicatorProps
+    DropdownIndicatorProps,
+    ContainerProps
 } from 'react-select';
 
 const SelectStyle: StylesConfig<any, any, any> = {
@@ -19,9 +20,11 @@ const SelectStyle: StylesConfig<any, any, any> = {
         };
     },
 
-    container: (base: CSSObject): CSSObject => {
+    container: (base: CSSObject, props: ContainerProps): CSSObject => {
         return {
             ...base,
+            cursor: props.isDisabled ? 'not-allowed' : 'pointer',
+            pointerEvents: props.isDisabled ? 'auto' : undefined,
         };
     },
 
@@ -30,7 +33,7 @@ const SelectStyle: StylesConfig<any, any, any> = {
             ...base,
             minHeight: '3.2rem',
             backgroundColor: '#1e2327',
-            cursor: 'pointer',
+            cursor: props.isDisabled ? 'not-allowed' : 'pointer',
 
             ':hover': {
                 borderColor: !props.isFocused ? colors.neutral[400] : '#212529',

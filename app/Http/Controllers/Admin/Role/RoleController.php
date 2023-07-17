@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Role;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\RoleCreateRequest;
+use App\Http\Requests\Admin\Role\RoleUpdateRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -86,7 +87,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleUpdateRequest $request, $id)
     {
         $this->authorize('show', Role::class);
 

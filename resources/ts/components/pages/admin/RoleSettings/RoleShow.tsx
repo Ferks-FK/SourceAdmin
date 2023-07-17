@@ -138,7 +138,7 @@ function RoleShow(props: Props) {
                     }}
                     defaultValue={selectedPermissions}
                     options={permissionsData.map((permission) => ({ label: permission.readable_name, value: permission.name }))}
-                    disabled={!userCanEdit}
+                    isDisabled={!userCanEdit}
                   />
                 </Field.FieldRow>
                 <div className="flex items-center justify-center gap-2">
