@@ -173,6 +173,24 @@ export const MuteCreateSchema = () => {
     }, [['ip', 'steam_id']])
 }
 
+export const GroupEditSchema = () => object().shape({
+    name: string().required(fieldType('group_name', 'groups_settings').required),
+    description: string(),
+    type: string().required(fieldType('group_type', 'groups_settings').min_options)
+})
+
+export const GroupCreateSchema = () => object().shape({
+    name: string().required(fieldType('group_name', 'groups_settings').required),
+    description: string(),
+    type: string().required(fieldType('group_type', 'groups_settings').min_options)
+})
+
+export const RoleEditSchema = () => object().shape({
+    name: string().required(fieldType('role_name', 'role_settings').required),
+    description: string(),
+    permissions: array().required(fieldType('permissions', 'role_settings').required).min(1, fieldType('permissions', 'role_settings').min_options)
+})
+
 export const RoleCreateSchema = () => object().shape({
     name: string().required(fieldType('role_name', 'role_settings').required),
     description: string(),

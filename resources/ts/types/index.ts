@@ -94,6 +94,15 @@ export interface PermissionObject {
     readable_name: string
 }
 
+export interface GroupObject {
+    id: number
+    name: string
+    description?: string
+    type: string
+    created_at: string
+    updated_at: string
+}
+
 export type PunishmentObject = BanObject | MuteObject
 
 export interface ServerDataResponse {

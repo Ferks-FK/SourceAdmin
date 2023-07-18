@@ -126,11 +126,24 @@
         "server_region": "Região do servidor",
         "server_enabled": "Servidor ativado"
     },
+    "groups_settings": {
+        "groups_overview": "Visão geral dos grupos",
+        "groups": "Grupos",
+        "create_group": "Criar Grupo",
+        "create_new_group": "Criar Novo Grupo",
+        "group_name": "Nome do grupo",
+        "group_editing_name": "Grupo {{groupName}}",
+        "delete_group": "Excluir grupo \"{{groupName}}\"",
+        "delete_group_message": "Quando você confirmar a exclusão do grupo, a ação é permanente e não pode ser desfeita.",
+        "group_description": "Descrição do grupo",
+        "group_type": "Tipo do grupo"
+    },
     "role_settings": {
         "role": "Função",
         "create_role": "Criar função",
         "create_new_role": "Criar nova função",
         "role_name": "Nome da função",
+        "role_editing_name": "Função {{roleName}}",
         "delete_role": "Excluir função \"{{roleName}}\"",
         "delete_role_message": "Quando você confirma a exclusão da função, a ação é permanente e não pode ser desfeita.",
         "delete_own_role_warning": "Atenção! Você está prestes a excluir uma função associada à sua conta. Você poderá perder o acesso a alguns recursos se confirmar a exclusão.",
@@ -154,6 +167,7 @@
         "select_reason": "Selecionar motivo",
         "select_mod": "Selecionar MOD",
         "select_region": "Selecionar Região",
+        "select_group": "Selecionar Grupo",
         "select_role": "Selecionar Função",
         "never": "Nunca",
         "admin": "Administrador",

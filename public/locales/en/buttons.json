@@ -15,5 +15,6 @@
     "delete_ban": "Delete Ban",
     "delete_mute": "Delete Mute",
     "delete_server": "Delete Server",
-    "delete_role": "Delete Role"
+    "delete_role": "Delete Role",
+    "delete_group": "Delete Group"
 }

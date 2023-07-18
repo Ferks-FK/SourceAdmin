@@ -32,5 +32,6 @@
     "previous": "Anterior",
     "next": "Próximo",
     "users_count": "Número de usuários",
-    "permissions_count": "Número de permissões"
+    "permissions_count": "Número de permissões",
+    "type": "Tipo"
 }

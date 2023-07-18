@@ -78,6 +78,11 @@ Route::name('admin.')->group(function() {
 
     Route::group(['prefix' => 'group_settings'], function() {
         Route::get('/', [GroupController::class, 'index'])->name('groups.index');
+        Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
+        Route::get('/{id}', [GroupController::class, 'show'])->name('groups.show');
+        Route::post('/store', [GroupController::class, 'store'])->name('groups.store');
+        Route::patch('/update/{id}', [GroupController::class, 'update'])->name('groups.update');
+        Route::delete('/{id}', [GroupController::class, 'destroy'])->name('groups.destroy');
     });
 
     Route::group(['prefix' => 'roles_settings'], function() {

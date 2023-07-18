@@ -126,11 +126,24 @@
         "server_region": "Server Region",
         "server_enabled": "Server Enabled"
     },
+    "groups_settings": {
+        "groups_overview": "Groups Overview",
+        "groups": "Groups",
+        "create_group": "Create Group",
+        "create_new_group": "Create New Group",
+        "group_name": "Group Name",
+        "group_editing_name": "Group {{groupName}}",
+        "delete_group": "Delete group \"{{groupName}}\"",
+        "delete_group_message": "When you confirm the deletion of the group, the action is permanent and cannot be undone.",
+        "group_description": "Group Description",
+        "group_type": "Group Type"
+    },
     "role_settings": {
         "role": "Role",
         "create_role": "Create Role",
         "create_new_role": "Create new role",
         "role_name": "Role Name",
+        "role_editing_name": "Role {{roleName}}",
         "delete_role": "Delete role \"{{roleName}}\"",
         "delete_role_message": "When you confirm the deletion of the role, the action is permanent and cannot be undone.",
         "delete_own_role_warning": "Attention! You are about to delete a role that is associated with your account, you may lose access to some features if you confirm the deletion.",
@@ -154,6 +167,7 @@
         "select_reason": "Select Reason",
         "select_mod": "Select MOD",
         "select_region": "Select Region",
+        "select_group": "Select Group",
         "select_role": "Select Role",
         "never": "Never",
         "admin": "Admin",

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Group;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class GroupController extends Controller
 {
@@ -14,7 +17,12 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $data = QueryBuilder::for(Group::class)
+            ->paginate(10)->appends(request()->query());
+
+        return Inertia::render('admin/GroupSettings/GroupIndex', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -24,7 +32,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/GroupSettings/GroupCreate');
     }
 
     /**
@@ -35,7 +43,9 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Group::create($request->all());
+
+        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully created.'));
     }
 
     /**
@@ -46,18 +56,11 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $group = Group::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Inertia::render('admin/GroupSettings/GroupShow', [
+            'group' => $group
+        ]);
     }
 
     /**
@@ -69,7 +72,12 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $group = Group::findOrFail($id);
+
+        $group->fill($request->all());
+        $group->save();
+
+        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully updated.'));
     }
 
     /**
@@ -80,6 +88,10 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $group = Group::findOrFail($id);
+
+        $group->delete();
+
+        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully deleted.'));
     }
 }

@@ -8,46 +8,35 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData, useUserStore } from "@/stores/user";
-import { FlashProp, ErrorsProp, RoleObject, PermissionObject } from "@/types";
-import { Option } from "@/components/elements/field/Field";
-import { RoleEditSchema } from '@/yup/YupSchemas';
+import { UserData } from "@/stores/user";
+import { FlashProp, ErrorsProp, GroupObject } from "@/types";
+import { GroupEditSchema } from '@/yup/YupSchemas';
+import { groupTypes } from "@/components/pages/admin/GroupSettings/GroupCreate";
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
 interface Props {
-  role: RoleObject
-  permissions: PermissionObject[]
   flash: FlashProp
   errors: ErrorsProp
+  group: GroupObject
   auth: {
     user: UserData
   }
-  timeZone: string
 }
 
 interface Values {
   name: string
   description: string
-  permissions: string
+  type: string
 }
 
-function RoleShow(props: Props) {
+function GroupShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [permissionsData] = useState<PermissionObject[]>(props.permissions);
-  const selectedPermissions = props.role.permissions?.map((permission) => ({ label: permission.readable_name, value: permission.name }))
-  const [setUserData] = useUserStore((state) => [state.setUserData]);
-  const [userCanEdit, userCanDelete] = [can('admin.roles.edit'), can('admin.roles.destroy')];
+  const [userCanEdit, userCanDelete] = [can('admin.groups.edit'), can('admin.groups.destroy')];
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    router.patch(route('admin.roles.update', props.role.id), { ...values }, {
-      // TODO Review typing.
-      onSuccess: (page: any) => {
-        const user: UserData = page.props.auth.user
-
-        setUserData(user)
-      },
+    router.patch(route('admin.groups.update', props.group.id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -55,7 +44,7 @@ function RoleShow(props: Props) {
   }
 
   const handleDelete = () => {
-    router.delete(route('admin.roles.destroy', props.role.id))
+    router.delete(route('admin.groups.destroy', props.group.id))
   }
 
   const showModal = () => {
@@ -69,18 +58,18 @@ function RoleShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('role_settings.role_editing_name', {roleName: props.role.name})}>
+    <PageContentBlock title={t('groups_settings.group_editing_name', {groupName: props.group.name})}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          name: props.role.name,
-          description: props.role.description ?? '',
-          permissions: (selectedPermissions?.map((permission) => permission.value) ?? []) as unknown as string
+          name: props.group.name,
+          description: props.group.description ?? '',
+          type: props.group.type
         }}
-        validationSchema={RoleEditSchema()}
+        validationSchema={GroupEditSchema()}
       >
-        {({ isSubmitting, setFieldValue }) => (
-          <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
+        {({ isSubmitting, values, setFieldValue }) => (
+          <>
             <Modal
               isVisible={modalVisible}
               onClickCloseBtn={hideModal}
@@ -89,15 +78,10 @@ function RoleShow(props: Props) {
             >
               <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('role_settings.delete_role', { roleName: props.role.name })}?</h3>
+                  <h3 className="text-2xl text-left">{t('groups_settings.delete_group', { groupName: props.group.name })}?</h3>
                   <p className="text-base">
-                    {t('role_settings.delete_role_message')}
+                    {t('groups_settings.delete_group_message')}
                   </p>
-                  {props.role.id == props.auth.user.roles.at(0)?.id && (
-                    <p className="text-sm text-red-500">
-                      {t('role_settings.delete_own_role_warning')}
-                    </p>
-                  )}
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
@@ -119,45 +103,45 @@ function RoleShow(props: Props) {
                   <Field.Text
                     name={'name'}
                     id={'name'}
-                    label={t('role_settings.role_name')}
+                    label={t('groups_settings.group_name')}
                     disabled={!userCanEdit}
                   />
                   <Field.Text
                     name={'description'}
                     id={'description'}
-                    label={t('role_settings.role_description')}
+                    label={t('groups_settings.group_description')}
                     disabled={!userCanEdit}
                   />
-                  <Field.MultiSelect
-                    name={'permissions'}
-                    id={'permissions'}
-                    label={t('role_settings.permissions')}
-                    closeMenuOnSelect={false}
-                    blurInputOnSelect={false}
-                    // @ts-expect-error
-                    onChange={(options: readonly Option[]) => {
-                      setFieldValue('permissions', options.map((option) => option.value))
-                    }}
-                    defaultValue={selectedPermissions}
-                    options={permissionsData.map((permission) => ({ label: permission.readable_name, value: permission.name }))}
-                    isDisabled={!userCanEdit}
-                  />
+                  <Field.Select
+                    name={'type'}
+                    id={'type'}
+                    label={t('groups_settings.group_type')}
+                    value={values.type}
+                    onChange={(e) => setFieldValue('type', e.target.value)}
+                    disabled={!userCanEdit}
+                  >
+                    {groupTypes.map(({ id, name }) => (
+                      <option key={id} value={name.toLowerCase().replace(' ', '_')}>
+                        {name}
+                      </option>
+                    ))}
+                  </Field.Select>
                 </Field.FieldRow>
                 <div className="flex items-center justify-center gap-2">
                   <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
                     {t('update', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger type="button" className={'!font-header !w-fit'} disabled={!userCanDelete} onClick={showModal}>
-                    {t('delete_role', { ns: 'buttons' })}
+                    {t('delete_group', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </div>
             </Form>
-          </div>
+          </>
         )}
       </Formik>
     </PageContentBlock>
   )
 }
 
-export default RoleShow
+export default GroupShow

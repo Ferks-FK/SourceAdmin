@@ -56,7 +56,11 @@ function RoleIndex(props: Props) {
               >
                 <Table.Td>{role.id}</Table.Td>
                 <Table.Td>{role.name}</Table.Td>
-                <Table.Td>{role.description}</Table.Td>
+                <Table.Td
+                  className="ellipsis !text-current max-w-[15rem] lg:max-w-xs"
+                >
+                  {role.description}
+                </Table.Td>
                 <Table.Td>{role.users_count}</Table.Td>
                 <Table.Td>{role.permissions_count}</Table.Td>
                 <Table.Td>{FormatLocaleDate(role.created_at, props.timeZone, undefined, false)}</Table.Td>

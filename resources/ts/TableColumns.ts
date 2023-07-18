@@ -172,3 +172,33 @@ export const RolesColumns = [
         ns: 'translations'
     }
 ]
+
+export const GroupsColumns = [
+    {
+        name: 'ID',
+        i18nKey: "id"
+    },
+    {
+        name: 'Name',
+        i18nKey: "name"
+    },
+    {
+        name: 'Type',
+        i18nKey: "type"
+    },
+    {
+        name: 'Description',
+        i18nKey: "generic.description",
+        ns: 'translations'
+    },
+    {
+        name: 'Created At',
+        i18nKey: "generic.created_at",
+        ns: 'translations'
+    },
+    {
+        name: 'Updated At',
+        i18nKey: "generic.updated_at",
+        ns: 'translations'
+    }
+]
