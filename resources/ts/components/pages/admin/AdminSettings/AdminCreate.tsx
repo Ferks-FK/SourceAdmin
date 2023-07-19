@@ -7,12 +7,14 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp, RoleObject } from "@/types";
+import { FlashProp, ErrorsProp, RoleObject, GroupObject } from "@/types";
 import { useState } from "react";
 import route from 'ziggy-js';
+import { Option } from "@/components/elements/field/Field";
 
 interface Props {
   roles: RoleObject[]
+  groups: GroupObject[]
   flash: FlashProp
   errors: ErrorsProp
 }
@@ -22,12 +24,14 @@ interface Values {
   email: string
   steam_id: string
   role: string
+  groups: string
   password: string
   password_confirmation: string
 }
 
 function AdminCreate(props: Props) {
-  const [roles] = useState<RoleObject[]>(props.roles)
+  const [roles] = useState<RoleObject[]>(props.roles);
+  const [groups] = useState<GroupObject[]>(props.groups);
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -49,6 +53,7 @@ function AdminCreate(props: Props) {
           email: '',
           steam_id: '',
           role: '',
+          groups: '',
           password: '',
           password_confirmation: ''
         }}
@@ -95,6 +100,18 @@ function AdminCreate(props: Props) {
                     </option>
                   ))}
                 </Field.Select>
+                <Field.MultiSelect
+                  name={'groups'}
+                  id={'groups'}
+                  label={t('generic.group')}
+                  closeMenuOnSelect={false}
+                  blurInputOnSelect={false}
+                  // @ts-expect-error
+                  onChange={(options: readonly Option[]) => {
+                    setFieldValue('groups', options.map((option) => option.value))
+                  }}
+                  options={groups.map((group) => ({ label: group.name, value: group.id }))}
+                />
                 <Field.Password
                   name={'password'}
                   id={'password'}

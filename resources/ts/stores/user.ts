@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { RoleObject } from '@/types';
+import { GroupObject, RoleObject } from '@/types';
 
 interface UserStore {
     data: UserData | null
@@ -19,6 +19,7 @@ export interface UserData {
     email_verified_at: string | Date
     roles: RoleObject[]
     permissions: string[] | null
+    groups?: GroupObject[]
 }
 
 const useUserStore = create<UserStore>((set) => ({

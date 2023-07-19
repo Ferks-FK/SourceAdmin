@@ -35,10 +35,11 @@ interface Values {
 function RoleShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [permissionsData] = useState<PermissionObject[]>(props.permissions);
-  const selectedPermissions = props.role.permissions?.map((permission) => ({ label: permission.readable_name, value: permission.name }))
   const [setUserData] = useUserStore((state) => [state.setUserData]);
   const [userCanEdit, userCanDelete] = [can('admin.roles.edit'), can('admin.roles.destroy')];
   const { t } = useTranslation();
+
+  const selectedPermissions = props.role.permissions?.map((permission) => ({ label: permission.readable_name, value: permission.name }))
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.roles.update', props.role.id), { ...values }, {

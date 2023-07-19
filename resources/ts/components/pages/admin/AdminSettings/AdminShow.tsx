@@ -14,13 +14,14 @@ import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { FlashProp, ErrorsProp, RoleObject } from "@/types";
+import { FlashProp, ErrorsProp, RoleObject, GroupObject } from "@/types";
 import { capitalize } from "lodash";
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
 interface Props {
   roles: RoleObject[]
+  groups: GroupObject[]
   user: UserData
   flash: FlashProp
   errors: ErrorsProp
@@ -35,6 +36,7 @@ interface Values {
   email: string
   steam_id: string
   role: number
+  groups: string
   current_password: string
   new_password: string
   new_password_confirmation: string
@@ -43,9 +45,12 @@ interface Values {
 function AdminShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [roles] = useState<RoleObject[]>(props.roles);
+  const [groups] = useState<GroupObject[]>(props.groups);
   const [setUserData, clearData] = useUserStore((state) => [state.setUserData, state.clearData]);
   const [userCanEdit, userCanDelete] = [can('admin.admins.edit'), can('admin.admins.destroy')];
   const { t } = useTranslation();
+
+  const selectedGroups = props.user.groups?.map((group) => ({label: group.name, value: group.id}));
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.settings.update', props.user.id), { ...values }, {
@@ -90,6 +95,7 @@ function AdminShow(props: Props) {
           email: props.user.email,
           steam_id: props.user.steam_id,
           role: (props.user.roles.at(0)?.id ?? '') as number,
+          groups: (selectedGroups?.map((group) => group.value) ?? []) as unknown as string,
           current_password: '',
           new_password: '',
           new_password_confirmation: ''
@@ -195,6 +201,20 @@ function AdminShow(props: Props) {
                       </option>
                     ))}
                   </Field.Select>
+                  <Field.MultiSelect
+                    name={'groups'}
+                    id={'groups'}
+                    label={t('generic.group')}
+                    closeMenuOnSelect={false}
+                    blurInputOnSelect={false}
+                    // @ts-expect-error
+                    onChange={(options: readonly Option[]) => {
+                      setFieldValue('groups', options.map((option) => option.value))
+                    }}
+                    defaultValue={selectedGroups}
+                    options={groups.map((group) => ({ label: group.name, value: group.id }))}
+                    isDisabled={!userCanEdit}
+                  />
                   <Field.Password
                     name={'current_password'}
                     id={'current_password'}

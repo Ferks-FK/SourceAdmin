@@ -169,11 +169,13 @@
         "select_region": "Selecionar Região",
         "select_group": "Selecionar Grupo",
         "select_role": "Selecionar Função",
+        "group": "Grupo",
         "never": "Nunca",
         "admin": "Administrador",
         "status": "Status",
         "steam_id_formats": "Somente os seguintes formatos são aceitos: Steam ID, Steam64 ID.",
-        "description": "Descrição"
+        "description": "Descrição",
+        "no_options": "Sem opções"
     },
     "yup_schemas": {
         "required_attribute": "O campo {{attribute}} é obrigatório(a).",

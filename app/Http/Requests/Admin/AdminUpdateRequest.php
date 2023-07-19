@@ -51,6 +51,8 @@ class AdminUpdateRequest extends FormRequest
                 Rule::unique('users', 'steam_id')->ignore($this->user->steam_id, 'steam_id'),
             ],
             'role' => ['nullable', 'numeric', 'exists:roles,id'],
+            'groups' => ['nullable', 'array'],
+            'groups.*' => ['exists:groups,id'],
             'current_password' => [
                 'required',
                 'min:8'

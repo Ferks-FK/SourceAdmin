@@ -183,6 +183,7 @@ const MultiSelect = ({ name, label, description, options, ...props }: MultiSelec
           options={options}
           styles={SelectStyle}
           placeholder={t('generic.search')}
+          noOptionsMessage={() => t('generic.no_options')}
           {...props}
         />
       </Field>

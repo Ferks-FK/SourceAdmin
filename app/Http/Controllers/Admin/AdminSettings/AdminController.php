@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\AdminSettings;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Group;
 use App\Http\Requests\Admin\AdminCreateRequest;
 use App\Http\Requests\Admin\AdminUpdateRequest;
 use Inertia\Inertia;
@@ -36,7 +37,8 @@ class AdminController extends Controller
         $this->authorize('create', User::class);
 
         return Inertia::render('admin/AdminSettings/AdminCreate', [
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'groups' => Group::all()
         ]);
     }
 
@@ -50,7 +52,14 @@ class AdminController extends Controller
     {
         $this->authorize('create', User::class);
 
-        User::create($request->except('password_confirmation'));
+        $user = User::create($request->except(['password_confirmation', 'role', 'groups']));
+        $user->assignRole($request->role);
+
+        $groups = $request->groups;
+
+        if ($groups) {
+            $user->groups()->sync($groups);
+        }
 
         return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully created.'));
     }
@@ -65,11 +74,12 @@ class AdminController extends Controller
     {
         $this->authorize('show', User::class);
 
-        $user = User::with('roles')->findOrFail($id);
+        $user = User::with(['roles', 'groups'])->findOrFail($id);
 
         return Inertia::render('admin/AdminSettings/AdminShow', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'groups' => Group::all()
         ]);
     }
 
@@ -84,7 +94,7 @@ class AdminController extends Controller
     {
         $this->authorize('show', User::class);
 
-        $data = $request->except(['new_password_confirmation', 'role']);
+        $data = $request->except(['new_password_confirmation', 'role', 'groups']);
         $user = User::findOrFail($id);
 
         if ($request->input('new_password')) {
@@ -104,6 +114,8 @@ class AdminController extends Controller
 
             $user->assignRole($request->role);
         }
+
+        $user->groups()->sync($request->groups);
 
         $user->fill($data);
         $user->save();
