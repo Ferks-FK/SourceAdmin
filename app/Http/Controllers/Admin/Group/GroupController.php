@@ -17,6 +17,8 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Group::class);
+
         $data = QueryBuilder::for(Group::class)
             ->paginate(10)->appends(request()->query());
 
@@ -32,6 +34,8 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Group::class);
+
         return Inertia::render('admin/GroupSettings/GroupCreate');
     }
 
@@ -43,6 +47,8 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Group::class);
+
         Group::create($request->all());
 
         return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully created.'));
@@ -56,6 +62,8 @@ class GroupController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('show', Group::class);
+
         $group = Group::findOrFail($id);
 
         return Inertia::render('admin/GroupSettings/GroupShow', [
@@ -72,6 +80,8 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('show', Group::class);
+
         $group = Group::findOrFail($id);
 
         $group->fill($request->all());
@@ -88,6 +98,8 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', Group::class);
+
         $group = Group::findOrFail($id);
 
         $group->delete();
