@@ -5,13 +5,14 @@ import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
 import { router } from '@inertiajs/react';
 import { getServerData } from '@/api/getServers';
-import { faServer } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faServer } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { can, paginationItems } from '@/helpers';
 import { useTranslation } from 'react-i18next';
 import { PaginationProps, ServerDataResponse, FlashProp, ErrorsProp } from "@/types";
 import { AdminServerColumns } from '@/TableColumns';
 import route from 'ziggy-js';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   flash: FlashProp
@@ -94,39 +95,43 @@ function ServerIndex(props: Props) {
                   ))
                   :
                   serverInfo ?
-                  <>
-                    <Table.Td>{serverInfo.Id}</Table.Td>
-                    <Table.Td>
-                      <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
-                    </Table.Td>
-                    <Table.Td>
-                      {serverInfo?.IsOnline ?
-                        <Image src={`/images/${serverInfo.Os}.png`} className="w-5" />
-                        :
-                        "N/A"
-                      }
-                    </Table.Td>
-                    <Table.Td>
-                      {serverInfo?.IsOnline ?
-                        <Image src={`/images/${serverInfo.Secure ? 'shield' : 'smac'}.png`} className="w-5" />
-                        :
-                        "N/A"
-                      }
-                    </Table.Td>
-                    <Table.Td>{serverInfo.HostName}</Table.Td>
-                    <Table.Td>{serverInfo?.IsOnline ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
-                    <Table.Td>{serverInfo.Map}</Table.Td>
-                    <Table.Td>{serverInfo?.IsOnline ? Math.round(serverInfo.Ping!) : "N/A"}</Table.Td>
-                  </>
-                  :
-                  null
+                    <>
+                      <Table.Td>{serverInfo.Id}</Table.Td>
+                      <Table.Td>
+                        {serverInfo.Mod ?
+                          <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                          :
+                          <FontAwesomeIcon icon={faCircleQuestion} className='w-5' size='lg' />
+                        }
+                      </Table.Td>
+                      <Table.Td>
+                        {serverInfo?.IsOnline ?
+                          <Image src={`/images/${serverInfo.Os}.png`} className="w-5" />
+                          :
+                          "N/A"
+                        }
+                      </Table.Td>
+                      <Table.Td>
+                        {serverInfo?.IsOnline ?
+                          <Image src={`/images/${serverInfo.Secure ? 'shield' : 'smac'}.png`} className="w-5" />
+                          :
+                          "N/A"
+                        }
+                      </Table.Td>
+                      <Table.Td>{serverInfo.HostName}</Table.Td>
+                      <Table.Td>{serverInfo?.IsOnline ? serverInfo.Players + "/" + serverInfo.MaxPlayers : "N/A"}</Table.Td>
+                      <Table.Td>{serverInfo.Map}</Table.Td>
+                      <Table.Td>{serverInfo?.IsOnline ? Math.round(serverInfo.Ping!) : "N/A"}</Table.Td>
+                    </>
+                    :
+                    null
                 }
               </Table.Row>
             )
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length} />
     </PageContentBlock>
   )
 }

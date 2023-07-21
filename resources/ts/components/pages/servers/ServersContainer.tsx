@@ -7,8 +7,10 @@ import { getServerData, ResponseData } from '@/api/getServers';
 import { paginationItems } from "@/helpers";
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/button";
-import { faServer } from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion, faServer } from '@fortawesome/free-solid-svg-icons';
 import { PaginationProps, BanObject } from "@/types";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ServerColumns, PlayersColumns } from '@/TableColumns';
 
 interface Props {
   serversIds: number[]
@@ -63,52 +65,6 @@ function ServersContainer(props: Props) {
     fetchServerData()
   }, [])
 
-  const ServerColumns = [
-    {
-      name: "MOD",
-      i18nKey: "mod"
-    },
-    {
-      name: "OS",
-      i18nKey: "os"
-    },
-    {
-      name: "VAC",
-      i18nKey: "vac"
-    },
-    {
-      name: "HostName",
-      i18nKey: "host_name"
-    },
-    {
-      name: "Players",
-      i18nKey: "players"
-    },
-    {
-      name: "Map",
-      i18nKey: "map"
-    },
-    {
-      name: "Ping",
-      i18nKey: "ping"
-    }
-  ]
-
-  const PlayerColumns = [
-    {
-      name: "Name",
-      i18nKey: "name"
-    },
-    {
-      name: "Score",
-      i18nKey: "score"
-    },
-    {
-      name: "Time",
-      i18nKey: "time"
-    }
-  ]
-
   return (
     <PageContentBlock title={t('servers.servers')}>
       <div>
@@ -139,7 +95,11 @@ function ServersContainer(props: Props) {
                     serverInfo ?
                       <>
                         <Table.Td>
-                          <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                          {serverInfo.Mod ?
+                            <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                            :
+                            <FontAwesomeIcon icon={faCircleQuestion} className='w-5' size='lg' />
+                          }
                         </Table.Td>
                         <Table.Td>
                           {serverInfo?.IsOnline ?
@@ -168,7 +128,7 @@ function ServersContainer(props: Props) {
                   <tr>
                     <Table.Td colSpan={7} className={'!p-0'}>
                       <Collapse visible={activeTable === serverId}>
-                        <Table.Component dataLength={playerInfo.length} className={'max-h-60'} columns={PlayerColumns}>
+                        <Table.Component dataLength={playerInfo.length} className={'max-h-60'} columns={PlayersColumns}>
                           {playerInfo.length == 0 ? (
                             <Table.Row className={'!cursor-default'}>
                               <Table.Td colSpan={4} className={'py-4'}>
@@ -199,7 +159,7 @@ function ServersContainer(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length}/>
+      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length} />
     </PageContentBlock>
   )
 }

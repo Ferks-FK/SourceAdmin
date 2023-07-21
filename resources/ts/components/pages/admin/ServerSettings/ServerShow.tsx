@@ -21,7 +21,7 @@ interface Props {
   flash: FlashProp
   errors: ErrorsProp
   server: ServerDataResponse & {
-    ModId: number
+    ModId: number | null
     RegionId: number
     Enabled: string | boolean
     Created_At: string
@@ -38,7 +38,7 @@ interface Values {
   rcon: string
   new_rcon: string
   new_rcon_confirmation: string
-  mod_id: number
+  mod_id: number | null
   region_id: number
   enabled: string | boolean
 }
@@ -74,7 +74,7 @@ function ServerShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('servers_settings.server_name', {serverName: serverData.HostName})}>
+    <PageContentBlock title={t('servers_settings.server_name', { serverName: serverData.HostName })}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -93,11 +93,13 @@ function ServerShow(props: Props) {
           <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
             <div className="flex flex-col justify-between md:flex-row items-center md:items-start gap-4" style={{ wordBreak: 'break-word' }}>
               <div className="flex flex-col md:flex-row gap-2 items-center md:items-start text-center md:text-left max-w-sm">
-                <Image
-                  src={`/images/games/${serverData.Mod}.png`}
-                  alt={serverData.Mod}
-                  className={'rounded-full w-24 pointer-events-none select-none'}
-                />
+                {serverData.Mod &&
+                  <Image
+                    src={`/images/games/${serverData.Mod}.png`}
+                    alt={serverData.Mod}
+                    className={'rounded-full w-24 pointer-events-none select-none'}
+                  />
+                }
                 <div className={`flex flex-col gap-1 items-center md:items-start ${serverData.IsOnline ? 'text-sm' : 'text-base'}`}>
                   <p>
                     {serverData.HostName}
@@ -121,17 +123,17 @@ function ServerShow(props: Props) {
                 >
                   <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                     <div className="flex flex-col gap-4">
-                      <h3 className="text-2xl text-left">{t('servers_settings.delete_server', {serverName: serverData.HostName})}?</h3>
+                      <h3 className="text-2xl text-left">{t('servers_settings.delete_server', { serverName: serverData.HostName })}?</h3>
                       <p className="text-sm">
                         {t('servers_settings.delete_server_message')}
                       </p>
                     </div>
                     <div className="flex gap-2">
                       <Button.Text onClick={hideModal}>
-                        {t('cancel', {ns: 'buttons'})}
+                        {t('cancel', { ns: 'buttons' })}
                       </Button.Text>
                       <Button.Danger onClick={handleDelete}>
-                        {t('delete', {ns: 'buttons'})}
+                        {t('delete', { ns: 'buttons' })}
                       </Button.Danger>
                     </div>
                   </div>
@@ -179,7 +181,7 @@ function ServerShow(props: Props) {
                     name={'mod_id'}
                     id={'mod_id'}
                     label={t('servers_settings.server_mod')}
-                    value={values.mod_id}
+                    value={values.mod_id ?? undefined}
                     onChange={(e) => setFieldValue('mod_id', e.target.value)}
                     disabled={!userCanEdit}
                   >
@@ -215,10 +217,10 @@ function ServerShow(props: Props) {
                 </Field.FieldRow>
                 <div className="flex items-center justify-center gap-2">
                   <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
-                    {t('submit', {ns: 'buttons'})}
+                    {t('submit', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger type="button" className={'!font-header'} disabled={!userCanDelete} onClick={showModal}>
-                    {t('delete_server', {ns: 'buttons'})}
+                    {t('delete_server', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </div>

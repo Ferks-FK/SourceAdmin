@@ -90,7 +90,7 @@ class QueryServer
         $this->server_data['Id'] = $this->id;
         $this->server_data['IsOnline'] = $this->is_online;
         $this->server_data['Ip'] = $this->ip;
-        $this->server_data['Mod'] = $mod;
+        $this->server_data['Mod'] = $this->is_online ? $this->server_data['ModDir'] : $mod;
 
         if ($this->is_online && !empty($this->server_data)) {
             return $this->server_data;
@@ -128,10 +128,12 @@ class QueryServer
     /**
      * Get the server MOD.
      *
-     * @return mixed
+     * @return null|string
      */
-    protected function getMod(): mixed
+    protected function getMod(): null|string
     {
-        return Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mod')->first()->mod;
+        $mod = Server::where('servers.id', $this->id)->join('mods', 'mods.id', 'servers.mod_id')->select('mod')->first();
+
+        return is_null($mod) ? $mod : $mod->mod;
     }
 }

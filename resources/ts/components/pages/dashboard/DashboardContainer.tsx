@@ -87,7 +87,11 @@ function DashboardContainer({ serversIds, ...props }: Props) {
                     serverInfo ?
                     <>
                       <Table.Td>
-                        <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                        {serverInfo.Mod ?
+                          <Image src={`/images/games/${serverInfo.Mod}.png`} alt={serverInfo.Mod} className="w-5" />
+                        :
+                        <FontAwesomeIcon icon={faCircleQuestion} className='w-5' size='lg'/>
+                        }
                       </Table.Td>
                       <Table.Td>
                         {serverInfo?.IsOnline ?

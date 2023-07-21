@@ -65,6 +65,8 @@ export interface TimeBanObject {
 export interface ModObject {
     id: number
     name: string
+    mod: string
+    enabled: boolean
 }
 
 export interface RegionObject {
@@ -107,7 +109,7 @@ export type PunishmentObject = BanObject | MuteObject
 
 export interface ServerDataResponse {
     Id: number
-    Mod: string
+    Mod: string | null
     Os: string
     Map: string
     Players: number

@@ -3,60 +3,67 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
+import { Image } from "@/components/elements/Image";
 import { Modal } from "@/components/elements/modal";
 import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData, useUserStore } from "@/stores/user";
-import { FlashProp, ErrorsProp, RoleObject, PermissionObject } from "@/types";
-import { Option } from "@/components/elements/field/Field";
-import { RoleEditSchema } from '@/yup/YupSchemas';
-import route from 'ziggy-js';
+import { UserData } from "@/stores/user";
+import { FlashProp, ErrorsProp, ModObject } from "@/types";
+import { OptionImage } from '@/components/pages/admin/ModSettings/ModCreate';
+import { ModEditSchema } from "@/yup/YupSchemas";
 import { can } from "@/helpers";
+import route from 'ziggy-js';
 
 interface Props {
-  role: RoleObject
-  permissions: PermissionObject[]
+  mods: ModObject[]
+  mod: ModObject
   flash: FlashProp
   errors: ErrorsProp
   auth: {
     user: UserData
   }
-  timeZone: string
 }
 
 interface Values {
   name: string
-  description: string
-  permissions: string
+  mod: string
+  icon_id: number
+  enabled: boolean
 }
 
-function RoleShow(props: Props) {
+function ModShow(props: Props) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [permissionsData] = useState<PermissionObject[]>(props.permissions);
-  const [setUserData] = useUserStore((state) => [state.setUserData]);
-  const [userCanEdit, userCanDelete] = [can('admin.roles.edit'), can('admin.roles.destroy')];
+  const [modsData] = useState<ModObject[]>(props.mods);
+  const [userCanEdit, userCanDelete] = [can('admin.mods.edit'), can('admin.mods.destroy')];
   const { t } = useTranslation();
 
-  const selectedPermissions = props.role.permissions?.map((permission) => ({ label: permission.readable_name, value: permission.name }))
-
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    router.patch(route('admin.roles.update', props.role.id), { ...values }, {
-      // TODO Review typing.
-      onSuccess: (page: any) => {
-        const user: UserData = page.props.auth.user
-
-        setUserData(user)
-      },
+    router.patch(route('admin.mods.update', props.mod.id), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
     })
   }
 
+  let selectedMod: OptionImage
+
+  // There is probably a better way to do this.
+  modsData.forEach((mod) => {
+    if (mod.id === props.mod.id) {
+      selectedMod = {
+        label: mod.name,
+        value: mod.id,
+        image: mod.mod
+      }
+    }
+
+    return
+  })
+
   const handleDelete = () => {
-    router.delete(route('admin.roles.destroy', props.role.id))
+    router.delete(route('admin.mods.destroy', props.mod.id))
   }
 
   const showModal = () => {
@@ -70,18 +77,19 @@ function RoleShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('role_settings.role_editing_name', {roleName: props.role.name})}>
+    <PageContentBlock title={t('mods_settings.mod_editing_name', { modName: props.mod.name })}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          name: props.role.name,
-          description: props.role.description ?? '',
-          permissions: (selectedPermissions?.map((permission) => permission.value) ?? []) as unknown as string
+          name: props.mod.name,
+          mod: props.mod.mod,
+          icon_id: props.mod.id,
+          enabled: props.mod.enabled
         }}
-        validationSchema={RoleEditSchema()}
+        validationSchema={ModEditSchema()}
       >
-        {({ isSubmitting, setFieldValue }) => (
-          <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
+        {({ isSubmitting, values, setFieldValue }) => (
+          <>
             <Modal
               isVisible={modalVisible}
               onClickCloseBtn={hideModal}
@@ -90,15 +98,10 @@ function RoleShow(props: Props) {
             >
               <div className="flex flex-col justify-between h-full items-center gap-2 p-2">
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl text-left">{t('role_settings.delete_role', { roleName: props.role.name })}?</h3>
+                  <h3 className="text-2xl text-left">{t('mods_settings.delete_mod', { modName: props.mod.name })}?</h3>
                   <p className="text-base">
-                    {t('role_settings.delete_role_message')}
+                    {t('mods_settings.delete_mod_message')}
                   </p>
-                  {props.role.id == props.auth.user.roles.at(0)?.id && (
-                    <p className="text-sm text-red-500">
-                      {t('role_settings.delete_own_role_warning')}
-                    </p>
-                  )}
                 </div>
                 <div className="flex gap-2">
                   <Button.Text onClick={hideModal}>
@@ -120,29 +123,47 @@ function RoleShow(props: Props) {
                   <Field.Text
                     name={'name'}
                     id={'name'}
-                    label={t('role_settings.role_name')}
+                    label={t('mods_settings.mod_name')}
                     disabled={!userCanEdit}
                   />
                   <Field.Text
-                    name={'description'}
-                    id={'description'}
-                    label={t('role_settings.role_description')}
+                    name={'mod'}
+                    id={'mod'}
+                    label={t('mods_settings.mod_image_name')}
+                    description={t('mods_settings.mod_image_description')}
                     disabled={!userCanEdit}
                   />
                   <Field.MultiSelect
-                    name={'permissions'}
-                    id={'permissions'}
-                    label={t('role_settings.permissions')}
-                    closeMenuOnSelect={false}
-                    blurInputOnSelect={false}
-                    isMulti={true}
+                    name={'icon_id'}
+                    id={'icon_id'}
+                    label={t('mods_settings.mod_icon')}
+                    isMulti={false}
+                    options={modsData.map((mod) => ({ label: mod.name, value: mod.id, image: mod.mod }))}
                     // @ts-expect-error
-                    onChange={(options: readonly Option[]) => {
-                      setFieldValue('permissions', options.map((option) => option.value))
+                    onChange={(option: OptionImage) => {
+                      setFieldValue('icon_id', option.value)
+                      setFieldValue('name', option.label)
+                      setFieldValue('mod', option.image)
                     }}
-                    defaultValue={selectedPermissions}
-                    options={permissionsData.map((permission) => ({ label: permission.readable_name, value: permission.name }))}
+                    // @ts-expect-error
+                    formatOptionLabel={(option: OptionImage) => (
+                      <div className="flex gap-1">
+                        <Image src={`/images/games/${option.image}.png`} alt={option.label} className="w-5" />
+                        <span>{option.label}</span>
+                      </div>
+                    )}
+                    defaultValue={selectedMod}
                     isDisabled={!userCanEdit}
+
+                  />
+                  <Field.CheckBox
+                    name={'enabled'}
+                    id={'enabled'}
+                    label={t('enabled', { ns: 'table' })}
+                    value={values.enabled ? 1 : 0}
+                    checked={values.enabled}
+                    onChange={(e) => setFieldValue('enabled', e.target.checked)}
+                    disabled={!userCanEdit}
                   />
                 </Field.FieldRow>
                 <div className="flex items-center justify-center gap-2">
@@ -150,16 +171,16 @@ function RoleShow(props: Props) {
                     {t('update', { ns: 'buttons' })}
                   </Button.Text>
                   <Button.Danger type="button" className={'!font-header !w-fit'} disabled={!userCanDelete} onClick={showModal}>
-                    {t('delete_role', { ns: 'buttons' })}
+                    {t('delete_mod', { ns: 'buttons' })}
                   </Button.Danger>
                 </div>
               </div>
             </Form>
-          </div>
+          </>
         )}
       </Formik>
     </PageContentBlock>
   )
 }
 
-export default RoleShow
+export default ModShow

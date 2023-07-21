@@ -1,4 +1,4 @@
-import { object, string, ref, number, array } from 'yup';
+import { object, string, ref, number, array, boolean, mixed } from 'yup';
 import { fieldType, FieldObject } from '@/yup/YupFields';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
@@ -185,6 +185,20 @@ export const GroupCreateSchema = () => object().shape({
     name: string().required(fieldType('group_name', 'groups_settings').required),
     description: string(),
     type: string().required(fieldType('group_type', 'groups_settings').min_options)
+})
+
+export const ModCreateSchema = () => object().shape({
+    name: string().required(fieldType('mod_name', 'mods_settings').required),
+    mod: string().required(fieldType('mod_image_name', 'mods_settings').required).matches(/^[a-z]+$/, fieldType('mod_image_name', 'mods_settings').invalid),
+    upload_mod_icon: mixed().required(fieldType('mod_icon', 'mods_settings').required),
+    enabled: boolean()
+})
+
+export const ModEditSchema = () => object().shape({
+    name: string().required(fieldType('mod_name', 'mods_settings').required),
+    mod: string().required(fieldType('mod_image_name', 'mods_settings').required).matches(/^[a-z]+$/, fieldType('mod_image_name', 'mods_settings').invalid),
+    icon_id: mixed().required(fieldType('mod_icon', 'mods_settings').required),
+    enabled: boolean()
 })
 
 export const RoleEditSchema = () => object().shape({

@@ -51,6 +51,6 @@ class DatabaseSeeder extends Seeder
         $me->steam_id = 'STEAM_0:1:222936006';
 
         $me->save();
-        $me->assignRole('admin');
+        $me->assignRole(1);
     }
 }

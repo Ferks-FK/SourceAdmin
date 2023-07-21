@@ -30,6 +30,21 @@ export const ServerColumns = [
     }
 ]
 
+export const PlayersColumns = [
+    {
+        name: "Name",
+        i18nKey: "name"
+    },
+    {
+        name: "Score",
+        i18nKey: "score"
+    },
+    {
+        name: "Time",
+        i18nKey: "time"
+    }
+]
+
 export const BansColumns = [
     {
         name: 'MOD/Country',
@@ -201,4 +216,23 @@ export const GroupsColumns = [
         i18nKey: "generic.updated_at",
         ns: 'translations'
     }
+]
+
+export const ModsColumns = [
+    {
+        name: 'ID',
+        i18nKey: "id"
+    },
+    {
+        name: 'Icon',
+        i18nKey: "icon"
+    },
+    {
+        name: 'Name',
+        i18nKey: "name"
+    },
+    {
+        name: 'Enabled',
+        i18nKey: "enabled"
+    },
 ]

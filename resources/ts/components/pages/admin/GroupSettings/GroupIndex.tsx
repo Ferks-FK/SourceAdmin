@@ -23,7 +23,7 @@ interface Props {
 
 function GroupIndex(props: Props) {
   const pagination = paginationItems(props.data)
-  const [groupsData] = useState(props.data.data)
+  const [groupsData] = useState<GroupObject[]>(props.data.data)
   const { t } = useTranslation()
 
   const handleClick = (id: number) => {

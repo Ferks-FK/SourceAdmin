@@ -138,6 +138,19 @@
         "group_description": "Group Description",
         "group_type": "Group Type"
     },
+    "mods_settings": {
+        "mods_overview": "Mods Overview",
+        "mods": "Mods",
+        "create_mod": "Create Mod",
+        "create_new_mod": "Create New Mod",
+        "mod_name": "Mod Name",
+        "mod_icon": "Mod Icon",
+        "mod_image_name": "Image name",
+        "mod_image_description": "This will be the name that will refer to the image you upload. Change this if you think it is incorrect.",
+        "mod_editing_name": "Mod {{modName}}",
+        "delete_mod": "Delete mod \"{{modName}}\"",
+        "delete_mod_message": "When you confirm the deletion of the mod, the action is permanent and cannot be undone."
+    },
     "role_settings": {
         "role": "Role",
         "create_role": "Create Role",

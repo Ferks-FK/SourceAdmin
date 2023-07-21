@@ -33,5 +33,7 @@
     "next": "Next",
     "users_count": "Users Count",
     "permissions_count": "Permissions Count",
-    "type": "Type"
+    "type": "Type",
+    "icon": "Icon",
+    "enabled": "Enabled"
 }

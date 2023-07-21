@@ -164,7 +164,7 @@ type MultiSelectProps = Props & Omit<SelectProps, 'defaultValue'> & {
   options: Option | Option[]
 }
 
-const MultiSelect = ({ name, label, description, options, ...props }: MultiSelectProps) => {
+const MultiSelect = ({ name, label, description, options, isMulti, ...props }: MultiSelectProps) => {
   const { t } = useTranslation();
 
   return (
@@ -179,7 +179,7 @@ const MultiSelect = ({ name, label, description, options, ...props }: MultiSelec
         errors={errors}
       >
         <Select
-          isMulti={true}
+          isMulti={isMulti}
           options={options}
           styles={SelectStyle}
           placeholder={t('generic.search')}

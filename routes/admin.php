@@ -85,6 +85,15 @@ Route::name('admin.')->group(function() {
         Route::delete('/{id}', [GroupController::class, 'destroy'])->name('groups.destroy');
     });
 
+    Route::group(['prefix' => 'mods_settings'], function() {
+        Route::get('/', [ModController::class, 'index'])->name('mods.index');
+        Route::get('/create', [ModController::class, 'create'])->name('mods.create');
+        Route::get('/{id}', [ModController::class, 'show'])->name('mods.show');
+        Route::post('/store', [ModController::class, 'store'])->name('mods.store');
+        Route::patch('/update/{id}', [ModController::class, 'update'])->name('mods.update');
+        Route::delete('/{id}', [ModController::class, 'destroy'])->name('mods.destroy');
+    });
+
     Route::group(['prefix' => 'roles_settings'], function() {
         Route::get('/', [RoleController::class, 'index'])->name('roles.index');
         Route::get('/create', [RoleController::class, 'create'])->name('roles.create');

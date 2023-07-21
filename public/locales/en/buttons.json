@@ -16,5 +16,6 @@
     "delete_mute": "Delete Mute",
     "delete_server": "Delete Server",
     "delete_role": "Delete Role",
-    "delete_group": "Delete Group"
+    "delete_group": "Delete Group",
+    "delete_mod": "Delete Mod"
 }

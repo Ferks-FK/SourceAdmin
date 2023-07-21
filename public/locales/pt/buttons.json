@@ -16,5 +16,6 @@
     "delete_mute": "Excluir Mute",
     "delete_server": "Excluir Servidor",
     "delete_role": "Excluir Função",
-    "delete_group": "Excluir Grupo"
+    "delete_group": "Excluir Grupo",
+    "delete_mod": "Excluir Mod"
 }

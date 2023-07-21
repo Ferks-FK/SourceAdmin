@@ -138,6 +138,19 @@
         "group_description": "Descrição do grupo",
         "group_type": "Tipo do grupo"
     },
+    "mods_settings": {
+        "mods_overview": "Visão geral dos mods",
+        "mods": "Mods",
+        "create_mod": "Criar Mod",
+        "create_new_mod": "Criar Novo Mod",
+        "mod_name": "Nome do mod",
+        "mod_icon": "Ícone do mod",
+        "mod_image_name": "Nome da imagem",
+        "mod_image_description": "Esse será o nome que se referirá à imagem que você carregar. Altere-o se achar que está incorreto.",
+        "mod_editing_name": "Mod {{modName}}",
+        "delete_mod": "Excluir mod \"{{modName}}\"",
+        "delete_mod_message": "Quando você confirmar a exclusão do mod, a ação será permanente e não pode ser desfeita."
+    },
     "role_settings": {
         "role": "Função",
         "create_role": "Criar função",

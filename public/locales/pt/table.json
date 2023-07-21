@@ -33,5 +33,7 @@
     "next": "Próximo",
     "users_count": "Número de usuários",
     "permissions_count": "Número de permissões",
-    "type": "Tipo"
+    "type": "Tipo",
+    "icon": "Ícone",
+    "enabled": "Ativado"
 }

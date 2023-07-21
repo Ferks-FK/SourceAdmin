@@ -33,6 +33,6 @@ class PermissionsSeeder extends Seeder
     protected function createRoles()
     {
         // Initial Admin Role.
-        Role::create(['name' => 'Root admin'])->givePermissionTo(Permission::findByName('*'));
+        Role::create(['name' => 'Root Admin'])->givePermissionTo(Permission::findByName('*'));
     }
 }
