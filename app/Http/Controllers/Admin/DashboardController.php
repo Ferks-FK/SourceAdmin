@@ -22,8 +22,7 @@ class DashboardController extends Controller
         return Inertia::render('admin/AdminOverview/AdminOverview', [
             'versionData' => [
                 'isLatestVersion' => $version->isLastestVersion(),
-                'currentVersion' => $version->getCurrentVersion(),
-                'latestVersion' => $version->getLatestVersion()
+                'currentVersion' => $version->getCurrentVersion()
             ],
             'usersCount' => $data->usersCount,
             'serversCount' => $data->serversCount,

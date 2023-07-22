@@ -12,7 +12,6 @@ export interface Props {
   versionData: {
     currentVersion: string
     isLatestVersion: boolean
-    latestVersion: string
   }
 }
 

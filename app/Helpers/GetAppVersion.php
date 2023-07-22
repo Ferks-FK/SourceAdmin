@@ -13,6 +13,8 @@ class GetAppVersion
     protected function getVersionFromGithub(): string
     {
         if (!Cache::has('version')) {
+            $version = 'unknown';
+
             try {
                 $response = Http::timeout(3)->get($this::GITHUB_URL);
 
@@ -24,8 +26,12 @@ class GetAppVersion
                     return $version;
                 }
 
+                Cache::put('version', $version, now()->addHour());
+
                 return 'unknown';
             } catch (ConnectionException $e) {
+                Cache::put('version', $version, now()->addHour());
+
                 return 'unknown';
             }
         }
@@ -43,7 +49,7 @@ class GetAppVersion
         return config('app.version');
     }
 
-    public function getLatestVersion()
+    protected function getLatestVersion()
     {
         return $this->getVersionFromGithub();
     }
