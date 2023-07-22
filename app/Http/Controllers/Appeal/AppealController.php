@@ -43,7 +43,7 @@ class AppealController extends Controller
 
         AppealJob::dispatch($appeal);
 
-        return redirect()->route('appeal.create')->with('success', __('Your appeal has been sent to the administrators.'));
+        return redirect()->route('appeal.create')->with('success', __('Your :attribute has been sent to the administrators.', ['attribute' => __('appeal')]));
     }
 
     /**

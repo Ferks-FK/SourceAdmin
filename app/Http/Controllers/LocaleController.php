@@ -13,9 +13,9 @@ class LocaleController extends Controller
 
         if (in_array($locale, array_column(config('locales.locales'), 'code'))) {
             Session::put('locale', $locale);
+        } else {
+            Session::put('locale', config('app.locale'));
         }
-
-        Session::put('locale', config('app.locale'));
 
         return response()->json([
             'message' => __('The language was set successfully.')

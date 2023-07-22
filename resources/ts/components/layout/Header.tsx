@@ -23,6 +23,8 @@ function Header() {
         console.error(error)
       }
     })
+
+    return () => i18n.off('languageChanged')
   }, [i18n.language])
 
   return (
