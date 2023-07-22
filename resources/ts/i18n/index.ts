@@ -34,7 +34,7 @@ i18next
       backendOptions: [{
         expirationTime: 3 * 24 * 60 * 60 * 1000 // 3 days
       }, {
-        loadPath: '/locales/{{lng}}/{{ns}}.json'
+        loadPath: '/locales/react/{{lng}}/{{ns}}.json'
       }]
     } as HttpBackendOptions
   } as Record<string, any>

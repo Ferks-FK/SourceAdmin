@@ -136,7 +136,10 @@
         "delete_group": "Eliminar grupo \"{{groupName}}\"",
         "delete_group_message": "Una vez confirmada la eliminación del grupo, la acción es permanente y no se puede deshacer.",
         "group_description": "Descripción del grupo",
-        "group_type": "Tipo del grupo"
+        "group_type": "Tipo del grupo",
+        "group_type_web": "Web",
+        "group_type_server": "Servidor",
+        "group_type_server_admin": "Administración de servidores"
     },
     "mods_settings": {
         "mods_overview": "Resumen del mods",

@@ -207,6 +207,7 @@ function AdminShow(props: Props) {
                     label={t('generic.group')}
                     closeMenuOnSelect={false}
                     blurInputOnSelect={false}
+                    isMulti={true}
                     // @ts-expect-error
                     onChange={(options: readonly Option[]) => {
                       setFieldValue('groups', options.map((option) => option.value))

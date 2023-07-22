@@ -56,7 +56,7 @@ function GroupIndex(props: Props) {
             >
               <Table.Td>{group.id}</Table.Td>
               <Table.Td>{group.name}</Table.Td>
-              <Table.Td>{group.type}</Table.Td>
+              <Table.Td>{t(`groups_settings.group_type_${group.type}`)}</Table.Td>
               <Table.Td
                 className="ellipsis !text-current max-w-[15rem] lg:max-w-xs"
               >

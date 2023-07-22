@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        app()->useLangPath(public_path('locales/laravel'));
     }
 
     /**

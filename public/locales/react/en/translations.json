@@ -136,7 +136,10 @@
         "delete_group": "Delete group \"{{groupName}}\"",
         "delete_group_message": "When you confirm the deletion of the group, the action is permanent and cannot be undone.",
         "group_description": "Group Description",
-        "group_type": "Group Type"
+        "group_type": "Group Type",
+        "group_type_web": "Web",
+        "group_type_server": "Server",
+        "group_type_server_admin": "Server Admin"
     },
     "mods_settings": {
         "mods_overview": "Mods Overview",

@@ -3,7 +3,8 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Table } from "@/components/elements/table";
 import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faCircleXmark, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { paginationItems, can } from '@/helpers';
 import { useTranslation } from "react-i18next";
@@ -58,7 +59,9 @@ function AdminIndex(props: Props) {
               <Table.Td>{admin.name}</Table.Td>
               <Table.Td>{admin.email}</Table.Td>
               <Table.Td>{admin.steam_id}</Table.Td>
-              <Table.Td>{admin.email_verified_at ? "yes" : "no"}</Table.Td>
+              <Table.Td>
+                <FontAwesomeIcon icon={admin.email_verified_at ? faCheckCircle : faCircleXmark} color={admin.email_verified_at ? 'green' : '#d62727'} className="w-5"/>
+              </Table.Td>
               <Table.Td>{admin.roles.at(0)?.name}</Table.Td>
               <Table.Td>100</Table.Td>
             </Table.Row>
