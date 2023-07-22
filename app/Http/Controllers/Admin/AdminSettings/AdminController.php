@@ -61,7 +61,7 @@ class AdminController extends Controller
             $user->groups()->sync($groups);
         }
 
-        return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully created.'));
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('created')]));
     }
 
     /**
@@ -120,7 +120,7 @@ class AdminController extends Controller
         $user->fill($data);
         $user->save();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully updated.'));
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('updated')]));
     }
 
     /**
@@ -137,7 +137,7 @@ class AdminController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The administrator has been successfully deleted.'));
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('deleted')]));
     }
 
     protected function getUsersData()

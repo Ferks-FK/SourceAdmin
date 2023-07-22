@@ -61,7 +61,7 @@ class MuteController extends Controller
 
         Mute::create($request->all());
 
-        return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully created.'));
+        return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('created')]));
     }
 
     /**
@@ -110,7 +110,7 @@ class MuteController extends Controller
         $mute->fill($request->all());
         $mute->save();
 
-        return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully updated.'));
+        return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('updated')]));
     }
 
     /**
@@ -126,7 +126,7 @@ class MuteController extends Controller
         $mute = Mute::findOrFail($id);
         $mute->delete();
 
-        return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully deleted.'));
+        return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('deleted')]));
     }
 
     /**
@@ -151,7 +151,7 @@ class MuteController extends Controller
         $mute->fill($data);
         $mute->save();
 
-        return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully re-applied.'));
+        return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('re-applied')]));
     }
 
     /**
@@ -172,7 +172,7 @@ class MuteController extends Controller
 
         $mute->save();
 
-        return redirect()->route('admin.mutes.index')->with('success', __('The mute has been successfully undone.'));
+        return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('undone')]));
     }
 
     protected function getCommsData(int $getById = null)

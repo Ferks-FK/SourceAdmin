@@ -127,12 +127,43 @@ return [
     'uploaded' => 'Subir :attribute ha fallado.',
     'url' => ':Attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify custom validation messages for attributes using the
+    | convention "attribute.rule" to name the lines. This makes it quick to
+    | specify a specific custom language line for a given attribute rule.
+    |
+    */
+
     'custom' => [
-        'email' => [
-            'unique' => 'El :attribute ya ha sido registrado.',
-        ],
-        'password' => [
-            'min' => 'La :attribute debe contener más de :min caracteres',
-        ],
+        'current_password' => 'La contraseña actual es incorrecta.',
+        'rcon_password' => 'La contraseña RCON es incorrecta.'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Attributes
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used to swap our attribute placeholder
+    | with something more reader friendly such as "E-Mail Address" instead
+    | of "email". This simply helps us make our message more expressive.
+    |
+    */
+
+    'attributes' => [
+        'player_steam_id' => 'steam id',
+        'player_ip' => 'ip de jugador',
+        'player_name' => 'nombre de jugador',
+        'comments' => 'comentarios',
+        'reporter_name' => 'su nombre',
+        'reporter_email' => 'su correo electrónico',
+        'server_id' => 'servidor',
+        'upload_demo' => 'demo',
+        'reason' => 'motivo'
     ],
 ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Helpers\SteamHelper;
 use Illuminate\Support\Facades\Auth;
 use Ilzrv\LaravelSteamAuth\SteamAuth;
 use Ilzrv\LaravelSteamAuth\SteamData;
@@ -58,9 +59,9 @@ class SteamAuthController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $data->steam_id]);
 
-        Auth::guard('web')->login($user, true);
+        Auth::login($user, true);
 
-        return redirect($this->redirectTo)->with('success', __('You have been successfully authenticated.'));
+        return redirect($this->redirectTo)->with('success', __('Welcome again :attribute!', ['attribute' => $user->name]));
     }
 
     /**
@@ -82,6 +83,8 @@ class SteamAuthController extends Controller
      */
     protected function getUserBySteamId(SteamData $data)
     {
-        return User::where('steam_id', $data->getSteamId())->get()->first();
+        $steamId = $data->getSteamId();
+
+        return User::where('steam_id', $steamId)->orWhere('steam_id', SteamHelper::convertSteam64ToID($steamId))->get()->first();
     }
 }

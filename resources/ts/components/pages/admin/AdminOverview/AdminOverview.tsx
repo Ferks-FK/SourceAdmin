@@ -3,10 +3,13 @@ import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Box } from "@/components/elements/Box";
 import { useTranslation } from "react-i18next";
 import { Props } from "@/components/pages/admin/AdminOverview/AdminOverviewData";
+import { useFlashMessages } from "@/hooks/useFlashMessages";
 
 function AdminOverview({ versionData, ...props }: Props) {
   const overviewData = AdminOverviewData({ versionData, ...props });
   const { t } = useTranslation();
+
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('admin_overview.admin_overview')} className={'items-center'}>

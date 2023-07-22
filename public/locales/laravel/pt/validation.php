@@ -130,9 +130,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'current_password' => "A senha atual está incorreta.",
+        'rcon_password' => 'A senha do RCON está incorreta.'
     ],
 
     /*
@@ -146,6 +145,15 @@ return [
     |
     */
 
-    'attributes' => [],
-
+    'attributes' => [
+        'player_steam_id' => 'steam id',
+        'player_ip' => 'ip do jogador',
+        'player_name' => 'nome do jogador',
+        'comments' => 'comentários',
+        'reporter_name' => 'seu nome',
+        'reporter_email' => 'seu email',
+        'server_id' => 'servidor',
+        'upload_demo' => 'demo',
+        'reason' => 'motivo'
+    ],
 ];

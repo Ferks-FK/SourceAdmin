@@ -61,7 +61,7 @@ class BanController extends Controller
 
         Ban::create($request->all());
 
-        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully created.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('created')]));
     }
 
     /**
@@ -110,7 +110,7 @@ class BanController extends Controller
         $ban->fill($request->all());
         $ban->save();
 
-        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully updated.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('updated')]));
     }
 
     /**
@@ -126,7 +126,7 @@ class BanController extends Controller
         $ban = Ban::findOrFail($id);
         $ban->delete();
 
-        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully deleted.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('deleted')]));
     }
 
     /**
@@ -151,7 +151,7 @@ class BanController extends Controller
         $ban->fill($data);
         $ban->save();
 
-        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully re-applied.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('re-applied')]));
     }
 
     /**
@@ -172,7 +172,7 @@ class BanController extends Controller
 
         $ban->save();
 
-        return redirect()->route('admin.bans.index')->with('success', __('The ban has been successfully undone.'));
+        return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('undone')]));
     }
 
     protected function getBansData($getById = null)

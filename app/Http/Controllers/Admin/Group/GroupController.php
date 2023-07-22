@@ -51,7 +51,7 @@ class GroupController extends Controller
 
         Group::create($request->all());
 
-        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully created.'));
+        return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('created')]));
     }
 
     /**
@@ -87,7 +87,7 @@ class GroupController extends Controller
         $group->fill($request->all());
         $group->save();
 
-        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully updated.'));
+        return redirect()->route('admin.groups.index')->with('success',__('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('updated')]));
     }
 
     /**
@@ -104,6 +104,6 @@ class GroupController extends Controller
 
         $group->delete();
 
-        return redirect()->route('admin.groups.index')->with('success', __('The group has been successfully deleted.'));
+        return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('deleted')]));
     }
 }

@@ -86,7 +86,7 @@ export const ReportFormSchema = () => {
         }),
         player_name: string().required(fieldType('player_name', 'report').required),
         comments: string().required(fieldType('comments', 'report').required),
-        reporter_name: string(),
+        reporter_name: string().required(fieldType('your_name', 'report').required),
         reporter_email: string().required(fieldType('email').your).email(fieldType('email').invalid),
         server_id: number().required(fieldType('server', 'servers').required)
     }, [['player_steam_id', 'player_ip']])

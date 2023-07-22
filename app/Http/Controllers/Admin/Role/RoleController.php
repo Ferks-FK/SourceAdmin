@@ -57,7 +57,7 @@ class RoleController extends Controller
 
         $role->givePermissionTo($request->permissions);
 
-        return redirect()->route('admin.roles.index')->with('success', __('The role has been successfully created.'));
+        return redirect()->route('admin.roles.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('role'), 'action' => __('created')]));
     }
 
     /**
@@ -97,7 +97,7 @@ class RoleController extends Controller
         $role->fill($data);
         $role->save();
 
-        return redirect()->route('admin.roles.index')->with('success', __('The role has been successfully updated.'));
+        return redirect()->route('admin.roles.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('role'), 'action' => __('updated')]));
     }
 
     /**
@@ -113,6 +113,6 @@ class RoleController extends Controller
         $role = Role::findById($id);
         $role->delete();
 
-        return redirect()->route('admin.roles.index')->with('success', __('The role has been successfully deleted.'));
+        return redirect()->route('admin.roles.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('role'), 'action' => __('deleted')]));
     }
 }

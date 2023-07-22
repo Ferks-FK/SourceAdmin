@@ -65,7 +65,7 @@ class AdminUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (!Hash::check($this->current_password, $this->user->password) ) {
-                $validator->errors()->add('current_password', __('The current password is incorrect.'));
+                $validator->errors()->add('current_password', __('validation.custom.current_password'));
             }
         });
     }

@@ -48,7 +48,7 @@ class ServerUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (!Hash::check($this->rcon, $this->serverModel->rcon) ) {
-                $validator->errors()->add('rcon', __('The RCON password is incorrect.'));
+                $validator->errors()->add('rcon', __('validation.custom.rcon_password'));
             }
         });
     }

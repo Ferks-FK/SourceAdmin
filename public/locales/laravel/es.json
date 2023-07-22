@@ -1,5 +1,24 @@
 {
+    "Could not find a user with these credentials.": "No se ha podido encontrar un usuario con estas credenciales.",
+    "Welcome again :attribute!": "¡Bienvenido de nuevo :attribute!",
+    "Steam API key has not been configured.": "No se ha configurado la clave API de Steam.",
+    "Failed to validate your steam account.": "No se ha podido validar tu cuenta de steam.",
+    "We could not find a user related to your steam account.": "No hemos podido encontrar un usuario relacionado con su cuenta de steam.",
+    "Your :attribute has been sent to the administrators.": "Su :attribute ha sido enviada a los administradores.",
+    "The :attribute has been successfully :action.": "El :attribute ha sido :action con éxito.",
+    "The page expired, please try again.": "La página ha caducado, inténtelo de nuevo.",
     "appeal": "recurso",
     "report": "denuncia",
-    "Your :attribute has been sent to the administrators.": "Su :attribute ha sido enviada a los administradores."
+    "created": "creado",
+    "updated": "actualizado",
+    "deleted": "eliminado",
+    "administrator": "administrador",
+    "ban": "prohibición",
+    "mute": "mute",
+    "group": "grupo",
+    "mod": "mod",
+    "role": "papel",
+    "server": "servidor",
+    "re-applied": "reaplicado",
+    "undone": "deshecho"
 }

@@ -55,7 +55,7 @@ class ModController extends Controller
 
         Mod::create($request->except('upload_mod_icon'));
 
-        return redirect()->route('admin.mods.index')->with('success', __('The mod has been successfully created.'));
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('created')]));
     }
 
     /**
@@ -86,7 +86,7 @@ class ModController extends Controller
         $mod->fill($request->except('icon_id'));
         $mod->save();
 
-        return redirect()->route('admin.mods.index')->with('success', __('The mod has been successfully updated.'));
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('updated')]));
     }
 
     /**
@@ -101,6 +101,6 @@ class ModController extends Controller
 
         $mod->delete();
 
-        return redirect()->route('admin.mods.index')->with('success', __('The mod has been successfully deleted.'));
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('deleted')]));
     }
 }

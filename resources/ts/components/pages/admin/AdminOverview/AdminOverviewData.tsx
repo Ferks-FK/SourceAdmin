@@ -1,8 +1,11 @@
 import { CounterContainer } from "@/components/elements/Counter";
 import { useTranslation } from "react-i18next";
+import { FlashProp, ErrorsProp } from "@/types";
 
 export interface Props {
-  appealsCount: number,
+  flash: FlashProp
+  errors: ErrorsProp
+  appealsCount: number
   bansCount: number
   demosCount: number
   reportsCount: number

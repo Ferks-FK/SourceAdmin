@@ -1,5 +1,24 @@
 {
+    "Could not find a user with these credentials.": "Could not find a user with these credentials.",
+    "Welcome again :attribute!": "Welcome again :attribute!",
+    "Steam API key has not been configured.": "Steam API key has not been configured.",
+    "Failed to validate your steam account.": "Failed to validate your steam account.",
+    "We could not find a user related to your steam account.": "We could not find a user related to your steam account.",
+    "Your :attribute has been sent to the administrators.": "Your :attribute has been sent to the administrators.",
+    "The :attribute has been successfully :action.": "The :attribute has been successfully :action.",
+    "The page expired, please try again.": "The page expired, please try again.",
     "appeal": "appeal",
     "report": "report",
-    "Your :attribute has been sent to the administrators.": "Your :attribute has been sent to the administrators."
+    "created": "created",
+    "updated": "updated",
+    "deleted": "deleted",
+    "administrator": "administrator",
+    "ban": "ban",
+    "mute": "mute",
+    "group": "group",
+    "mod": "mod",
+    "role": "role",
+    "server": "server",
+    "re-applied": "re-applied",
+    "undone": "undone"
 }

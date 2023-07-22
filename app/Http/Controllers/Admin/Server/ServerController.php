@@ -69,7 +69,7 @@ class ServerController extends Controller
 
         ServerModel::create($request->except('rcon_confirmation'));
 
-        return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully created.'));
+        return redirect()->route('admin.servers.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('server'), 'action' => __('created')]));
     }
 
     /**
@@ -122,7 +122,7 @@ class ServerController extends Controller
 
         $this->removeServerFromCache($id);
 
-        return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully updated.'));
+        return redirect()->route('admin.servers.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('server'), 'action' => __('updated')]));
     }
 
     /**
@@ -141,7 +141,7 @@ class ServerController extends Controller
 
         $this->removeServerFromCache($id);
 
-        return redirect()->route('admin.servers.index')->with('success', __('The server has been successfully deleted.'));
+        return redirect()->route('admin.servers.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('server'), 'action' => __('deleted')]));
     }
 
     protected function getServerData()
