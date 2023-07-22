@@ -16,15 +16,17 @@ function Header() {
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng)
 
   useEffect(() => {
-    i18n.on('languageChanged', () => {
+    const handleLanguageChange = () => {
       try {
-        setLocale(i18n.language)
+        setLocale(i18n.language);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    })
+    };
 
-    return () => i18n.off('languageChanged')
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => i18n.off('languageChanged', handleLanguageChange)
   }, [i18n.language])
 
   return (
