@@ -2,18 +2,35 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use stdClass;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The root template that is loaded on the first page visit.
+     * Sets the root template that's loaded on the first page visit.
      *
-     * @var string
+     * @param Request $request
+     *
+     * @return string
      */
-    protected $rootView = 'layouts.app';
+    public function rootView(Request $request): string
+    {
+        return 'layouts.' . $this->defineLayout($request);
+    }
+
+    protected function defineLayout(Request $request)
+    {
+        if ($request->is(['admin', 'admin/*'])) {
+            return 'admin';
+        }
+
+        return 'app';
+    }
 
     /**
      * Determine the current asset version.
@@ -30,15 +47,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $layout = $this->defineLayout($request);
+
+        if ($request->user()) {
+            $userAuth = User::with(['roles', 'roles.permissions'])->findOrFail($request->user()->id);
+        }
+
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $userAuth ?? null
             ],
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
+            'ziggy' => function () use ($request, $layout) {
+                return array_merge((new Ziggy($layout))->toArray(), [
                     'location' => $request->url()
                 ]);
             },
+            'layout' => $layout,
+            'timeZone' => config('app.timezone'),
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

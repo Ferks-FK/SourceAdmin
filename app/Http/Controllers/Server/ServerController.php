@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Models\Server as ServerModel;
 use App\Traits\Server;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServerController extends Controller
 {
@@ -19,12 +21,9 @@ class ServerController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 10);
-
-        if (is_null($limit)) $limit = 10;
-
         return Inertia::render('servers/ServersContainer', [
-            'serversIds' => $this->getServersIds($limit)
+            'serversIds' => $this->getServersIds(),
+            'data' => $this->getServerData($request)
         ]);
     }
 
@@ -104,5 +103,13 @@ class ServerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function getServerData(Request $request)
+    {
+        $query = QueryBuilder::for(ServerModel::class)
+            ->where('enabled', true);
+
+        return $request->boolean('all') ? $query->get() : $query->paginate(10)->appends(request()->query());
     }
 }

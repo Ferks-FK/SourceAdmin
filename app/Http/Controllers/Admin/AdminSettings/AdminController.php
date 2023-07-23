@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\AdminSettings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Group;
 use App\Http\Requests\Admin\AdminCreateRequest;
 use App\Http\Requests\Admin\AdminUpdateRequest;
 use Inertia\Inertia;
@@ -18,6 +20,8 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', User::class);
+
         return Inertia::render('admin/AdminSettings/AdminIndex', [
             'data' => $this->getUsersData()
         ]);
@@ -30,7 +34,12 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/AdminSettings/AdminCreate');
+        $this->authorize('create', User::class);
+
+        return Inertia::render('admin/AdminSettings/AdminCreate', [
+            'roles' => Role::all(),
+            'groups' => Group::all()
+        ]);
     }
 
     /**
@@ -41,9 +50,18 @@ class AdminController extends Controller
      */
     public function store(AdminCreateRequest $request)
     {
-        User::create($request->except('password_confirmation'));
+        $this->authorize('create', User::class);
 
-        return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully created.'));
+        $user = User::create($request->except(['password_confirmation', 'role', 'groups']));
+        $user->assignRole($request->role);
+
+        $groups = $request->groups;
+
+        if ($groups) {
+            $user->groups()->sync($groups);
+        }
+
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('created')]));
     }
 
     /**
@@ -54,22 +72,15 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $this->authorize('show', User::class);
+
+        $user = User::with(['roles', 'groups'])->findOrFail($id);
 
         return Inertia::render('admin/AdminSettings/AdminShow', [
-            'user' => $user
+            'user' => $user,
+            'roles' => Role::all(),
+            'groups' => Group::all()
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -81,7 +92,9 @@ class AdminController extends Controller
      */
     public function update(AdminUpdateRequest $request, $id)
     {
-        $data = $request->except('new_password_confirmation');
+        $this->authorize('show', User::class);
+
+        $data = $request->except(['new_password_confirmation', 'role', 'groups']);
         $user = User::findOrFail($id);
 
         if ($request->input('new_password')) {
@@ -94,10 +107,20 @@ class AdminController extends Controller
             }
         }
 
+        if ($request->role) {
+            if ($user->roles->count() >= 1) {
+                $user->removeRole($user->roles[0]);
+            }
+
+            $user->assignRole($request->role);
+        }
+
+        $user->groups()->sync($request->groups);
+
         $user->fill($data);
         $user->save();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The user has been successfully updated.'));
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('updated')]));
     }
 
     /**
@@ -108,6 +131,8 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('destroy', User::class);
+
         $user = User::findOrFail($id);
 
         if ($user->name === "demo") {
@@ -116,11 +141,13 @@ class AdminController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The administrator has been successfully deleted.'));
+        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('deleted')]));
     }
 
     protected function getUsersData()
     {
-        return QueryBuilder::for(User::class)->paginate(10)->appends(request()->query());
+        return QueryBuilder::for(User::class)
+            ->with('roles')
+            ->paginate(10)->appends(request()->query());
     }
 }

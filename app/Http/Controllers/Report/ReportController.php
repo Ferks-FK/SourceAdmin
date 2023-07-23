@@ -65,7 +65,7 @@ class ReportController extends Controller
 
         ReportPlayer::dispatch($report);
 
-        return redirect()->route('report.create')->with('success', __('Your report has been sent to the administrators.'));
+        return redirect()->route('report.create')->with('success', __('Your :attribute has been sent to the administrators.', ['attribute' => __('report')]));
     }
 
     /**

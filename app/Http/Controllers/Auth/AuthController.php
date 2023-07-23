@@ -21,14 +21,14 @@ class AuthController extends Controller
         $credentials = $request->getCredentials();
 
         if (!Auth::validate($credentials)) {
-            return redirect()->route('auth')->with('error', 'Could not find a user with these credentials.');
+            return redirect()->route('auth')->with('error', __('Could not find a user with these credentials.'));
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
         Auth::login($user, true);
 
-        return redirect()->route('home.index')->with('success', __('Successfully logged in, welcome again ' . $user . '!'));
+        return redirect()->route('admin.index')->with('success', __('Welcome again :attribute!', ['attribute' => $user->name]));
     }
 
     public function logout(Request $request): RedirectResponse
@@ -39,6 +39,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('home.index')->with('success', __('Logged out successfully.'));
+        return redirect()->route('home.index');
     }
 }

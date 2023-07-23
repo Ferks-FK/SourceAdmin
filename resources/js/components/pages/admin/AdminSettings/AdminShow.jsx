@@ -27,7 +27,13 @@ function AdminShow({ user, flash, errors, ziggy, auth }) {
   }
 
   const handleDelete = () => {
-    router.delete(route('admin.settings.destroy', user.id))
+    router.delete(route('admin.settings.destroy', user.id), {
+      onSuccess: () => {
+        if (props.user.id == props.auth.user.id) {
+          clearData()
+        }
+      }
+    })
   }
 
   function showModal() {

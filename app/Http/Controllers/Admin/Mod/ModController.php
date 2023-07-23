@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Admin\Mod;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Mod\ModCreateRequest;
+use App\Http\Requests\Admin\Mod\ModUpdateRequest;
+use App\Models\Mod;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
+
 
 class ModController extends Controller
 {
@@ -14,7 +19,12 @@ class ModController extends Controller
      */
     public function index()
     {
-        //
+        $data = QueryBuilder::for(Mod::class)
+            ->paginate(10)->appends(request()->query());
+
+        return Inertia::render('admin/ModSettings/ModIndex', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -24,7 +34,9 @@ class ModController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/ModSettings/ModCreate', [
+            'mods' => Mod::all()
+        ]);
     }
 
     /**
@@ -33,9 +45,17 @@ class ModController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ModCreateRequest $request)
     {
-        //
+        if ($request->hasFile('upload_mod_icon')) {
+            $file = $request->file('upload_mod_icon');
+            $file_name = $request->mod . '.' . $file->extension();
+            $file->move(public_path('images/games'), $file_name);
+        }
+
+        Mod::create($request->except('upload_mod_icon'));
+
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('created')]));
     }
 
     /**
@@ -46,18 +66,10 @@ class ModController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Inertia::render('admin/ModSettings/ModShow', [
+            'mods' => Mod::all(),
+            'mod' => Mod::findOrFail($id)
+        ]);
     }
 
     /**
@@ -67,9 +79,14 @@ class ModController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ModUpdateRequest $request, $id)
     {
-        //
+        $mod = Mod::findOrFail($id);
+
+        $mod->fill($request->except('icon_id'));
+        $mod->save();
+
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('updated')]));
     }
 
     /**
@@ -80,6 +97,10 @@ class ModController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $mod = Mod::findOrFail($id);
+
+        $mod->delete();
+
+        return redirect()->route('admin.mods.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mod'), 'action' => __('deleted')]));
     }
 }

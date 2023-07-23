@@ -8,6 +8,7 @@ use Database\Seeders\RegionsSeeder;
 use Database\Seeders\ReasonSeeder;
 use Database\Seeders\TimeBansSeeder;
 use Database\Seeders\UserWeb;
+use Database\Seeders\PermissionsSeeder;
 use App\Models\User;
 use App\Models\Server;
 use App\Models\Ban;
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
             ModsSeeder::class,
             ReasonSeeder::class,
             TimeBansSeeder::class,
-            RegionsSeeder::class
+            RegionsSeeder::class,
+            PermissionsSeeder::class
         ]);
 
         if (config("app.env") === "development" || config("app.env") === "local") {
@@ -35,6 +37,20 @@ class DatabaseSeeder extends Seeder
             Server::factory(1)->create();
             Ban::factory(150)->create();
             Mute::factory(150)->create();
+
+            $this->editMyUser();
         }
+    }
+
+    protected function editMyUser()
+    {
+        $me = User::find(1);
+
+        $me->name = 'Ferks';
+        $me->should_re_login = false;
+        $me->steam_id = 'STEAM_0:1:222936006';
+
+        $me->save();
+        $me->assignRole(1);
     }
 }

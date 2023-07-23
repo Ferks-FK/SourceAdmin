@@ -1,0 +1,16 @@
+{
+    "dashboard": "Dashboard",
+    "servers": "Servers",
+    "bans": "Bans",
+    "mutes": "Mutes",
+    "report_player": "Report Player",
+    "appeal_ban": "Appeal Ban",
+    "admin": "Admin",
+    "admin_overview": "Admin Overview",
+    "admins": "Administrators",
+    "groups": "Groups",
+    "mods": "Mods",
+    "roles": "Roles",
+    "settings": "Settings",
+    "return": "Return"
+}

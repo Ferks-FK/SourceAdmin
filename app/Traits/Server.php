@@ -17,13 +17,13 @@ trait Server
 
         if ($request->boolean('getPlayers')) {
             return response()->json([
-                $query->getServerData(),
-                $query->getPlayerData()
+                "server" => $query->getServerData(),
+                "players" => $query->getPlayerData()
             ]);
         }
 
         return response()->json([
-            $query->getServerData()
+            "server" => $query->getServerData()
         ]);
     }
 

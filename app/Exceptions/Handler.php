@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
         });
     }
 
-        /**
+    /**
      * Prepare exception for rendering.
      *
      * @param  \Throwable  $e

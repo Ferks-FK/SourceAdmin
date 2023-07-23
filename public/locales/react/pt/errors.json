@@ -1,0 +1,7 @@
+{
+    "503": "{{status}}: Serviço indisponível.",
+    "500": "{{status}}: Erro do servidor.",
+    "404": "{{status}}: Página não encontrada.",
+    "403": "{{status}}: Proibido.",
+    "validating_data": "Ocorreu um erro ao validar os dados fornecidos."
+}

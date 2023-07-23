@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Client\ConnectionException;
 
 class GetAppVersion
 {
@@ -12,17 +13,27 @@ class GetAppVersion
     protected function getVersionFromGithub(): string
     {
         if (!Cache::has('version')) {
-            $response = Http::get($this::GITHUB_URL);
+            $version = 'unknown';
 
-            if ($response->successful()) {
-                $version = $response->object()->tag_name;
+            try {
+                $response = Http::timeout(3)->get($this::GITHUB_URL);
 
-                Cache::put('version', $version, now()->addDay());
+                if ($response->successful()) {
+                    $version = $response->object()->tag_name;
 
-                return $version;
+                    Cache::put('version', $version, now()->addDay());
+
+                    return $version;
+                }
+
+                Cache::put('version', $version, now()->addHour());
+
+                return 'unknown';
+            } catch (ConnectionException $e) {
+                Cache::put('version', $version, now()->addHour());
+
+                return 'unknown';
             }
-
-            return 'unknown';
         }
 
         return Cache::get('version', 'unknown');
@@ -38,7 +49,7 @@ class GetAppVersion
         return config('app.version');
     }
 
-    public function getLatestVersion()
+    protected function getLatestVersion()
     {
         return $this->getVersionFromGithub();
     }

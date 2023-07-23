@@ -18,7 +18,7 @@ return new class extends Migration
             $table->ipAddress('ip');
             $table->integer('port');
             $table->string('rcon');
-            $table->foreignId('mod_id')->constrained('mods');
+            $table->foreignId('mod_id')->nullable()->constrained('mods')->nullOnDelete();
             $table->foreignId('region_id')->constrained('regions');
             $table->boolean('enabled')->default(true);
             $table->timestamps();

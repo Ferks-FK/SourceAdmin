@@ -1,0 +1,21 @@
+{
+    "login": "Logar",
+    "logout": "Sair",
+    "login_steam": "Logar com steam",
+    "back": "Voltar",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "update": "Atualizar",
+    "unban": "Desbanir",
+    "reban": "Rebanir",
+    "unmute": "Desmutar",
+    "remute": "Remutar",
+    "delete_account": "Excluir conta",
+    "delete_ban": "Exluir banimento",
+    "delete_mute": "Excluir Mute",
+    "delete_server": "Excluir Servidor",
+    "delete_role": "Excluir Função",
+    "delete_group": "Excluir Grupo",
+    "delete_mod": "Excluir Mod"
+}

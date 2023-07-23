@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ['./resources/js/**/*.{jsx,js}'],
+    content: ['./resources/ts/**/*.{jsx,tsx,js}'],
 
     theme: {
         extend: {
@@ -19,9 +19,6 @@ module.exports = {
                     neutral: '#1a1e22'
                 }
             },
-            maxWidth: {
-                "sidebar-width": "var(--sidebar-width)"
-            }
         },
         screens: {
             'mobile': '320px',

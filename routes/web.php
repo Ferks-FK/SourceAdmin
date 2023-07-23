@@ -9,6 +9,7 @@ use App\Http\Controllers\Mute\MuteController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Appeal\AppealController;
+use App\Http\Controllers\LocaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +119,17 @@ Route::group(['prefix' => 'appeal'], function() {
 Route::group(['prefix' => 'steam'], function() {
     Route::get('/auth', [SteamAuthController::class, 'getSteamAuthUrlJson'])->name('steam.login');
     Route::get('/callback', [SteamAuthController::class, 'steamCallback'])->name('steam.callback');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Locale Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /locale
+|
+*/
+Route::group(['prefix' => 'locale'], function() {
+    Route::get('/', [LocaleController::class, 'availableLocales'])->name('locales');
+    Route::post('/setLocale', [LocaleController::class, 'setLocale'])->name('locales.store');
 });

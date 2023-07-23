@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Group;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class GroupController extends Controller
 {
@@ -14,7 +17,14 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('index', Group::class);
+
+        $data = QueryBuilder::for(Group::class)
+            ->paginate(10)->appends(request()->query());
+
+        return Inertia::render('admin/GroupSettings/GroupIndex', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -24,7 +34,9 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Group::class);
+
+        return Inertia::render('admin/GroupSettings/GroupCreate');
     }
 
     /**
@@ -35,7 +47,11 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', Group::class);
+
+        Group::create($request->all());
+
+        return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('created')]));
     }
 
     /**
@@ -46,18 +62,13 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $this->authorize('show', Group::class);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $group = Group::findOrFail($id);
+
+        return Inertia::render('admin/GroupSettings/GroupShow', [
+            'group' => $group
+        ]);
     }
 
     /**
@@ -69,7 +80,14 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->authorize('show', Group::class);
+
+        $group = Group::findOrFail($id);
+
+        $group->fill($request->all());
+        $group->save();
+
+        return redirect()->route('admin.groups.index')->with('success',__('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('updated')]));
     }
 
     /**
@@ -80,6 +98,12 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('destroy', Group::class);
+
+        $group = Group::findOrFail($id);
+
+        $group->delete();
+
+        return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('deleted')]));
     }
 }

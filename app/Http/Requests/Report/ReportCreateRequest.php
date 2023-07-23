@@ -54,4 +54,11 @@ class ReportCreateRequest extends FormRequest
 
         parent::failedValidation($validator);
     }
+
+    public function attributes()
+    {
+        return [
+            trans('validation.attributes')
+        ];
+    }
 }

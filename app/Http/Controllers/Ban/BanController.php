@@ -51,7 +51,7 @@ class BanController extends Controller
      */
     public function show(Ban $ban)
     {
-        return view('ban.show', compact('ban'));
+        //
     }
 
     /**

@@ -50,6 +50,9 @@ class AdminUpdateRequest extends FormRequest
                 'regex:/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/',
                 Rule::unique('users', 'steam_id')->ignore($this->user->steam_id, 'steam_id'),
             ],
+            'role' => ['nullable', 'numeric', 'exists:roles,id'],
+            'groups' => ['nullable', 'array'],
+            'groups.*' => ['exists:groups,id'],
             'current_password' => [
                 'required',
                 'min:8'
@@ -62,7 +65,7 @@ class AdminUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (!Hash::check($this->current_password, $this->user->password) ) {
-                $validator->errors()->add('current_password', __('The current password is incorrect.'));
+                $validator->errors()->add('current_password', __('validation.custom.current_password'));
             }
         });
     }

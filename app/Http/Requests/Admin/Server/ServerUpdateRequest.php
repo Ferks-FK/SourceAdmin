@@ -39,7 +39,8 @@ class ServerUpdateRequest extends FormRequest
             'ip' => ['required', 'regex:/^(?:(?:https?|http):\/\/)?(?:[a-zA-Z0-9]+\.[a-zA-Z]{2,}|(?:\d{1,3}\.){3}\d{1,3})(?:\/\S*)?$/'],
             'port' => ['required', 'regex:/^(?:[1-9]\d{0,3}|[1-5]\d{4}|6(?:[0-4]\d{3}|5(?:[0-4]\d{2}|5(?:[0-2]\d|3[0-5]))))$/'],
             'rcon' => ['required', 'min:8'],
-            'new_rcon' => ['nullable', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/']
+            'new_rcon' => ['nullable', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+            'enabled' => ['required', 'boolean']
         ];
     }
 
@@ -47,7 +48,7 @@ class ServerUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (!Hash::check($this->rcon, $this->serverModel->rcon) ) {
-                $validator->errors()->add('rcon', __('The RCON password is incorrect.'));
+                $validator->errors()->add('rcon', __('validation.custom.rcon_password'));
             }
         });
     }
