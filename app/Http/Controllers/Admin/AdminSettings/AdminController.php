@@ -97,6 +97,10 @@ class AdminController extends Controller
         $data = $request->except(['new_password_confirmation', 'role', 'groups']);
         $user = User::findOrFail($id);
 
+        if ($user->name === "demo") {
+            return redirect()->back()->with('info', "Sorry, you can't edit the demo account xD");
+        }
+
         if ($request->input('new_password')) {
             unset($data['new_password']);
             $data['password'] = $request->input('new_password');
@@ -136,7 +140,7 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->name === "demo") {
-            return redirect()->route('admin.settings.index')->with('info', "Sorry, you can't delete the demo account xD");
+            return redirect()->back()->with('info', "Sorry, you can't delete the demo account xD");
         }
 
         $user->delete();

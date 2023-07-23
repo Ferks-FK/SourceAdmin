@@ -110,6 +110,10 @@ class RoleController extends Controller
     {
         $this->authorize('destroy', Role::class);
 
+        if ($id == 1) {
+            return redirect()->back()->with('warning', __('You cannot delete this role.'));
+        }
+
         $role = Role::findById($id);
         $role->delete();
 

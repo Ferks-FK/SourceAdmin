@@ -74,6 +74,7 @@ function AdminShow(props: Props) {
         }
       }
     })
+    hideModal()
   }
 
   const showModal = () => {

@@ -57,6 +57,7 @@ function RoleShow(props: Props) {
 
   const handleDelete = () => {
     router.delete(route('admin.roles.destroy', props.role.id))
+    hideModal()
   }
 
   const showModal = () => {
