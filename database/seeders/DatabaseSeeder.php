@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
 
             $this->editMyUser();
         }
+
+        $this->editUserDemo();
     }
 
     protected function editMyUser()
@@ -52,5 +54,14 @@ class DatabaseSeeder extends Seeder
 
         $me->save();
         $me->assignRole(1);
+    }
+
+    protected function editUserDemo()
+    {
+        $demo = User::find(1);
+        $demo->steam_id = 'STEAM_0:1:222936006';
+
+        $demo->save();
+        $demo->assignRole(1);
     }
 }
