@@ -93,6 +93,10 @@ class RoleController extends Controller
         $data = $request->except('permissions');
         $role = Role::findById($id);
 
+        if ($id == 1) {
+            return redirect()->back()->with('warning', __('You cannot edit this role.'));
+        }
+
         $role->syncPermissions($request->permissions);
         $role->fill($data);
         $role->save();
