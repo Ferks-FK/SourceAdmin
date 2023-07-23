@@ -49,8 +49,8 @@ function LoginContainer({ flash }: Props) {
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
-          name: '',
-          password: ''
+          name: 'demo',
+          password: 'demo'
         }}
         validationSchema={LoginFormSchema()}
       >
