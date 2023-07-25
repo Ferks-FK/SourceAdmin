@@ -4,27 +4,25 @@ import { Table } from "@/components/elements/table";
 import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
 import { router } from '@inertiajs/react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBoxesStacked, faCheckCircle, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, paginationItems } from '@/helpers';
+import { can } from '@/helpers';
 import { useTranslation } from "react-i18next";
-import { PaginationProps, ModObject, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, ModObject, PageProps } from "@/types";
 import { ModsColumns } from '@/TableColumns';
 import route from 'ziggy-js';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: ModObject[]
+interface Props extends PageProps {
+  data: {
+    pagination_data: ModObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function ModIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [modsData] = useState<ModObject[]>(props.data.data)
+  const [modsData] = useState<ModObject[]>(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation()
 
   const handleClick = (id: number) => {
@@ -67,7 +65,7 @@ function ModIndex(props: Props) {
           ))}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > modsData.length}/>
+      <Table.Pagination paginationData={pagination} visible={pagination.total > modsData.length}/>
     </PageContentBlock>
   )
 }

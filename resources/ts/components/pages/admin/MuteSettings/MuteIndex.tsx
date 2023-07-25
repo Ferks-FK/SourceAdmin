@@ -8,25 +8,23 @@ import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faCommentSlash, faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, getPercentage, getStyleAndName, paginationItems } from '@/helpers';
+import { can, getPercentage, getStyleAndName } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { PaginationProps, MuteObject, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, MuteObject, PageProps } from "@/types";
 import { AdminMutesColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: MuteObject[]
+interface Props extends PageProps {
+  data: {
+    pagination_data: MuteObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function MuteIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [mutesData] = useState(props.data.data)
+  const [mutesData] = useState(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation();
 
   const handleClick = (id: number) => {
@@ -89,7 +87,7 @@ function MuteIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length} />
+      <Table.Pagination paginationData={pagination} visible={pagination.total > mutesData.length} />
     </PageContentBlock>
   )
 }

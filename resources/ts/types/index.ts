@@ -8,6 +8,7 @@ export interface PageProps {
     errors: ErrorsProp
     flash: FlashProp
     layout: LayoutType
+    timeZone: string
 }
 
 export interface BanObject {
@@ -143,15 +144,17 @@ export interface ErrorsProp {
     }
 }
 
+export interface PaginationLinkObject {
+    active: boolean
+    label: string
+    url: string | null
+}
+
 export interface PaginationProps {
-    current_page: number
-    last_page: number
-    per_page: number
+    currentPage: number
+    lastPage: number
+    perPage: number
     total: number
-    from: number
-    to: number
-    next_page_url: string
-    prev_page_url: string
-    first_page_url: string
-    last_page_url: string
+    count: number
+    links: PaginationLinkObject[]
 }

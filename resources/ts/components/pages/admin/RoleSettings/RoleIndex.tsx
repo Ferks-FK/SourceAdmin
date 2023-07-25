@@ -5,25 +5,23 @@ import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
 import { faUsersGear } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, paginationItems } from '@/helpers';
+import { can } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { PaginationProps, RoleObject, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, RoleObject, PageProps } from "@/types";
 import { RolesColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: RoleObject[]
+interface Props extends PageProps {
+  data: {
+    pagination_data: RoleObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function RoleIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [rolesData] = useState(props.data.data)
+  const [rolesData] = useState(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation();
 
   const handleClick = (id: number) => {
@@ -69,7 +67,7 @@ function RoleIndex(props: Props) {
             ))}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > rolesData.length}/>
+      <Table.Pagination paginationData={pagination} visible={pagination.total > rolesData.length}/>
     </PageContentBlock>
   )
 }

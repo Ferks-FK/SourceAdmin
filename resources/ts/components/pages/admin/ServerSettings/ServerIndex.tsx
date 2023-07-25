@@ -5,21 +5,20 @@ import { Button } from "@/components/elements/button";
 import { Image } from "@/components/elements/Image";
 import { router } from '@inertiajs/react';
 import { getServerData } from '@/api/getServers';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faServer } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, paginationItems } from '@/helpers';
+import { can } from '@/helpers';
 import { useTranslation } from 'react-i18next';
-import { PaginationProps, ServerDataResponse, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, ServerDataResponse, PageProps } from "@/types";
 import { AdminServerColumns } from '@/TableColumns';
 import route from 'ziggy-js';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   serversIds: number[]
-  data: PaginationProps & {
-    data: ServerDataResponse[]
+  data: {
+    pagination_data: ServerDataResponse[]
+    pagination_props: PaginationProps
   }
 }
 
@@ -30,10 +29,10 @@ interface ServerItem {
 }
 
 function ServerIndex(props: Props) {
-  const pagination = paginationItems(props.data)
   const [serverData, setServerData] = useState<ServerItem[]>(props.serversIds.map((server_id) => {
     return { id: server_id, loading: true }
   }))
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation()
 
   const handleClick = (id: number) => {
@@ -131,7 +130,7 @@ function ServerIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length} />
+      <Table.Pagination paginationData={pagination} visible={pagination.total > props.serversIds.length} />
     </PageContentBlock>
   )
 }

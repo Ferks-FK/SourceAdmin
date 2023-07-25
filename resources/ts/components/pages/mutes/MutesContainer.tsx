@@ -8,7 +8,7 @@ import { Size } from "@/components/elements/inputs/types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophoneSlash, faCommentSlash, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
+import { getPercentage, getStyleAndName, filterData } from '@/helpers';
 import { useDebounce } from 'use-debounce';
 import { useFlashesStore } from '@/stores/flashes';
 import { FormatLocaleDate } from '@/i18n/locales';
@@ -18,18 +18,18 @@ import http from '@/api/http';
 import route from 'ziggy-js';
 
 interface Props extends PageProps {
-  data: PaginationProps & {
-    data: MuteObject[]
+  data: {
+    pagination_data: MuteObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function MutesContainer(props: Props) {
-  const pagination = paginationItems(props.data)
   const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [mutesData, setMutesData] = useState(props.data.data);
+  const [mutesData, setMutesData] = useState(props.data.pagination_data);
   const [debouncedValue] = useDebounce(searchQuery, 500)
+  const pagination = props.data.pagination_props
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function MutesContainer(props: Props) {
 
       // Set the results to the default query when it is no longer being searched.
       if (searchQuery.length == 0) {
-        setMutesData(props.data.data)
+        setMutesData(props.data.pagination_data)
       } else {
         // Consult the data based on the search term.
         // This will probably be redone.
@@ -105,7 +105,7 @@ function MutesContainer(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > mutesData.length}/>
+      <Table.Pagination paginationData={pagination} visible={pagination.total > mutesData.length}/>
     </PageContentBlock>
   )
 }

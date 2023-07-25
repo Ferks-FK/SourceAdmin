@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/elements/button";
-import { iconPosition } from "@/components/elements/button/types";
 import { TableProps, TDProps, HeaderProps, RowProps, SizeRowProps, PaginationProps } from "@/components/elements/table/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faAnglesRight, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "@/components/elements/NavLink";
 import classNames from "classnames";
 import styles from "./style.module.css"
 
@@ -18,7 +16,7 @@ const Table = ({ columns, children, className, ...props }: TableProps) => {
             <tr>
               {columns.map(({ name, i18nKey, ns = 'table' }) => (
                 <td key={name.toLowerCase().replace(/[\/_]/g, '_')} className={'py-3 px-6'}>
-                  {t(i18nKey, {ns: ns})}
+                  {t(i18nKey, { ns: ns })}
                 </td>
               ))}
             </tr>
@@ -82,69 +80,27 @@ const Td = ({ className, children, ...props }: TDProps) => (
   </td>
 )
 
-const Pagination = ({ paginationData, visible }: PaginationProps) => {
-  const { t } = useTranslation();
-  const {
-    currentPage,
-    lastPage,
-    nextPageUrl,
-    prevPageUrl,
-    firstPageUrl,
-    lastPageUrl,
-    from,
-    to,
-    total
-  } = paginationData
+const Pagination = (props: PaginationProps) => {
+  const { links } = props.paginationData
 
   return (
-    visible ?
+    props.visible ?
       <div className={styles.pagination_container}>
-        <p className="text-sm">{t('showing_pagination', { ns: 'table', from: from, to: to, total: total })}</p>
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            <Button.IconLink
-              key={'first'}
-              to={firstPageUrl}
-              disabled={currentPage == 1}
-              icon={faAnglesLeft}
-              iconSize={'sm'}
-              external={false}
-            />
-            <Button.IconLink
-              key={'previous'}
-              to={prevPageUrl}
-              disabled={currentPage == 1}
-              icon={faChevronLeft}
-              iconSize={'sm'}
-              iconPosition={iconPosition.Left}
-              external={false}
-            >
-              {t('previous', { ns: 'table' })}
-            </Button.IconLink>
-          </div>
-          <div className="flex gap-1">
-            <Button.IconLink
-              key={'next'}
-              to={nextPageUrl}
-              disabled={currentPage == lastPage}
-              className={'border-none rounded'}
-              icon={faChevronRight}
-              iconSize={'sm'}
-              iconPosition={iconPosition.Right}
-              external={false}
-            >
-              {t('next', { ns: 'table' })}
-            </Button.IconLink>
-            <Button.IconLink
-              key={'last'}
-              to={lastPageUrl}
-              disabled={currentPage == lastPage}
-              icon={faAnglesRight}
-              iconSize={'sm'}
-              external={false}
-            />
-          </div>
-        </div>
+        <ul className="flex gap-2">
+          {links.map((link) => (
+            <li key={link.label}>
+              <NavLink
+                href={link.url ?? ''}
+                className={classNames(styles.pagination_item, {
+                  ['active']: link.active === true
+                })}
+                disabled={link.url == null}
+              >
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </div>
       :
       null
