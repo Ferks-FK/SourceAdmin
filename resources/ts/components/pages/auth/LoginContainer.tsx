@@ -10,19 +10,15 @@ import { LoginFormSchema } from "@/yup/YupSchemas";
 import { useUserStore } from "@/stores/user";
 import { router } from '@inertiajs/react';
 import { UserData } from "@/stores/user";
+import { PageProps } from "@/types";
 import route from 'ziggy-js'
-import { FlashProp } from "@/types";
-
-interface Props {
-  flash: FlashProp
-}
 
 interface Values {
   name: string
   password: string
 }
 
-function LoginContainer({ flash }: Props) {
+function LoginContainer(props: PageProps) {
   const [setUserData, isLogged] = useUserStore((state) => [state.setUserData, state.isLogged])
   const { t } = useTranslation();
 
@@ -42,7 +38,7 @@ function LoginContainer({ flash }: Props) {
     })
   }
 
-  useFlashMessages(flash)
+  useFlashMessages(props.flash)
 
   return (
     <PageContentBlock title={'Login'}>

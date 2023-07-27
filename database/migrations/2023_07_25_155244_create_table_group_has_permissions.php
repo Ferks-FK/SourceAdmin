@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->string('readable_name')->after('name');
+        Schema::create('group_has_permissions', function (Blueprint $table) {
+            $table->foreignId('group_id')->constrained('groups')->cascadeOnDelete();
+            $table->foreignId('permission_id')->constrained('permissions')->cascadeOnDelete();
+            $table->primary(['group_id', 'permission_id']);
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->removeColumn('readable_name');
-        });
+        Schema::dropIfExists('group_has_permissions');
     }
 };

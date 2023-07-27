@@ -95,6 +95,7 @@ export interface PermissionObject {
     id: number
     name: string
     readable_name: string
+    type: string
 }
 
 export interface GroupObject {
@@ -102,6 +103,9 @@ export interface GroupObject {
     name: string
     description?: string
     type: string
+    permissions?: PermissionObject[]
+    users_count: number
+    permissions_count: number
     created_at: string
     updated_at: string
 }

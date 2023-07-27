@@ -60,6 +60,8 @@ function GroupIndex(props: Props) {
               >
                 {group.description}
               </Table.Td>
+              <Table.Td>{group.users_count}</Table.Td>
+              <Table.Td>{group.permissions_count}</Table.Td>
               <Table.Td>{FormatLocaleDate(group.created_at, props.timeZone, undefined, false)}</Table.Td>
               <Table.Td>{FormatLocaleDate(group.updated_at, props.timeZone, undefined, false)}</Table.Td>
             </Table.Row>

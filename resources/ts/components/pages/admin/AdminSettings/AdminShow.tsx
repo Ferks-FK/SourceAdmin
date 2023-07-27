@@ -14,21 +14,15 @@ import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { FlashProp, ErrorsProp, RoleObject, GroupObject } from "@/types";
+import { RoleObject, GroupObject, PageProps } from "@/types";
 import { capitalize } from "lodash";
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
-interface Props {
+interface Props extends PageProps {
   roles: RoleObject[]
   groups: GroupObject[]
   user: UserData
-  flash: FlashProp
-  errors: ErrorsProp
-  auth: {
-    user: UserData
-  }
-  timeZone: string
 }
 
 interface Values {

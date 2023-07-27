@@ -137,6 +137,7 @@
         "delete_group_message": "When you confirm the deletion of the group, the action is permanent and cannot be undone.",
         "group_description": "Group Description",
         "group_type": "Group Type",
+        "group_permissions": "Group Permissions",
         "group_type_web": "Web",
         "group_type_server": "Server",
         "group_type_server_admin": "Server Admin"

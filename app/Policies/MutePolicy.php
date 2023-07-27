@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Mute;
 use App\Models\User;
+use App\Permissions\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MutePolicy
@@ -12,13 +12,9 @@ class MutePolicy
 
     private $isRootAdmin;
 
-    const CREATE_MUTE = 'admin.mutes.create';
-    const EDIT_MUTE = 'admin.mutes.edit';
-    const DELETE_MUTE = 'admin.mutes.destroy';
-
     public function __construct(User $user)
     {
-        $this->isRootAdmin = $user->can('*') ? true : null;
+        $this->isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
     }
 
     /**
@@ -29,7 +25,7 @@ class MutePolicy
      */
     public function create(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::CREATE_MUTE);
+        return $this->isRootAdmin ?? $user->can(Permission::CREATE_MUTE);
     }
 
     /**
@@ -40,7 +36,7 @@ class MutePolicy
      */
     public function show(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::EDIT_MUTE);
+        return $this->isRootAdmin ?? $user->can(Permission::EDIT_MUTE);
     }
 
     /**
@@ -51,6 +47,6 @@ class MutePolicy
      */
     public function destroy(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::DELETE_MUTE);
+        return $this->isRootAdmin ?? $user->can(Permission::DELETE_MUTE);
     }
 }

@@ -50,7 +50,7 @@ class HandleInertiaRequests extends Middleware
         $layout = $this->defineLayout($request);
 
         if ($request->user()) {
-            $userAuth = User::with(['roles', 'roles.permissions'])->findOrFail($request->user()->id);
+            $userAuth = User::with(['roles', 'roles.permissions', 'permissions'])->findOrFail($request->user()->id);
         }
 
         return array_merge(parent::share($request), [

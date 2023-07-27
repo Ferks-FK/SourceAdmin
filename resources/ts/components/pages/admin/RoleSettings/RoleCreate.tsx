@@ -7,19 +7,13 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { PermissionObject, FlashProp, ErrorsProp } from "@/types";
+import { PermissionObject, PageProps } from "@/types";
 import { Option } from "@/components/elements/field/Field";
 import { RoleCreateSchema } from "@/yup/YupSchemas";
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   permissions: PermissionObject[]
-  auth: {
-    user: UserData
-  }
 }
 
 interface Values {

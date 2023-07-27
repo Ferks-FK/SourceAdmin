@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Permissions\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BanPolicy
@@ -11,13 +12,9 @@ class BanPolicy
 
     private $isRootAdmin;
 
-    const CREATE_BAN = 'admin.bans.create';
-    const EDIT_BAN = 'admin.bans.edit';
-    const DELETE_BAN = 'admin.bans.destroy';
-
     public function __construct(User $user)
     {
-        $this->isRootAdmin = $user->can('*') ? true : null;
+        $this->isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
     }
 
     /**
@@ -28,7 +25,7 @@ class BanPolicy
      */
     public function create(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::CREATE_BAN);
+        return $this->isRootAdmin ?? $user->can(Permission::CREATE_BAN);
     }
 
     /**
@@ -39,7 +36,7 @@ class BanPolicy
      */
     public function show(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::EDIT_BAN);
+        return $this->isRootAdmin ?? $user->can(Permission::EDIT_BAN);
     }
 
     /**
@@ -50,6 +47,6 @@ class BanPolicy
      */
     public function destroy(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::DELETE_BAN);
+        return $this->isRootAdmin ?? $user->can(Permission::DELETE_BAN);
     }
 }

@@ -7,16 +7,14 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp, RoleObject, GroupObject } from "@/types";
+import { RoleObject, GroupObject, PageProps } from "@/types";
+import { Option } from "@/components/elements/field/Field";
 import { useState } from "react";
 import route from 'ziggy-js';
-import { Option } from "@/components/elements/field/Field";
 
-interface Props {
+interface Props extends PageProps {
   roles: RoleObject[]
   groups: GroupObject[]
-  flash: FlashProp
-  errors: ErrorsProp
 }
 
 interface Values {

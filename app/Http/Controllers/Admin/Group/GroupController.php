@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin\Group;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Group\GroupCreateRequest;
+use App\Http\Requests\Admin\Group\GroupUpdateRequest;
 use App\Models\Group;
-use Illuminate\Http\Request;
+use App\Models\Permission;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,7 +21,7 @@ class GroupController extends Controller
     {
         $this->authorize('index', Group::class);
 
-        $data = QueryBuilder::for(Group::class)
+        $data = QueryBuilder::for(Group::withCount('users', 'permissions'))
             ->paginate(10)->appends(request()->query());
 
         return Inertia::render('admin/GroupSettings/GroupIndex', [
@@ -36,7 +38,9 @@ class GroupController extends Controller
     {
         $this->authorize('create', Group::class);
 
-        return Inertia::render('admin/GroupSettings/GroupCreate');
+        return Inertia::render('admin/GroupSettings/GroupCreate', [
+            'permissions' => Permission::all()
+        ]);
     }
 
     /**
@@ -45,11 +49,13 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GroupCreateRequest $request)
     {
         $this->authorize('create', Group::class);
 
-        Group::create($request->all());
+        $group = Group::create($request->except('group_permissions'));
+
+        $group->permissions()->sync($request->group_permissions);
 
         return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('created')]));
     }
@@ -64,10 +70,11 @@ class GroupController extends Controller
     {
         $this->authorize('show', Group::class);
 
-        $group = Group::findOrFail($id);
+        $group = Group::with('permissions')->findOrFail($id);
 
         return Inertia::render('admin/GroupSettings/GroupShow', [
-            'group' => $group
+            'group' => $group,
+            'permissions' => Permission::all()
         ]);
     }
 
@@ -78,14 +85,16 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GroupUpdateRequest $request, $id)
     {
         $this->authorize('show', Group::class);
 
         $group = Group::findOrFail($id);
 
-        $group->fill($request->all());
+        $group->fill($request->except('group_permissions'));
         $group->save();
+
+        $group->permissions()->sync($request->group_permissions);
 
         return redirect()->route('admin.groups.index')->with('success',__('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('updated')]));
     }

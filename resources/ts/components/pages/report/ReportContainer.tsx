@@ -9,13 +9,11 @@ import { ReportFormSchema } from "@/yup/YupSchemas";
 import { Formik, FormikHelpers } from "formik";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
+import { ServerDataResponse, PageProps } from "@/types";
 import route from 'ziggy-js';
 
-interface Props {
+interface Props extends PageProps {
   serversIds: number[]
-  flash: FlashProp
-  errors: ErrorsProp
 }
 
 interface Values {
@@ -29,7 +27,7 @@ interface Values {
   upload_demo: string
 }
 
-function ReportContainer({ serversIds, flash, errors }: Props) {
+function ReportContainer(props: Props) {
   const [ serverData, setServerData ] = useState<ServerDataResponse[]>([]);
   const { t } = useTranslation();
 
@@ -47,7 +45,7 @@ function ReportContainer({ serversIds, flash, errors }: Props) {
   useEffect(() => {
     const fetchServerData = async () => {
       try {
-        for (const server of serversIds) {
+        for (const server of props.serversIds) {
           const response = await getServerData(server, false);
           setServerData((prevState) => [...prevState, response.server]);
         }
@@ -59,7 +57,7 @@ function ReportContainer({ serversIds, flash, errors }: Props) {
     fetchServerData();
   }, []);
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('report.report')}>

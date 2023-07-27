@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { GroupObject, RoleObject } from '@/types';
+import { GroupObject, RoleObject, PermissionObject } from '@/types';
 
 interface UserStore {
     data: UserData | null
@@ -18,7 +18,7 @@ export interface UserData {
     updated_at: string | Date
     email_verified_at: string | Date
     roles: RoleObject[]
-    permissions: string[] | null
+    permissions?: PermissionObject[]
     groups?: GroupObject[]
 }
 

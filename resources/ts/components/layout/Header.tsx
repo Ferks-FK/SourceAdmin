@@ -15,15 +15,20 @@ function Header() {
   const handleSidebar = () => setSidebarIsVisible()
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng)
 
-  useEffect(() => {
-    const handleLanguageChange = () => {
-      try {
-        setLocale(i18n.language);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const handleLanguageChange = () => {
+    try {
+      setLocale(i18n.language);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  // Sets the language of the client on the backend at first startup.
+  if (currentLanguage == null) {
+    handleLanguageChange()
+  }
+
+  useEffect(() => {
     i18n.on('languageChanged', handleLanguageChange);
 
     return () => i18n.off('languageChanged', handleLanguageChange)

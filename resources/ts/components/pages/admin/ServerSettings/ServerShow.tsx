@@ -13,13 +13,11 @@ import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { ServerDataResponse, ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
+import { ServerDataResponse, ModObject, RegionObject, PageProps } from "@/types";
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   server: ServerDataResponse & {
     ModId: number | null
     RegionId: number
@@ -27,7 +25,6 @@ interface Props {
     Created_At: string
     Updated_At: string
   }
-  timeZone: string
   mods: ModObject[]
   regions: RegionObject[]
 }

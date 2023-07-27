@@ -20,7 +20,7 @@ export const AdminCreateSchema = () => object().shape({
     name: string().required(fieldType('admin_name', 'admin_settings').required),
     email: string().required(fieldType('email').required).email(fieldType('email').invalid),
     steam_id: string().required(fieldType('steam_id').required).matches(steamIDRegex, fieldType('steam_id').invalid),
-    role: number().required(fieldType('role', 'role_settings').required),
+    role: number(),
     groups: array(),
     password: string().required(fieldType('admin_password', 'admin_settings').required).min(8, fieldType('password').short).matches(passwordRegex, fieldType('password').match),
     password_confirmation: string().required(fieldType('confirm_new_password').required).oneOf([ref('password')], fieldType('passwords').password)
@@ -30,7 +30,7 @@ export const AdminEditSchema = () => object().shape({
     name: string().required(fieldType('admin_name', 'admin_settings').required),
     email: string().required(fieldType('email').required).email(fieldType('email').invalid),
     steam_id: string().required(fieldType('steam_id').required).matches(steamIDRegex, fieldType('steam_id').invalid),
-    role: number().required(fieldType('role', 'role_settings').required),
+    role: number(),
     groups: array(),
     current_password: string().required(fieldType('current_password').required),
     new_password: string().min(8, fieldType('new_password').short).matches(passwordRegex, fieldType('new_password').password),

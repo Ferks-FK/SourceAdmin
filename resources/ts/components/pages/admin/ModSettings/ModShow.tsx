@@ -9,21 +9,15 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { FlashProp, ErrorsProp, ModObject } from "@/types";
+import { ModObject, PageProps } from "@/types";
 import { OptionImage } from '@/components/pages/admin/ModSettings/ModCreate';
 import { ModEditSchema } from "@/yup/YupSchemas";
 import { can } from "@/helpers";
 import route from 'ziggy-js';
 
-interface Props {
+interface Props extends PageProps {
   mods: ModObject[]
   mod: ModObject
-  flash: FlashProp
-  errors: ErrorsProp
-  auth: {
-    user: UserData
-  }
 }
 
 interface Values {

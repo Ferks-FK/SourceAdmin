@@ -137,6 +137,7 @@
         "delete_group_message": "Quando você confirmar a exclusão do grupo, a ação é permanente e não pode ser desfeita.",
         "group_description": "Descrição do grupo",
         "group_type": "Tipo do grupo",
+        "group_permissions": "Permissões do grupo",
         "group_type_web": "Web",
         "group_type_server": "Servidor",
         "group_type_server_admin": "Administrador do servidor"

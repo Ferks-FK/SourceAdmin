@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Admin\AdminSettings;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
-use App\Models\Group;
+use App\Models\Group as GroupModel;
 use App\Http\Requests\Admin\AdminCreateRequest;
 use App\Http\Requests\Admin\AdminUpdateRequest;
+use App\Traits\Group;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class AdminController extends Controller
 {
+    use Group;
+
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +41,7 @@ class AdminController extends Controller
 
         return Inertia::render('admin/AdminSettings/AdminCreate', [
             'roles' => Role::all(),
-            'groups' => Group::all()
+            'groups' => GroupModel::all()
         ]);
     }
 
@@ -79,7 +82,7 @@ class AdminController extends Controller
         return Inertia::render('admin/AdminSettings/AdminShow', [
             'user' => $user,
             'roles' => Role::all(),
-            'groups' => Group::all()
+            'groups' => GroupModel::all()
         ]);
     }
 
@@ -116,6 +119,8 @@ class AdminController extends Controller
         }
 
         $user->groups()->sync($request->groups);
+
+        $this->syncGroupPermissions($user);
 
         $user->fill($data);
         $user->save();

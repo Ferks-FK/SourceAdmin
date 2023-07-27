@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Permissions\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -11,14 +12,9 @@ class UserPolicy
 
     private $isRootAdmin;
 
-    const VIEW_ADMINS = 'admin.admins.index';
-    const CREATE_ADMIN = 'admin.admins.create';
-    const EDIT_ADMIN = 'admin.admins.edit';
-    const DELETE_ADMIN = 'admin.admins.destroy';
-
     public function __construct(User $user)
     {
-        $this->isRootAdmin = $user->can('*') ? true : null;
+        $this->isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
     }
 
     /**
@@ -29,7 +25,7 @@ class UserPolicy
      */
     public function index(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_ADMINS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_ADMINS);
     }
 
     /**
@@ -40,7 +36,7 @@ class UserPolicy
      */
     public function view(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_ADMINS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_ADMINS);
     }
 
     /**
@@ -51,7 +47,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::CREATE_ADMIN);
+        return $this->isRootAdmin ?? $user->can(Permission::CREATE_ADMIN);
     }
 
     /**
@@ -62,7 +58,7 @@ class UserPolicy
      */
     public function show(User $user)
     {
-        return $this->isRootAdmin ?? $user->hasAnyPermission($this::EDIT_ADMIN, $this::VIEW_ADMINS);
+        return $this->isRootAdmin ?? $user->hasAnyPermission(Permission::EDIT_ADMIN, Permission::VIEW_ADMINS);
     }
 
     /**
@@ -73,6 +69,6 @@ class UserPolicy
      */
     public function destroy(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::DELETE_ADMIN);
+        return $this->isRootAdmin ?? $user->can(Permission::DELETE_ADMIN);
     }
 }

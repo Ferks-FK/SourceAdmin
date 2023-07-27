@@ -8,12 +8,10 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { ServerCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
-import { ModObject, RegionObject, FlashProp, ErrorsProp } from "@/types";
+import { ModObject, RegionObject, PageProps } from "@/types";
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   mods: ModObject[]
   regions: RegionObject[]
 }

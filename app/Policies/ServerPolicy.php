@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Permissions\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServerPolicy
@@ -11,14 +12,9 @@ class ServerPolicy
 
     private $isRootAdmin;
 
-    const VIEW_SERVERS = 'admin.servers.index';
-    const CREATE_SERVER = 'admin.servers.create';
-    const EDIT_SERVER = 'admin.servers.edit';
-    const DELETE_SERVER = 'admin.servers.destroy';
-
     public function __construct(User $user)
     {
-        $this->isRootAdmin = $user->can('*') ? true : null;
+        $this->isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
     }
 
     /**
@@ -29,7 +25,7 @@ class ServerPolicy
      */
     public function index(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_SERVERS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_SERVERS);
     }
 
     /**
@@ -40,7 +36,7 @@ class ServerPolicy
      */
     public function view(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_SERVERS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_SERVERS);
     }
 
     /**
@@ -51,7 +47,7 @@ class ServerPolicy
      */
     public function create(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::CREATE_SERVER);
+        return $this->isRootAdmin ?? $user->can(Permission::CREATE_SERVER);
     }
 
     /**
@@ -62,7 +58,7 @@ class ServerPolicy
      */
     public function show(User $user)
     {
-        return $this->isRootAdmin ?? $user->hasAnyPermission($this::EDIT_SERVER, $this::VIEW_SERVERS);
+        return $this->isRootAdmin ?? $user->hasAnyPermission(Permission::EDIT_SERVER, Permission::VIEW_SERVERS);
     }
 
     /**
@@ -73,6 +69,6 @@ class ServerPolicy
      */
     public function destroy(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::DELETE_SERVER);
+        return $this->isRootAdmin ?? $user->can(Permission::DELETE_SERVER);
     }
 }

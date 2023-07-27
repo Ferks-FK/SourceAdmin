@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock";
 import { Button } from "@/components/elements/button";
 import { Form } from "@/components/elements/Form";
@@ -6,23 +7,20 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { FlashProp, ErrorsProp } from "@/types";
+import { PageProps, PermissionObject } from "@/types";
 import { GroupCreateSchema } from "@/yup/YupSchemas";
+import { Option } from "@/components/elements/field/Field";
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  auth: {
-    user: UserData
-  }
+interface Props extends PageProps {
+  permissions: PermissionObject[]
 }
 
 interface Values {
   name: string
   description: string
-  type: string
+  type: string,
+  group_permissions: string
 }
 
 export const groupTypes = [
@@ -41,6 +39,8 @@ export const groupTypes = [
 ]
 
 function GroupCreate(props: Props) {
+  const [permissions] = useState<PermissionObject[]>(props.permissions);
+  const [value, setValue] = useState<Option[] | string>('');
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
@@ -60,7 +60,8 @@ function GroupCreate(props: Props) {
         initialValues={{
           name: '',
           description: '',
-          type: ''
+          type: '',
+          group_permissions: ''
         }}
         validationSchema={GroupCreateSchema()}
       >
@@ -87,7 +88,11 @@ function GroupCreate(props: Props) {
                   id={'type'}
                   label={t('groups_settings.group_type')}
                   value={values.type || 'default_value'}
-                  onChange={(e) => setFieldValue('type', e.target.value)}
+                  onChange={(e) => {
+                    setFieldValue('type', e.target.value)
+                    setFieldValue('group_permissions', [])
+                    setValue([])
+                  }}
                 >
                   <option key={'disabled'} value={'default_value'} disabled>
                     {t('generic.select_group')}
@@ -98,6 +103,22 @@ function GroupCreate(props: Props) {
                     </option>
                   ))}
                 </Field.Select>
+                <Field.MultiSelect
+                  name={'group_permissions'}
+                  id={'group_permissions'}
+                  label={t('groups_settings.group_permissions')}
+                  closeMenuOnSelect={false}
+                  blurInputOnSelect={false}
+                  // @ts-expect-error
+                  onChange={(options: Option[]) => {
+                    setFieldValue('group_permissions', options.map((option) => option.value))
+                    setValue(options)
+                  }}
+                  value={value as string}
+                  options={permissions.filter((permission) => values.type === 'web' ? permission.type === 'web' : permission.type === 'server_admin').map((perm) => ({ label: perm.readable_name, value: perm.id }))}
+                  isMulti={true}
+                  isDisabled={values.type === '' || values.type === 'server'}
+                />
               </Field.FieldRow>
               <div className="flex flex-col items-center">
                 <Button.Text type={'submit'} disabled={isSubmitting}>

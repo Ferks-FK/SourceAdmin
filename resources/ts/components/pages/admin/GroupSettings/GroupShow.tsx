@@ -8,32 +8,33 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { FlashProp, ErrorsProp, GroupObject } from "@/types";
+import { GroupObject, PageProps, PermissionObject } from "@/types";
 import { GroupEditSchema } from '@/yup/YupSchemas';
 import { groupTypes } from "@/components/pages/admin/GroupSettings/GroupCreate";
-import route from 'ziggy-js';
+import { Option } from "@/components/elements/field/Field";
 import { can } from "@/helpers";
+import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   group: GroupObject
-  auth: {
-    user: UserData
-  }
+  permissions: PermissionObject[]
 }
 
 interface Values {
   name: string
   description: string
-  type: string
+  type: string,
+  group_permissions: string
 }
 
 function GroupShow(props: Props) {
+  const [permissions] = useState<PermissionObject[]>(props.permissions);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [userCanEdit, userCanDelete] = [can('admin.groups.edit'), can('admin.groups.destroy')];
+  const [value, setValue] = useState<Option[] | string>('');
   const { t } = useTranslation();
+
+  const selectedPermissions = props.group.permissions?.map((permission) => ({ label: permission.readable_name, value: permission.id }))
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.groups.update', props.group.id), { ...values }, {
@@ -64,7 +65,8 @@ function GroupShow(props: Props) {
         initialValues={{
           name: props.group.name,
           description: props.group.description ?? '',
-          type: props.group.type
+          type: props.group.type,
+          group_permissions: (props.group.permissions?.map((permission) => permission.id) ?? []) as unknown as string
         }}
         validationSchema={GroupEditSchema()}
       >
@@ -117,7 +119,11 @@ function GroupShow(props: Props) {
                     id={'type'}
                     label={t('groups_settings.group_type')}
                     value={values.type}
-                    onChange={(e) => setFieldValue('type', e.target.value)}
+                    onChange={(e) => {
+                      setFieldValue('type', e.target.value)
+                      setFieldValue('group_permissions', [])
+                      setValue([])
+                    }}
                     disabled={!userCanEdit}
                   >
                     {groupTypes.map(({ id, name }) => (
@@ -126,6 +132,24 @@ function GroupShow(props: Props) {
                       </option>
                     ))}
                   </Field.Select>
+                  <Field.MultiSelect
+                    name={'group_permissions'}
+                    id={'group_permissions'}
+                    label={t('groups_settings.group_permissions')}
+                    closeMenuOnSelect={false}
+                    blurInputOnSelect={false}
+                    // @ts-expect-error
+                    onChange={(options: Option[]) => {
+                      setFieldValue('group_permissions', options.map((option) => option.value))
+                      setValue(options)
+                    }}
+                    options={permissions.filter((permission) => values.type === 'web' ? permission.type === 'web' : permission.type === 'server_admin').map((perm) => ({ label: perm.readable_name, value: perm.id }))}
+                    // @ts-expect-error
+                    value={value as string || selectedPermissions}
+                    defaultValue={selectedPermissions}
+                    isMulti={true}
+                    isDisabled={values.type === 'server' || !userCanEdit}
+                  />
                 </Field.FieldRow>
                 <div className="flex items-center justify-center gap-2">
                   <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>

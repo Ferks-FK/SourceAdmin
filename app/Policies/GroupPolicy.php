@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
 use App\Models\User;
+use App\Permissions\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GroupPolicy
@@ -12,14 +12,9 @@ class GroupPolicy
 
     private $isRootAdmin;
 
-    const VIEW_GROUPS = 'admin.groups.index';
-    const CREATE_GROUP = 'admin.groups.create';
-    const EDIT_GROUP = 'admin.groups.edit';
-    const DELETE_GROUP = 'admin.groups.destroy';
-
     public function __construct(User $user)
     {
-        $this->isRootAdmin = $user->can('*') ? true : null;
+        $this->isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
     }
 
     /**
@@ -30,7 +25,7 @@ class GroupPolicy
      */
     public function index(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_GROUPS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_GROUPS);
     }
 
     /**
@@ -41,7 +36,7 @@ class GroupPolicy
      */
     public function view(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::VIEW_GROUPS);
+        return $this->isRootAdmin ?? $user->can(Permission::VIEW_GROUPS);
     }
 
     /**
@@ -52,7 +47,7 @@ class GroupPolicy
      */
     public function create(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::CREATE_GROUP);
+        return $this->isRootAdmin ?? $user->can(Permission::CREATE_GROUP);
     }
 
     /**
@@ -63,7 +58,7 @@ class GroupPolicy
      */
     public function show(User $user)
     {
-        return $this->isRootAdmin ?? $user->hasAnyPermission($this::EDIT_GROUP, $this::VIEW_GROUPS);
+        return $this->isRootAdmin ?? $user->hasAnyPermission(Permission::EDIT_GROUP, Permission::VIEW_GROUPS);
     }
 
     /**
@@ -74,6 +69,6 @@ class GroupPolicy
      */
     public function destroy(User $user)
     {
-        return $this->isRootAdmin ?? $user->can($this::DELETE_GROUP);
+        return $this->isRootAdmin ?? $user->can(Permission::DELETE_GROUP);
     }
 }

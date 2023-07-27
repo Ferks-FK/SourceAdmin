@@ -88,5 +88,13 @@ export function can(permission: string) {
         return true
     }
 
-    return data?.roles.at(0)?.permissions?.find((perm) => perm.name === permission) ? true : false
+    if (data?.roles.at(0)?.permissions?.find((perm) => perm.name === permission)) {
+        return true
+    }
+
+    if (data?.permissions?.some((permission) => permission.name === '*')){
+        return true
+    }
+
+    return data?.permissions?.find((perm) => perm.name === permission) ? true : false
 }

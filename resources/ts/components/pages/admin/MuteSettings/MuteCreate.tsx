@@ -8,19 +8,13 @@ import { MuteCreateSchema } from "@/yup/YupSchemas";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { ReasonObject, TimeBanObject, AdminObject, FlashProp, ErrorsProp } from "@/types";
+import { ReasonObject, TimeBanObject, AdminObject, PageProps } from "@/types";
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   reasons: ReasonObject[]
   timeBans: TimeBanObject[]
   admins: AdminObject[]
-  auth: {
-    user: UserData
-  }
 }
 
 interface Values {
