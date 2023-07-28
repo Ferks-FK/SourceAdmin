@@ -90,9 +90,11 @@ const Pagination = (props: PaginationProps) => {
           {links.map((link) => (
             <li key={link.label}>
               <NavLink
+                as="button"
                 href={link.url ?? ''}
                 className={classNames(styles.pagination_item, {
-                  ['active']: link.active === true
+                  ['active']: link.active === true,
+                  ['hover:bg-inherit']: link.url == null
                 })}
                 disabled={link.url == null}
               >
