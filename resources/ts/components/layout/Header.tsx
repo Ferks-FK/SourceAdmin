@@ -7,7 +7,11 @@ import { supportedLanguages } from "@/i18n/locales";
 import { setLocale } from "@/api/locale";
 import { Select } from "@/components/elements/Select";
 
-function Header() {
+interface Props {
+  locale: string
+}
+
+function Header(props: Props) {
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible]);
   const { i18n } = useTranslation();
 
@@ -24,7 +28,7 @@ function Header() {
   };
 
   // Sets the language of the client on the backend at first startup.
-  if (currentLanguage == null) {
+  if (currentLanguage !== props.locale) {
     handleLanguageChange()
   }
 

@@ -192,7 +192,11 @@
         "status": "Status",
         "steam_id_formats": "Only the following formats are accepted: Steam ID, Steam64 ID.",
         "description": "Description",
-        "no_options": "No options"
+        "no_options": "No options",
+        "success": "Success",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info"
     },
     "yup_schemas": {
         "required_attribute": "The {{attribute}} is required.",

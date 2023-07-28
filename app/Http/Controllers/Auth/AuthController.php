@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('admin.index')->with('success', __('Welcome again :attribute!', ['attribute' => $user->name]));
+        return redirect()->route('home.index');
     }
 
     public function logout(Request $request): RedirectResponse

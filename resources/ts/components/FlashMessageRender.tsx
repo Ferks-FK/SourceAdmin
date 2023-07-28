@@ -62,7 +62,7 @@ function FlashMessageRender({ byKey, className }: Props): JSX.Element | null {
               <span
                 className={`flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3 leading-none ${styleBackground(flash?.type ?? 'error')}`}
               >
-                {flash.title}
+                {t(`generic.${flash?.title?.toLowerCase()}`)}
               </span>
             )}
             <span className="mr-2 text-left flex-auto">

@@ -9,9 +9,10 @@ interface Props {
   children: React.ReactNode
   userAuth: UserData
   layout: LayoutType
+  locale: string
 }
 
-export const Layout = ({ children, userAuth, layout }: Props) => {
+export const Layout = ({ children, userAuth, layout, locale }: Props) => {
   const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData])
 
   useDeviceType()
@@ -22,7 +23,7 @@ export const Layout = ({ children, userAuth, layout }: Props) => {
 
   return (
     <>
-      <Header/>
+      <Header locale={locale}/>
       <div className="flex w-screen relative" style={{height: 'calc(100vh - 3.6rem)'}}>
         <SideBar layout={layout}/>
         <div className={`flex flex-col w-screen h-full bg-dark-neutral p-5 overflow-hidden`}>

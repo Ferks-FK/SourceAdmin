@@ -9,6 +9,7 @@ export interface PageProps {
     flash: FlashProp
     layout: LayoutType
     timeZone: string
+    locale: string
 }
 
 export interface BanObject {

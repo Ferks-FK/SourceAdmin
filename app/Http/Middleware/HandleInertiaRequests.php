@@ -4,9 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
-use stdClass;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -63,6 +61,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'layout' => $layout,
+            'locale' => config('app.locale'),
             'timeZone' => config('app.timezone'),
             'flash' => function () use ($request) {
                 return [

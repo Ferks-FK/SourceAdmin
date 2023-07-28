@@ -61,7 +61,7 @@ class SteamAuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect($this->redirectTo)->with('success', __('Welcome again :attribute!', ['attribute' => $user->name]));
+        return redirect($this->redirectTo);
     }
 
     /**

@@ -1,6 +1,5 @@
 {
     "Could not find a user with these credentials.": "No se ha podido encontrar un usuario con estas credenciales.",
-    "Welcome again :attribute!": "¡Bienvenido de nuevo :attribute!",
     "Steam API key has not been configured.": "No se ha configurado la clave API de Steam.",
     "Failed to validate your steam account.": "No se ha podido validar tu cuenta de steam.",
     "We could not find a user related to your steam account.": "No hemos podido encontrar un usuario relacionado con su cuenta de steam.",
