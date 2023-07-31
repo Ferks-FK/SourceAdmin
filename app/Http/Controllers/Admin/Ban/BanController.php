@@ -20,7 +20,7 @@ class BanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -32,7 +32,7 @@ class BanController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -52,8 +52,8 @@ class BanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Admin\Ban\BanCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(BanCreateRequest $request)
     {
@@ -68,7 +68,7 @@ class BanController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show($id)
     {
@@ -98,9 +98,9 @@ class BanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\Ban\BanUpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(BanUpdateRequest $request, $id)
     {
@@ -117,7 +117,7 @@ class BanController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -157,8 +157,9 @@ class BanController extends Controller
     /**
      * Unban the specified player.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request  $request
      * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function unban(Request $request, $id)
     {
@@ -175,7 +176,12 @@ class BanController extends Controller
         return redirect()->route('admin.bans.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('ban'), 'action' => __('undone')]));
     }
 
-    protected function getBansData($getById = null)
+    /**
+     * Get the bans.
+     *
+     * @param int|null  $getById
+     */
+    protected function getBansData(int $getById = null)
     {
         $query = QueryBuilder::for(Ban::class)
             ->leftJoin('users AS A', function ($join) {
@@ -209,6 +215,12 @@ class BanController extends Controller
         return $query->paginate(10)->appends(request()->query());
     }
 
+    /**
+     * Check if player is banned.
+     *
+     * @param mixed $banInfo
+     * @return bool
+     */
     protected function playerIsBanned(mixed $banInfo)
     {
         if ($banInfo->removed_by || $banInfo->removed_on) {

@@ -5,6 +5,7 @@
     "We could not find a user related to your steam account.": "We could not find a user related to your steam account.",
     "Your :attribute has been sent to the administrators.": "Your :attribute has been sent to the administrators.",
     "The :attribute has been successfully :action.": "The :attribute has been successfully :action.",
+    "The settings has been successfully updated": "The settings has been successfully updated.",
     "The page expired, please try again.": "The page expired, please try again.",
     "appeal": "appeal",
     "report": "report",
@@ -18,6 +19,7 @@
     "mod": "mod",
     "role": "role",
     "server": "server",
+    "settings": "settings",
     "re-applied": "re-applied",
     "undone": "undone"
 }

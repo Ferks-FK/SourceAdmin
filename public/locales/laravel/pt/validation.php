@@ -154,6 +154,8 @@ return [
         'reporter_email' => 'seu email',
         'server_id' => 'servidor',
         'upload_demo' => 'demo',
-        'reason' => 'motivo'
+        'reason' => 'motivo',
+        'site_name' => 'nome do site',
+        'time_zone' => 'fuso horário'
     ],
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $generalSettings = new GeneralSettings();
         $layout = $this->defineLayout($request);
 
         if ($request->user()) {
@@ -62,7 +64,8 @@ class HandleInertiaRequests extends Middleware
             },
             'layout' => $layout,
             'locale' => config('app.locale'),
-            'timeZone' => config('app.timezone'),
+            'timeZone' => $generalSettings->time_zone ?? config('app.timezone'),
+            'appSettings' => $generalSettings,
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

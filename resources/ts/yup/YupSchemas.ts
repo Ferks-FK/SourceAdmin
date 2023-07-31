@@ -30,7 +30,7 @@ export const AdminEditSchema = () => object().shape({
     name: string().required(fieldType('admin_name', 'admin_settings').required),
     email: string().required(fieldType('email').required).email(fieldType('email').invalid),
     steam_id: string().required(fieldType('steam_id').required).matches(steamIDRegex, fieldType('steam_id').invalid),
-    role: number(),
+    role: number().nullable(),
     groups: array(),
     current_password: string().required(fieldType('current_password').required),
     new_password: string().min(8, fieldType('new_password').short).matches(passwordRegex, fieldType('new_password').password),

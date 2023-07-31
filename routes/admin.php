@@ -32,12 +32,12 @@ Route::name('admin.')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::group(['prefix' => 'admin_settings'], function() {
-        Route::get('/', [AdminController::class, 'index'])->name('settings.index');
-        Route::get('/create', [AdminController::class, 'create'])->name('settings.create');
-        Route::get('/{id}', [AdminController::class, 'show'])->name('settings.show');
-        Route::post('/store', [AdminController::class, 'store'])->name('settings.store');
-        Route::patch('/update/{id}', [AdminController::class, 'update'])->name('settings.update');
-        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('settings.destroy');
+        Route::get('/', [AdminController::class, 'index'])->name('admins.index');
+        Route::get('/create', [AdminController::class, 'create'])->name('admins.create');
+        Route::get('/{id}', [AdminController::class, 'show'])->name('admins.show');
+        Route::post('/store', [AdminController::class, 'store'])->name('admins.store');
+        Route::patch('/update/{id}', [AdminController::class, 'update'])->name('admins.update');
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
     });
 
     Route::group(['prefix' => 'server_settings'], function() {
@@ -101,5 +101,13 @@ Route::name('admin.')->group(function() {
         Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
         Route::patch('/update/{id}', [RoleController::class, 'update'])->name('roles.update');
         Route::delete('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+    });
+
+    Route::group(['prefix' => 'panel_settings'], function() {
+        Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('/settings', [SettingsController::class, 'show'])->name('settings.get');
+        // Route::get('/general', [SettingsController::class, 'generalSettings'])->name('settings.general');
+        // Route::get('/mail', [SettingsController::class, 'mailSettings'])->name('settings.mail');
+        Route::patch('/update', [SettingsController::class, 'update'])->name('settings.update');
     });
 });

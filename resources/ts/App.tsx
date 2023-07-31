@@ -15,12 +15,18 @@ interface UserAuth {
       props: {
         layout: LayoutType
         locale: string
+        appSettings: AppSettings
         auth: {
           user: UserData
         }
       }
     }
   }
+}
+
+export type AppSettings = {
+  site_name: string,
+  time_zone: string | null
 }
 
 export type LayoutType = 'admin' | 'app'
@@ -31,9 +37,10 @@ createInertiaApp({
     const userAuth = props.initialPage.props.auth.user
     const layout = props.initialPage.props.layout
     const locale = props.initialPage.props.locale
+    const appSettings = props.initialPage.props.appSettings
 
     createRoot(el).render(
-      <Layout userAuth={userAuth} layout={layout} locale={locale}>
+      <Layout userAuth={userAuth} layout={layout} locale={locale} appSettings={appSettings}>
         <App {...props} />
       </Layout>
     )

@@ -29,8 +29,8 @@ interface Values {
   name: string
   email: string
   steam_id: string
-  role: number
-  groups: string
+  role: number | null
+  groups: number[]
   current_password: string
   new_password: string
   new_password_confirmation: string
@@ -47,7 +47,7 @@ function AdminShow(props: Props) {
   const selectedGroups = props.user.groups?.map((group) => ({label: group.name, value: group.id}));
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    router.patch(route('admin.settings.update', props.user.id), { ...values }, {
+    router.patch(route('admin.admins.update', props.user.id), { ...values }, {
       // TODO Review typing.
       onSuccess: (page: any) => {
         const user: UserData = page.props.auth.user
@@ -61,7 +61,7 @@ function AdminShow(props: Props) {
   }
 
   const handleDelete = () => {
-    router.delete(route('admin.settings.destroy', props.user.id), {
+    router.delete(route('admin.admins.destroy', props.user.id), {
       onSuccess: () => {
         if (props.user.id == props.auth.user.id) {
           clearData()
@@ -88,13 +88,12 @@ function AdminShow(props: Props) {
           name: props.user.name,
           email: props.user.email,
           steam_id: props.user.steam_id,
-          role: (props.user.roles.at(0)?.id ?? '') as number,
-          groups: (selectedGroups?.map((group) => group.value) ?? []) as unknown as string,
+          role: (props.user.roles.at(0)?.id ?? null),
+          groups: (selectedGroups?.map((group) => group.value) ?? [] as number[]),
           current_password: '',
           new_password: '',
           new_password_confirmation: ''
         }}
-
         validationSchema={AdminEditSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (

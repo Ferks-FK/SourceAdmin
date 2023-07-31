@@ -5,6 +5,7 @@
     "We could not find a user related to your steam account.": "No hemos podido encontrar un usuario relacionado con su cuenta de steam.",
     "Your :attribute has been sent to the administrators.": "Su :attribute ha sido enviada a los administradores.",
     "The :attribute has been successfully :action.": "El :attribute ha sido :action con éxito.",
+    "The settings has been successfully updated": "Los ajustes se han actualizado con éxito.",
     "The page expired, please try again.": "La página ha caducado, inténtelo de nuevo.",
     "appeal": "recurso",
     "report": "denuncia",
@@ -18,6 +19,7 @@
     "mod": "mod",
     "role": "papel",
     "server": "servidor",
+    "settings": "ajustes",
     "re-applied": "reaplicado",
     "undone": "deshecho"
 }

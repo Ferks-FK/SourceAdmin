@@ -1,24 +1,31 @@
+import { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { UserData, useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { LayoutType } from "@/App";
-import React from "react";
+import { LayoutType, AppSettings } from "@/App";
+import { useSettingsStore } from "@/stores/settings";
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
   userAuth: UserData
   layout: LayoutType
   locale: string
+  appSettings: AppSettings
 }
 
-export const Layout = ({ children, userAuth, layout, locale }: Props) => {
-  const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData])
+export const Layout = ({ children, userAuth, layout, locale, appSettings }: Props) => {
+  const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData]);
+  const [ settings, setSettings ] = useSettingsStore((state) => [state.data, state.setSettings]);
 
   useDeviceType()
 
   if (!isLogged && userAuth) {
     setUserData(userAuth)
+  }
+
+  if (!settings) {
+    setSettings(appSettings)
   }
 
   return (

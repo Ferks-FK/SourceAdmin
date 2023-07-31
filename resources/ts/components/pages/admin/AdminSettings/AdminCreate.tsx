@@ -22,7 +22,7 @@ interface Values {
   email: string
   steam_id: string
   role: string
-  groups: string
+  groups: number[]
   password: string
   password_confirmation: string
 }
@@ -33,7 +33,7 @@ function AdminCreate(props: Props) {
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    router.post(route('admin.settings.store'), { ...values }, {
+    router.post(route('admin.admins.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -51,11 +51,10 @@ function AdminCreate(props: Props) {
           email: '',
           steam_id: '',
           role: '',
-          groups: '',
+          groups: [] as number[],
           password: '',
           password_confirmation: ''
         }}
-
         validationSchema={AdminCreateSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (

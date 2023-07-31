@@ -164,6 +164,8 @@ return [
         'reporter_email' => 'su correo electrónico',
         'server_id' => 'servidor',
         'upload_demo' => 'demo',
-        'reason' => 'motivo'
+        'reason' => 'motivo',
+        'site_name' => 'nombre del sitio',
+        'time_zone' => 'zona horaria'
     ],
 ];

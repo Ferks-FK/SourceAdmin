@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Session;
 
 class LocaleController extends Controller
 {
+    /**
+     * Sets the locale of the current user in the session.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setLocale(Request $request)
     {
         $locale = $request->input('locale');
@@ -22,6 +28,13 @@ class LocaleController extends Controller
         ]);
     }
 
+    /**
+     * Get the available locales.
+     *
+     * @param \Illuminate\Http\Request  $request
+     *
+     * @return mixed
+     */
     public function availableLocales(Request $request)
     {
         $locales = config('locales.locales');

@@ -40,8 +40,10 @@ class SteamAuthController extends Controller
 
     /**
      * Steam callback, used to check the user's steam account.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function steamCallback(): RedirectResponse
+    public function steamCallback()
     {
         if (empty(config('steam-auth.api_keys'))) {
             return redirect()->route('auth')->with('error', __('Steam API key has not been configured.'));
@@ -67,9 +69,9 @@ class SteamAuthController extends Controller
     /**
      * Get the steam URL used for verification.
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getSteamAuthUrlJson(): JsonResponse
+    public function getSteamAuthUrlJson()
     {
         return response()->json([
             'url' => $this->steamAuth->getAuthUrl()

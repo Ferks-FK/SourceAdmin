@@ -167,6 +167,14 @@
         "role_description": "Descrição da função",
         "permissions": "Permissões"
     },
+    "panel_settings": {
+        "settings": "Configurações",
+        "settings_description": "Configurar e gerenciar configurações do painel.",
+        "general": "Geral",
+        "mail": "Email",
+        "site_name": "Nome do site",
+        "time_zone": "Fuso horário"
+    },
     "generic": {
         "message_not_found": "Mensagem não encontrada.",
         "search": "Buscar...",

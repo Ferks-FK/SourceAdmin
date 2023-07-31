@@ -19,7 +19,7 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -33,7 +33,7 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -48,8 +48,8 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Admin\AdminCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(AdminCreateRequest $request)
     {
@@ -64,14 +64,14 @@ class AdminController extends Controller
             $user->groups()->sync($groups);
         }
 
-        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('created')]));
+        return redirect()->route('admin.admins.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('created')]));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show($id)
     {
@@ -89,9 +89,9 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\AdminUpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AdminUpdateRequest $request, $id)
     {
@@ -125,14 +125,14 @@ class AdminController extends Controller
         $user->fill($data);
         $user->save();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('updated')]));
+        return redirect()->route('admin.admins.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('updated')]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -142,9 +142,12 @@ class AdminController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.settings.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('deleted')]));
+        return redirect()->route('admin.admins.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('administrator'), 'action' => __('deleted')]));
     }
 
+    /**
+     * Get the users.
+     */
     protected function getUsersData()
     {
         return QueryBuilder::for(User::class)

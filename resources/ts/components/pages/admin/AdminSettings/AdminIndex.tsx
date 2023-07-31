@@ -26,7 +26,7 @@ function AdminIndex(props: Props) {
   const { t } = useTranslation();
 
   const handleClick = (id: number) => {
-    router.visit(route('admin.settings.show', id));
+    router.visit(route('admin.admins.show', id));
   }
 
   useFlashMessages(props.flash, props.errors)
@@ -39,7 +39,7 @@ function AdminIndex(props: Props) {
           icon={faUsers}
         >
           {can('admin.admins.create') &&
-            <Button.InternalLink to={route('admin.settings.create')}>
+            <Button.InternalLink to={route('admin.admins.create')}>
               {t('admin_settings.create_user')}
             </Button.InternalLink>
           }

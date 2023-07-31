@@ -38,7 +38,7 @@ function LoginContainer(props: PageProps) {
     })
   }
 
-  useFlashMessages(props.flash)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={'Login'}>

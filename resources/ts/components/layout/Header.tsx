@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "@/i18n/locales";
 import { setLocale } from "@/api/locale";
 import { Select } from "@/components/elements/Select";
+import { useSettingsStore } from "@/stores/settings";
 
 interface Props {
   locale: string
@@ -13,6 +14,7 @@ interface Props {
 
 function Header(props: Props) {
   const [ sidebarIsVisible, setSidebarIsVisible ] = useSidebarStore((state) => [state.isVisible, state.setIsVisible]);
+  const [ settings ] = useSettingsStore((state) => [ state.data ]);
   const { i18n } = useTranslation();
 
   const currentLanguage = localStorage.getItem('i18nextLng');
@@ -44,7 +46,7 @@ function Header(props: Props) {
         <div className="flex justify-between items-center w-full h-full mx-4 sm:mx-7">
           <div className="text-center py-3 ellipsis w-36 mobile:w-auto">
             <a href="/" className="text-xl text-white text-center no-underline">
-              Company Name
+              {settings?.site_name}
             </a>
           </div>
 					<div className="flex gap-4">

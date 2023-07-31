@@ -7,7 +7,6 @@ use App\Models\Ban;
 use App\Models\Mute;
 use App\Models\Server as ServerModel;
 use App\Traits\Server;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,7 +17,7 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -44,71 +43,10 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Get the bans.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request  $request
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     protected function getBansData()
     {
         return QueryBuilder::for(Ban::class)
@@ -139,6 +77,9 @@ class HomeController extends Controller
             ->get();
     }
 
+    /**
+     * Get the mutes.
+     */
     protected function getMutesData()
     {
         return QueryBuilder::for(Mute::class)

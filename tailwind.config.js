@@ -19,6 +19,14 @@ module.exports = {
                     neutral: '#1a1e22'
                 }
             },
+            keyframes: {
+                spin: {
+                    '100&': { transform: 'rotate(360deg)' },
+                }
+            },
+            animation: {
+                'spinner': 'spin 1s cubic-bezier(0.55, 0.25, 0.25, 0.7) infinite'
+            }
         },
         screens: {
             'mobile': '320px',

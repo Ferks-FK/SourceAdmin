@@ -167,6 +167,14 @@
         "role_description": "Role Description",
         "permissions": "Permissions"
     },
+    "panel_settings": {
+        "settings": "Settings",
+        "settings_description": "Configure and manage settings for panel.",
+        "general": "General",
+        "mail": "Mail",
+        "site_name": "Site name",
+        "time_zone": "Time zone"
+    },
     "generic": {
         "message_not_found": "Message not found.",
         "search": "Search...",

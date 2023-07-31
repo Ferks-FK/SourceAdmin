@@ -167,6 +167,14 @@
         "role_description": "Descripción del papel",
         "permissions": "Permisos"
     },
+    "panel_settings": {
+        "settings": "Ajustes",
+        "settings_description": "Configure y gestione los ajustes del panel.",
+        "general": "General",
+        "mail": "Correo",
+        "site_name": "Nombre del sitio",
+        "time_zone": "Zona horaria"
+    },
     "generic": {
         "message_not_found": "Mensaje no encontrado.",
         "search": "Buscar...",
