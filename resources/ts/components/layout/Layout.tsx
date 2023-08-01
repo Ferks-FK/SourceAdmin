@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { SideBar } from "@/components/layout/SideBar";
 import { UserData, useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { LayoutType, AppSettings } from "@/App";
+import { LayoutType } from "@/App";
 import { useSettingsStore } from "@/stores/settings";
 
 interface Props {
@@ -11,22 +11,24 @@ interface Props {
   userAuth: UserData
   layout: LayoutType
   locale: string
-  appSettings: AppSettings
+  generalSettings: Record<string, any>
 }
 
-export const Layout = ({ children, userAuth, layout, locale, appSettings }: Props) => {
+export const Layout = ({ children, userAuth, layout, locale, generalSettings }: Props) => {
   const [ isLogged, setUserData ] = useUserStore((state) => [state.isLogged, state.setUserData]);
   const [ settings, setSettings ] = useSettingsStore((state) => [state.data, state.setSettings]);
 
   useDeviceType()
 
-  if (!isLogged && userAuth) {
-    setUserData(userAuth)
-  }
+  useEffect(() => {
+    if (!isLogged && userAuth) {
+      setUserData(userAuth)
+    }
 
-  if (!settings) {
-    setSettings(appSettings)
-  }
+    if (!settings) {
+      setSettings(generalSettings)
+    }
+  }, [isLogged, settings])
 
   return (
     <>

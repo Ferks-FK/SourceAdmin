@@ -65,7 +65,7 @@ class HandleInertiaRequests extends Middleware
             'layout' => $layout,
             'locale' => config('app.locale'),
             'timeZone' => $generalSettings->time_zone ?? config('app.timezone'),
-            'appSettings' => $generalSettings,
+            'generalSettings' => $generalSettings,
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

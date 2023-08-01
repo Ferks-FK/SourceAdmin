@@ -1,17 +1,12 @@
 import { create } from "zustand";
 
 interface SettingsStore {
-    data?: Record<SettingsKeys, any>
-    setSettings: (payload: AppSettings) => void,
+    data?: Settings
+    setSettings: (payload: Settings) => void,
     clearSettings: () => void
 }
 
-export type AppSettings = {
-    site_name: string,
-    time_zone: string | null
-}
-
-type SettingsKeys = 'site_name' | 'time_zone'
+export type Settings = Record<string, any>
 
 const useSettingsStore = create<SettingsStore>((set) => ({
     data: undefined,

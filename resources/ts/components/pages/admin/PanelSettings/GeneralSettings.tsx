@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { getSettings } from "@/api/getSettings";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
@@ -21,15 +21,17 @@ interface Values extends Props {
   time_zone: string
 }
 
-type SettingsProps = Record<Key, string>
-
-type Key = 'site_name' | 'time_zone';
-
 function GeneralSettings(props: Props) {
   const [ flash, setFlash ] = useState<FlashProp | null>(null);
   const [ errors, setErrors ] = useState<ErrorsProp | null>(null);
-  const [ settings, setSettings, clearSettings ] = useSettingsStore((state) => [ state.data, state.setSettings, state.clearSettings ]);
+  const [ settings, setSettings ] = useSettingsStore((state) => [ state.data, state.setSettings ]);
   const { t } = useTranslation();
+
+  const getGeneralSettings = useCallback(async () => {
+    const response = await getSettings(props.group);
+
+    setSettings(response as Values)
+  }, [settings])
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     router.patch(route('admin.settings.update'), { ...values }, {
@@ -37,6 +39,7 @@ function GeneralSettings(props: Props) {
       onSuccess: (page: any) => {
         setFlash(page.props.flash)
         setErrors(null)
+        getGeneralSettings() // Get the updated settings.
       },
       onError: (errors) => {
         setErrors(errors)
@@ -44,20 +47,9 @@ function GeneralSettings(props: Props) {
       },
       onFinish: () => {
         setSubmitting(false)
-        clearSettings()
       }
     })
   }
-
-  useEffect(() => {
-    const getGeneralSettings = async () => {
-      const response = await getSettings(props.group);
-
-      setSettings(response as SettingsProps)
-    }
-
-    getGeneralSettings()
-  }, [settings?.site_name, clearSettings])
 
   useFlashMessages(flash, errors)
 
@@ -69,7 +61,7 @@ function GeneralSettings(props: Props) {
       onSubmit={handleSubmit}
       initialValues={{
         site_name: settings.site_name,
-        time_zone: settings.time_zone,
+        time_zone: settings.time_zone ?? '',
         group: props.group
       }}
     >
