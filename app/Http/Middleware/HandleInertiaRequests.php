@@ -3,10 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
-use stdClass;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -47,10 +46,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $generalSettings = new GeneralSettings();
         $layout = $this->defineLayout($request);
 
         if ($request->user()) {
-            $userAuth = User::with(['roles', 'roles.permissions'])->findOrFail($request->user()->id);
+            $userAuth = User::with(['roles', 'roles.permissions', 'permissions'])->findOrFail($request->user()->id);
         }
 
         return array_merge(parent::share($request), [
@@ -63,7 +63,9 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'layout' => $layout,
-            'timeZone' => config('app.timezone'),
+            'locale' => config('app.locale'),
+            'timeZone' => $generalSettings->time_zone ?? config('app.timezone'),
+            'generalSettings' => $generalSettings,
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

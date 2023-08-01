@@ -5,25 +5,23 @@ import { Button } from "@/components/elements/button";
 import { router } from '@inertiajs/react';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, paginationItems } from '@/helpers';
+import { can } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { PaginationProps, GroupObject, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, GroupObject, PageProps } from "@/types";
 import { GroupsColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: GroupObject[]
+interface Props extends PageProps {
+  data: {
+    pagination_data: GroupObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function GroupIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [groupsData] = useState<GroupObject[]>(props.data.data)
+  const [groupsData] = useState<GroupObject[]>(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation()
 
   const handleClick = (id: number) => {
@@ -48,6 +46,7 @@ function GroupIndex(props: Props) {
         <Table.Component
           columns={GroupsColumns}
           dataLength={groupsData.length}
+          colSpan={8}
         >
           {groupsData.map((group) => (
             <Table.Row
@@ -62,13 +61,15 @@ function GroupIndex(props: Props) {
               >
                 {group.description}
               </Table.Td>
+              <Table.Td>{group.users_count}</Table.Td>
+              <Table.Td>{group.permissions_count}</Table.Td>
               <Table.Td>{FormatLocaleDate(group.created_at, props.timeZone, undefined, false)}</Table.Td>
               <Table.Td>{FormatLocaleDate(group.updated_at, props.timeZone, undefined, false)}</Table.Td>
             </Table.Row>
           ))}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > groupsData.length}/>
+      <Table.Pagination paginationData={pagination} visible={pagination.total > groupsData.length}/>
     </PageContentBlock>
   )
 }

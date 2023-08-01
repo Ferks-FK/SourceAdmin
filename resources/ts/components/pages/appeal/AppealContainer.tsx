@@ -7,13 +7,8 @@ import { Formik, FormikHelpers } from "formik";
 import { router } from '@inertiajs/react';
 import { AppealFormSchema } from "@/yup/YupSchemas";
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp } from "@/types";
+import { PageProps } from "@/types";
 import route from 'ziggy-js';
-
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-}
 
 interface Values {
   player_steam_id: string
@@ -23,7 +18,7 @@ interface Values {
   reason: string
 }
 
-function AppealContainer({ flash, errors }: Props) {
+function AppealContainer(props: PageProps) {
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
@@ -37,7 +32,7 @@ function AppealContainer({ flash, errors }: Props) {
     })
   }
 
-  useFlashMessages(flash, errors)
+  useFlashMessages(props.flash, props.errors)
 
   return (
     <PageContentBlock title={t('appeal.protest')}>

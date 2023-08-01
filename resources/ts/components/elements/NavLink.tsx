@@ -1,11 +1,7 @@
 import { Link, InertiaLinkProps } from '@inertiajs/react';
 import classNames from 'classnames';
 
-interface Props extends InertiaLinkProps {
-  href: string
-}
-
-function NavLink({ href, children, className, ...props }: Props) {
+function NavLink({ href, children, className, ...props }: InertiaLinkProps) {
   return (
     <Link
       href={href}

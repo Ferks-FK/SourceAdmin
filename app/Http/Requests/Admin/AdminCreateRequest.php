@@ -34,7 +34,7 @@ class AdminCreateRequest extends FormRequest
                 'unique:users,steam_id',
                 'regex:/^(STEAM_[0-5]:[0-1]:\d+|\d{17})$/'
             ],
-            'role' => ['required', 'numeric', 'exists:roles,id'],
+            'role' => ['nullable', 'numeric', 'exists:roles,id'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['exists:groups,id'],
             'password' => [

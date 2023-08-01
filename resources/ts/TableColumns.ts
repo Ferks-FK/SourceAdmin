@@ -207,6 +207,14 @@ export const GroupsColumns = [
         ns: 'translations'
     },
     {
+        name: 'Users Count',
+        i18nKey: "users_count"
+    },
+    {
+        name: 'Permissions Count',
+        i18nKey: "permissions_count"
+    },
+    {
         name: 'Created At',
         i18nKey: "generic.created_at",
         ns: 'translations'

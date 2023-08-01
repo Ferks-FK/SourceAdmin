@@ -1,6 +1,6 @@
 import { MD5 } from "crypto-js";
 import { FilterDataProps } from "@/helpers/types";
-import { PaginationProps, PunishmentObject } from "@/types";
+import { PunishmentObject } from "@/types";
 import { TFunction } from "i18next";
 import { useUserStore } from "@/stores/user";
 
@@ -69,19 +69,6 @@ export function separateInternalObjects(array: any[]) {
   return array.flatMap(object => Object.entries(object).map(([key, value]) => ({ [key]: value })));
 }
 
-export const paginationItems = (data: PaginationProps) => ({
-  currentPage: data.current_page,
-  lastPage: data.last_page,
-  perPage: data.per_page,
-  total: data.total,
-  from: data.from,
-  to: data.to,
-  nextPageUrl: data.next_page_url,
-  prevPageUrl: data.prev_page_url,
-  firstPageUrl: data.first_page_url,
-  lastPageUrl: data.last_page_url,
-})
-
 export function formatSizeUnits(size: number) {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
   let index = 0;
@@ -101,5 +88,13 @@ export function can(permission: string) {
         return true
     }
 
-    return data?.roles.at(0)?.permissions?.find((perm) => perm.name === permission) ? true : false
+    if (data?.roles.at(0)?.permissions?.find((perm) => perm.name === permission)) {
+        return true
+    }
+
+    if (data?.permissions?.some((permission) => permission.name === '*')){
+        return true
+    }
+
+    return data?.permissions?.find((perm) => perm.name === permission) ? true : false
 }

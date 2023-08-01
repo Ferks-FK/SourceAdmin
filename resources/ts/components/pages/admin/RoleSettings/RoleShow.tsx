@@ -9,21 +9,15 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
 import { UserData, useUserStore } from "@/stores/user";
-import { FlashProp, ErrorsProp, RoleObject, PermissionObject } from "@/types";
+import { RoleObject, PermissionObject, PageProps } from "@/types";
 import { Option } from "@/components/elements/field/Field";
 import { RoleEditSchema } from '@/yup/YupSchemas';
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
-interface Props {
+interface Props extends PageProps {
   role: RoleObject
   permissions: PermissionObject[]
-  flash: FlashProp
-  errors: ErrorsProp
-  auth: {
-    user: UserData
-  }
-  timeZone: string
 }
 
 interface Values {
@@ -71,7 +65,7 @@ function RoleShow(props: Props) {
   useFlashMessages(props.flash, props.errors)
 
   return (
-    <PageContentBlock title={t('role_settings.role_editing_name', {roleName: props.role.name})}>
+    <PageContentBlock title={t('role_settings.role_editing_name', { roleName: props.role.name })}>
       <Formik
         onSubmit={handleSubmit}
         initialValues={{
@@ -82,7 +76,7 @@ function RoleShow(props: Props) {
         validationSchema={RoleEditSchema()}
       >
         {({ isSubmitting, setFieldValue }) => (
-          <div className={'flex flex-col gap-4 p-4 bg-dark-primary'}>
+          <>
             <Modal
               isVisible={modalVisible}
               onClickCloseBtn={hideModal}
@@ -156,7 +150,7 @@ function RoleShow(props: Props) {
                 </div>
               </div>
             </Form>
-          </div>
+          </>
         )}
       </Formik>
     </PageContentBlock>

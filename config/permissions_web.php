@@ -5,7 +5,6 @@ return [
 
     /**
      * index: View all resources.
-     * view: View one resource.
      * create: Create one resource.
      * edit: View/Edit one resource.
      * destroy: View/Destroy one resource.
@@ -69,4 +68,10 @@ return [
     'Create Role' => 'admin.roles.create',
     'Edit Role' => 'admin.roles.edit',
     'Delete Role' => 'admin.roles.destroy',
+
+    /**
+     * Permissions of settings page.
+     */
+    'View Settings' => 'admin.settings.index',
+    'Edit Settings' => 'admin.settings.edit'
 ];

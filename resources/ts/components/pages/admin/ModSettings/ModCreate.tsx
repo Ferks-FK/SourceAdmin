@@ -6,19 +6,10 @@ import { Formik, FormikHelpers } from "formik";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { useTranslation } from "react-i18next";
-import { UserData } from "@/stores/user";
-import { FlashProp, ErrorsProp } from "@/types";
+import { PageProps } from "@/types";
 import { Option } from "@/components/elements/field/Field";
 import { ModCreateSchema } from "@/yup/YupSchemas";
 import route from 'ziggy-js';
-
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  auth: {
-    user: UserData
-  }
-}
 
 interface Values {
   name: string
@@ -31,7 +22,7 @@ export type OptionImage = Option & {
   image: string
 }
 
-function ModCreate(props: Props) {
+function ModCreate(props: PageProps) {
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {

@@ -137,6 +137,7 @@
         "delete_group_message": "Una vez confirmada la eliminación del grupo, la acción es permanente y no se puede deshacer.",
         "group_description": "Descripción del grupo",
         "group_type": "Tipo del grupo",
+        "group_permissions": "Permisos del grupo",
         "group_type_web": "Web",
         "group_type_server": "Servidor",
         "group_type_server_admin": "Administración de servidores"
@@ -166,6 +167,14 @@
         "role_description": "Descripción del papel",
         "permissions": "Permisos"
     },
+    "panel_settings": {
+        "settings": "Ajustes",
+        "settings_description": "Configure y gestione los ajustes del panel.",
+        "general": "General",
+        "mail": "Correo",
+        "site_name": "Nombre del sitio",
+        "time_zone": "Zona horaria"
+    },
     "generic": {
         "message_not_found": "Mensaje no encontrado.",
         "search": "Buscar...",
@@ -191,7 +200,11 @@
         "status": "Situación",
         "steam_id_formats": "Sólo se aceptan los siguientes formatos: Steam ID, Steam64 ID.",
         "description": "Descripción",
-        "no_options": "Sin opción"
+        "no_options": "Sin opción",
+        "success": "Éxito",
+        "error": "Error",
+        "warning": "Advertencia",
+        "info": "Información"
     },
     "yup_schemas": {
         "required_attribute": "El {{attribute}} es obligatorio(a).",

@@ -15,17 +15,14 @@ import { router } from '@inertiajs/react';
 import { Modal } from "@/components/elements/modal";
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { BanObject, ReasonObject, TimeBanObject, FlashProp, ErrorsProp, ServerDataResponse } from "@/types";
+import { BanObject, ReasonObject, TimeBanObject, ServerDataResponse, PageProps } from "@/types";
 import route from 'ziggy-js';
 import { can } from "@/helpers";
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
+interface Props extends PageProps {
   ban: BanObject
   reasons: ReasonObject[]
   timeBans: TimeBanObject[]
-  timeZone: string
 }
 
 interface Values {

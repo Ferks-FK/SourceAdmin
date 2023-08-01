@@ -4,18 +4,18 @@ import { Table } from "@/components/elements/table";
 import { Image } from "@/components/elements/Image";
 import { Collapse } from "@/components/elements/Collapse";
 import { getServerData, ResponseData } from '@/api/getServers';
-import { paginationItems } from "@/helpers";
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/elements/button";
 import { faCircleQuestion, faServer } from '@fortawesome/free-solid-svg-icons';
-import { PaginationProps, BanObject } from "@/types";
+import { PaginationProps, ServerDataResponse } from "@/types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ServerColumns, PlayersColumns } from '@/TableColumns';
 
 interface Props {
   serversIds: number[]
-  data: PaginationProps & {
-    data: BanObject[]
+  data: {
+    pagination_data: ServerDataResponse[]
+    pagination_props: PaginationProps
   }
 }
 
@@ -26,11 +26,11 @@ interface ServerItem {
 }
 
 function ServersContainer(props: Props) {
-  const pagination = paginationItems(props.data)
   const [serverData, setServerData] = useState<ServerItem[]>(props.serversIds.map((server_id) => {
     return { id: server_id, loading: true }
   }));
   const [activeTable, setActiveTable] = useState<string>('');
+  const pagination = props.data.pagination_props
   const { t } = useTranslation()
 
   const handleActiveTable = (server_id: string) => {
@@ -159,7 +159,7 @@ function ServersContainer(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > props.serversIds.length} />
+      <Table.Pagination paginationData={pagination} visible={pagination.total > props.serversIds.length} />
     </PageContentBlock>
   )
 }

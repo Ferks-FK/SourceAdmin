@@ -3,23 +3,29 @@
 namespace App\Http\Controllers\Admin\Group;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Group\GroupCreateRequest;
+use App\Http\Requests\Admin\Group\GroupUpdateRequest;
+use App\Models\Group as GroupModel;
+use App\Models\Permission;
+use App\Models\User;
+use App\Traits\Group;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class GroupController extends Controller
 {
+    use Group;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
-        $this->authorize('index', Group::class);
+        $this->authorize('index', GroupModel::class);
 
-        $data = QueryBuilder::for(Group::class)
+        $data = QueryBuilder::for(GroupModel::withCount('users', 'permissions'))
             ->paginate(10)->appends(request()->query());
 
         return Inertia::render('admin/GroupSettings/GroupIndex', [
@@ -30,26 +36,30 @@ class GroupController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
-        $this->authorize('create', Group::class);
+        $this->authorize('create', GroupModel::class);
 
-        return Inertia::render('admin/GroupSettings/GroupCreate');
+        return Inertia::render('admin/GroupSettings/GroupCreate', [
+            'permissions' => Permission::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Admin\Group\GroupCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(GroupCreateRequest $request)
     {
-        $this->authorize('create', Group::class);
+        $this->authorize('create', GroupModel::class);
 
-        Group::create($request->all());
+        $group = GroupModel::create($request->except('group_permissions'));
+
+        $group->permissions()->sync($request->group_permissions);
 
         return redirect()->route('admin.groups.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('created')]));
     }
@@ -58,34 +68,44 @@ class GroupController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show($id)
     {
-        $this->authorize('show', Group::class);
+        $this->authorize('show', GroupModel::class);
 
-        $group = Group::findOrFail($id);
+        $group = GroupModel::with('permissions')->findOrFail($id);
 
         return Inertia::render('admin/GroupSettings/GroupShow', [
-            'group' => $group
+            'group' => $group,
+            'permissions' => Permission::all()
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\Group\GroupUpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(GroupUpdateRequest $request, $id)
     {
-        $this->authorize('show', Group::class);
+        $this->authorize('show', GroupModel::class);
 
-        $group = Group::findOrFail($id);
+        $group = GroupModel::findOrFail($id);
 
-        $group->fill($request->all());
+        $group->fill($request->except('group_permissions'));
         $group->save();
+
+        $group->permissions()->sync($request->group_permissions);
+
+        $usersIds = $group->users()->pluck('id')->all();
+        $users = User::whereIn('id', $usersIds)->get();
+
+        foreach ($users as $user) {
+            $this->syncGroupPermissions($user);
+        }
 
         return redirect()->route('admin.groups.index')->with('success',__('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('updated')]));
     }
@@ -94,13 +114,15 @@ class GroupController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        $this->authorize('destroy', Group::class);
+        $this->authorize('destroy', GroupModel::class);
 
-        $group = Group::findOrFail($id);
+        $group = GroupModel::findOrFail($id);
+
+        $this->removeAllPermissions($group);
 
         $group->delete();
 

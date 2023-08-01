@@ -14,6 +14,8 @@ interface UserAuth {
     initialPage: {
       props: {
         layout: LayoutType
+        locale: string
+        generalSettings: Record<string, any>
         auth: {
           user: UserData
         }
@@ -29,9 +31,11 @@ createInertiaApp({
   setup({ el, App, props }: UserAuth) {
     const userAuth = props.initialPage.props.auth.user
     const layout = props.initialPage.props.layout
+    const locale = props.initialPage.props.locale
+    const generalSettings = props.initialPage.props.generalSettings
 
     createRoot(el).render(
-      <Layout userAuth={userAuth} layout={layout}>
+      <Layout userAuth={userAuth} layout={layout} locale={locale} generalSettings={generalSettings}>
         <App {...props} />
       </Layout>
     )

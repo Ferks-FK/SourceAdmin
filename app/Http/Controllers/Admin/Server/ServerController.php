@@ -30,7 +30,7 @@ class ServerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -45,7 +45,7 @@ class ServerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -60,8 +60,8 @@ class ServerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Admin\Server\ServerCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ServerCreateRequest $request)
     {
@@ -77,7 +77,7 @@ class ServerController extends Controller
      *
      * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, $id)
     {
@@ -101,9 +101,9 @@ class ServerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\Server\ServerUpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ServerUpdateRequest $request, $id)
     {
@@ -129,7 +129,7 @@ class ServerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -144,6 +144,9 @@ class ServerController extends Controller
         return redirect()->route('admin.servers.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('server'), 'action' => __('deleted')]));
     }
 
+    /**
+     * Get the servers.
+     */
     protected function getServerData()
     {
         $query = QueryBuilder::for(ServerModel::class);

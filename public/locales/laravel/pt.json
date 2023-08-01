@@ -1,11 +1,11 @@
 {
     "Could not find a user with these credentials.": "Não foi possível encontrar um usuário com essas credenciais.",
-    "Welcome again :attribute!": "Bem-vindo novamente :attribute!",
     "Steam API key has not been configured.": "A chave da API do Steam não foi configurada.",
     "Failed to validate your steam account.": "Falha ao validar sua conta Steam.",
     "We could not find a user related to your steam account.": "Não foi possível encontrar um usuário relacionado à sua conta Steam.",
     "Your :attribute has been sent to the administrators.": "Sua :attribute foi enviada aos administradores.",
     "The :attribute has been successfully :action.": "O :attribute foi :action com sucesso.",
+    "The settings has been successfully updated": "As configurações foram atualizadas com sucesso.",
     "The page expired, please try again.": "A página expirou, tente novamente.",
     "appeal": "apelação",
     "report": "denúncia",
@@ -19,6 +19,7 @@
     "mod": "mod",
     "role": "função",
     "server": "servidor",
+    "settings": "configurações",
     "re-applied": "reaplicado",
     "undone": "desfeito"
 }

@@ -7,16 +7,14 @@ import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { router } from '@inertiajs/react';
 import { AdminCreateSchema } from "@/yup/YupSchemas"
 import { useTranslation } from "react-i18next";
-import { FlashProp, ErrorsProp, RoleObject, GroupObject } from "@/types";
+import { RoleObject, GroupObject, PageProps } from "@/types";
+import { Option } from "@/components/elements/field/Field";
 import { useState } from "react";
 import route from 'ziggy-js';
-import { Option } from "@/components/elements/field/Field";
 
-interface Props {
+interface Props extends PageProps {
   roles: RoleObject[]
   groups: GroupObject[]
-  flash: FlashProp
-  errors: ErrorsProp
 }
 
 interface Values {
@@ -24,7 +22,7 @@ interface Values {
   email: string
   steam_id: string
   role: string
-  groups: string
+  groups: number[]
   password: string
   password_confirmation: string
 }
@@ -35,7 +33,7 @@ function AdminCreate(props: Props) {
   const { t } = useTranslation();
 
   const handleSubmit = (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    router.post(route('admin.settings.store'), { ...values }, {
+    router.post(route('admin.admins.store'), { ...values }, {
       onFinish: () => {
         setSubmitting(false)
       }
@@ -53,11 +51,10 @@ function AdminCreate(props: Props) {
           email: '',
           steam_id: '',
           role: '',
-          groups: '',
+          groups: [] as number[],
           password: '',
           password_confirmation: ''
         }}
-
         validationSchema={AdminCreateSchema()}
       >
         {({ isSubmitting, values, setFieldValue }) => (

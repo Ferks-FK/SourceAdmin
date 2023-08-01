@@ -5,7 +5,7 @@ import { Progress } from '@/components/elements/Progress';
 import { Input } from "@/components/elements/inputs";
 import { Size } from "@/components/elements/inputs/types";
 import { useEffect, useState } from 'react';
-import { getPercentage, getStyleAndName, filterData, paginationItems } from '@/helpers';
+import { getPercentage, getStyleAndName, filterData } from '@/helpers';
 import { PaginationProps, BanObject, PageProps } from "@/types";
 import { useTranslation } from "react-i18next";
 import { useFlashesStore } from '@/stores/flashes';
@@ -18,18 +18,18 @@ import http from '@/api/http';
 import route from 'ziggy-js';
 
 interface Props extends PageProps {
-  data: PaginationProps & {
-    data: BanObject[]
+  data: {
+    pagination_data: BanObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function BansContainer(props: Props) {
-  const pagination = paginationItems(props.data)
   const [addError, clearFlashes] = useFlashesStore((state) => [state.addError, state.clearFlashes])
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [bansData, setBansData] = useState(props.data.data)
+  const [bansData, setBansData] = useState(props.data.pagination_data)
   const [debouncedValue] = useDebounce(searchQuery, 500)
+  const pagination = props.data.pagination_props
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function BansContainer(props: Props) {
 
       // Set the results to the default query when it is no longer being searched.
       if (searchQuery.length == 0) {
-        setBansData(props.data.data)
+        setBansData(props.data.pagination_data)
       } else {
         // Consult the data based on the search term.
         // This will probably be redone.
@@ -106,7 +106,7 @@ function BansContainer(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > bansData.length}/>
+      <Table.Pagination paginationData={pagination} visible={pagination.total > bansData.length}/>
     </PageContentBlock>
   )
 }

@@ -187,7 +187,9 @@ return [
         'reporter_email' => 'your email',
         'server_id' => 'server',
         'upload_demo' => 'demo',
-        'reason' => 'reason'
+        'reason' => 'reason',
+        'site_name' => 'site name',
+        'time_zone' => 'time zone'
     ],
 
 ];

@@ -13,7 +13,7 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(GetAppVersion $version)
     {
@@ -34,6 +34,11 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Get total file demos.
+     *
+     * @return int
+     */
     private function getTotalDemosCount(): int
     {
         $demoPath = "public/upload_demos";
@@ -43,6 +48,11 @@ class DashboardController extends Controller
         return count($files);
     }
 
+    /**
+     * Get the total size of the demos files.
+     *
+     * @return float
+     */
     private function calculateTotalDemosSize(): float
     {
         $demoPath = "public/upload_demos";

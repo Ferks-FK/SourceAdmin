@@ -8,25 +8,23 @@ import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { can, getPercentage, getStyleAndName, paginationItems } from '@/helpers';
+import { can, getPercentage, getStyleAndName } from '@/helpers';
 import { useTranslation } from "react-i18next";
 import { FormatLocaleDate } from "@/i18n/locales";
-import { PaginationProps, BanObject, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, BanObject, PageProps } from "@/types";
 import { AdminBansColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
-interface Props {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: BanObject[]
+interface Props extends PageProps {
+  data: {
+    pagination_data: BanObject[]
+    pagination_props: PaginationProps
   }
-  timeZone: string
 }
 
 function BanIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [bansData] = useState(props.data.data);
+  const [bansData] = useState(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation();
 
   const handleClick = (id: number) => {
@@ -89,7 +87,7 @@ function BanIndex(props: Props) {
           })}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > bansData.length} />
+      <Table.Pagination paginationData={pagination} visible={pagination.total > bansData.length} />
     </PageContentBlock>
   )
 }

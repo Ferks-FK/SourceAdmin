@@ -137,6 +137,7 @@
         "delete_group_message": "Quando você confirmar a exclusão do grupo, a ação é permanente e não pode ser desfeita.",
         "group_description": "Descrição do grupo",
         "group_type": "Tipo do grupo",
+        "group_permissions": "Permissões do grupo",
         "group_type_web": "Web",
         "group_type_server": "Servidor",
         "group_type_server_admin": "Administrador do servidor"
@@ -166,6 +167,14 @@
         "role_description": "Descrição da função",
         "permissions": "Permissões"
     },
+    "panel_settings": {
+        "settings": "Configurações",
+        "settings_description": "Configurar e gerenciar configurações do painel.",
+        "general": "Geral",
+        "mail": "Email",
+        "site_name": "Nome do site",
+        "time_zone": "Fuso horário"
+    },
     "generic": {
         "message_not_found": "Mensagem não encontrada.",
         "search": "Buscar...",
@@ -191,7 +200,11 @@
         "status": "Status",
         "steam_id_formats": "Somente os seguintes formatos são aceitos: Steam ID, Steam64 ID.",
         "description": "Descrição",
-        "no_options": "Sem opções"
+        "no_options": "Sem opções",
+        "success": "Sucesso",
+        "error": "Erro",
+        "warning": "Aviso",
+        "info": "Informação"
     },
     "yup_schemas": {
         "required_attribute": "O campo {{attribute}} é obrigatório(a).",

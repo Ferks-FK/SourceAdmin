@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->string('readable_name');
+            $table->string('readable_name')->after('name');
         });
     }
 

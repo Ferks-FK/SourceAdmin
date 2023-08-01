@@ -9,17 +9,16 @@ import { Progress } from '@/components/elements/Progress';
 import { useTranslation } from 'react-i18next';
 import { getPercentage, getStyleAndName } from '@/helpers';
 import { FormatLocaleDate } from '@/i18n/locales';
-import { BanObject, MuteObject, ServerDataResponse } from "@/types";
+import { BanObject, MuteObject, PageProps, ServerDataResponse } from "@/types";
 import { ServerColumns, BansColumns, MutesColumns } from '@/TableColumns';
 
-export interface Props {
+interface Props extends PageProps {
   serversIds: number[]
   serversCount: number
   bansCount: number
   mutesCount: number
   bansData: BanObject[]
   mutesData: MuteObject[]
-  timeZone: string
 }
 
 interface ServerItem {

@@ -1,3 +1,4 @@
+import { PaginationProps as PaginationBaseProps } from '@/types';
 import { IconDefinition, SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { HTMLAttributes } from 'react';
 
@@ -20,6 +21,7 @@ type ColumnObject = {
 export type TableProps = JSX.IntrinsicElements['table'] & {
     columns: ColumnObject[]
     dataLength: number
+    colSpan?: number
 };
 
 export interface HeaderProps extends HTMLAttributes<HTMLTableCellElement> {
@@ -36,16 +38,6 @@ export interface RowProps extends HTMLAttributes<HTMLTableRowElement> {
 export type TDProps = JSX.IntrinsicElements['td']
 
 export interface PaginationProps {
-    paginationData: {
-        currentPage: number
-        lastPage: number
-        nextPageUrl: string
-        prevPageUrl: string
-        firstPageUrl: string
-        lastPageUrl: string
-        from: number
-        to: number
-        total: number
-    }
+    paginationData: PaginationBaseProps
     visible: boolean
 }

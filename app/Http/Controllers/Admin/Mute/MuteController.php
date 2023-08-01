@@ -20,7 +20,7 @@ class MuteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -32,7 +32,7 @@ class MuteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -52,8 +52,8 @@ class MuteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Admin\Mute\MuteCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(MuteCreateRequest $request)
     {
@@ -68,7 +68,7 @@ class MuteController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show($id)
     {
@@ -98,9 +98,9 @@ class MuteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\Mute\MuteUpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(MuteUpdateRequest $request, $id)
     {
@@ -117,7 +117,7 @@ class MuteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -132,8 +132,9 @@ class MuteController extends Controller
     /**
      * Remute the specified player.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request  $request
      * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function remute(Request $request, $id)
     {
@@ -157,8 +158,9 @@ class MuteController extends Controller
     /**
      * Unmute the specified player.
      *
-     * @param Request $request
+     * @param \Illuminate\Http\Request  $request
      * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function unmute(Request $request, $id)
     {
@@ -175,6 +177,11 @@ class MuteController extends Controller
         return redirect()->route('admin.mutes.index')->with('success', __('The :attribute has been successfully :action.', ['attribute' => __('mute'), 'action' => __('undone')]));
     }
 
+    /**
+     * Get the mutes.
+     *
+     * @param int|null  $getById
+     */
     protected function getCommsData(int $getById = null)
     {
         $query = QueryBuilder::for(Mute::class)
@@ -208,6 +215,12 @@ class MuteController extends Controller
         return $query->paginate(10)->appends(request()->query());
     }
 
+    /**
+     * Check if the player is muted.
+     *
+     * @param mixed $banInfo
+     * @return bool
+     */
     protected function playerIsMuted(mixed $banInfo)
     {
         if ($banInfo->removed_by || $banInfo->removed_on) {

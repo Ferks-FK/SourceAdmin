@@ -8,6 +8,8 @@ export interface PageProps {
     errors: ErrorsProp
     flash: FlashProp
     layout: LayoutType
+    timeZone: string
+    locale: string
 }
 
 export interface BanObject {
@@ -94,6 +96,7 @@ export interface PermissionObject {
     id: number
     name: string
     readable_name: string
+    type: string
 }
 
 export interface GroupObject {
@@ -101,6 +104,9 @@ export interface GroupObject {
     name: string
     description?: string
     type: string
+    permissions?: PermissionObject[]
+    users_count: number
+    permissions_count: number
     created_at: string
     updated_at: string
 }
@@ -143,15 +149,17 @@ export interface ErrorsProp {
     }
 }
 
+export interface PaginationLinkObject {
+    active: boolean
+    label: string
+    url: string | null
+}
+
 export interface PaginationProps {
-    current_page: number
-    last_page: number
-    per_page: number
+    currentPage: number
+    lastPage: number
+    perPage: number
     total: number
-    from: number
-    to: number
-    next_page_url: string
-    prev_page_url: string
-    first_page_url: string
-    last_page_url: string
+    count: number
+    links: PaginationLinkObject[]
 }

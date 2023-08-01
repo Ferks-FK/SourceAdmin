@@ -137,6 +137,7 @@
         "delete_group_message": "When you confirm the deletion of the group, the action is permanent and cannot be undone.",
         "group_description": "Group Description",
         "group_type": "Group Type",
+        "group_permissions": "Group Permissions",
         "group_type_web": "Web",
         "group_type_server": "Server",
         "group_type_server_admin": "Server Admin"
@@ -166,6 +167,14 @@
         "role_description": "Role Description",
         "permissions": "Permissions"
     },
+    "panel_settings": {
+        "settings": "Settings",
+        "settings_description": "Configure and manage settings for panel.",
+        "general": "General",
+        "mail": "Mail",
+        "site_name": "Site name",
+        "time_zone": "Time zone"
+    },
     "generic": {
         "message_not_found": "Message not found.",
         "search": "Search...",
@@ -191,7 +200,11 @@
         "status": "Status",
         "steam_id_formats": "Only the following formats are accepted: Steam ID, Steam64 ID.",
         "description": "Description",
-        "no_options": "No options"
+        "no_options": "No options",
+        "success": "Success",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info"
     },
     "yup_schemas": {
         "required_attribute": "The {{attribute}} is required.",

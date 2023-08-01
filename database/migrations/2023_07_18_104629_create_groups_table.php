@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\Group;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
-            $table->enum('type', ['web', 'server', 'server_admin']);
+            $table->enum('type', [Group::WEB->value, Group::SERVER->value, Group::SERVER_ADMIN->value]);
             $table->timestamps();
         });
     }

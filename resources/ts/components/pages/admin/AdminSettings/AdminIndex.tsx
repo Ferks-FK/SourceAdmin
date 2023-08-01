@@ -6,28 +6,27 @@ import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircleXmark, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useFlashMessages } from "@/hooks/useFlashMessages";
-import { paginationItems, can } from '@/helpers';
+import { can } from '@/helpers';
 import { useTranslation } from "react-i18next";
-import { PaginationProps, PageProps, FlashProp, ErrorsProp } from "@/types";
+import { PaginationProps, PageProps } from "@/types";
 import { UserData } from "@/stores/user";
 import { AdminColumns } from '@/TableColumns';
 import route from 'ziggy-js';
 
 interface Props extends PageProps {
-  flash: FlashProp
-  errors: ErrorsProp
-  data: PaginationProps & {
-    data: UserData[]
+  data: {
+    pagination_data: UserData[]
+    pagination_props: PaginationProps
   }
 }
 
 function AdminIndex(props: Props) {
-  const pagination = paginationItems(props.data)
-  const [adminData] = useState(props.data.data)
+  const [adminData] = useState(props.data.pagination_data);
+  const pagination = props.data.pagination_props;
   const { t } = useTranslation();
 
   const handleClick = (id: number) => {
-    router.visit(route('admin.settings.show', id));
+    router.visit(route('admin.admins.show', id));
   }
 
   useFlashMessages(props.flash, props.errors)
@@ -40,7 +39,7 @@ function AdminIndex(props: Props) {
           icon={faUsers}
         >
           {can('admin.admins.create') &&
-            <Button.InternalLink to={route('admin.settings.create')}>
+            <Button.InternalLink to={route('admin.admins.create')}>
               {t('admin_settings.create_user')}
             </Button.InternalLink>
           }
@@ -68,7 +67,7 @@ function AdminIndex(props: Props) {
           ))}
         </Table.Component>
       </div>
-      <Table.Pagination paginationData={pagination} visible={props.data.total > adminData.length} />
+      <Table.Pagination paginationData={pagination} visible={pagination.total > adminData.length} />
     </PageContentBlock>
   )
 }

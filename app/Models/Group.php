@@ -22,10 +22,18 @@ class Group extends Model
     ];
 
     /**
-     * Get the groups associated with the admin.
+     * Get the users associated with the group.
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_has_groups');
+    }
+
+    /**
+     * Get the permissions associated with the group.
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'group_has_permissions');
     }
 }
