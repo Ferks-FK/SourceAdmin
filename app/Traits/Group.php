@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\User;
 use App\Enums\Group as GroupEnum;
+use App\Models\Group as GroupModel;
 
 trait Group
 {
@@ -18,15 +19,10 @@ trait Group
     public function syncGroupPermissions(User $user, $groupType = GroupEnum::WEB)
     {
         $groups = $user->groups()->where('type', $groupType)->get();
-        $permissionsToSync = [];
 
-        foreach($groups as $group) {
-            $permissions = $group->permissions()->where('type', $groupType)->get();
-
-            foreach($permissions as $permission) {
-                $permissionsToSync[] = $permission->id;
-            }
-        }
+        $permissionsToSync = $groups->flatMap(function ($group) use ($groupType) {
+            return $group->permissions()->where('type', $groupType)->pluck('id')->all();
+        });
 
         $user->syncPermissions($permissionsToSync);
     }
@@ -34,12 +30,17 @@ trait Group
     /**
      * Remove all individual user permissions.
      *
-     * @param \App\Models\User  $user
+     * @param \App\Models\Group  $group
      *
      * @return void
      */
-    public function removeAllPermissions(User $user)
+    public function removeAllPermissions(GroupModel $group)
     {
-        $user->syncPermissions([]);
+        $usersIds = $group->users()->pluck('id')->all();
+        $users = User::whereIn('id', $usersIds)->get();
+
+        foreach ($users as $user) {
+            $user->syncPermissions([]);
+        }
     }
 }

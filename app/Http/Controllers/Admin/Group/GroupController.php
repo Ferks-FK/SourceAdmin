@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Admin\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Group\GroupCreateRequest;
 use App\Http\Requests\Admin\Group\GroupUpdateRequest;
-use App\Models\Group;
+use App\Models\Group as GroupModel;
 use App\Models\Permission;
+use App\Models\User;
+use App\Traits\Group;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class GroupController extends Controller
 {
+    use Group;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,9 +23,9 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $this->authorize('index', Group::class);
+        $this->authorize('index', GroupModel::class);
 
-        $data = QueryBuilder::for(Group::withCount('users', 'permissions'))
+        $data = QueryBuilder::for(GroupModel::withCount('users', 'permissions'))
             ->paginate(10)->appends(request()->query());
 
         return Inertia::render('admin/GroupSettings/GroupIndex', [
@@ -36,7 +40,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Group::class);
+        $this->authorize('create', GroupModel::class);
 
         return Inertia::render('admin/GroupSettings/GroupCreate', [
             'permissions' => Permission::all()
@@ -51,9 +55,9 @@ class GroupController extends Controller
      */
     public function store(GroupCreateRequest $request)
     {
-        $this->authorize('create', Group::class);
+        $this->authorize('create', GroupModel::class);
 
-        $group = Group::create($request->except('group_permissions'));
+        $group = GroupModel::create($request->except('group_permissions'));
 
         $group->permissions()->sync($request->group_permissions);
 
@@ -68,9 +72,9 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('show', Group::class);
+        $this->authorize('show', GroupModel::class);
 
-        $group = Group::with('permissions')->findOrFail($id);
+        $group = GroupModel::with('permissions')->findOrFail($id);
 
         return Inertia::render('admin/GroupSettings/GroupShow', [
             'group' => $group,
@@ -87,14 +91,21 @@ class GroupController extends Controller
      */
     public function update(GroupUpdateRequest $request, $id)
     {
-        $this->authorize('show', Group::class);
+        $this->authorize('show', GroupModel::class);
 
-        $group = Group::findOrFail($id);
+        $group = GroupModel::findOrFail($id);
 
         $group->fill($request->except('group_permissions'));
         $group->save();
 
         $group->permissions()->sync($request->group_permissions);
+
+        $usersIds = $group->users()->pluck('id')->all();
+        $users = User::whereIn('id', $usersIds)->get();
+
+        foreach ($users as $user) {
+            $this->syncGroupPermissions($user);
+        }
 
         return redirect()->route('admin.groups.index')->with('success',__('The :attribute has been successfully :action.', ['attribute' => __('group'), 'action' => __('updated')]));
     }
@@ -107,9 +118,11 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('destroy', Group::class);
+        $this->authorize('destroy', GroupModel::class);
 
-        $group = Group::findOrFail($id);
+        $group = GroupModel::findOrFail($id);
+
+        $this->removeAllPermissions($group);
 
         $group->delete();
 

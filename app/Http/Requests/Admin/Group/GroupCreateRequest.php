@@ -30,13 +30,13 @@ class GroupCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'unique:groups,name'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             'type' => [
                 'required',
                 'string',
                 Rule::in(Group::SERVER->value, Group::SERVER_ADMIN->value, Group::WEB->value)
             ],
-            'group_permissions' => ['required', 'array'],
+            'group_permissions' => ['nullable', 'array'],
             'group_permissions.*' => ['exists:permissions,id']
         ];
     }

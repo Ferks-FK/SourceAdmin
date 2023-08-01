@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Permissions\Permission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -25,7 +26,7 @@ class Controller extends BaseController
         $user = Auth::user();
 
         if (!$user->can($permission)) {
-            abort(403, __('User does not have the right permissions.'));
+            abort(403);
         }
     }
 
@@ -40,6 +41,8 @@ class Controller extends BaseController
         /** @var User $user */
         $user = Auth::user();
 
-        return $user->can($permission);
+        $isRootAdmin = $user->can(Permission::ALL_PERMISSIONS) ? true : null;
+
+        return $isRootAdmin ?? $user->can($permission);
     }
 }
