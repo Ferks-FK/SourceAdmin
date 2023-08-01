@@ -58,10 +58,13 @@ class DatabaseSeeder extends Seeder
 
     protected function editUserDemo()
     {
-        $demo = User::find(1);
-        $demo->steam_id = 'STEAM_0:1:222936006';
+        $demo = User::create([
+            'name' => 'Demo',
+            'email' => 'demo@demo.com',
+            'should_re_login' => false,
+            'steam_id' => 'STEAM_0:1:222936006'
+        ]);
 
-        $demo->save();
         $demo->assignRole(1);
     }
 }
