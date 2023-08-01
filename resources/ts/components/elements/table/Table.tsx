@@ -5,7 +5,7 @@ import { NavLink } from "@/components/elements/NavLink";
 import classNames from "classnames";
 import styles from "./style.module.css"
 
-const Table = ({ columns, children, className, ...props }: TableProps) => {
+const Table = ({ columns, children, className, colSpan, ...props }: TableProps) => {
   const { t } = useTranslation();
 
   return (
@@ -24,7 +24,7 @@ const Table = ({ columns, children, className, ...props }: TableProps) => {
           <tbody>
             {props.dataLength === 0 ?
               <Row className={'!cursor-not-allowed'}>
-                <Td colSpan={7}>
+                <Td colSpan={colSpan ? colSpan : 7}>
                   <div className="text-center">
                     {t('no_data_found', { ns: 'table' })}
                   </div>

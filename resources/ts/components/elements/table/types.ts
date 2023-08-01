@@ -21,6 +21,7 @@ type ColumnObject = {
 export type TableProps = JSX.IntrinsicElements['table'] & {
     columns: ColumnObject[]
     dataLength: number
+    colSpan?: number
 };
 
 export interface HeaderProps extends HTMLAttributes<HTMLTableCellElement> {

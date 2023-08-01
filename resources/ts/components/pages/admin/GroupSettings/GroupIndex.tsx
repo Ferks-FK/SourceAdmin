@@ -46,6 +46,7 @@ function GroupIndex(props: Props) {
         <Table.Component
           columns={GroupsColumns}
           dataLength={groupsData.length}
+          colSpan={8}
         >
           {groupsData.map((group) => (
             <Table.Row
