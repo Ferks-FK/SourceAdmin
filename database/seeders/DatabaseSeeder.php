@@ -32,40 +32,27 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class
         ]);
 
-        if (config("app.env") === "development" || config("app.env") === "local") {
+        if (config("app.env") === "development" || config("app.env") === "local" || config("app.env") === "demo") {
             User::factory(150)->create();
             Server::factory(1)->create();
             Ban::factory(150)->create();
             Mute::factory(150)->create();
 
-            $this->editMyUser();
+            $this->editUserDemo();
         }
-
-        $this->editUserDemo();
-    }
-
-    protected function editMyUser()
-    {
-        $me = User::find(1);
-
-        $me->name = 'Ferks';
-        $me->should_re_login = false;
-        $me->steam_id = 'STEAM_0:1:222936006';
-
-        $me->save();
-        $me->assignRole(1);
     }
 
     protected function editUserDemo()
     {
-        $demo = User::create([
-            'name' => 'Demo',
-            'password' => 'demo',
-            'email' => 'demo@demo.com',
-            'should_re_login' => false,
-            'steam_id' => 'STEAM_0:1:222936006'
-        ]);
+        $demo = User::find(1);
 
+        $demo->name = 'demo';
+        $demo->email = 'demo@demo.com';
+        $demo->password = 'demo';
+        $demo->should_re_login = false;
+        $demo->steam_id = 'STEAM_0:1:222936006';
+
+        $demo->save();
         $demo->assignRole(1);
     }
 }
