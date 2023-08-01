@@ -60,6 +60,7 @@ class DatabaseSeeder extends Seeder
     {
         $demo = User::create([
             'name' => 'Demo',
+            'password' => 'demo',
             'email' => 'demo@demo.com',
             'should_re_login' => false,
             'steam_id' => 'STEAM_0:1:222936006'
