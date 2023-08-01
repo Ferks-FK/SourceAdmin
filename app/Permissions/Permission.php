@@ -37,4 +37,7 @@ class Permission
     const CREATE_ROLE = 'admin.roles.create';
     const EDIT_ROLE = 'admin.roles.edit';
     const DELETE_ROLE = 'admin.roles.destroy';
+
+    const VIEW_SETTINGS = 'admin.settings.index';
+    const EDIT_SETTINGS = 'admin.settings.edit';
 }

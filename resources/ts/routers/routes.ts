@@ -124,7 +124,8 @@ export const routes: Props = {
             title: 'Settings',
             key: 'settings',
             icon: faGear,
-            route: '/admin/panel_settings'
+            route: '/admin/panel_settings',
+            permission: 'admin.settings.index'
         }
     ]
 };

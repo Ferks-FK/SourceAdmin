@@ -10,6 +10,7 @@ import { router } from '@inertiajs/react';
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { ErrorsProp, FlashProp } from "@/types";
 import { useSettingsStore } from "@/stores/settings";
+import { can } from "@/helpers";
 import route from 'ziggy-js';
 
 interface Props {
@@ -25,6 +26,7 @@ function GeneralSettings(props: Props) {
   const [ flash, setFlash ] = useState<FlashProp | null>(null);
   const [ errors, setErrors ] = useState<ErrorsProp | null>(null);
   const [ settings, setSettings ] = useSettingsStore((state) => [ state.data, state.setSettings ]);
+  const [ userCanEdit ] = [can('admin.settings.edit')];
   const { t } = useTranslation();
 
   const getGeneralSettings = useCallback(async () => {
@@ -78,15 +80,17 @@ function GeneralSettings(props: Props) {
                   name={'site_name'}
                   id={'site_name'}
                   label={t('panel_settings.site_name')}
+                  disabled={!userCanEdit}
                 />
                 <Field.Text
                   name={'time_zone'}
                   id={'time_zone'}
                   label={t('panel_settings.time_zone')}
+                  disabled={!userCanEdit}
                 />
               </Field.FieldRow>
               <div className="flex items-center justify-center gap-2">
-                <Button.Text type={'submit'} disabled={isSubmitting}>
+                <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
                   {t('update', { ns: 'buttons' })}
                 </Button.Text>
               </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Permissions\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -16,6 +17,8 @@ class SettingsController extends Controller
      */
     public function index()
     {
+        $this->checkPermission(Permission::VIEW_SETTINGS);
+
         return Inertia::render('admin/PanelSettings/SettingsContainer');
     }
 
@@ -46,6 +49,8 @@ class SettingsController extends Controller
     {
         $setting_classname = 'App\\Settings\\' . $request->group;
         $setting_class = new $setting_classname();
+
+        $this->checkPermission(Permission::EDIT_SETTINGS);
 
         if (method_exists($setting_class, 'validations')) {
             $validations = $setting_class::validations();
