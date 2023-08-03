@@ -28,24 +28,23 @@ class SteamHelper
     /**
      * Convert a steam64 to SteamID format.
      *
-     * @param string $steam64 The steam64 to be converted.
+     * @param int $steam64 The steam64 to be converted.
      *
-     * @return string
+     * @return int|string
      */
-    public static function convertSteam64ToID(string $steam64): string
+    public static function convertSteam64ToID(int $steam64): int|string
     {
-        // Check that the format is already in STEAM:0x...
-        if (!is_numeric($steam64) || strlen($steam64) <= 15) {
+        // Check if the format is already STEAM_0:...
+        if (!is_numeric($steam64) || strlen($steam64) !== 17) {
             return $steam64;
         }
 
-        $universeIdentifier = (int) substr($steam64, 4, 1);
-        $accountId = (int) substr($steam64, 5) - 0x0110000100000000;
-        $universe = $accountId & 1;
-        $accountId = ($accountId - $universe) / 2;
-        $steamID = "STEAM:" . $universe . ":" . $universeIdentifier . ":" . $accountId;
+        $steamId64 = (int) $steam64;
+        $accountId = ($steamId64 & 1) === 0 ? ($steamId64 - 76561197960265728) / 2 : ($steamId64 - 76561197960265729) / 2;
 
-        return (string) $steamID;
+        $steamID = "STEAM_0:" . (($steamId64 & 1) === 0 ? 0 : 1) . ":" . $accountId;
+
+        return $steamID;
     }
 
     /**

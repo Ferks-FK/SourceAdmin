@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SteamHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,9 +50,35 @@ class User extends Authenticatable
         'updated_at' => "datetime"
     ];
 
+    /**
+     * Hash the password before to insert/update in DB.
+     *
+     * @param mixed $value
+     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    /**
+     * Convert Steam ID to 64 format before to insert/update in DB.
+     *
+     * @param mixed $value
+     */
+    public function setSteamIdAttribute($value)
+    {
+        $this->attributes['steam_id'] = SteamHelper::convertSteamIDTo64($value);
+    }
+
+    /**
+     * Convert Steam ID to Steam::xxx.. format after get it from DB.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public function getSteamIdAttribute($value)
+    {
+        return $this->attributes['steam_id'] = SteamHelper::convertSteam64ToID($value);
     }
 
     /**
