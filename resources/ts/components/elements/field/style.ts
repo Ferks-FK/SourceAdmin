@@ -171,7 +171,7 @@ const SelectStyle: StylesConfig<any, any, any> = {
     singleValue: (base: CSSObject): CSSObject => {
         return {
             ...base,
-            color: '#00000',
+            color: 'white',
         };
     },
 

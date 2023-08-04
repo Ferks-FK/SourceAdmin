@@ -173,7 +173,9 @@
         "general": "General",
         "mail": "Correo",
         "site_name": "Nombre del sitio",
-        "time_zone": "Zona horaria"
+        "time_zone": "Zona horaria",
+        "steam_api_key": "Clave Api Web Steam",
+        "steam_api_key_description": "Utilizado para la autenticación con steam."
     },
     "generic": {
         "message_not_found": "Mensaje no encontrado.",

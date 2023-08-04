@@ -1,12 +1,14 @@
-import { useState, FC, ComponentType } from "react";
+import { useState, FC, ComponentType, lazy, Suspense } from "react";
 import { PageContentBlock } from "@/components/elements/PageContentBlock"
 import { SubNavigation } from "@/components/elements/SubNavigation"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition, faEnvelope, faMicrochip } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@/components/elements/Spinner";
 import classNames from "classnames";
-import GeneralSettings from "./GeneralSettings";
-import MailSettings from "./MailSettings";
+
+const GeneralSettings = lazy(() => import('@/components/pages/admin/PanelSettings/GeneralSettings'));
+const MailSettings = lazy(() => import('@/components/pages/admin/PanelSettings/MailSettings'));
 
 interface Props {
   group: string
@@ -54,7 +56,9 @@ function SettingsContainer() {
             </button>
           ))}
         </SubNavigation>
-        <ComponentRenderer component={activeTab} group={activeTab} />
+        <Suspense fallback={<Spinner centered size="large"/>}>
+          <ComponentRenderer component={activeTab} group={activeTab} />
+        </Suspense>
       </div>
     </PageContentBlock>
   )

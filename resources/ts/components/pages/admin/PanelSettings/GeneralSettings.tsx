@@ -1,15 +1,15 @@
-import { useCallback, useState } from "react";
-import { getSettings } from "@/api/getSettings";
+import { useCallback, useEffect, useState } from "react";
+import { getSettings, getTimeZones } from "@/api/getSettings";
 import { Form } from "@/components/elements/Form";
 import { Field } from "@/components/elements/field";
 import { Button } from "@/components/elements/button";
 import { Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@/components/elements/Spinner";
 import { router } from '@inertiajs/react';
 import { useFlashMessages } from "@/hooks/useFlashMessages";
 import { ErrorsProp, FlashProp } from "@/types";
 import { useSettingsStore } from "@/stores/settings";
+import { Option } from "@/components/elements/field/Field";
 import { can } from "@/helpers";
 import route from 'ziggy-js';
 
@@ -24,10 +24,11 @@ interface Values extends Props {
 }
 
 function GeneralSettings(props: Props) {
-  const [ flash, setFlash ] = useState<FlashProp | null>(null);
-  const [ errors, setErrors ] = useState<ErrorsProp | null>(null);
-  const [ settings, setSettings ] = useSettingsStore((state) => [ state.data, state.setSettings ]);
-  const [ userCanEdit ] = [can('admin.settings.edit')];
+  const [flash, setFlash] = useState<FlashProp | null>(null);
+  const [errors, setErrors] = useState<ErrorsProp | null>(null);
+  const [settings, setSettings] = useSettingsStore((state) => [state.data, state.setSettings]);
+  const [timeZones, setTimeZones] = useState<string[] | null>(null);
+  const [userCanEdit] = [can('admin.settings.edit')];
   const { t } = useTranslation();
 
   const getGeneralSettings = useCallback(async () => {
@@ -54,60 +55,76 @@ function GeneralSettings(props: Props) {
     })
   }
 
+  useEffect(() => {
+    const getTimeZonesList = async () => {
+      const response = await getTimeZones();
+
+      setTimeZones(response)
+    }
+
+    getTimeZonesList()
+  }, [])
+
   useFlashMessages(flash, errors)
 
   return (
-    settings == undefined ? (
-      <Spinner centered size="large"/>
-    ) : (
+    (
       <Formik
-      onSubmit={handleSubmit}
-      initialValues={{
-        site_name: settings.site_name,
-        time_zone: settings.time_zone ?? '',
-        steam_web_api_key: settings.steam_web_api_key ?? '',
-        group: props.group
-      }}
-    >
-      {({ isSubmitting }) => {
-        return (
-          <Form
-            formikClassNames={'flex justify-center w-full'}
-            formSize={'full'}
-            className={'max-w-6xl w-full'}
-          >
-            <div className="flex flex-col gap-6">
-              <Field.FieldRow>
-                <Field.Text
-                  name={'site_name'}
-                  id={'site_name'}
-                  label={t('panel_settings.site_name')}
-                  disabled={!userCanEdit}
-                />
-                <Field.Text
-                  name={'time_zone'}
-                  id={'time_zone'}
-                  label={t('panel_settings.time_zone')}
-                  disabled={!userCanEdit}
-                />
-                <Field.Text
-                  name={'steam_web_api_key'}
-                  id={'steam_web_api_key'}
-                  label={'Steam Web Api Key'}
-                  description={'Used for steam authentication.'}
-                  disabled={!userCanEdit}
-                />
-              </Field.FieldRow>
-              <div className="flex items-center justify-center gap-2">
-                <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
-                  {t('update', { ns: 'buttons' })}
-                </Button.Text>
+        onSubmit={handleSubmit}
+        initialValues={{
+          site_name: settings?.site_name,
+          time_zone: settings?.time_zone ?? '',
+          steam_web_api_key: settings?.steam_web_api_key ?? '',
+          group: props.group
+        }}
+      >
+        {({ isSubmitting, setFieldValue }) => {
+          return (
+            <Form
+              formikClassNames={'flex justify-center w-full'}
+              formSize={'full'}
+              className={'max-w-6xl w-full'}
+            >
+              <div className="flex flex-col gap-6">
+                <Field.FieldRow>
+                  <Field.Text
+                    name={'site_name'}
+                    id={'site_name'}
+                    label={t('panel_settings.site_name')}
+                    disabled={!userCanEdit}
+                  />
+                  <Field.MultiSelect
+                    name={'time_zone'}
+                    id={'time_zone'}
+                    label={t('panel_settings.time_zone')}
+                    closeMenuOnSelect={true}
+                    blurInputOnSelect={true}
+                    // @ts-expect-error
+                    onChange={(option: Option) => {
+                      setFieldValue('time_zone', option.value)
+                    }}
+                    defaultValue={{ label: settings?.time_zone, value: settings?.time_zone }}
+                    options={timeZones ? timeZones.map((timeZone) => ({ label: timeZone, value: timeZone })) : []}
+                    disabled={!userCanEdit}
+                  />
+                  <Field.Text
+                    name={'steam_web_api_key'}
+                    id={'steam_web_api_key'}
+                    label={t('panel_settings.steam_api_key')}
+                    description={t('panel_settings.steam_api_key_description')}
+                    disabled={!userCanEdit}
+                  />
+                </Field.FieldRow>
+                <div className="flex items-center justify-center gap-2">
+                  <Button.Text type={'submit'} disabled={isSubmitting || !userCanEdit}>
+                    {t('update', { ns: 'buttons' })}
+                  </Button.Text>
+                </div>
               </div>
-            </div>
-          </Form>
-        )
-      }}
-    </Formik>
+            </Form>
+          )
+        }}
+      </Formik>
     )
   )
 }

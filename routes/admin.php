@@ -106,8 +106,7 @@ Route::name('admin.')->group(function() {
     Route::group(['prefix' => 'panel_settings'], function() {
         Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
         Route::get('/settings', [SettingsController::class, 'show'])->name('settings.get');
-        // Route::get('/general', [SettingsController::class, 'generalSettings'])->name('settings.general');
-        // Route::get('/mail', [SettingsController::class, 'mailSettings'])->name('settings.mail');
+        Route::get('/timezones', [SettingsController::class, 'timeZones'])->name('settings.timezones');
         Route::patch('/update', [SettingsController::class, 'update'])->name('settings.update');
     });
 });

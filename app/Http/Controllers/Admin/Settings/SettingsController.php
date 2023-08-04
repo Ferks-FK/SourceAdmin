@@ -89,4 +89,12 @@ class SettingsController extends Controller
 
         return redirect()->back()->with('success', __('The settings has been successfully updated'));
     }
+
+    /**
+     * Get all time zones to render general settings page.
+     */
+    public function timeZones()
+    {
+        return timezone_identifiers_list();
+    }
 }
