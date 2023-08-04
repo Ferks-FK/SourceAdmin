@@ -20,6 +20,7 @@ interface Props {
 interface Values extends Props {
   site_name: string
   time_zone: string
+  steam_web_api_key: string
 }
 
 function GeneralSettings(props: Props) {
@@ -64,6 +65,7 @@ function GeneralSettings(props: Props) {
       initialValues={{
         site_name: settings.site_name,
         time_zone: settings.time_zone ?? '',
+        steam_web_api_key: settings.steam_web_api_key ?? '',
         group: props.group
       }}
     >
@@ -86,6 +88,13 @@ function GeneralSettings(props: Props) {
                   name={'time_zone'}
                   id={'time_zone'}
                   label={t('panel_settings.time_zone')}
+                  disabled={!userCanEdit}
+                />
+                <Field.Text
+                  name={'steam_web_api_key'}
+                  id={'steam_web_api_key'}
+                  label={'Steam Web Api Key'}
+                  description={'Used for steam authentication.'}
                   disabled={!userCanEdit}
                 />
               </Field.FieldRow>

@@ -5,19 +5,24 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Helpers\SteamHelper;
+use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Auth;
-use Ilzrv\LaravelSteamAuth\SteamAuth;
-use Ilzrv\LaravelSteamAuth\SteamData;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Ilzrv\LaravelSteamAuth\SteamAuthenticator;
+use Ilzrv\LaravelSteamAuth\SteamUserDto;
+use Ilzrv\LaravelSteamAuth\Exceptions\Authentication\SteamResponseNotValidAuthenticationException;
+use Ilzrv\LaravelSteamAuth\Exceptions\Validation\ValidationException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Psr7\Uri;
+
 
 class SteamAuthController extends Controller
 {
     /**
-     * The SteamAuth instance.
+     * The SteamAuthenticator instance.
      *
-     * @var SteamAuth
+     * @var SteamAuthenticator
      */
     protected $steamAuth;
 
@@ -29,13 +34,24 @@ class SteamAuthController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * The GeneralSettings instance.
+     */
+    protected GeneralSettings $generalSettings;
+
+    /**
      * SteamAuthController constructor.
      *
      * @param SteamAuth $steamAuth
      */
-    public function __construct(SteamAuth $steamAuth)
+    public function __construct(Request $request, Client $client, HttpFactory $httpFactory, GeneralSettings $generalSettings)
     {
+        $steamAuth = new SteamAuthenticator(new Uri($request->getUri()), $client, $httpFactory);
+        $this->generalSettings = $generalSettings;
         $this->steamAuth = $steamAuth;
+
+        if ($this->generalSettings->steam_web_api_key) {
+            $this->steamAuth->setCustomApiKey($generalSettings->steam_web_api_key);
+        }
     }
 
     /**
@@ -45,21 +61,17 @@ class SteamAuthController extends Controller
      */
     public function steamCallback()
     {
-        if (empty(config('steam-auth.api_keys'))) {
-            return redirect()->route('auth')->with('error', __('Steam API key has not been configured.'));
-        }
-
-        if (!$this->steamAuth->validate()) {
+        try {
+            $this->steamAuth->auth();
+        } catch (ValidationException|SteamResponseNotValidAuthenticationException) {
             return redirect()->route('auth')->with('error', __('Failed to validate your steam account.'));
         }
 
-        $data = $this->getUserBySteamId($this->steamAuth->getUserData());
+        $user = $this->getUserBySteamId($this->steamAuth->getSteamUser());
 
-        if (is_null($data)) {
+        if (is_null($user)) {
             return redirect()->route('auth')->with('error', __('We could not find a user related to your steam account.'));
         }
-
-        $user = Auth::getProvider()->retrieveByCredentials(['steam_id' => $data->steam_id]);
 
         Auth::login($user, true);
 
@@ -73,20 +85,36 @@ class SteamAuthController extends Controller
      */
     public function getSteamAuthUrlJson()
     {
+        $apiKeys = config('steam-auth.api_keys');
+
+        if (!$this->generalSettings->steam_web_api_key && (is_array($apiKeys) && count($apiKeys) > 0 && empty($apiKeys[0]))) {
+            return response()->json([
+                'url' => null,
+                'isActive' => false
+            ]);
+        }
+
         return response()->json([
-            'url' => $this->steamAuth->getAuthUrl()
+            'url' => $this->steamAuth->buildAuthUrl(),
+            'isActive' => true
         ]);
     }
 
     /**
      * Get the user from DB by steam_id.
      *
-     * @param SteamData $data
+     * @param ?SteamData $data
+     *
+     * @return mixed
      */
-    protected function getUserBySteamId(SteamData $data)
+    protected function getUserBySteamId(?SteamUserDto $data)
     {
+        if (is_null($data)) {
+            return null;
+        }
+
         $steamId = $data->getSteamId();
 
-        return User::where('steam_id', $steamId)->orWhere('steam_id', SteamHelper::convertSteam64ToID($steamId))->get()->first();
+        return User::where('steam_id', $steamId)->get()->first();
     }
 }

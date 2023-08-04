@@ -1,7 +1,8 @@
 import http from '@/api/http';
 
 type SteamDataResponse = {
-    url: string
+    url: string | null
+    isActive: boolean
 }
 
 export async function steamAuth(): Promise<SteamDataResponse> {

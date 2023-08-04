@@ -10,11 +10,17 @@
             "role": "Lead Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Ferks-FK/laravel-steam-auth"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "aws/aws-sdk-php": "^3.269",
         "guzzlehttp/guzzle": "^7.2",
-        "ilzrv/laravel-steam-auth": "^2.2",
+        "ilzrv/laravel-steam-auth": "dev-master",
         "inertiajs/inertia-laravel": "^0.6.9",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
