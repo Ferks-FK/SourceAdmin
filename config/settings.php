@@ -1,7 +1,8 @@
 <?php
 
 use App\Settings\{
-    GeneralSettings
+    GeneralSettings,
+    MailSettings
 };
 
 return [
@@ -11,7 +12,8 @@ return [
      * put them (manually) here.
      */
     'settings' => [
-        GeneralSettings::class
+        GeneralSettings::class,
+        MailSettings::class
     ],
 
     /*

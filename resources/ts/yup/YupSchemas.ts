@@ -213,3 +213,19 @@ export const RoleCreateSchema = () => object().shape({
     permissions: array().required(fieldType('permissions', 'role_settings').required).min(1, fieldType('permissions', 'role_settings').min_options)
 })
 
+export const GeneralSettingsSchema = () => object().shape({
+    site_name: string().required(fieldType('site_name', 'panel_settings').required),
+    time_zone: string(),
+    steam_web_api_key: string()
+})
+
+export const MailSettingsSchema = () => object().shape({
+    smtp_host: string().required(fieldType('smtp_host', 'panel_settings').required),
+    smtp_port: number().required(fieldType('smtp_port', 'panel_settings').required),
+    smtp_encryption: string().required(fieldType('smtp_encryption', 'panel_settings').required),
+    smtp_username: string().required(fieldType('smtp_username', 'panel_settings').required),
+    smtp_password: string().required(fieldType('smtp_password', 'panel_settings').required),
+    smtp_mail_from: string().required(fieldType('smtp_mail_from', 'panel_settings').required),
+    smtp_mail_from_name: string().required(fieldType('smtp_mail_from_name', 'panel_settings').required)
+})
+

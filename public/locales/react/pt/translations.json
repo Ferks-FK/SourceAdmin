@@ -175,7 +175,14 @@
         "site_name": "Nome do site",
         "time_zone": "Fuso horário",
         "steam_api_key": "Chave da Api Web Steam",
-        "steam_api_key_description": "Utilizado para autenticação com steam."
+        "steam_api_key_description": "Utilizado para autenticação com steam.",
+        "smtp_host": "Servidor SMTP",
+        "smtp_port": "Porta SMTP",
+        "smtp_encryption": "Criptografia SMTP",
+        "smtp_username": "Usuário SMTP",
+        "smtp_password": "Senha SMTP",
+        "smtp_mail_from": "Email SMTP",
+        "smtp_mail_from_name": "Nome do remetente SMTP"
     },
     "generic": {
         "message_not_found": "Mensagem não encontrada.",

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next"
 
 export interface FieldObject {
-    i18nKey: string,
-    group?: string,
+    i18nKey: string
+    group?: string
     ns?: string
 }
 

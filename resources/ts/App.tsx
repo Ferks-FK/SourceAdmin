@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { Layout } from "@/components/layout/Layout";
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { UserData } from "@/stores/user";
+import { GeneralSettingsProps } from "@/api/getSettings";
 
 interface UserAuth {
   el: HTMLElement
@@ -15,7 +16,7 @@ interface UserAuth {
       props: {
         layout: LayoutType
         locale: string
-        generalSettings: Record<string, any>
+        generalSettings: GeneralSettingsProps
         auth: {
           user: UserData
         }

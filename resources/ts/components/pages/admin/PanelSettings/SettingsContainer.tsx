@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition, faEnvelope, faMicrochip } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@/components/elements/Spinner";
+import { getSettings } from "@/api/getSettings";
+import { useSettingsStore } from "@/stores/settings";
 import classNames from "classnames";
 
 const GeneralSettings = lazy(() => import('@/components/pages/admin/PanelSettings/GeneralSettings'));
@@ -31,7 +33,16 @@ const Tabs: Props[] = [
 
 function SettingsContainer() {
   const [activeTab, setActiveTab] = useState<string>('GeneralSettings');
+  const [setSettings] = useSettingsStore((state) => [state.setSettings]);
   const { t } = useTranslation();
+
+  const settingsApi = async (group: string) => {
+    const response = await getSettings(group)
+
+    setSettings({
+      [group]: response
+    })
+  }
 
   return (
     <PageContentBlock title={t('panel_settings.settings')}>
@@ -49,7 +60,10 @@ function SettingsContainer() {
               className={classNames('flex justify-center gap-2 items-center min-w-[7rem] p-2 rounded nav-link-hover', {
                 ['bg-dark-secondary']: tab.group === activeTab
               })}
-              onClick={() => setActiveTab(tab.group)}
+              onClick={() => {
+                settingsApi(tab.group)
+                setActiveTab(tab.group)
+              }}
             >
               <FontAwesomeIcon icon={tab.icon} size="lg" className="text-neutral-100" />
               <p>{t(`panel_settings.${tab.key}`)}</p>

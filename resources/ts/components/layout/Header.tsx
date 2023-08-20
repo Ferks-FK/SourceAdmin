@@ -46,7 +46,7 @@ function Header(props: Props) {
         <div className="flex justify-between items-center w-full h-full mx-4 sm:mx-7">
           <div className="text-center py-3 ellipsis w-36 mobile:w-auto">
             <a href="/" className="text-xl text-white text-center no-underline">
-              {settings?.site_name}
+              {settings?.GeneralSettings?.site_name}
             </a>
           </div>
 					<div className="flex gap-4">

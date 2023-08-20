@@ -5,13 +5,14 @@ import { UserData, useUserStore } from "@/stores/user";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { LayoutType } from "@/App";
 import { useSettingsStore } from "@/stores/settings";
+import { GeneralSettingsProps } from "@/api/getSettings";
 
 interface Props {
   children: ReactNode
   userAuth: UserData
   layout: LayoutType
   locale: string
-  generalSettings: Record<string, any>
+  generalSettings: GeneralSettingsProps
 }
 
 export const Layout = ({ children, userAuth, layout, locale, generalSettings }: Props) => {
@@ -26,14 +27,16 @@ export const Layout = ({ children, userAuth, layout, locale, generalSettings }: 
     }
 
     if (!settings) {
-      setSettings(generalSettings)
+      setSettings({
+        GeneralSettings: generalSettings
+      })
     }
   }, [isLogged, settings])
 
   return (
     <>
       <Header locale={locale}/>
-      <div className="flex w-screen relative" style={{height: 'calc(100vh - 3.6rem)'}}>
+      <div className="relative flex w-screen" style={{height: 'calc(100vh - 3.6rem)'}}>
         <SideBar layout={layout}/>
         <div className={`flex flex-col w-screen h-full bg-dark-neutral p-5 overflow-hidden`}>
           { children }
