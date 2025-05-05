@@ -1,0 +1,16 @@
+{
+    "dashboard": "Panel de control",
+    "servers": "Servidores",
+    "bans": "Prohibiciones",
+    "mutes": "Comunicaciones",
+    "report_player": "Denunciar jugador",
+    "appeal_ban": "Prohibición de protestas",
+    "admin": "Administración",
+    "admin_overview": "Administración General",
+    "admins": "Administradores",
+    "groups": "Grupos",
+    "mods": "Mods",
+    "roles": "Funciones",
+    "settings": "Ajustes",
+    "return": "Volver"
+}

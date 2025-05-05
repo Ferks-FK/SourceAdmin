@@ -1,0 +1,27 @@
+.container {
+    @apply flex flex-col gap-4 overflow-x-auto whitespace-nowrap md:whitespace-normal;
+}
+
+.table {
+    @apply w-full text-sm text-left text-gray-500;
+}
+
+.thread {
+    @apply text-xs text-gray-300 uppercase bg-dark-primary;
+}
+
+.header {
+    @apply flex text-center items-center justify-between p-4 bg-dark-primary border-b border-dark-secondary;
+}
+
+.row {
+    @apply cursor-pointer bg-dark-neutral border-b border-gray-700 hover:bg-dark-secondary;
+}
+
+.pagination_container {
+    @apply flex flex-wrap items-center overflow-x-auto sm:justify-end gap-2;
+}
+
+.pagination_item {
+    @apply flex items-center justify-center h-8 text-center py-0 px-2 border-none text-white !rounded-2xl disabled:cursor-not-allowed;
+}

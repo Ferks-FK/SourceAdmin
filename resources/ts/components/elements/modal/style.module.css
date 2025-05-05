@@ -1,0 +1,29 @@
+.modalBackdrop {
+    @apply bg-black/50 z-10 fixed inset-0;
+}
+
+.modal {
+    @apply max-w-xl max-h-[350px] h-fit flex flex-col bg-dark-primary rounded;
+    @apply py-3 z-20 fixed inset-4;
+}
+
+.modalHeader {
+    @apply flex items-center justify-center h-16 px-8 shrink-0;
+}
+
+.modalHeading {
+    @apply text-base text-center text-white;
+}
+
+.modalContent {
+    @apply px-4 flex flex-col overflow-y-auto text-white w-full;
+}
+
+.closeModalBtn {
+    @apply w-8 h-8 flex items-center justify-center rounded bg-dark-secondary text-gray-500 cursor-pointer;
+    @apply transition-colors duration-100 ease-in-out absolute top-1 right-1 p-1 border-none;
+
+    &:hover {
+        @apply text-gray-400 bg-dark-secondary/50;
+    }
+}
