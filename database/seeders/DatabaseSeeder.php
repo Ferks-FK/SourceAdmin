@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             ReasonSeeder::class,
             TimeBansSeeder::class,
             RegionsSeeder::class,
-            PermissionsSeeder::class
         ]);
 
         if (config("app.env") === "development" || config("app.env") === "local") {
@@ -51,6 +50,5 @@ class DatabaseSeeder extends Seeder
         $me->steam_id = 'STEAM_0:1:222936006';
 
         $me->save();
-        $me->assignRole(1);
     }
 }
