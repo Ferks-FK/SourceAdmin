@@ -10,42 +10,24 @@
             "role": "Lead Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Ferks-FK/laravel-steam-auth"
-        }
-    ],
     "require": {
         "php": "^8.1",
-        "aws/aws-sdk-php": "^3.269",
-        "guzzlehttp/guzzle": "^7.2",
-        "ilzrv/laravel-steam-auth": "dev-master",
-        "inertiajs/inertia-laravel": "^0.6.9",
-        "laravel/framework": "^9.19",
-        "laravel/sanctum": "^2.8",
-        "laravel/tinker": "^2.7",
-        "predis/predis": "^2.1",
-        "spatie/laravel-permission": "^5.10",
-        "spatie/laravel-query-builder": "^5.2",
-        "spatie/laravel-settings": "^3.2",
-        "stevebauman/location": "^6.5",
-        "symfony/http-client": "^6.2",
-        "symfony/mailgun-mailer": "^6.2",
-        "symfony/postmark-mailer": "^6.2",
-        "tightenco/ziggy": "^1.6",
+        "aws/aws-sdk-php": "^3.343.4",
+        "guzzlehttp/guzzle": "^7.9.3",
+        "laravel/framework": "^12.0.7",
+        "laravel/sanctum": "^4.1.1",
+        "laravel/tinker": "^2.10.1",
+        "stevebauman/location": "*",
+        "symfony/http-client": "^7.2.4",
         "xpaw/php-source-query-class": "dev-master"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "pestphp/pest": "^1.23",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "barryvdh/laravel-debugbar": "^3.15.4",
+        "fakerphp/faker": "^1.24.1",
+        "laravel/pint": "^1.22.0",
+        "nunomaduro/collision": "^8.0",
+        "pestphp/pest": "^3.8.2",
+        "spatie/laravel-ignition": "^2.9.1"
     },
     "autoload": {
         "psr-4": {
