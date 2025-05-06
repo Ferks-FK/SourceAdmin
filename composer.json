@@ -18,6 +18,8 @@
         "laravel/framework": "^12.0.7",
         "laravel/sanctum": "^4.1.1",
         "laravel/tinker": "^2.10.1",
+        "livewire/livewire": "^3.6",
+        "predis/predis": "^3.0",
         "stevebauman/location": "^7.5",
         "symfony/http-client": "^7.2.4",
         "xpaw/php-source-query-class": "dev-master"

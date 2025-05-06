@@ -54,9 +54,9 @@ class SteamHelper
      *
      * @return string
      */
-    public function generateSteamProfileLink(string $steamID)
+    public static function generateSteamProfileLink(string $steamID)
     {
-        $steamID = $this->convertSteamIDTo64($steamID);
+        $steamID = self::convertSteamIDTo64($steamID);
 
         return 'https://steamcommunity.com/profiles/' . $steamID;
     }

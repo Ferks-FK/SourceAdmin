@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -46,28 +45,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'created_at' => "datetime",
-        'updated_at' => "datetime"
+        'updated_at' => "datetime",
+        'password' => 'hashed',
     ];
 
-    /**
-     * Hash the password before to insert/update in DB.
-     *
-     * @param mixed $value
-     */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    /**
-     * Convert Steam ID to 64 format before to insert/update in DB.
-     *
-     * @param mixed $value
-     */
-    public function setSteamIdAttribute($value)
-    {
-        $this->attributes['steam_id'] = SteamHelper::convertSteamIDTo64($value);
-    }
+    // /**
+    //  * Convert Steam ID to 64 format before to insert/update in DB.
+    //  *
+    //  * @param mixed $value
+    //  */
+    // public function setSteamIdAttribute($value)
+    // {
+    //     $this->attributes['steam_id'] = SteamHelper::convertSteamIDTo64($value);
+    // }
 
     /**
      * Convert Steam ID to Steam::xxx.. format after get it from DB.
@@ -75,10 +65,10 @@ class User extends Authenticatable
      * @param mixed $value
      * @return mixed
      */
-    public function getSteamIdAttribute($value)
-    {
-        return $this->attributes['steam_id'] = SteamHelper::convertSteam64ToID($value);
-    }
+    // public function getSteamIdAttribute($value)
+    // {
+    //     return $this->attributes['steam_id'] = SteamHelper::convertSteam64ToID($value);
+    // }
 
     /**
      * Get the bans associated with the admin.
